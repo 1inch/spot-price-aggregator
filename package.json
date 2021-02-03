@@ -1,0 +1,43 @@
+{
+    "name": "offchain-oracle",
+    "version": "0.0.1",
+    "description": "Oracle for querying weighted average of dex prcies",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:1inch-exchange/offchain-oracle.git"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@openzeppelin/contracts": "3.4.0-solc-0.7"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "coveralls": "^3.1.0",
+        "eslint": "^7.19.0",
+        "eslint-config-standard": "^16.0.2",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eth-gas-reporter": "^0.2.20",
+        "ganache-cli": "^6.12.2",
+        "@openzeppelin/test-helpers": "^0.5.10",
+        "solc": "^0.7.6",
+        "solidity-coverage": "^0.7.14",
+        "solhint": "^3.3.2",
+        "truffle": "^5.1.64",
+        "truffle-plugin-verify": "^0.5.4",
+        "@truffle/hdwallet-provider": "^1.2.1"
+    },
+    "scripts": {
+        "test": "truffle test --stacktrace",
+        "coverage": "truffle run coverage",
+        "coveralls": "truffle run coverage && cat coverage/lcov.info | coveralls",
+        "deploy:mainnet": "truffle migrate --network mainnet --reset",
+        "lint:js": "eslint .",
+        "lint:js:fix": "eslint . --fix",
+        "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
+        "lint:sol:fix": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix",
+        "lint": "yarn lint:js && yarn lint:sol",
+        "lint:fix": "yarn lint:js:fix && yarn lint:sol:fix"
+    }
+}
