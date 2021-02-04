@@ -75,9 +75,12 @@ contract OffchainOracle is Ownable {
         emit ConnectorRemoved(connector);
     }
 
+    /*
+        WARNING!
+        Usage of the dex oracle on chain is highly discouraged!
+        getRate function can be easily manipulated inside transaction!
+    */
     function getRate(IERC20 srcToken, IERC20 dstToken) external view returns(uint256 weightedRate) {
-        // solhint-disable-next-line avoid-tx-origin
-        require(msg.sender == tx.origin, "Can not be used onchain");
         require(srcToken != dstToken, "Tokens should not be the same");
         uint256 totalWeight;
         for (uint256 i = 0; i < _oracles._inner._values.length; i++) {
