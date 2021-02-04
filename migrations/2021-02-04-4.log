@@ -1,0 +1,53 @@
+Starting migrations...
+======================
+> Network name:    'mainnet'
+> Network id:      1
+> Block gas limit: 12500000 (0xbebc20)
+
+
+1_initial_migration.js
+======================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+2_remove_require.js
+===================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+3_compound.js
+=============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+4_aave.js
+=========
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 6.541477296432143 ETH
+
+   Deploying 'AaveWrapper'
+   -----------------------
+   > transaction hash:    0x39eb3504ee6fe8cd31c4b05f311f08e5a3482ef1a6a100461b964ddd336f2195
+   > Blocks: 1            Seconds: 16
+   > contract address:    0x06cC74503B6d1eB6D4d6Bc402f48fC07b804105f
+   > block number:        11791735
+   > block timestamp:     1612467387
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             6.408199656432142908
+   > gas used:            579468 (0x8d78c)
+   > gas price:           230 gwei
+   > value sent:          0 ETH
+   > total cost:          0.13327764 ETH
+
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.13327764 ETH
+
+
+Summary
+=======
+> Total deployments:   1
+> Final cost:          0.13327764 ETH
