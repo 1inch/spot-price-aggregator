@@ -6,5 +6,5 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 
 interface IWrapper {
-    function wrap(IERC20 token) external pure returns (IERC20 wrappedToken, uint256 rate);
+    function wrap(IERC20 token) external view returns (IERC20 wrappedToken, uint256 rate);
 }
