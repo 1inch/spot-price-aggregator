@@ -33,6 +33,7 @@
         "coverage": "truffle run coverage",
         "coveralls": "truffle run coverage && cat coverage/lcov.info | coveralls",
         "deploy:mainnet": "truffle migrate --network mainnet --reset",
+        "verify:mainnet": "truffle run verify OffchainOracle --network mainnet",
         "lint:js": "eslint .",
         "lint:js:fix": "eslint . --fix",
         "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
