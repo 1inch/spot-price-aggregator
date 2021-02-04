@@ -51,6 +51,6 @@ contract('OffchainOracle', function () {
     it('usdc -> dai', async function () {
         const rate = await this.offchainOracle.getRate(tokens.USDC, tokens.DAI);
         console.log(rate.toString());
-        expect(rate).to.be.bignumber.greaterThan(ether('1000'));
+        expect(rate).to.be.bignumber.greaterThan(ether('980000000000'));
     });
 });
