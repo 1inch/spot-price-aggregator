@@ -24,6 +24,18 @@ contract OffchainOracle is Ownable {
     EnumerableSet.AddressSet private _wrappers;
     EnumerableSet.AddressSet private _connectors;
 
+    constructor(IOracle[] memory existingOracles, IWrapper[] memory existingWrappers, IERC20[] memory existingConnectors) {
+        for (uint256 i = 0; i < existingOracles.length; i++) {
+            _addOracle(existingOracles[i]);
+        }
+        for (uint256 i = 0; i < existingWrappers.length; i++) {
+            _addWrapper(existingWrappers[i]);
+        }
+        for (uint256 i = 0; i < existingConnectors.length; i++) {
+            _addConnector(existingConnectors[i]);
+        }
+    }
+
     function oracles() external view returns (IOracle[] memory allOracles) {
         allOracles = new IOracle[](_oracles.length());
         for (uint256 i = 0; i < allOracles.length; i++) {
@@ -46,8 +58,7 @@ contract OffchainOracle is Ownable {
     }
 
     function addOracle(IOracle oracle) external onlyOwner {
-        require(_oracles.add(address(oracle)), "Oracle already added");
-        emit OracleAdded(oracle);
+        _addOracle(oracle);
     }
 
     function removeOracle(IOracle oracle) external onlyOwner {
@@ -56,8 +67,7 @@ contract OffchainOracle is Ownable {
     }
 
     function addWrapper(IWrapper wrapper) external onlyOwner {
-        require(_wrappers.add(address(wrapper)), "Wrapper already added");
-        emit WrapperAdded(wrapper);
+        _addWrapper(wrapper);
     }
 
     function removeWrapper(IWrapper wrapper) external onlyOwner {
@@ -66,8 +76,7 @@ contract OffchainOracle is Ownable {
     }
 
     function addConnector(IERC20 connector) external onlyOwner {
-        require(_connectors.add(address(connector)), "Connector already added");
-        emit ConnectorAdded(connector);
+        _addConnector(connector);
     }
 
     function removeConnector(IERC20 connector) external onlyOwner {
@@ -89,6 +98,10 @@ contract OffchainOracle is Ownable {
                     for (uint256 k2 = 0; k2 < _wrappers._inner._values.length; k2++) {
                         try IWrapper(uint256(_wrappers._inner._values[k1])).wrap(srcToken) returns (IERC20 wrappedSrcToken, uint256 srcRate) {
                             try IWrapper(uint256(_wrappers._inner._values[k2])).wrap(dstToken) returns (IERC20 wrappedDstToken, uint256 dstRate) {
+                                if (wrappedSrcToken == wrappedDstToken) {
+                                    return srcRate.mul(dstRate).div(1e18);
+                                }
+
                                 try IOracle(uint256(_oracles._inner._values[i])).getRate(wrappedSrcToken, wrappedDstToken, IERC20(uint256(_connectors._inner._values[j]))) returns (uint256 rate, uint256 weight) {
                                     rate = rate.mul(srcRate).mul(dstRate).div(1e18).div(1e18);
                                     weightedRate = weightedRate.add(rate.mul(weight));
@@ -101,5 +114,20 @@ contract OffchainOracle is Ownable {
             }
         }
         weightedRate = weightedRate.div(totalWeight);
+    }
+
+    function _addOracle(IOracle oracle) private {
+        require(_oracles.add(address(oracle)), "Oracle already added");
+        emit OracleAdded(oracle);
+    }
+
+    function _addWrapper(IWrapper wrapper) private {
+        require(_wrappers.add(address(wrapper)), "Wrapper already added");
+        emit WrapperAdded(wrapper);
+    }
+
+    function _addConnector(IERC20 connector) private {
+        require(_connectors.add(address(connector)), "Connector already added");
+        emit ConnectorAdded(connector);
     }
 }

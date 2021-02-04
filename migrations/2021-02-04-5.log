@@ -1,0 +1,59 @@
+Starting migrations...
+======================
+> Network name:    'mainnet'
+> Network id:      1
+> Block gas limit: 12530263 (0xbf3257)
+
+
+1_initial_migration.js
+======================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+2_remove_require.js
+===================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+3_compound.js
+=============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+4_aave.js
+=========
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+5_wrapper_shortcut.js
+=====================
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 6.088100376432143 ETH
+
+   Deploying 'OffchainOracle'
+   --------------------------
+   > transaction hash:    0x212473e2b2c964a20b3db03a24f3ca36ec568f165ddda5478a6d8f35088a36d6
+   > Blocks: 4            Seconds: 44
+   > contract address:    0xe3c6B9C13739087c89Dcb83D3Ec15a767d829AA8
+   > block number:        11792097
+   > block timestamp:     1612472044
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             5.590640736432142908
+   > gas used:            2162868 (0x2100b4)
+   > gas price:           230 gwei
+   > value sent:          0 ETH
+   > total cost:          0.49745964 ETH
+
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.49745964 ETH
+
+
+Summary
+=======
+> Total deployments:   1
+> Final cost:          0.49745964 ETH
