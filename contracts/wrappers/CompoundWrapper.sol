@@ -45,7 +45,7 @@ contract CompoundWrapper is IWrapper {
         }
         IERC20 underlying = cTokenToToken[token];
         IERC20 cToken = tokenTocToken[token];
-        if(underlying != IERC20(0)) {
+        if (underlying != IERC20(0)) {
             return (underlying, uint256(1e36).div(ICToken(address(token)).exchangeRateStored()));
         } else if (cToken != IERC20(0)) {
             return (cToken, ICToken(address(cToken)).exchangeRateStored());
