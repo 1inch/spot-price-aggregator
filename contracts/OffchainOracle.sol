@@ -26,21 +26,21 @@ contract OffchainOracle is Ownable {
 
     function oracles() external view returns (IOracle[] memory allOracles) {
         allOracles = new IOracle[](_oracles.length());
-        for (uint256 i = 0; i < _oracles._inner._values.length; i++) {
+        for (uint256 i = 0; i < allOracles.length; i++) {
             allOracles[i] = IOracle(uint256(_oracles._inner._values[i]));
         }
     }
 
     function wrappers() external view returns (IWrapper[] memory allWrappers) {
         allWrappers = new IWrapper[](_wrappers.length());
-        for (uint256 i = 0; i < _wrappers._inner._values.length; i++) {
+        for (uint256 i = 0; i < allWrappers.length; i++) {
             allWrappers[i] = IWrapper(uint256(_wrappers._inner._values[i]));
         }
     }
 
     function connectors() external view returns (IERC20[] memory allConnectors) {
         allConnectors = new IERC20[](_connectors.length());
-        for (uint256 i = 0; i < _connectors._inner._values.length; i++) {
+        for (uint256 i = 0; i < allConnectors.length; i++) {
             allConnectors[i] = IERC20(uint256(_connectors._inner._values[i]));
         }
     }
