@@ -10,7 +10,7 @@ const AWETH = '0x030bA81f1c18d280636F32af80b9AAd02Cf0854e';
 contract('AaveWrapper', function () {
     before(async function () {
         this.aaveWrapper = await AaveWrapper.new();
-        this.aaveWrapper.addMarkets([tokens.DAI, tokens.WETH]);
+        await this.aaveWrapper.addMarkets([tokens.DAI, tokens.WETH]);
     });
 
     it('dai -> adai', async function () {

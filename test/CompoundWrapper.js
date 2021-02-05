@@ -9,7 +9,7 @@ const CETH = '0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5';
 contract('CompoundWrapper', function () {
     before(async function () {
         this.compoundWrapper = await CompoundWrapper.new();
-        this.compoundWrapper.addMarkets([CDAI]);
+        await this.compoundWrapper.addMarkets([CDAI]);
     });
 
     it('dai -> cdai', async function () {

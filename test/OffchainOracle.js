@@ -25,7 +25,7 @@ contract('OffchainOracle', function () {
         this.identityWrapper = await IdentityWrapper.new();
         this.wethWrapper = await WethWrapper.new();
         this.aaveWrapper = await AaveWrapper.new();
-        this.aaveWrapper.addMarkets([tokens.DAI]);
+        await this.aaveWrapper.addMarkets([tokens.DAI]);
 
         this.offchainOracle = await OffchainOracle.new(
             [
