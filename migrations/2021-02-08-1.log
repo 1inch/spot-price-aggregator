@@ -1,0 +1,89 @@
+Starting migrations...
+======================
+> Network name:    'mainnet'
+> Network id:      1
+> Block gas limit: 12481492 (0xbe73d4)
+
+
+1_initial_migration.js
+======================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+2_remove_require.js
+===================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+3_compound.js
+=============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+4_aave.js
+=========
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+5_wrapper_shortcut.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+6_fulcrum.js
+============
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 10.078900736432143 ETH
+
+   Deploying 'FulcrumWrapperLegacy'
+   --------------------------------
+   > transaction hash:    0xfe0b7adc18759c0ebf810ceea7c2a55954c935bfa278cc9cf805aa0f776ddf19
+   > Blocks: 0            Seconds: 16
+   > contract address:    0x5335e083867FA58C70bC43b1498D80575FdeF60c
+   > block number:        11814930
+   > block timestamp:     1612775760
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             9.880344486432142908
+   > gas used:            794225 (0xc1e71)
+   > gas price:           250 gwei
+   > value sent:          0 ETH
+   > total cost:          0.19855625 ETH
+
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.19855625 ETH
+
+
+7_fulcrum_v2.js
+===============
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 9.721318736432142 ETH
+
+   Deploying 'FulcrumWrapper'
+   --------------------------
+   > transaction hash:    0xb6173e81002acc79c5d96918b7843c4aa8999c6316b9595a3f53ca4d786699f7
+   > Blocks: 2            Seconds: 20
+   > contract address:    0xf971FF7838AE0c9316289f0e1aAB69218ea9073c
+   > block number:        11814935
+   > block timestamp:     1612775796
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             9.573475486432142908
+   > gas used:            591373 (0x9060d)
+   > gas price:           250 gwei
+   > value sent:          0 ETH
+   > total cost:          0.14784325 ETH
+
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.14784325 ETH
+
+
+Summary
+=======
+> Total deployments:   2
+> Final cost:          0.3463995 ETH
