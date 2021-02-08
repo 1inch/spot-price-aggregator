@@ -1,0 +1,77 @@
+Starting migrations...
+======================
+> Network name:    'mainnet'
+> Network id:      1
+> Block gas limit: 12499976 (0xbebc08)
+
+
+1_initial_migration.js
+======================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+2_remove_require.js
+===================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+3_compound.js
+=============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+4_aave.js
+=========
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+5_wrapper_shortcut.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+6_fulcrum.js
+============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+7_fulcrum_v2.js
+===============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+8_replace_compound.js
+=====================
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 9.214050006432144 ETH
+
+   Replacing 'CompoundWrapper'
+   ---------------------------
+   > transaction hash:    0x4a2270aee10b1191e5c05e7eaf5391131b6500fec4a824830cbce64b07d10cc1
+   > Blocks: 0            Seconds: 4
+   > contract address:    0x7C327E1Ee66d4cF7F4053387241351FDc95A0c04
+   > block number:        11815017
+   > block timestamp:     1612776823
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             9.120881216432142908
+   > gas used:            716683 (0xaef8b)
+   > gas price:           130 gwei
+   > value sent:          0 ETH
+   > total cost:          0.09316879 ETH
+
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:          0.09316879 ETH
+
+
+Summary
+=======
+> Total deployments:   1
+> Final cost:          0.09316879 ETH

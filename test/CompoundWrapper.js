@@ -14,25 +14,25 @@ contract('CompoundWrapper', function () {
 
     it('dai -> cdai', async function () {
         const response = await this.compoundWrapper.wrap(tokens.DAI);
-        expect(response.rate).to.be.bignumber.greaterThan(ether('200000000'));
+        expect(response.rate).to.be.bignumber.lessThan('5000000000');
         expect(response.wrappedToken).to.be.equal(CDAI);
     });
 
     it('cdai -> dai', async function () {
         const response = await this.compoundWrapper.wrap(CDAI);
-        expect(response.rate).to.be.bignumber.lessThan('5000000000');
+        expect(response.rate).to.be.bignumber.greaterThan(ether('200000000'));
         expect(response.wrappedToken).to.be.equal(tokens.DAI);
     });
 
     it('eth -> ceth', async function () {
         const response = await this.compoundWrapper.wrap(tokens.ETH);
-        expect(response.rate).to.be.bignumber.greaterThan(ether('200000000'));
+        expect(response.rate).to.be.bignumber.lessThan('5000000000');
         expect(response.wrappedToken).to.be.equal(CETH);
     });
 
     it('ceth -> eth', async function () {
         const response = await this.compoundWrapper.wrap(CETH);
-        expect(response.rate).to.be.bignumber.lessThan('5000000000');
+        expect(response.rate).to.be.bignumber.greaterThan(ether('200000000'));
         expect(response.wrappedToken).to.be.equal(tokens.ETH);
     });
 });

@@ -39,16 +39,16 @@ contract CompoundWrapper is IWrapper {
 
     function wrap(IERC20 token) external view override returns (IERC20 wrappedToken, uint256 rate) {
         if (token == _ETH) {
-            return (_CETH, ICToken(address(_CETH)).exchangeRateStored());
+            return (_CETH, uint256(1e36).div(ICToken(address(_CETH)).exchangeRateStored()));
         } else if (token == _CETH) {
-            return (_ETH, uint256(1e36).div(ICToken(address(_CETH)).exchangeRateStored()));
+            return (_ETH, ICToken(address(_CETH)).exchangeRateStored());
         }
         IERC20 underlying = cTokenToToken[token];
         IERC20 cToken = tokenTocToken[token];
         if (underlying != IERC20(0)) {
-            return (underlying, uint256(1e36).div(ICToken(address(token)).exchangeRateStored()));
+            return (underlying, ICToken(address(token)).exchangeRateStored());
         } else if (cToken != IERC20(0)) {
-            return (cToken, ICToken(address(cToken)).exchangeRateStored());
+            return (cToken, uint256(1e36).div(ICToken(address(cToken)).exchangeRateStored()));
         } else {
             revert("Unsupported token");
         }
