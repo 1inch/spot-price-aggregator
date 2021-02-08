@@ -18,7 +18,7 @@ const tests = [
     },
 ]
 
-contract.only('FulcrumWrapper', function () {
+contract('FulcrumWrapper', function () {
     before(async function () {
         this.fulcrumWrapper = await FulcrumWrapper.new();
         await this.fulcrumWrapper.addMarkets([tokens.DAI, tokens.WETH]);

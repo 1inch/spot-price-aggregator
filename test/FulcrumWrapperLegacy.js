@@ -18,7 +18,7 @@ const tests = [
     },
 ]
 
-contract.only('FulcrumWrapperLegacy', function () {
+contract('FulcrumWrapperLegacy', function () {
     before(async function () {
         this.fulcrumWrapperLegacy = await FulcrumWrapperLegacy.new();
         await this.fulcrumWrapperLegacy.addMarkets([IUSDC, IWETH]);
