@@ -6,7 +6,7 @@ pragma abicoder v2;  // solhint-disable-line compiler-version
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 
-interface ILendingPool {
+interface ILendingPoolV2 {
     struct ReserveConfigurationMap {
         uint256 data;
     }
