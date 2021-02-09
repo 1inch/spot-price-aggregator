@@ -3,22 +3,19 @@
 pragma solidity 0.7.6;
 pragma abicoder v2;  // solhint-disable-line compiler-version
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "../interfaces/ILendingPool.sol";
+import "../interfaces/ILendingPoolV2.sol";
 import "../interfaces/IWrapper.sol";
 
 
-contract AaveWrapper is IWrapper {
-    using SafeMath for uint256;
-
-    ILendingPool private constant _LENDING_POOL = ILendingPool(0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9);
+contract AaveWrapperV2 is IWrapper {
+    ILendingPoolV2 private constant _LENDING_POOL = ILendingPoolV2(0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9);
 
     mapping(IERC20 => IERC20) public aTokenToToken;
     mapping(IERC20 => IERC20) public tokenToaToken;
 
     function addMarkets(IERC20[] memory tokens) external {
         for (uint256 i = 0; i < tokens.length; i++) {
-            ILendingPool.ReserveData memory reserveData = _LENDING_POOL.getReserveData(address(tokens[i]));
+            ILendingPoolV2.ReserveData memory reserveData = _LENDING_POOL.getReserveData(address(tokens[i]));
             IERC20 aToken = IERC20(reserveData.aTokenAddress);
             require(aToken != IERC20(0), "Token is not supported");
             aTokenToToken[aToken] = tokens[i];
@@ -28,7 +25,7 @@ contract AaveWrapper is IWrapper {
 
     function removeMarkets(IERC20[] memory tokens) external {
         for (uint256 i = 0; i < tokens.length; i++) {
-            ILendingPool.ReserveData memory reserveData = _LENDING_POOL.getReserveData(address(tokens[i]));
+            ILendingPoolV2.ReserveData memory reserveData = _LENDING_POOL.getReserveData(address(tokens[i]));
             IERC20 aToken = IERC20(reserveData.aTokenAddress);
             require(aToken == IERC20(0), "Token is still supported");
             delete aTokenToToken[aToken];

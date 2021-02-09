@@ -1,0 +1,83 @@
+Starting migrations...
+======================
+> Network name:    'mainnet'
+> Network id:      1
+> Block gas limit: 12524353 (0xbf1b41)
+
+
+1_initial_migration.js
+======================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+2_remove_require.js
+===================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+3_compound.js
+=============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+4_aave.js
+=========
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+5_wrapper_shortcut.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+6_fulcrum.js
+============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+7_fulcrum_v2.js
+===============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+8_replace_compound.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+9_aave_legacy.js
+================
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 8.330069216432143 ETH
+
+   Deploying 'AaveWrapperV1'
+   -------------------------
+   > transaction hash:    0xd58133388161608a1629cb971660c5e402723aebda2d3c62dbcbf292741629fc
+   > Blocks: 2            Seconds: 12
+   > contract address:    0x8C00a411Fe8983525F82CFCe34fe4B092d9E525d
+   > block number:        11824618
+   > block timestamp:     1612904542
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             8.222072016432142908
+   > gas used:            539986 (0x83d52)
+   > gas price:           200 gwei
+   > value sent:          0 ETH
+   > total cost:          0.1079972 ETH
+
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:           0.1079972 ETH
+
+
+Summary
+=======
+> Total deployments:   1
+> Final cost:          0.1079972 ETH
