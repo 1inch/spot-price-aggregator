@@ -104,6 +104,7 @@ contract OffchainOracle is Ownable {
 
                                 try IOracle(uint256(_oracles._inner._values[i])).getRate(wrappedSrcToken, wrappedDstToken, IERC20(uint256(_connectors._inner._values[j]))) returns (uint256 rate, uint256 weight) {
                                     rate = rate.mul(srcRate).mul(dstRate).div(1e18).div(1e18);
+                                    weight = weight.mul(weight);
                                     weightedRate = weightedRate.add(rate.mul(weight));
                                     totalWeight = totalWeight.add(weight);
                                 } catch { continue; }
