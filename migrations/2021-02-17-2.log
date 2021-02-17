@@ -1,0 +1,110 @@
+Starting migrations...
+======================
+> Network name:    'mainnet'
+> Network id:      1
+> Block gas limit: 12493800 (0xbea3e8)
+
+
+1_initial_migration.js
+======================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+2_remove_require.js
+===================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+3_compound.js
+=============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+4_aave.js
+=========
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+5_wrapper_shortcut.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+6_fulcrum.js
+============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+7_fulcrum_v2.js
+===============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+8_replace_compound.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+9_aave_legacy.js
+================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+10_add_usdt_connector.js
+========================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+11_multiwrapper.js
+==================
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 7.428841156432143 ETH
+
+   Deploying 'MultiWrapper'
+   ------------------------
+   > transaction hash:    0xf0592d7f532f976db18f3cea3e2539bb6ee3c6bef833dbe1e16c1a7c27a6abad
+   > Blocks: 19           Seconds: 284
+   > contract address:    0x931e32B6D112F7BE74B16f7FBc77D491B30fe18c
+   > block number:        11874465
+   > block timestamp:     1613566356
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             7.256211013432142908
+   > gas used:            1297971 (0x13ce33)
+   > gas price:           133 gwei
+   > value sent:          0 ETH
+   > total cost:          0.172630143 ETH
+
+
+   Replacing 'OffchainOracle'
+   --------------------------
+   > transaction hash:    0x3081dcd2a16fda98229881a846811f092be96e2cc0b78779a8a6292566fcaf0c
+   > Blocks: 25           Seconds: 368
+   > contract address:    0x080AB73787A8B13EC7F40bd7d00d6CC07F9b24d0
+   > block number:        11874491
+   > block timestamp:     1613566730
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             6.982575350432142908
+   > gas used:            2057411 (0x1f64c3)
+   > gas price:           133 gwei
+   > value sent:          0 ETH
+   > total cost:          0.273635663 ETH
+
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:         0.446265806 ETH
+
+
+Summary
+=======
+> Total deployments:   2
+> Final cost:          0.446265806 ETH
