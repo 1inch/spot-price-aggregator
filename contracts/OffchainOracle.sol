@@ -28,10 +28,12 @@ contract OffchainOracle is Ownable {
         multiWrapper = _multiWrapper;
         emit MultiWrapperUpdated(_multiWrapper);
         for (uint256 i = 0; i < existingOracles.length; i++) {
-            _addOracle(existingOracles[i]);
+            require(_oracles.add(address(existingOracles[i])), "Oracle already added");
+            emit OracleAdded(existingOracles[i]);
         }
         for (uint256 i = 0; i < existingConnectors.length; i++) {
-            _addConnector(existingConnectors[i]);
+            require(_connectors.add(address(existingConnectors[i])), "Connector already added");
+            emit ConnectorAdded(existingConnectors[i]);
         }
     }
 
@@ -55,7 +57,8 @@ contract OffchainOracle is Ownable {
     }
 
     function addOracle(IOracle oracle) external onlyOwner {
-        _addOracle(oracle);
+        require(_oracles.add(address(oracle)), "Oracle already added");
+        emit OracleAdded(oracle);
     }
 
     function removeOracle(IOracle oracle) external onlyOwner {
@@ -64,7 +67,8 @@ contract OffchainOracle is Ownable {
     }
 
     function addConnector(IERC20 connector) external onlyOwner {
-        _addConnector(connector);
+        require(_connectors.add(address(connector)), "Connector already added");
+        emit ConnectorAdded(connector);
     }
 
     function removeConnector(IERC20 connector) external onlyOwner {
@@ -102,15 +106,5 @@ contract OffchainOracle is Ownable {
             }
         }
         weightedRate = weightedRate.div(totalWeight);
-    }
-
-    function _addOracle(IOracle oracle) private {
-        require(_oracles.add(address(oracle)), "Oracle already added");
-        emit OracleAdded(oracle);
-    }
-
-    function _addConnector(IERC20 connector) private {
-        require(_connectors.add(address(connector)), "Connector already added");
-        emit ConnectorAdded(connector);
     }
 }
