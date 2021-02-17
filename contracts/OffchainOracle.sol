@@ -85,7 +85,7 @@ contract OffchainOracle is Ownable {
         require(srcToken != dstToken, "Tokens should not be the same");
         uint256 totalWeight;
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = multiWrapper.getWrappedTokens(srcToken);
-        (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = multiWrapper.getWrappedTokens(srcToken);
+        (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = multiWrapper.getWrappedTokens(dstToken);
 
         for (uint256 i = 0; i < _oracles._inner._values.length; i++) {
             for (uint256 j = 0; j < _connectors._inner._values.length; j++) {
