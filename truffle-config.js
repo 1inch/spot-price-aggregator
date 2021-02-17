@@ -1,6 +1,7 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const privateKey = '';
 const mainnetEndpointUrl = '';
+const bscEndpointUrl = '';
 
 module.exports = {
     networks: {
@@ -22,6 +23,18 @@ module.exports = {
             gas: 6000000,
             gasPrice: 160000000000, // 160 wgei
             network_id: 1
+        },
+        bsc: {
+            provider: function() {
+                return new HDWalletProvider({
+                    privateKeys: [privateKey],
+                    providerOrUrl: bscEndpointUrl,
+                    pollingInterval: 5000
+                });
+            },
+            gas: 3000000,
+            gasPrice: 1000000000, // 1 wgei
+            network_id: 56
         }
     },
     compilers: {

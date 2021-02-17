@@ -2,7 +2,7 @@ const { ether } = require('@openzeppelin/test-helpers');
 const { expect } = require('chai');
 const { tokens } = require('./helpers.js');
 
-const WethWrapper = artifacts.require('WethWrapper');
+const BaseCoinWrapper = artifacts.require('BaseCoinWrapper');
 const CompoundWrapper = artifacts.require('CompoundWrapper');
 const FulcrumWrapper = artifacts.require('FulcrumWrapper');
 const AaveWrapperV1 = artifacts.require('AaveWrapperV1');
@@ -21,7 +21,7 @@ const IDAIV2 = '0x6b093998D36f2C7F0cc359441FBB24CC629D5FF0';
 
 contract('MultiWrapper', function () {
     before(async function () {
-        this.wethWrapper = await WethWrapper.new();
+        this.wethWrapper = await BaseCoinWrapper.new(tokens.WETH);
         this.aaveWrapperV1 = await AaveWrapperV1.new();
         await this.aaveWrapperV1.addMarkets([tokens.DAI, tokens.EEE]);
         this.aaveWrapperV2 = await AaveWrapperV2.new();

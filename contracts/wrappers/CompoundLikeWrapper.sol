@@ -7,19 +7,24 @@ import "../interfaces/IComptroller.sol";
 import "../interfaces/IWrapper.sol";
 
 
-contract CompoundWrapper is IWrapper {
+contract CompoundLikeWrapper is IWrapper {
     using SafeMath for uint256;
 
-    IComptroller private constant _COMPTROLLER = IComptroller(0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B);
-    IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
-    IERC20 private constant _CETH = IERC20(0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5);
+    IComptroller private immutable _comptroller;
+    IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);
+    IERC20 private immutable _cBase;
 
     mapping(IERC20 => IERC20) public cTokenToToken;
     mapping(IERC20 => IERC20) public tokenTocToken;
 
+    constructor(IComptroller comptroller, IERC20 cBase) {
+        _comptroller = comptroller;
+        _cBase = cBase;
+    }
+
     function addMarkets(ICToken[] memory markets) external {
         for (uint256 i = 0; i < markets.length; i++) {
-            (bool isListed, , ) = _COMPTROLLER.markets(markets[i]);
+            (bool isListed, , ) = _comptroller.markets(markets[i]);
             require(isListed, "Market is not listed");
             IERC20 underlying = markets[i].underlying();
             cTokenToToken[markets[i]] = underlying;
@@ -29,7 +34,7 @@ contract CompoundWrapper is IWrapper {
 
     function removeMarkets(ICToken[] memory markets) external {
         for (uint256 i = 0; i < markets.length; i++) {
-            (bool isListed, , ) = _COMPTROLLER.markets(markets[i]);
+            (bool isListed, , ) = _comptroller.markets(markets[i]);
             require(!isListed, "Market is listed");
             IERC20 underlying = markets[i].underlying();
             delete cTokenToToken[markets[i]];
@@ -38,10 +43,10 @@ contract CompoundWrapper is IWrapper {
     }
 
     function wrap(IERC20 token) external view override returns (IERC20 wrappedToken, uint256 rate) {
-        if (token == _ETH) {
-            return (_CETH, uint256(1e36).div(ICToken(address(_CETH)).exchangeRateStored()));
-        } else if (token == _CETH) {
-            return (_ETH, ICToken(address(_CETH)).exchangeRateStored());
+        if (token == _BASE) {
+            return (_cBase, uint256(1e36).div(ICToken(address(_cBase)).exchangeRateStored()));
+        } else if (token == _cBase) {
+            return (_BASE, ICToken(address(_cBase)).exchangeRateStored());
         }
         IERC20 underlying = cTokenToToken[token];
         IERC20 cToken = tokenTocToken[token];

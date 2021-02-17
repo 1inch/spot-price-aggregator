@@ -1,0 +1,176 @@
+Starting migrations...
+======================
+> Network name:    'bsc'
+> Network id:      56
+> Block gas limit: 30000000 (0x1c9c380)
+
+
+1_initial_migration.js
+======================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+2_remove_require.js
+===================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+3_compound.js
+=============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+4_aave.js
+=========
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+5_wrapper_shortcut.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+6_fulcrum.js
+============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+7_fulcrum_v2.js
+===============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+8_replace_compound.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+9_aave_legacy.js
+================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+10_add_usdt_connector.js
+========================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+11_multiwrapper.js
+==================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+12_bsc.js
+=========
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 1 ETH
+
+   Deploying 'UniswapV2LikeOracle'
+   -------------------------------
+   > transaction hash:    0x95193eb23a7396e0d958e4c6de7fe91cc2a2d29e17b61445fe07998fdc5cc169
+   > Blocks: 1            Seconds: 4
+   > contract address:    0xE295aD71242373C37C5FdA7B57F26f9eA1088AFe
+   > block number:        4967848
+   > block timestamp:     1613589738
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             0.999632835
+   > gas used:            367165 (0x59a3d)
+   > gas price:           1 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000367165 ETH
+
+
+   Replacing 'UniswapV2LikeOracle'
+   -------------------------------
+   > transaction hash:    0xf1587aac9190e1440d2488e3a6e079f9d71a95e92f5e985d093cf9db65df6b10
+   > Blocks: 4            Seconds: 12
+   > contract address:    0xA0446D8804611944F1B527eCD37d7dcbE442caba
+   > block number:        4967853
+   > block timestamp:     1613589753
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             0.99926567
+   > gas used:            367165 (0x59a3d)
+   > gas price:           1 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000367165 ETH
+
+
+   Deploying 'BaseCoinWrapper'
+   ---------------------------
+   > transaction hash:    0x933b564e2114a17530108762f699212837fd8c6f77a2e9e377e9afdaa6efe02d
+   > Blocks: 3            Seconds: 8
+   > contract address:    0x54431918cEC22932fCF97E54769F4E00f646690F
+   > block number:        4967857
+   > block timestamp:     1613589765
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             0.999105631
+   > gas used:            160039 (0x27127)
+   > gas price:           1 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000160039 ETH
+
+
+   Deploying 'CompoundLikeWrapper'
+   -------------------------------
+   > transaction hash:    0xedae4413fc1a3defef9da48c7014ce63e9e4ee845d54d3713dea78f03d3cb8e2
+   > Blocks: 2            Seconds: 4
+   > contract address:    0x11DEE30E710B8d4a8630392781Cc3c0046365d4c
+   > block number:        4967859
+   > block timestamp:     1613589771
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             0.998368158
+   > gas used:            737473 (0xb40c1)
+   > gas price:           1 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000737473 ETH
+
+
+   Deploying 'MultiWrapper'
+   ------------------------
+   > transaction hash:    0xc14665931250942122faa184454d7d800c6655b8da972267b83039425fdda562
+   > Blocks: 2            Seconds: 4
+   > contract address:    0xA31bB36c5164B165f9c36955EA4CcBaB42B3B28E
+   > block number:        4967942
+   > block timestamp:     1613590020
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             0.997251543
+   > gas used:            1116615 (0x1109c7)
+   > gas price:           1 gwei
+   > value sent:          0 ETH
+   > total cost:          0.001116615 ETH
+
+
+   Deploying 'OffchainOracle'
+   --------------------------
+   > transaction hash:    0x87c7efacfe70eb6608eeb85442ea8e59b02e097dd50053885170ae00038f0d39
+   > Blocks: 2            Seconds: 4
+   > contract address:    0xe26A18b00E4827eD86bc136B2c1e95D5ae115edD
+   > block number:        4968075
+   > block timestamp:     1613590419
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             0.994478657
+   > gas used:            1921391 (0x1d516f)
+   > gas price:           1 gwei
+   > value sent:          0 ETH
+   > total cost:          0.001921391 ETH
+
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:         0.001921391 ETH
+
+
+Summary
+=======
+> Total deployments:   6
+> Final cost:          0.004669848 ETH
