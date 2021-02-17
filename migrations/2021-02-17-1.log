@@ -1,0 +1,73 @@
+Starting migrations...
+======================
+> Network name:    'mainnet'
+> Network id:      1
+> Block gas limit: 12530505 (0xbf3349)
+
+
+1_initial_migration.js
+======================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+2_remove_require.js
+===================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+3_compound.js
+=============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+4_aave.js
+=========
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+5_wrapper_shortcut.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+6_fulcrum.js
+============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+7_fulcrum_v2.js
+===============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+8_replace_compound.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+9_aave_legacy.js
+================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+10_add_usdt_connector.js
+========================
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 7.449636806432143 ETH
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+Summary
+=======
+> Total deployments:   0
+> Final cost:          0 ETH

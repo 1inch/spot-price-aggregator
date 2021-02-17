@@ -26,7 +26,7 @@ contract('AaveWrapperV1', function () {
     });
 
     it('eth -> aeth', async function () {
-        const response = await this.aaveWrapper.wrap(tokens.EEE);
+        const response = await this.aaveWrapper.wrap(tokens.ETH);
         expect(response.rate).to.be.bignumber.equal(ether('1'));
         expect(response.wrappedToken).to.be.equal(AETHV1);
     });
@@ -34,6 +34,6 @@ contract('AaveWrapperV1', function () {
     it('aeth -> eth', async function () {
         const response = await this.aaveWrapper.wrap(AETHV1);
         expect(response.rate).to.be.bignumber.equal(ether('1'));
-        expect(response.wrappedToken).to.be.equal(tokens.EEE);
+        expect(response.wrappedToken).to.be.equal(tokens.ETH);
     });
 });

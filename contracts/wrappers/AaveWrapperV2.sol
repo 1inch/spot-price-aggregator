@@ -3,14 +3,11 @@
 pragma solidity 0.7.6;
 pragma abicoder v2;  // solhint-disable-line compiler-version
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
 import "../interfaces/ILendingPoolV2.sol";
 import "../interfaces/IWrapper.sol";
 
 
 contract AaveWrapperV2 is IWrapper {
-    using SafeMath for uint256;
-
     ILendingPoolV2 private constant _LENDING_POOL = ILendingPoolV2(0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9);
 
     mapping(IERC20 => IERC20) public aTokenToToken;
