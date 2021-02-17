@@ -12,10 +12,6 @@ contract MultiWrapper is Ownable {
     using SafeMath for uint256;
     using EnumerableSet for EnumerableSet.AddressSet;
 
-    IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
-    IERC20 private constant _EEE = IERC20(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
-    IERC20 private constant _WETH = IERC20(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2);
-
     event WrapperAdded(IWrapper connector);
     event WrapperRemoved(IWrapper connector);
 
