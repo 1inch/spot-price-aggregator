@@ -1,0 +1,107 @@
+Starting migrations...
+======================
+> Network name:    'bsc'
+> Network id:      56
+> Block gas limit: 30000000 (0x1c9c380)
+
+
+1_initial_migration.js
+======================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+2_remove_require.js
+===================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+3_compound.js
+=============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+4_aave.js
+=========
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+5_wrapper_shortcut.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+6_fulcrum.js
+============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+7_fulcrum_v2.js
+===============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+8_replace_compound.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+9_aave_legacy.js
+================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+10_add_usdt_connector.js
+========================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+11_multiwrapper.js
+==================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+12_bsc.js
+=========
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+13_srteetswap_bsc.js
+====================
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 0.994478657 ETH
+
+   Deploying 'UniswapV2LikeOracle'
+   -------------------------------
+   > transaction hash:    0x0332befd78f023b0ffcf37ba171bd0ff2b4537e823a21a27a40ea20d0c1fb5fd
+   > Blocks: 3            Seconds: 8
+   > contract address:    0x0F85A912448279111694F4Ba4F85dC641c54b594
+   > block number:        4968630
+   > block timestamp:     1613592085
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             0.994111492
+   > gas used:            367165 (0x59a3d)
+   > gas price:           1 gwei
+   > value sent:          0 ETH
+   > total cost:          0.000367165 ETH
+
+   > Saving artifacts
+   -------------------------------------
+   > Total cost:         0.000367165 ETH
+
+
+Summary
+=======
+> Total deployments:   1
+> Final cost:          0.000367165 ETH
