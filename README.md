@@ -4,5 +4,6 @@
 
 -> MultiCall actual [address](https://etherscan.io/address/0xda3c19c6fe954576707fa24695efb830d9cca1ca#code)
 
--> Multiple ETH token prices usage example
--> Single ETH token price usage example
+-> Multiple ETH token prices usage [example](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/multiple-prices.js)
+
+-> Single ETH token price usage [example](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/single-price.js)
