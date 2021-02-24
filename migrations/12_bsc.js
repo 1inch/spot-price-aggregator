@@ -2,16 +2,22 @@
 
 // const OffchainOracle = artifacts.require('./OffchainOracle.sol');
 // const UniswapV2LikeOracle = artifacts.require('./UniswapV2LikeOracle.sol');
+// const MooniswapLikeOracle = artifacts.require('./MooniswapOracle.sol');
 // const BaseCoinWrapper = artifacts.require('./BaseCoinWrapper.sol');
 // const CompoundLikeWrapper = artifacts.require('./CompoundLikeWrapper.sol');
 // const MultiWrapper = artifacts.require('./MultiWrapper.sol');
 
 // const contracts = {
-//     pancakeswapFactory: '0xbcfccbde45ce874adcb698cc183debcf17952812',
-//     demaxswapFactory: '0x8a1e9d3aebbbd5ba2a64d3355a48dd5e9b511256',
-//     venusComptroller: '0xfD36E2c2a6789Db23113685031d7F16329158384',
+// pancakeswapFactory: '0xbcfccbde45ce874adcb698cc183debcf17952812',
+// demaxswapFactory: '0x8a1e9d3aebbbd5ba2a64d3355a48dd5e9b511256',
+// venusComptroller: '0xfD36E2c2a6789Db23113685031d7F16329158384',
+// julswapFactory: '0x553990f2cba90272390f62c5bdb1681ffc899675',
+// bakeryswapFactory: '0x01bf7c66c6bd861915cdaae475042d3c4bae16a7',
+// oneInchLpFactory: '0xd41b24bba51fac0e4827b6f94c0d6ddeb183cd64',
 // };
 
+// const bakeryswapCodeHash = '0xe2e87433120e32c4738a7d8f3271f3d872cbe16241d67537139158d90bac61d3';
+// const julswapCodeHash = '0xb1e98e21a5335633815a8cfb3b580071c2e4561c50afd57a8746def9ed890b18';
 // const pancakeswapCodeHash = '0xd0d4c4cd0848c93cb4fd1f498d7013ee6bfb25783ea21593d5834f5d250ece66';
 // const demaxswapCodeHash = '0x9e2f28ebeccb25f4ead99c3f563bb6a201e2014a501d90dd0a9382bb1f5f4d0e';
 
@@ -48,45 +54,49 @@
 //             return;
 //         }
 
-//         const account = '0x11799622F4D98A24514011E8527B969f7488eF47';
-//         console.log('Deployer account: ' + account);
-//         console.log('Deployer balance: ' + (await web3.eth.getBalance(account)) / 1e18 + ' ETH');
+// const account = '0xEAC4F52e9056bF067b02A17B80BA0617C16D85Ac';
+// console.log('Deployer account: ' + account);
+// console.log('Deployer balance: ' + (await web3.eth.getBalance(account)) / 1e18 + ' ETH');
 
-//         const pancakeswapOracle = await deployer.deploy(UniswapV2LikeOracle, contracts.pancakeswapFactory, pancakeswapCodeHash);
-//         const demaxswapOracle = await deployer.deploy(UniswapV2LikeOracle, contracts.demaxswapFactory, demaxswapCodeHash);
-//         const wbnbWrapper = await deployer.deploy(BaseCoinWrapper, WBNB);
-//         const compoundLikeWrapper = await deployer.deploy(CompoundLikeWrapper, contracts.venusComptroller, vBNB);
+// const pancakeswapOracle = await deployer.deploy(UniswapV2LikeOracle, contracts.pancakeswapFactory, pancakeswapCodeHash);
+// const demaxswapOracle = await deployer.deploy(UniswapV2LikeOracle, contracts.demaxswapFactory, demaxswapCodeHash);
+// const wbnbWrapper = await deployer.deploy(BaseCoinWrapper, WBNB);
+// const compoundLikeWrapper = await deployer.deploy(CompoundLikeWrapper, contracts.venusComptroller, vBNB);
+// const julswapOracle = await deployer.deploy(UniswapV2LikeOracle, contracts.julswapFactory, julswapCodeHash);
+// const bakeryswapOracle = await deployer.deploy(UniswapV2LikeOracle, contracts.bakeryswapFactory, bakeryswapCodeHash);
+// const oneInchLpOracle = await deployer.deploy(MooniswapLikeOracle, contracts.oneInchLpFactory);
 
-//         const multiWrapper = await deployer.deploy(
-//             MultiWrapper,
-//             [
-//                 wbnbWrapper.address,
-//                 compoundLikeWrapper.address
-//             ]
-//         );
-
-//         await Promise.all([
-//             compoundLikeWrapper.addMarkets(markets),
-//             deployer.deploy(
-//                 OffchainOracle,
-//                 multiWrapper.address,
-//                 [
-//                     pancakeswapOracle.address,
-//                     demaxswapOracle.address,
-//                 ],
-//                 [
-//                     tokens.ETH,  // BNB
-//                     WBNB,
-//                     binDAI,
-//                     binETH,
-//                     binUSDC,
-//                     binUSDT,
-//                     tokens.NONE,
-//                 ]
-//             ),
-//         ]);
-//     });
+// const multiWrapper = await deployer.deploy(
+//     MultiWrapper,
+//     [
+//         wbnbWrapper.address,
+//         compoundLikeWrapper.address
+//     ]
+// );
+//
+// await Promise.all([
+//     compoundLikeWrapper.addMarkets(markets),
+//     deployer.deploy(
+//         OffchainOracle,
+//         multiWrapper.address,
+//         [
+//             pancakeswapOracle.address,
+//             demaxswapOracle.address,
+//             julswapOracle.address,
+//         ],
+//         [
+//             tokens.ETH,  // BNB
+//             WBNB,
+//             binDAI,
+//             binETH,
+//             binUSDC,
+//             binUSDT,
+//             tokens.NONE,
+//         ]
+//     ),
+// ]);
+// });
 // };
 
-module.exports = function (deployer, network) {
-}
+// module.exports = function (deployer, network) {
+// }
