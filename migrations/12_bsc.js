@@ -98,5 +98,5 @@
 // });
 // };
 
-// module.exports = function (deployer, network) {
-// }
+module.exports = function (deployer, network) {
+}
