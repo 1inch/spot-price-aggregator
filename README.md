@@ -1,12 +1,12 @@
 # Offchain Price Oracle
 
-Price oracle that shows liquidity-weighted average of spot prices of multiple dexes. 
+Price oracle that shows liquidity-weighted average of spot prices of multiple dexes. The oracle can be easily manipulated inside transaction so it should ONLY be used offchain. See Examples section below.
 
 ## Supported Deployments
 
-### Ethereum Mainnet: [0x080ab73787a8b13ec7f40bd7d00d6cc07f9b24d0](https://etherscan.io/address/0x080ab73787a8b13ec7f40bd7d00d6cc07f9b24d0)
+### Ethereum Mainnet [0x080ab73787a8b13ec7f40bd7d00d6cc07f9b24d0](https://etherscan.io/address/0x080ab73787a8b13ec7f40bd7d00d6cc07f9b24d0)
 
-### Binance Smart Chain: [0xe26A18b00E4827eD86bc136B2c1e95D5ae115edD](https://bscscan.com/address/0xe26A18b00E4827eD86bc136B2c1e95D5ae115edD)
+### Binance Smart Chain [0xe26A18b00E4827eD86bc136B2c1e95D5ae115edD](https://bscscan.com/address/0xe26A18b00E4827eD86bc136B2c1e95D5ae115edD)
 
 ## Examples
 
