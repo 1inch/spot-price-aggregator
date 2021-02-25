@@ -1,0 +1,115 @@
+Starting migrations...
+======================
+> Network name:    'mainnet'
+> Network id:      1
+> Block gas limit: 12499976 (0xbebc08)
+
+
+1_initial_migration.js
+======================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+2_remove_require.js
+===================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+3_compound.js
+=============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+4_aave.js
+=========
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+5_wrapper_shortcut.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+6_fulcrum.js
+============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+7_fulcrum_v2.js
+===============
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+8_replace_compound.js
+=====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+9_aave_legacy.js
+================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+10_add_usdt_connector.js
+========================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+11_multiwrapper.js
+==================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+12_bsc.js
+=========
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+13_srteetswap_bsc.js
+====================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+14_bsc_jul_bakery_1inch.js
+==========================
+   -------------------------------------
+   > Total cost:                   0 ETH
+
+
+15_equalizer.js
+===============
+Deployer account: 0x11799622F4D98A24514011E8527B969f7488eF47
+Deployer balance: 5.577435666432144 ETH
+
+   Deploying 'UniswapV2LikeOracle'
+   -------------------------------
+   > transaction hash:    0x6b06d2131ac70fba316f0a1fdf0c6e570215782202b78c199c06e63d0a07ff9c
+   > Blocks: 4            Seconds: 56
+   > contract address:    0x37E440D480F8891B62cF61f2E36fB9503D1e3B57
+   > block number:        11925677
+   > block timestamp:     1614247285
+   > account:             0x11799622F4D98A24514011E8527B969f7488eF47
+   > balance:             5.523829576432142908
+   > gas used:            367165 (0x59a3d)
+   > gas price:           146 gwei
+   > value sent:          0 ETH
+   > total cost:          0.05360609 ETH
+
+
+Summary
+=======
+> Total deployments:   1
+> Final cost:          0.05360609 ETH
