@@ -6,7 +6,7 @@ const uniswapV2Factory = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
 const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 
-const WethWrapper = artifacts.require('WethWrapper');
+const BaseCoinWrapper = artifacts.require('BaseCoinWrapper');
 const UniswapV2LikeOracle = artifacts.require('UniswapV2LikeOracle');
 const UniswapOracle = artifacts.require('UniswapOracle');
 const MooniswapOracle = artifacts.require('MooniswapOracle');
@@ -23,7 +23,7 @@ contract('OffchainOracle', function () {
         this.uniswapOracle = await UniswapOracle.new();
         this.mooniswapOracle = await MooniswapOracle.new(oneInchLP1);
 
-        this.wethWrapper = await WethWrapper.new();
+        this.wethWrapper = await BaseCoinWrapper.new(tokens.WETH);
         this.aaveWrapperV1 = await AaveWrapperV1.new();
         this.aaveWrapperV2 = await AaveWrapperV2.new();
         await this.aaveWrapperV1.addMarkets([tokens.DAI]);

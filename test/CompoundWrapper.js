@@ -2,13 +2,13 @@ const { ether } = require('@openzeppelin/test-helpers');
 const { expect } = require('chai');
 const { tokens } = require('./helpers.js');
 
-const CompoundWrapper = artifacts.require('CompoundWrapper');
+const CompoundLikeWrapper = artifacts.require('CompoundLikeWrapper');
 const CDAI = '0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643';
 const CETH = '0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5';
 
 contract('CompoundWrapper', function () {
     before(async function () {
-        this.compoundWrapper = await CompoundWrapper.new('0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B', CETH);
+        this.compoundWrapper = await CompoundLikeWrapper.new('0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B', CETH);
         await this.compoundWrapper.addMarkets([CDAI]);
     });
 

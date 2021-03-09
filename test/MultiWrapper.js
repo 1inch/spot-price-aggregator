@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const { tokens } = require('./helpers.js');
 
 const BaseCoinWrapper = artifacts.require('BaseCoinWrapper');
-const CompoundWrapper = artifacts.require('CompoundWrapper');
+const CompoundLikeWrapper = artifacts.require('CompoundLikeWrapper');
 const FulcrumWrapper = artifacts.require('FulcrumWrapper');
 const AaveWrapperV1 = artifacts.require('AaveWrapperV1');
 const AaveWrapperV2 = artifacts.require('AaveWrapperV2');
@@ -26,7 +26,7 @@ contract('MultiWrapper', function () {
         await this.aaveWrapperV1.addMarkets([tokens.DAI, tokens.EEE]);
         this.aaveWrapperV2 = await AaveWrapperV2.new();
         await this.aaveWrapperV2.addMarkets([tokens.DAI, tokens.WETH]);
-        this.compoundWrapper = await CompoundWrapper.new();
+        this.compoundWrapper = await CompoundLikeWrapper.new('0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B', CETH);
         await this.compoundWrapper.addMarkets([CDAI]);
         this.fulcrumWrapper = await FulcrumWrapper.new();
         await this.fulcrumWrapper.addMarkets([tokens.DAI, tokens.WETH]);
