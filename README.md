@@ -72,6 +72,7 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 * DAI
 * USDC
 * USDT
+* BUSD
 
 ## Examples
 
