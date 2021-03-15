@@ -16,6 +16,16 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 
 #### Oracle [0x080ab73787a8b13ec7f40bd7d00d6cc07f9b24d0](https://etherscan.io/address/0x080ab73787a8b13ec7f40bd7d00d6cc07f9b24d0)
 
+#### Supported DEXes
+
+* Mooniswap
+* 1inch Liquidity Protocol V1
+* 1inch Liquidity Protocol V1.1
+* Uniswap V1
+* Uniswap V2
+* Sushiswap
+* Equalizer.fi
+
 #### Supported wrappers
 
 * Aave V1
@@ -34,10 +44,20 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 * USDC
 * USDT
 * WBTC
+* 1INCH
 
 ### Binance Smart Chain
 
 #### Oracle [0xe26A18b00E4827eD86bc136B2c1e95D5ae115edD](https://bscscan.com/address/0xe26A18b00E4827eD86bc136B2c1e95D5ae115edD)
+
+#### Supported DEXes
+
+* 1inch Liquidity Protocol V1.1
+* Pancakeswap
+* Streetswap
+* Bakeryswap
+* Julswap
+* Demaxswap
 
 #### Supported wrappers
 
