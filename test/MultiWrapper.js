@@ -18,7 +18,6 @@ const CETH = '0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5';
 const iETHV2 = '0xB983E01458529665007fF7E0CDdeCDB74B967Eb6';
 const IDAIV2 = '0x6b093998D36f2C7F0cc359441FBB24CC629D5FF0';
 
-
 describe('MultiWrapper', async function () {
     before(async function () {
         this.wethWrapper = await BaseCoinWrapper.new(tokens.WETH);
@@ -38,15 +37,15 @@ describe('MultiWrapper', async function () {
                 this.aaveWrapperV2.address,
                 this.compoundWrapper.address,
                 this.fulcrumWrapper.address,
-            ]
+            ],
         );
     });
 
     it('eth', async function () {
         const response = await this.multiWrapper.getWrappedTokens(tokens.ETH);
-        expect(response.wrappedTokens).to.be.deep.equal([tokens.WETH, aWETHV2, iETHV2, aETHV1, CETH, tokens.ETH])
+        expect(response.wrappedTokens).to.be.deep.equal([tokens.WETH, aWETHV2, iETHV2, aETHV1, CETH, tokens.ETH]);
 
-        for (let i of [0, 1, 3, 5]) {
+        for (const i of [0, 1, 3, 5]) {
             expect(response.rates[i]).to.be.bignumber.eq(ether('1'));
         }
         expect(response.rates[2]).to.be.bignumber.gt(ether('1'));
@@ -55,9 +54,9 @@ describe('MultiWrapper', async function () {
 
     it('dai', async function () {
         const response = await this.multiWrapper.getWrappedTokens(tokens.DAI);
-        expect(response.wrappedTokens).to.be.deep.equal([ADAIV1, ADAIV2, CDAI, IDAIV2, tokens.DAI])
+        expect(response.wrappedTokens).to.be.deep.equal([ADAIV1, ADAIV2, CDAI, IDAIV2, tokens.DAI]);
 
-        for (let i of [0, 1, 4]) {
+        for (const i of [0, 1, 4]) {
             expect(response.rates[i]).to.be.bignumber.eq(ether('1'));
         }
         expect(response.rates[2]).to.be.bignumber.lt('5000000000');
@@ -66,9 +65,9 @@ describe('MultiWrapper', async function () {
 
     it('aETHv1', async function () {
         const response = await this.multiWrapper.getWrappedTokens(aETHV1);
-        expect(response.wrappedTokens).to.be.deep.equal([tokens.ETH, tokens.WETH, CETH, aETHV1])
+        expect(response.wrappedTokens).to.be.deep.equal([tokens.ETH, tokens.WETH, CETH, aETHV1]);
 
-        for (let i of [0, 1, 3]) {
+        for (const i of [0, 1, 3]) {
             expect(response.rates[i]).to.be.bignumber.eq(ether('1'));
         }
         expect(response.rates[2]).to.be.bignumber.lt('5000000000');

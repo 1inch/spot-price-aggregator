@@ -17,7 +17,6 @@
 //     '0xA8b65249DE7f85494BC1fe75F525f568aa7dfa39',  // iBAT
 // ];
 
-
 // module.exports = function (deployer, network) {
 //     return deployer.then(async () => {
 //         if (network === 'test' || network === 'coverage') {
@@ -40,4 +39,4 @@
 // };
 
 module.exports = function (deployer, network) {
-}
+};

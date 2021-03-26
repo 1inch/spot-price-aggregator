@@ -37,13 +37,13 @@ describe.skip('ProdTest', async function () {
                 // tokens.DAI,
                 // tokens.USDT,
                 tokens.NONE,
-            ]
+            ],
         );
     });
 
     it('zks -> eth', async function () {
         const rate = await this.offchainOracle.getRate(tokens.WETH, '0x793786e2dd4Cc492ed366a94B88a3Ff9ba5E7546');
         console.log(rate.toString());
-        // expect(rate).to.be.bignumber.lessThan(ether('0.001'));
+        expect(rate).to.be.bignumber.lessThan(ether('0.001'));
     });
 });

@@ -10,7 +10,6 @@
 // const julswapCodeHash = '0xb1e98e21a5335633815a8cfb3b580071c2e4561c50afd57a8746def9ed890b18';
 // const oneInchLpFactory = '0xd41b24bba51fac0e4827b6f94c0d6ddeb183cd64';
 
-
 // module.exports = function (deployer, network) {
 //     return deployer.then(async () => {
 //         if (network === 'test' || network === 'coverage') {
@@ -36,4 +35,4 @@
 // };
 
 module.exports = function (deployer, network) {
-}
+};

@@ -4,7 +4,9 @@ const { BigNumber } = require('ethers');
 const yourInfuraKey = 'add your key here';
 const web3 = new Web3(`https://mainnet.infura.io/${yourInfuraKey}`);
 
+// eslint-disable-next-line max-len
 const MultiCallAbi = '[{"inputs":[{"components":[{"internalType":"address","name":"to","type":"address"},{"internalType":"bytes","name":"data","type":"bytes"}],"internalType":"struct MultiCall.Call[]","name":"calls","type":"tuple[]"}],"name":"multicall","outputs":[{"internalType":"bytes[]","name":"results","type":"bytes[]"},{"internalType":"bool[]","name":"success","type":"bool[]"}],"stateMutability":"view","type":"function"}]';
+// eslint-disable-next-line max-len
 const OffChainOracleAbi = '[{"inputs":[{"internalType":"contract IERC20","name":"srcToken","type":"address"},{"internalType":"contract IERC20","name":"dstToken","type":"address"}],"name":"getRate","outputs":[{"internalType":"uint256","name":"weightedRate","type":"uint256"}],"stateMutability":"view","type":"function"}]';
 
 const offChainOracleAddress = '0x080ab73787a8b13ec7f40bd7d00d6cc07f9b24d0';

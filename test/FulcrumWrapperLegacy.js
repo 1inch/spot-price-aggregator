@@ -16,7 +16,7 @@ const tests = [
         token: tokens.WETH,
         itoken: IWETH,
     },
-]
+];
 
 describe('FulcrumWrapperLegacy', async function () {
     before(async function () {

@@ -29,7 +29,6 @@
 //     '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984',  // UNI
 // ];
 
-
 // module.exports = function (deployer, network) {
 //     return deployer.then(async () => {
 //         if (network === 'test' || network === 'coverage') {
@@ -53,4 +52,4 @@
 // };
 
 module.exports = function (deployer, network) {
-}
+};

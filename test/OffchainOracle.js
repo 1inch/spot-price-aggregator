@@ -33,7 +33,7 @@ describe('OffchainOracle', async function () {
                 this.wethWrapper.address,
                 this.aaveWrapperV1.address,
                 this.aaveWrapperV2.address,
-            ]
+            ],
         );
 
         this.offchainOracle = await OffchainOracle.new(
@@ -48,7 +48,7 @@ describe('OffchainOracle', async function () {
                 tokens.ETH,
                 tokens.WETH,
                 tokens.USDC,
-            ]
+            ],
         );
     });
 

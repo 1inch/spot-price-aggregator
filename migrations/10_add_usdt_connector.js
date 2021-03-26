@@ -4,7 +4,6 @@
 
 // const offchainOracleAddr = '0xe3c6B9C13739087c89Dcb83D3Ec15a767d829AA8';
 
-
 // module.exports = function (deployer, network) {
 //     return deployer.then(async () => {
 //         if (network === 'test' || network === 'coverage') {
@@ -22,4 +21,4 @@
 // };
 
 module.exports = function (deployer, network) {
-}
+};

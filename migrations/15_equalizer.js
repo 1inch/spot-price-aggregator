@@ -6,7 +6,6 @@
 // const equalizerFactory = '0xF14421F0BCf9401d8930872C2d44d8e67e40529a';
 // const equalizerCodeHash = '0x1c879dcd3af04306445addd2c308bd4d26010c7ca84c959c3564d4f6957ab20c';
 
-
 // module.exports = function (deployer, network) {
 //     return deployer.then(async () => {
 //         if (network === 'test' || network === 'coverage') {
@@ -25,4 +24,4 @@
 // };
 
 module.exports = function (deployer, network) {
-}
+};

@@ -21,7 +21,6 @@
 //     tokens.COMP,
 // ];
 
-
 // module.exports = function (deployer, network) {
 //     return deployer.then(async () => {
 //         if (network === 'test' || network === 'coverage') {
@@ -44,4 +43,4 @@
 // };
 
 module.exports = function (deployer, network) {
-}
+};

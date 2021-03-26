@@ -16,7 +16,6 @@
 //     '0x70e36f6BF80a52b3B46b3aF8e106CC0ed743E8e4',  // cCOMP
 // ];
 
-
 // module.exports = function (deployer, network) {
 //     return deployer.then(async () => {
 //         if (network === 'test' || network === 'coverage') {
@@ -40,4 +39,4 @@
 // };
 
 module.exports = function (deployer, network) {
-}
+};
