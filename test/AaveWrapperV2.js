@@ -7,7 +7,7 @@ const AaveWrapperV2 = artifacts.require('AaveWrapperV2');
 const ADAIV2 = '0x028171bCA77440897B824Ca71D1c56caC55b68A3';
 const AWETHV2 = '0x030bA81f1c18d280636F32af80b9AAd02Cf0854e';
 
-contract('AaveWrapperV2', function () {
+describe('AaveWrapperV2', async function () {
     before(async function () {
         this.aaveWrapper = await AaveWrapperV2.new();
         await this.aaveWrapper.addMarkets([tokens.DAI, tokens.WETH]);

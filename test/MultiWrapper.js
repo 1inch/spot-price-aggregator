@@ -19,7 +19,7 @@ const iETHV2 = '0xB983E01458529665007fF7E0CDdeCDB74B967Eb6';
 const IDAIV2 = '0x6b093998D36f2C7F0cc359441FBB24CC629D5FF0';
 
 
-contract('MultiWrapper', function () {
+describe('MultiWrapper', async function () {
     before(async function () {
         this.wethWrapper = await BaseCoinWrapper.new(tokens.WETH);
         this.aaveWrapperV1 = await AaveWrapperV1.new();

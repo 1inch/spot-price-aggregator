@@ -5,7 +5,7 @@ const { tokens } = require('./helpers.js');
 const MooniswapOracle = artifacts.require('MooniswapOracle');
 const mooniswapFactory = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 
-contract('MooniswapOracle', function () {
+describe('MooniswapOracle', async function () {
     before(async function () {
         this.mooniswapOracle = await MooniswapOracle.new(mooniswapFactory);
     });

@@ -4,7 +4,7 @@ const { tokens } = require('./helpers.js');
 
 const UniswapOracle = artifacts.require('UniswapOracle');
 
-contract('UniswapOracle', function () {
+describe('UniswapOracle', async function () {
     before(async function () {
         this.uniswapOracle = await UniswapOracle.new();
     });

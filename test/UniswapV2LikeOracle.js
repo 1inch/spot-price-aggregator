@@ -6,7 +6,7 @@ const UniswapV2LikeOracle = artifacts.require('UniswapV2LikeOracle');
 const uniswapV2Factory = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
 
-contract('UniswapV2LikeOracle', function () {
+describe('UniswapV2LikeOracle', async function () {
     before(async function () {
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
     });

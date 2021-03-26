@@ -17,7 +17,7 @@ const MultiWrapper = artifacts.require('MultiWrapper');
 
 const ADAIV2 = '0x028171bCA77440897B824Ca71D1c56caC55b68A3';
 
-contract('OffchainOracle', function () {
+describe('OffchainOracle', async function () {
     before(async function () {
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
         this.uniswapOracle = await UniswapOracle.new();
