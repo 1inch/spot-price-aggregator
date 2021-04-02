@@ -4,7 +4,7 @@
     "description": "Oracle for querying weighted average of dex prcies",
     "repository": {
         "type": "git",
-        "url": "git@github.com:1inch-exchange/offchain-oracle.git"
+        "url": "git@github.com:1inch/offchain-oracle.git"
     },
     "license": "MIT",
     "dependencies": {
