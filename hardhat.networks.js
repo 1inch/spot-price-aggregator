@@ -29,4 +29,13 @@ if (process.env.BSC_RPC_URL && process.env.BSC_PRIVATE_KEY) {
     };
 }
 
+if (process.env.KOVAN_RPC_URL && process.env.KOVAN_PRIVATE_KEY) {
+    networks.kovan = {
+        url: process.env.KOVAN_RPC_URL,
+        chainId: 42,
+        gasPrice: 1000000000,
+        accounts: [process.env.KOVAN_PRIVATE_KEY],
+    };
+}
+
 module.exports = networks;

@@ -8,8 +8,12 @@ import "./OracleBase.sol";
 
 
 contract UniswapOracle is OracleBase {
-    IUniswapFactory private constant _UNISWAP_FACTORY = IUniswapFactory(0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95);
+    IUniswapFactory private immutable _UNISWAP_FACTORY;  // solhint-disable-line var-name-mixedcase
     IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
+
+    constructor(IUniswapFactory factory) {
+        _UNISWAP_FACTORY = factory;
+    }
 
     function _getBalances(IERC20 srcToken, IERC20 dstToken) internal view override returns (uint256 srcBalance, uint256 dstBalance) {
         if (srcToken == _ETH) {

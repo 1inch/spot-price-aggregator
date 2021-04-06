@@ -4,7 +4,7 @@
     "description": "Oracle for querying weighted average of dex prcies",
     "repository": {
         "type": "git",
-        "url": "git@github.com:1inch-exchange/offchain-oracle.git"
+        "url": "git@github.com:1inch/offchain-oracle.git"
     },
     "license": "MIT",
     "dependencies": {
@@ -13,6 +13,7 @@
     "devDependencies": {
         "@eth-optimism/plugins": "^0.0.20",
         "@nomiclabs/hardhat-ethers": "^2.0.2",
+        "@nomiclabs/hardhat-etherscan": "^2.1.1",
         "@nomiclabs/hardhat-truffle5": "^2.0.0",
         "@nomiclabs/hardhat-web3": "^2.0.0",
         "@openzeppelin/test-helpers": "^0.5.10",

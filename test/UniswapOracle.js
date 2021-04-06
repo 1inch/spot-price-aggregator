@@ -6,7 +6,7 @@ const UniswapOracle = artifacts.require('UniswapOracle');
 
 describe('UniswapOracle', async function () {
     before(async function () {
-        this.uniswapOracle = await UniswapOracle.new();
+        this.uniswapOracle = await UniswapOracle.new('0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95');
     });
 
     it('weth -> dai', async function () {
