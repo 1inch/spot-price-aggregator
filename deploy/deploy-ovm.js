@@ -1,6 +1,6 @@
 const { getChainId } = require('hardhat');
 
-const INCH_LP_FACTORY_ADDR = '0x0d15038f8a0362b4cE71D6c879d56bF9Fc2884cf';
+const INCH_LP_FACTORY_ADDR = '0x2Be171963835b6d21202b62EEE54c67910680129';
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running deploy script');
