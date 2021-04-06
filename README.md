@@ -74,6 +74,26 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 * USDT
 * BUSD
 
+### Kovan
+
+#### Oracle [0x29BC86Ad68bB3BD3d54841a8522e0020C1882C22](https://kovan.etherscan.io/0x29BC86Ad68bB3BD3d54841a8522e0020C1882C22)
+
+#### Supported DEXes
+
+* 1inch Liquidity Protocol V1.1
+* Uniswap V2
+* Uniswap V1
+
+#### Supported wrappers
+
+* Venus
+* WETH
+
+#### Supported connectors
+
+* ETH
+* WETH
+
 ## Examples
 
 * [Single token-to-ETH price usage](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/single-price.js)
