@@ -20,7 +20,7 @@ const ADAIV2 = '0x028171bCA77440897B824Ca71D1c56caC55b68A3';
 describe('OffchainOracle', async function () {
     before(async function () {
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
-        this.uniswapOracle = await UniswapOracle.new();
+        this.uniswapOracle = await UniswapOracle.new('0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95');
         this.mooniswapOracle = await MooniswapOracle.new(oneInchLP1);
 
         this.wethWrapper = await BaseCoinWrapper.new(tokens.WETH);
