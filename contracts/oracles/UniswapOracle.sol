@@ -7,7 +7,7 @@ import "./OracleBase.sol";
 
 
 contract UniswapOracle is OracleBase {
-    IUniswapFactory private immutable _UNISWAP_FACTORY;
+    IUniswapFactory private immutable _UNISWAP_FACTORY;  // solhint-disable-line var-name-mixedcase
     IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
 
     constructor(IUniswapFactory factory) {
