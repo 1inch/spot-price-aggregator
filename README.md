@@ -76,7 +76,7 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 
 ### Kovan
 
-#### Oracle [0x29BC86Ad68bB3BD3d54841a8522e0020C1882C22](https://kovan.etherscan.io/0x29BC86Ad68bB3BD3d54841a8522e0020C1882C22)
+#### Oracle [0x29BC86Ad68bB3BD3d54841a8522e0020C1882C22](https://kovan.etherscan.io/address/0x29BC86Ad68bB3BD3d54841a8522e0020C1882C22)
 
 #### Supported DEXes
 
