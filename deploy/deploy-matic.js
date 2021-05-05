@@ -37,36 +37,6 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     });
 
     console.log('OffchainOracle deployed to:', offchainOracle.address);
-
-    // await hre.run('verify:verify', {
-    //     address: mooniswapOracle.address,
-    //     constructorArguments: [INCH_LP_FACTORY_ADDR],
-    // });
-
-    // await hre.run('verify:verify', {
-    //     address: uniswapV2Oracle.address,
-    //     constructorArguments: [UNISWAP_V2_FACTORY, UNISWAP_V2_HASH],
-    // });
-
-    // await hre.run('verify:verify', {
-    //     address: uniswapV1Oracle.address,
-    //     constructorArguments: [UNISWAP_V1_FACTORY],
-    // });
-
-    // await hre.run('verify:verify', {
-    //     address: wethWrapper.address,
-    //     constructorArguments: [WETH],
-    // });
-
-    // await hre.run('verify:verify', {
-    //     address: multiWrapper.address,
-    //     constructorArguments: [[wethWrapper.address]],
-    // });
-
-    // await hre.run('verify:verify', {
-    //     address: offchainOracle.address,
-    //     constructorArguments: [multiWrapper.address, [mooniswapOracle.address, uniswapV2Oracle.address, uniswapV1Oracle.address], []],
-    // });
 };
 
-module.exports.skip = async () => false;
+module.exports.skip = async () => true;
