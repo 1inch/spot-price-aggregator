@@ -38,4 +38,13 @@ if (process.env.KOVAN_RPC_URL && process.env.KOVAN_PRIVATE_KEY) {
     };
 }
 
+if (process.env.MATIC_RPC_URL && process.env.MATIC_PRIVATE_KEY) {
+    networks.matic = {
+        url: process.env.MATIC_RPC_URL,
+        chainId: 137,
+        gasPrice: 1000000000,
+        accounts: [process.env.MATIC_PRIVATE_KEY],
+    };
+}
+
 module.exports = networks;
