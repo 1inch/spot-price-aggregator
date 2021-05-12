@@ -1,4 +1,4 @@
-const { getChainId } = require('hardhat');
+const { getChainId, ethers } = require('hardhat');
 
 const CONNECTORS = [
     '0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF',
@@ -13,7 +13,7 @@ module.exports = async ({ deployments }) => {
     const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
     const offchainOracle = OffchainOracle.attach((await deployments.get('OffchainOracle')).address);
 
-    let txns = [];
+    const txns = [];
     for (const connector of CONNECTORS) {
         txns.push(await offchainOracle.addConnector(connector));
     }
