@@ -8,10 +8,15 @@ import "../interfaces/IWrapper.sol";
 
 
 contract AaveWrapperV2 is IWrapper {
-    ILendingPoolV2 private constant _LENDING_POOL = ILendingPoolV2(0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9);
+    // solhint-disable-next-line var-name-mixedcase
+    ILendingPoolV2 private immutable _LENDING_POOL;
 
     mapping(IERC20 => IERC20) public aTokenToToken;
     mapping(IERC20 => IERC20) public tokenToaToken;
+
+    constructor(ILendingPoolV2 lendingPool) {
+        _LENDING_POOL = lendingPool;
+    }
 
     function addMarkets(IERC20[] memory tokens) external {
         for (uint256 i = 0; i < tokens.length; i++) {
