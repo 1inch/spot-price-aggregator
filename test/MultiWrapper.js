@@ -23,7 +23,7 @@ describe('MultiWrapper', async function () {
         this.wethWrapper = await BaseCoinWrapper.new(tokens.WETH);
         this.aaveWrapperV1 = await AaveWrapperV1.new();
         await this.aaveWrapperV1.addMarkets([tokens.DAI, tokens.EEE]);
-        this.aaveWrapperV2 = await AaveWrapperV2.new();
+        this.aaveWrapperV2 = await AaveWrapperV2.new('0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9');
         await this.aaveWrapperV2.addMarkets([tokens.DAI, tokens.WETH]);
         this.compoundWrapper = await CompoundLikeWrapper.new('0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B', CETH);
         await this.compoundWrapper.addMarkets([CDAI]);
