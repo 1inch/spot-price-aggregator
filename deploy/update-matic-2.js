@@ -6,7 +6,7 @@ const SUSHI_FACTORY = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4';
 const SUSHI_HASH = '0xe18a34eb0e04b04f7a0ac29a6e80748dca96319b42c54d679cb821dca90c6303';
 const AAVE_LENDING_POOL = '0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf';
 
-AAVE_TOKENS = [
+const AAVE_TOKENS = [
     '0xD6DF932A45C0f255f85145f286eA0b292B21C90B', // AAVE
     '0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063', // DAI
     '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174', // USDC
@@ -16,7 +16,7 @@ AAVE_TOKENS = [
     '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', // WMATIC
 ];
 
-module.exports = async ({ deployments }) => {
+module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running deploy script');
     console.log('network id ', await getChainId());
 
@@ -44,7 +44,7 @@ module.exports = async ({ deployments }) => {
     const aaveDeployment = await deploy('AaveWrapperV2', {
         args: [AAVE_LENDING_POOL],
         from: deployer,
-        skipIfAlreadyDeployed: true
+        skipIfAlreadyDeployed: true,
     });
 
     const aave = AaveWrapperV2.attach(aaveDeployment.address);
