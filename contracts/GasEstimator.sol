@@ -8,13 +8,14 @@ pragma solidity ^0.7.6;
 
 
 contract GasEstimator {
-    function gaslimit() external view returns (uint256) {
+    function gasLimit() external view returns (uint256) {
         return gasleft();
     }
 
-    function gascost(address target, bytes calldata data) external view returns(uint256) {
+    function gasCost(address target, bytes calldata data) external view returns(uint256 gasUsed, bool success) {
         uint256 gas = gasleft();
-        target.staticcall(data);
-        return gas - gasleft();
+        (bool s, bytes memory m) = target.staticcall(data);
+        m = m; // suppress unused warning
+        return (gas - gasleft(), s);
     }
 }

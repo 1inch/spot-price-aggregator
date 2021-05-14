@@ -1,6 +1,6 @@
 const { ether } = require('@openzeppelin/test-helpers');
 const { expect } = require('chai');
-const { tokens } = require('./helpers.js');
+const { tokens, absDiff } = require('./helpers.js');
 
 const uniswapV2Factory = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
@@ -14,6 +14,7 @@ const OffchainOracle = artifacts.require('OffchainOracle');
 const AaveWrapperV1 = artifacts.require('AaveWrapperV1');
 const AaveWrapperV2 = artifacts.require('AaveWrapperV2');
 const MultiWrapper = artifacts.require('MultiWrapper');
+const GasEstimator = artifacts.require('GasEstimator');
 
 const ADAIV2 = '0x028171bCA77440897B824Ca71D1c56caC55b68A3';
 
@@ -49,7 +50,21 @@ describe('OffchainOracle', async function () {
                 tokens.WETH,
                 tokens.USDC,
             ],
+            tokens.WETH
         );
+        this.expensiveOffachinOracle = await OffchainOracle.new(
+            this.multiWrapper.address,
+            [
+                this.uniswapV2LikeOracle.address,
+                this.uniswapOracle.address,
+                this.mooniswapOracle.address,
+            ],
+            [
+                ...Object.values(tokens).slice(0, 10)
+            ],
+            tokens.WETH
+        );
+        this.gasEstimator = await GasEstimator.new();
     });
 
     it('weth -> dai', async function () {
@@ -73,5 +88,32 @@ describe('OffchainOracle', async function () {
     it('dai -> adai', async function () {
         const rate = await this.offchainOracle.getRate(tokens.DAI, ADAIV2);
         expect(rate).to.be.bignumber.equal(ether('1'));
+    });
+
+    it('getRate(dai -> aave)_GasCheck', async function () {
+        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRate(tokens.DAI, tokens.AAVE).encodeABI());
+        expect(result.gasUsed).to.be.bignumber.equal('739441');
+    });
+
+    it('getRateToEth(dai)_ShouldHaveCorrectRate', async function () {
+        const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.WETH);
+        const actualRate = await this.offchainOracle.getRateToEth(tokens.DAI);
+        expect(absDiff(expectedRate, actualRate).toString()).to.be.bignumber.below('1000000000');
+    });
+
+    it('getRateToEth(dai)_GasCheck', async function () {
+        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRateToEth(tokens.DAI).encodeABI());
+        expect(result.gasUsed).to.be.bignumber.equal('1115573');
+    });
+
+    it('getRateDirect(dai -> link)_ShouldHaveCorrectRate', async function () {
+        const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.LINK);
+        const actualRate = await this.offchainOracle.getRateDirect(tokens.DAI, tokens.LINK);
+        expect(absDiff(expectedRate, actualRate).toString()).to.be.bignumber.below('1000000000');
+    });
+
+    it('getRateDirect(dai -> link)_GasCheck', async function () {
+        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRateDirect(tokens.DAI, tokens.AAVE).encodeABI());
+        expect(result.gasUsed).to.be.bignumber.equal('356154');
     });
 });

@@ -19,6 +19,11 @@ const tokens = {
     COMP: '0xc00e94Cb662C3520282E6f5717214004A7f26888',
 };
 
+function absDiff(a, b) {
+    return a > b ? a - b : b - a;
+}
+
 module.exports = {
     tokens,
+    absDiff
 };
