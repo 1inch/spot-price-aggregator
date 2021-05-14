@@ -1,3 +1,5 @@
+const { assert } = require('chai');
+
 const tokens = {
     DAI: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
     WETH: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
@@ -19,11 +21,16 @@ const tokens = {
     COMP: '0xc00e94Cb662C3520282E6f5717214004A7f26888',
 };
 
-function absDiff(a, b) {
-    return a > b ? a - b : b - a;
+function assertRoughlyEquals(x, y, significantDigits) {
+    const xString = x.toString();
+    const yString = y.toString();
+    const areRoughlyEquals =
+        xString.length === yString.length
+        && xString.substring(0, significantDigits) === yString.substring(0, significantDigits);
+    assert.isTrue(areRoughlyEquals, `${x} != ${y} with at least ${significantDigits} significant digits`);
 }
 
 module.exports = {
     tokens,
-    absDiff
+    assertRoughlyEquals
 };

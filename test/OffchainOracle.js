@@ -1,6 +1,6 @@
 const { ether } = require('@openzeppelin/test-helpers');
 const { expect } = require('chai');
-const { tokens, absDiff } = require('./helpers.js');
+const { tokens, assertRoughlyEquals } = require('./helpers.js');
 
 const uniswapV2Factory = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
@@ -90,30 +90,30 @@ describe('OffchainOracle', async function () {
         expect(rate).to.be.bignumber.equal(ether('1'));
     });
 
-    it('getRate(dai -> aave)_GasCheck', async function () {
-        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRate(tokens.DAI, tokens.AAVE).encodeABI());
-        expect(result.gasUsed).to.be.bignumber.equal('739441');
+    it('getRate(dai -> link)_GasCheck', async function () {
+        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRate(tokens.DAI, tokens.LINK).encodeABI());
+        expect(result.gasUsed).to.be.bignumber.equal('762080');
     });
 
     it('getRateToEth(dai)_ShouldHaveCorrectRate', async function () {
         const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.WETH);
         const actualRate = await this.offchainOracle.getRateToEth(tokens.DAI);
-        expect(absDiff(expectedRate, actualRate).toString()).to.be.bignumber.below('1000000000');
+        assertRoughlyEquals(expectedRate, actualRate, 7);
     });
 
     it('getRateToEth(dai)_GasCheck', async function () {
         const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRateToEth(tokens.DAI).encodeABI());
-        expect(result.gasUsed).to.be.bignumber.equal('1115573');
+        expect(result.gasUsed).to.be.bignumber.equal('1111139');
     });
 
     it('getRateDirect(dai -> link)_ShouldHaveCorrectRate', async function () {
         const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.LINK);
         const actualRate = await this.offchainOracle.getRateDirect(tokens.DAI, tokens.LINK);
-        expect(absDiff(expectedRate, actualRate).toString()).to.be.bignumber.below('1000000000');
+        assertRoughlyEquals(expectedRate, actualRate, 7);
     });
 
     it('getRateDirect(dai -> link)_GasCheck', async function () {
-        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRateDirect(tokens.DAI, tokens.AAVE).encodeABI());
-        expect(result.gasUsed).to.be.bignumber.equal('356154');
+        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRateDirect(tokens.DAI, tokens.LINK).encodeABI());
+        expect(result.gasUsed).to.be.bignumber.equal('372991');
     });
 });

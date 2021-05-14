@@ -115,17 +115,17 @@ contract OffchainOracle is Ownable {
     function getRateToEth(IERC20 srcToken) external view returns (uint256 weightedRate) {
         uint256 totalWeight;
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = multiWrapper.getWrappedTokens(srcToken);
-        (IERC20[2] memory wrappedDstTokens, uint256[2] memory dstRates) = ([_BASE, _wBase], [uint256(1e18), uint256(1e18)]);
+        IERC20[2] memory wrappedDstTokens = [_BASE, _wBase];
 
         for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
             for (uint256 k2 = 0; k2 < wrappedDstTokens.length; k2++) {
                 if (wrappedSrcTokens[k1] == wrappedDstTokens[k2]) {
-                    return srcRates[k1].mul(dstRates[k2]).div(1e18);
+                    return srcRates[k1];
                 }
                 for (uint256 i = 0; i < _oracles._inner._values.length; i++) {
                     for (uint256 j = 0; j < _connectors._inner._values.length; j++) {
                         try IOracle(uint256(_oracles._inner._values[i])).getRate(wrappedSrcTokens[k1], wrappedDstTokens[k2], IERC20(uint256(_connectors._inner._values[j]))) returns (uint256 rate, uint256 weight) {
-                            rate = rate.mul(srcRates[k1]).mul(dstRates[k2]).div(1e18).div(1e18);
+                            rate = rate.mul(srcRates[k1]).div(1e18);
                             weight = weight.mul(weight);
                             weightedRate = weightedRate.add(rate.mul(weight));
                             totalWeight = totalWeight.add(weight);
@@ -145,7 +145,6 @@ contract OffchainOracle is Ownable {
         for (uint256 i = 0; i < _oracles._inner._values.length; i++) {
             for (uint256 j = 0; j < _connectors._inner._values.length; j++) {
                 try IOracle(uint256(_oracles._inner._values[i])).getRate(srcToken, dstToken, IERC20(uint256(_connectors._inner._values[j]))) returns (uint256 rate, uint256 weight) {
-                    rate = rate.mul(1e18).mul(1e18).div(1e18).div(1e18);
                     weight = weight.mul(weight);
                     weightedRate = weightedRate.add(rate.mul(weight));
                     totalWeight = totalWeight.add(weight);
