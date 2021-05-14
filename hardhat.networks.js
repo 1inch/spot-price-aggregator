@@ -7,6 +7,7 @@ const networks = {
             mnemonic: 'test test test test test test test test test test test junk',
         },
         gasPrice: 1000000000,
+        blockGasLimit: 1000000000,
     },
 };
 
