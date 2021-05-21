@@ -1,4 +1,4 @@
-const { ether } = require('@openzeppelin/test-helpers');
+const { ether, BN } = require('@openzeppelin/test-helpers');
 const { expect } = require('chai');
 const { tokens, assertRoughlyEquals } = require('./helpers.js');
 
@@ -45,6 +45,11 @@ describe('OffchainOracle', async function () {
                 this.mooniswapOracle.address,
             ],
             [
+                (new BN('2')).toString(),
+                (new BN('2')).toString(),
+                (new BN('2')).toString()
+            ],
+            [
                 tokens.NONE,
                 tokens.ETH,
                 tokens.WETH,
@@ -58,6 +63,11 @@ describe('OffchainOracle', async function () {
                 this.uniswapV2LikeOracle.address,
                 this.uniswapOracle.address,
                 this.mooniswapOracle.address,
+            ],
+            [
+                (new BN('2')).toString(),
+                (new BN('2')).toString(),
+                (new BN('2')).toString()
             ],
             [
                 ...Object.values(tokens).slice(0, 10)
