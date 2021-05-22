@@ -78,52 +78,52 @@ describe('OffchainOracle', async function () {
     });
 
     it('weth -> dai', async function () {
-        const rate = await this.offchainOracle.getRate(tokens.WETH, tokens.DAI);
+        const rate = await this.offchainOracle.getRate(tokens.WETH, tokens.DAI, true, true);
         console.log(rate.toString());
         expect(rate).to.be.bignumber.greaterThan(ether('1000'));
     });
 
     it('eth -> dai', async function () {
-        const rate = await this.offchainOracle.getRate(tokens.ETH, tokens.DAI);
+        const rate = await this.offchainOracle.getRate(tokens.ETH, tokens.DAI, true, true);
         console.log(rate.toString());
         expect(rate).to.be.bignumber.greaterThan(ether('1000'));
     });
 
     it('usdc -> dai', async function () {
-        const rate = await this.offchainOracle.getRate(tokens.USDC, tokens.DAI);
+        const rate = await this.offchainOracle.getRate(tokens.USDC, tokens.DAI, true, true);
         console.log(rate.toString());
         expect(rate).to.be.bignumber.greaterThan(ether('980000000000'));
     });
 
     it('dai -> adai', async function () {
-        const rate = await this.offchainOracle.getRate(tokens.DAI, ADAIV2);
+        const rate = await this.offchainOracle.getRate(tokens.DAI, ADAIV2, true, true);
         expect(rate).to.be.bignumber.equal(ether('1'));
     });
 
     it('getRate(dai -> link)_GasCheck', async function () {
-        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRate(tokens.DAI, tokens.LINK).encodeABI());
-        expect(result.gasUsed).to.be.bignumber.equal('762080');
+        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRate(tokens.DAI, tokens.LINK, true, true).encodeABI());
+        assertRoughlyEquals(result.gasUsed, '754320', 3);
     });
 
     it('getRateToEth(dai)_ShouldHaveCorrectRate', async function () {
-        const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.WETH);
-        const actualRate = await this.offchainOracle.getRateToEth(tokens.DAI);
+        const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.WETH, true, true);
+        const actualRate = await this.offchainOracle.getRateToEth(tokens.DAI, true);
         assertRoughlyEquals(expectedRate, actualRate, 7);
     });
 
     it('getRateToEth(dai)_GasCheck', async function () {
-        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRateToEth(tokens.DAI).encodeABI());
-        expect(result.gasUsed).to.be.bignumber.equal('1111139');
+        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRateToEth(tokens.DAI, true).encodeABI());
+        assertRoughlyEquals(result.gasUsed, '1084604', 3);
     });
 
     it('getRateDirect(dai -> link)_ShouldHaveCorrectRate', async function () {
-        const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.LINK);
-        const actualRate = await this.offchainOracle.getRateDirect(tokens.DAI, tokens.LINK);
+        const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.LINK, true, true);
+        const actualRate = await this.offchainOracle.getRate(tokens.DAI, tokens.LINK, false, false);
         assertRoughlyEquals(expectedRate, actualRate, 7);
     });
 
     it('getRateDirect(dai -> link)_GasCheck', async function () {
-        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRateDirect(tokens.DAI, tokens.LINK).encodeABI());
-        expect(result.gasUsed).to.be.bignumber.equal('372991');
+        const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRate(tokens.DAI, tokens.LINK, false, false).encodeABI());
+        assertRoughlyEquals(result.gasUsed, '388180', 3);
     });
 });

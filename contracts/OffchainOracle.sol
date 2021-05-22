@@ -142,12 +142,12 @@ contract OffchainOracle is Ownable {
         Usage of the dex oracle on chain is highly discouraged!
         getRate function can be easily manipulated inside transaction!
     */
-    function getRate(IERC20 srcToken, IERC20 dstToken) external view returns (uint256 weightedRate) {
+    function getRate(IERC20 srcToken, IERC20 dstToken, bool useSrcWrappers, bool useDstWrappers) external view returns (uint256 weightedRate) {
         require(srcToken != dstToken, "Tokens should not be the same");
         uint256 totalWeight;
         (IOracle[] memory allOracles, ) = oracles();
-        (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = multiWrapper.getWrappedTokens(srcToken);
-        (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = multiWrapper.getWrappedTokens(dstToken);
+        (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = getWrappedTokens(srcToken, useSrcWrappers);
+        (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = getWrappedTokens(dstToken, useDstWrappers);
 
         for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
             for (uint256 k2 = 0; k2 < wrappedDstTokens.length; k2++) {
@@ -170,9 +170,9 @@ contract OffchainOracle is Ownable {
     }
 
     /// @dev Same as `getRate` but checks against `ETH` and `WETH` only
-    function getRateToEth(IERC20 srcToken) external view returns (uint256 weightedRate) {
+    function getRateToEth(IERC20 srcToken, bool useSrcWrappers) external view returns (uint256 weightedRate) {
         uint256 totalWeight;
-        (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = multiWrapper.getWrappedTokens(srcToken);
+        (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = getWrappedTokens(srcToken, useSrcWrappers);
         IERC20[2] memory wrappedDstTokens = [_BASE, _wBase];
         bytes32[][2] memory wrappedOracles = [_ethOracles._inner._values, _wethOracles._inner._values];
 
@@ -196,22 +196,15 @@ contract OffchainOracle is Ownable {
         weightedRate = weightedRate.div(totalWeight);
     }
 
-    /// @dev Get direct rate between tokens. Unlike GetRate doesn't check against wrappers
-    function getRateDirect(IERC20 srcToken, IERC20 dstToken) external view returns (uint256 weightedRate) {
-        require(srcToken != dstToken, "Tokens should not be the same");
-        uint256 totalWeight;
-
-        (IOracle[] memory allOracles, ) = oracles();
-        for (uint256 i = 0; i < allOracles.length; i++) {
-            for (uint256 j = 0; j < _connectors._inner._values.length; j++) {
-                try allOracles[i].getRate(srcToken, dstToken, IERC20(uint256(_connectors._inner._values[j]))) returns (uint256 rate, uint256 weight) {
-                    weight = weight.mul(weight);
-                    weightedRate = weightedRate.add(rate.mul(weight));
-                    totalWeight = totalWeight.add(weight);
-                } catch {continue;}
-            }
+    function getWrappedTokens(IERC20 token, bool useWrappers) internal view returns (IERC20[] memory wrappedTokens, uint256[] memory rates) {
+        if (useWrappers) {
+            return multiWrapper.getWrappedTokens(token);
         }
-        weightedRate = weightedRate.div(totalWeight);
+
+        wrappedTokens = new IERC20[](1);
+        wrappedTokens[0] = token;
+        rates = new uint256[](1);
+        rates[0] = uint256(1e18);
     }
 }
 
