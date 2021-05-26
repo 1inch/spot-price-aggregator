@@ -13,8 +13,10 @@ contract OffchainOracle is Ownable {
     using SafeMath for uint256;
     using EnumerableSet for EnumerableSet.AddressSet;
 
-    event OracleAdded(IOracle oracle);
-    event OracleRemoved(IOracle oracle);
+    enum OracleType { WETH, ETH, WETH_ETH }
+
+    event OracleAdded(IOracle oracle, OracleType oracleType);
+    event OracleRemoved(IOracle oracle, OracleType oracleType);
     event ConnectorAdded(IERC20 connector);
     event ConnectorRemoved(IERC20 connector);
     event MultiWrapperUpdated(MultiWrapper multiWrapper);
@@ -27,22 +29,22 @@ contract OffchainOracle is Ownable {
     IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private immutable _wBase;
 
-    constructor(MultiWrapper _multiWrapper, IOracle[] memory existingOracles, Types.OracleTokenKind[] memory oracleKinds, IERC20[] memory existingConnectors, IERC20 wBase) {
+    constructor(MultiWrapper _multiWrapper, IOracle[] memory existingOracles, OracleType[] memory oracleKinds, IERC20[] memory existingConnectors, IERC20 wBase) {
         require(existingOracles.length == oracleKinds.length, "Arrays length mismatch");
         multiWrapper = _multiWrapper;
         emit MultiWrapperUpdated(_multiWrapper);
         for (uint256 i = 0; i < existingOracles.length; i++) {
-            if (oracleKinds[i] == Types.OracleTokenKind.WETH) {
+            if (oracleKinds[i] == OracleType.WETH) {
                 require(_wethOracles.add(address(existingOracles[i])), "Oracle already added");
-            } else if (oracleKinds[i] == Types.OracleTokenKind.ETH) {
+            } else if (oracleKinds[i] == OracleType.ETH) {
                 require(_ethOracles.add(address(existingOracles[i])), "Oracle already added");
-            } else if (oracleKinds[i] == Types.OracleTokenKind.WETH_ETH) {
+            } else if (oracleKinds[i] == OracleType.WETH_ETH) {
                 require(_wethOracles.add(address(existingOracles[i])), "Oracle already added");
                 require(_ethOracles.add(address(existingOracles[i])), "Oracle already added");
             } else {
                 revert("Invalid OracleTokenKind");
             }
-            emit OracleAdded(existingOracles[i]);
+            emit OracleAdded(existingOracles[i], oracleKinds[i]);
         }
         for (uint256 i = 0; i < existingConnectors.length; i++) {
             require(_connectors.add(address(existingConnectors[i])), "Connector already added");
@@ -51,28 +53,28 @@ contract OffchainOracle is Ownable {
         _wBase = wBase;
     }
 
-    function oracles() public view returns (IOracle[] memory allOracles, Types.OracleTokenKind[] memory oracleKinds) {
+    function oracles() public view returns (IOracle[] memory allOracles, OracleType[] memory oracleKinds) {
         IOracle[] memory oraclesBuffer = new IOracle[](_wethOracles._inner._values.length + _ethOracles._inner._values.length);
-        Types.OracleTokenKind[] memory oracleKindsBuffer = new Types.OracleTokenKind[](oraclesBuffer.length);
+        OracleType[] memory oracleKindsBuffer = new OracleType[](oraclesBuffer.length);
         for (uint256 i = 0; i < _wethOracles._inner._values.length; i++) {
             oraclesBuffer[i] = IOracle(uint256(_wethOracles._inner._values[i]));
-            oracleKindsBuffer[i] = Types.OracleTokenKind.WETH;
+            oracleKindsBuffer[i] = OracleType.WETH;
         }
 
         uint256 actualItemsCount = _wethOracles._inner._values.length;
 
         for (uint256 i = 0; i < _ethOracles._inner._values.length; i++) {
-            Types.OracleTokenKind kind = Types.OracleTokenKind.ETH;
+            OracleType kind = OracleType.ETH;
             uint256 oracleIndex = actualItemsCount;
             IOracle oracle = IOracle(uint256(_ethOracles._inner._values[i]));
             for (uint j = 0; j < oraclesBuffer.length; j++) {
                 if (oraclesBuffer[j] == oracle) {
                     oracleIndex = j;
-                    kind = Types.OracleTokenKind.WETH_ETH;
+                    kind = OracleType.WETH_ETH;
                     break;
                 }
             }
-            if (kind == Types.OracleTokenKind.ETH) {
+            if (kind == OracleType.ETH) {
                 actualItemsCount++;
             }
             oraclesBuffer[oracleIndex] = oracle;
@@ -80,7 +82,7 @@ contract OffchainOracle is Ownable {
         }
 
         allOracles = new IOracle[](actualItemsCount);
-        oracleKinds = new Types.OracleTokenKind[](actualItemsCount);
+        oracleKinds = new OracleType[](actualItemsCount);
         for (uint256 i = 0; i < actualItemsCount; i++) {
             allOracles[i] = oraclesBuffer[i];
             oracleKinds[i] = oracleKindsBuffer[i];
@@ -99,32 +101,32 @@ contract OffchainOracle is Ownable {
         emit MultiWrapperUpdated(_multiWrapper);
     }
 
-    function addOracle(IOracle oracle, Types.OracleTokenKind oracleKind) external onlyOwner {
-        if (oracleKind == Types.OracleTokenKind.WETH) {
+    function addOracle(IOracle oracle, OracleType oracleKind) external onlyOwner {
+        if (oracleKind == OracleType.WETH) {
             require(_wethOracles.add(address(oracle)), "Oracle already added");
-        } else if (oracleKind == Types.OracleTokenKind.ETH) {
+        } else if (oracleKind == OracleType.ETH) {
             require(_ethOracles.add(address(oracle)), "Oracle already added");
-        } else if (oracleKind == Types.OracleTokenKind.WETH_ETH) {
+        } else if (oracleKind == OracleType.WETH_ETH) {
             require(_wethOracles.add(address(oracle)), "Oracle already added");
             require(_ethOracles.add(address(oracle)), "Oracle already added");
         } else {
             revert("Invalid OracleTokenKind");
         }
-        emit OracleAdded(oracle);
+        emit OracleAdded(oracle, oracleKind);
     }
 
-    function removeOracle(IOracle oracle, Types.OracleTokenKind oracleKind) external onlyOwner {
-        if (oracleKind == Types.OracleTokenKind.WETH) {
+    function removeOracle(IOracle oracle, OracleType oracleKind) external onlyOwner {
+        if (oracleKind == OracleType.WETH) {
             require(_wethOracles.remove(address(oracle)), "Unknown oracle");
-        } else if (oracleKind == Types.OracleTokenKind.ETH) {
+        } else if (oracleKind == OracleType.ETH) {
             require(_ethOracles.remove(address(oracle)), "Unknown oracle");
-        } else if (oracleKind == Types.OracleTokenKind.WETH_ETH) {
+        } else if (oracleKind == OracleType.WETH_ETH) {
             require(_wethOracles.remove(address(oracle)), "Unknown oracle");
             require(_ethOracles.remove(address(oracle)), "Unknown oracle");
         } else {
             revert("Invalid OracleTokenKind");
         }
-        emit OracleRemoved(oracle);
+        emit OracleRemoved(oracle, oracleKind);
     }
 
     function addConnector(IERC20 connector) external onlyOwner {
@@ -205,14 +207,5 @@ contract OffchainOracle is Ownable {
         wrappedTokens[0] = token;
         rates = new uint256[](1);
         rates[0] = uint256(1e18);
-    }
-}
-
-library Types {
-    enum OracleTokenKind
-    {
-        WETH,
-        ETH,
-        WETH_ETH
     }
 }
