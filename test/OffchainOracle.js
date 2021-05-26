@@ -19,8 +19,6 @@ const GasEstimator = artifacts.require('GasEstimator');
 const ADAIV2 = '0x028171bCA77440897B824Ca71D1c56caC55b68A3';
 
 describe('OffchainOracle', async function () {
-    this.timeout(50000);
-
     before(async function () {
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
         this.uniswapOracle = await UniswapOracle.new('0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95');
