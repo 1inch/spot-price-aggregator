@@ -194,7 +194,7 @@ contract OffchainOracle is Ownable {
                 }
                 for (uint256 j = 0; j < _connectors._inner._values.length; j++) {
                     IERC20 connector = IERC20(uint256(_connectors._inner._values[j]));
-                    if (connector == wrappedSrcTokens[k1] || connector == _BASE || connector == _wBase) {
+                    if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
                         continue;
                     }
                     for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
