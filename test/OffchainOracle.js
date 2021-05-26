@@ -47,7 +47,7 @@ describe('OffchainOracle', async function () {
             [
                 (new BN('2')).toString(),
                 (new BN('2')).toString(),
-                (new BN('2')).toString()
+                (new BN('2')).toString(),
             ],
             [
                 tokens.NONE,
@@ -55,7 +55,7 @@ describe('OffchainOracle', async function () {
                 tokens.WETH,
                 tokens.USDC,
             ],
-            tokens.WETH
+            tokens.WETH,
         );
         this.expensiveOffachinOracle = await OffchainOracle.new(
             this.multiWrapper.address,
@@ -67,12 +67,12 @@ describe('OffchainOracle', async function () {
             [
                 (new BN('2')).toString(),
                 (new BN('2')).toString(),
-                (new BN('2')).toString()
+                (new BN('2')).toString(),
             ],
             [
-                ...Object.values(tokens).slice(0, 10)
+                ...Object.values(tokens).slice(0, 10),
             ],
-            tokens.WETH
+            tokens.WETH,
         );
         this.gasEstimator = await GasEstimator.new();
     });

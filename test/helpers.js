@@ -21,16 +21,16 @@ const tokens = {
     COMP: '0xc00e94Cb662C3520282E6f5717214004A7f26888',
 };
 
-function assertRoughlyEquals(x, y, significantDigits) {
+function assertRoughlyEquals (x, y, significantDigits) {
     const xString = x.toString();
     const yString = y.toString();
     const areRoughlyEquals =
-        xString.length === yString.length
-        && xString.substring(0, significantDigits) === yString.substring(0, significantDigits);
+        xString.length === yString.length &&
+        xString.substring(0, significantDigits) === yString.substring(0, significantDigits);
     assert.isTrue(areRoughlyEquals, `${x} != ${y} with at least ${significantDigits} significant digits`);
 }
 
 module.exports = {
     tokens,
-    assertRoughlyEquals
+    assertRoughlyEquals,
 };
