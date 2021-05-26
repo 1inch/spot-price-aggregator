@@ -33,6 +33,6 @@ module.exports = {
         currency: 'USD',
     },
     mocha: {
-        timeout: 60000,
+        timeout: 90000,
     },
 };
