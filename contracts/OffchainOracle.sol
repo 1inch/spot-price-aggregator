@@ -150,19 +150,19 @@ contract OffchainOracle is Ownable {
         (IOracle[] memory allOracles, ) = oracles();
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useWrappers);
         (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = _getWrappedTokens(dstToken, useWrappers);
+        bytes32[] memory connectors_ = _connectors._inner._values;
 
         for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
             for (uint256 k2 = 0; k2 < wrappedDstTokens.length; k2++) {
                 if (wrappedSrcTokens[k1] == wrappedDstTokens[k2]) {
                     return srcRates[k1].mul(dstRates[k2]).div(1e18);
                 }
-                for (uint256 j = 0; j < _connectors._inner._values.length; j++) {
-                    IERC20 connector = IERC20(uint256(_connectors._inner._values[j]));
-                    if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
+                for (uint256 j = 0; j < connectors_.length; j++) {
+                    if (IERC20(uint256(connectors_[j])) == wrappedSrcTokens[k1] || IERC20(uint256(connectors_[j])) == wrappedDstTokens[k2]) {
                         continue;
                     }
                     for (uint256 i = 0; i < allOracles.length; i++) {
-                        try allOracles[i].getRate(wrappedSrcTokens[k1], wrappedDstTokens[k2], connector) returns (uint256 rate, uint256 weight) {
+                        try allOracles[i].getRate(wrappedSrcTokens[k1], wrappedDstTokens[k2], IERC20(uint256(connectors_[j]))) returns (uint256 rate, uint256 weight) {
                             rate = rate.mul(srcRates[k1]).mul(dstRates[k2]).div(1e36);
                             weight = weight.mul(weight);
                             weightedRate = weightedRate.add(rate.mul(weight));
@@ -183,14 +183,15 @@ contract OffchainOracle is Ownable {
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useSrcWrappers);
         IERC20[2] memory wrappedDstTokens = [_BASE, _wBase];
         bytes32[][2] memory wrappedOracles = [_ethOracles._inner._values, _wethOracles._inner._values];
+        bytes32[] memory connectors_ = _connectors._inner._values;
 
         for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
             for (uint256 k2 = 0; k2 < wrappedDstTokens.length; k2++) {
                 if (wrappedSrcTokens[k1] == wrappedDstTokens[k2]) {
                     return srcRates[k1];
                 }
-                for (uint256 j = 0; j < _connectors._inner._values.length; j++) {
-                    IERC20 connector = IERC20(uint256(_connectors._inner._values[j]));
+                for (uint256 j = 0; j < connectors_.length; j++) {
+                    IERC20 connector = IERC20(uint256(connectors_[j]));
                     if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
                         continue;
                     }
