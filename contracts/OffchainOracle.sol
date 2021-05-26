@@ -28,7 +28,7 @@ contract OffchainOracle is Ownable {
     IERC20 private immutable _wBase;
 
     constructor(MultiWrapper _multiWrapper, IOracle[] memory existingOracles, Types.OracleTokenKind[] memory oracleKinds, IERC20[] memory existingConnectors, IERC20 wBase) {
-        require(existingOracles.length == oracleKinds.length);
+        require(existingOracles.length == oracleKinds.length, "Arrays length mismatch");
         multiWrapper = _multiWrapper;
         emit MultiWrapperUpdated(_multiWrapper);
         for (uint256 i = 0; i < existingOracles.length; i++) {
@@ -146,8 +146,8 @@ contract OffchainOracle is Ownable {
         require(srcToken != dstToken, "Tokens should not be the same");
         uint256 totalWeight;
         (IOracle[] memory allOracles, ) = oracles();
-        (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = getWrappedTokens(srcToken, useSrcWrappers);
-        (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = getWrappedTokens(dstToken, useDstWrappers);
+        (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useSrcWrappers);
+        (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = _getWrappedTokens(dstToken, useDstWrappers);
 
         for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
             for (uint256 k2 = 0; k2 < wrappedDstTokens.length; k2++) {
@@ -172,7 +172,7 @@ contract OffchainOracle is Ownable {
     /// @dev Same as `getRate` but checks against `ETH` and `WETH` only
     function getRateToEth(IERC20 srcToken, bool useSrcWrappers) external view returns (uint256 weightedRate) {
         uint256 totalWeight;
-        (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = getWrappedTokens(srcToken, useSrcWrappers);
+        (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useSrcWrappers);
         IERC20[2] memory wrappedDstTokens = [_BASE, _wBase];
         bytes32[][2] memory wrappedOracles = [_ethOracles._inner._values, _wethOracles._inner._values];
 
@@ -196,7 +196,7 @@ contract OffchainOracle is Ownable {
         weightedRate = weightedRate.div(totalWeight);
     }
 
-    function getWrappedTokens(IERC20 token, bool useWrappers) internal view returns (IERC20[] memory wrappedTokens, uint256[] memory rates) {
+    function _getWrappedTokens(IERC20 token, bool useWrappers) internal view returns (IERC20[] memory wrappedTokens, uint256[] memory rates) {
         if (useWrappers) {
             return multiWrapper.getWrappedTokens(token);
         }
