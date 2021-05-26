@@ -29,22 +29,22 @@ contract OffchainOracle is Ownable {
     IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private immutable _wBase;
 
-    constructor(MultiWrapper _multiWrapper, IOracle[] memory existingOracles, OracleType[] memory oracleKinds, IERC20[] memory existingConnectors, IERC20 wBase) {
-        require(existingOracles.length == oracleKinds.length, "Arrays length mismatch");
+    constructor(MultiWrapper _multiWrapper, IOracle[] memory existingOracles, OracleType[] memory oracleTypes, IERC20[] memory existingConnectors, IERC20 wBase) {
+        require(existingOracles.length == oracleTypes.length, "Arrays length mismatch");
         multiWrapper = _multiWrapper;
         emit MultiWrapperUpdated(_multiWrapper);
         for (uint256 i = 0; i < existingOracles.length; i++) {
-            if (oracleKinds[i] == OracleType.WETH) {
+            if (oracleTypes[i] == OracleType.WETH) {
                 require(_wethOracles.add(address(existingOracles[i])), "Oracle already added");
-            } else if (oracleKinds[i] == OracleType.ETH) {
+            } else if (oracleTypes[i] == OracleType.ETH) {
                 require(_ethOracles.add(address(existingOracles[i])), "Oracle already added");
-            } else if (oracleKinds[i] == OracleType.WETH_ETH) {
+            } else if (oracleTypes[i] == OracleType.WETH_ETH) {
                 require(_wethOracles.add(address(existingOracles[i])), "Oracle already added");
                 require(_ethOracles.add(address(existingOracles[i])), "Oracle already added");
             } else {
                 revert("Invalid OracleTokenKind");
             }
-            emit OracleAdded(existingOracles[i], oracleKinds[i]);
+            emit OracleAdded(existingOracles[i], oracleTypes[i]);
         }
         for (uint256 i = 0; i < existingConnectors.length; i++) {
             require(_connectors.add(address(existingConnectors[i])), "Connector already added");
@@ -53,12 +53,12 @@ contract OffchainOracle is Ownable {
         _wBase = wBase;
     }
 
-    function oracles() public view returns (IOracle[] memory allOracles, OracleType[] memory oracleKinds) {
+    function oracles() public view returns (IOracle[] memory allOracles, OracleType[] memory oracleTypes) {
         IOracle[] memory oraclesBuffer = new IOracle[](_wethOracles._inner._values.length + _ethOracles._inner._values.length);
-        OracleType[] memory oracleKindsBuffer = new OracleType[](oraclesBuffer.length);
+        OracleType[] memory oracleTypesBuffer = new OracleType[](oraclesBuffer.length);
         for (uint256 i = 0; i < _wethOracles._inner._values.length; i++) {
             oraclesBuffer[i] = IOracle(uint256(_wethOracles._inner._values[i]));
-            oracleKindsBuffer[i] = OracleType.WETH;
+            oracleTypesBuffer[i] = OracleType.WETH;
         }
 
         uint256 actualItemsCount = _wethOracles._inner._values.length;
@@ -78,14 +78,14 @@ contract OffchainOracle is Ownable {
                 actualItemsCount++;
             }
             oraclesBuffer[oracleIndex] = oracle;
-            oracleKindsBuffer[oracleIndex] = kind;
+            oracleTypesBuffer[oracleIndex] = kind;
         }
 
         allOracles = new IOracle[](actualItemsCount);
-        oracleKinds = new OracleType[](actualItemsCount);
+        oracleTypes = new OracleType[](actualItemsCount);
         for (uint256 i = 0; i < actualItemsCount; i++) {
             allOracles[i] = oraclesBuffer[i];
-            oracleKinds[i] = oracleKindsBuffer[i];
+            oracleTypes[i] = oracleTypesBuffer[i];
         }
     }
 
