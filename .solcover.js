@@ -4,6 +4,5 @@ module.exports = {
     mocha: {
         grep: "_GasCheck",
         invert: true,
-        timeout: 50000,
     },
 }
