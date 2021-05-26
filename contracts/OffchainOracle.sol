@@ -153,22 +153,31 @@ contract OffchainOracle is Ownable {
 
         for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
             for (uint256 k2 = 0; k2 < wrappedDstTokens.length; k2++) {
+                uint256 wrapRate = srcRates[k1].mul(dstRates[k2]);
                 if (wrappedSrcTokens[k1] == wrappedDstTokens[k2]) {
-                    return srcRates[k1].mul(dstRates[k2]).div(1e18);
+                    return wrapRate.div(1e18);
                 }
-                for (uint256 i = 0; i < allOracles.length; i++) {
-                    for (uint256 j = 0; j < _connectors._inner._values.length; j++) {
+                for (uint256 j = 0; j < _connectors._inner._values.length; j++) {
+                    {
+                        IERC20 connector = IERC20(uint256(_connectors._inner._values[j]));
+                        if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
+                            continue;
+                        }
+                    }
+                    for (uint256 i = 0; i < allOracles.length; i++) {
                         try allOracles[i].getRate(wrappedSrcTokens[k1], wrappedDstTokens[k2], IERC20(uint256(_connectors._inner._values[j]))) returns (uint256 rate, uint256 weight) {
-                            rate = rate.mul(srcRates[k1]).mul(dstRates[k2]).div(1e18).div(1e18);
+                            rate = rate.mul(wrapRate).div(1e36);
                             weight = weight.mul(weight);
                             weightedRate = weightedRate.add(rate.mul(weight));
                             totalWeight = totalWeight.add(weight);
-                        } catch {continue;}
+                        } catch {}  // solhint-disable-line no-empty-blocks
                     }
                 }
             }
         }
-        weightedRate = weightedRate.div(totalWeight);
+        if (totalWeight > 0) {
+            weightedRate = weightedRate.div(totalWeight);
+        }
     }
 
     /// @dev Same as `getRate` but checks against `ETH` and `WETH` only
@@ -183,19 +192,25 @@ contract OffchainOracle is Ownable {
                 if (wrappedSrcTokens[k1] == wrappedDstTokens[k2]) {
                     return srcRates[k1];
                 }
-                for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
-                    for (uint256 j = 0; j < _connectors._inner._values.length; j++) {
-                        try IOracle(uint256(wrappedOracles[k2][i])).getRate(wrappedSrcTokens[k1], wrappedDstTokens[k2], IERC20(uint256(_connectors._inner._values[j]))) returns (uint256 rate, uint256 weight) {
+                for (uint256 j = 0; j < _connectors._inner._values.length; j++) {
+                    IERC20 connector = IERC20(uint256(_connectors._inner._values[j]));
+                    if (connector == wrappedSrcTokens[k1] || connector == _BASE || connector == _wBase) {
+                        continue;
+                    }
+                    for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
+                        try IOracle(uint256(wrappedOracles[k2][i])).getRate(wrappedSrcTokens[k1], wrappedDstTokens[k2], connector) returns (uint256 rate, uint256 weight) {
                             rate = rate.mul(srcRates[k1]).div(1e18);
                             weight = weight.mul(weight);
                             weightedRate = weightedRate.add(rate.mul(weight));
                             totalWeight = totalWeight.add(weight);
-                        } catch {continue;}
+                        } catch {}  // solhint-disable-line no-empty-blocks
                     }
                 }
             }
         }
-        weightedRate = weightedRate.div(totalWeight);
+        if (totalWeight > 0) {
+            weightedRate = weightedRate.div(totalWeight);
+        }
     }
 
     function _getWrappedTokens(IERC20 token, bool useWrappers) internal view returns (IERC20[] memory wrappedTokens, uint256[] memory rates) {
