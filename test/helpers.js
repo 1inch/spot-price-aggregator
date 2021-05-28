@@ -25,7 +25,7 @@ const tokens = {
 function assertRoughlyEquals (x, y, significantDigits) {
     const xBN = new BN(x);
     const yBN = new BN(y);
-    var valid;
+    let valid;
     if (xBN.gt(yBN)) {
         valid = xBN.sub(yBN).mul((new BN('10')).pow(new BN(significantDigits.toString()))).lt(yBN);
     } else {

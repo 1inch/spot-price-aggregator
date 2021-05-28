@@ -10,9 +10,9 @@ const oracles = {
 };
 
 const connectors = [
-    tokens.ETH,  // MATIC
+    tokens.ETH, // MATIC
     tokens.NONE,
-    '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',  // WMATIC
+    '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', // WMATIC
 ];
 
 const multiWrapper = '0x54431918cEC22932fCF97E54769F4E00f646690F';
@@ -37,7 +37,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             (new BN('0')).toString(),
         ],
         connectors,
-        '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',  // WMATIC
+        '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', // WMATIC
     ];
 
     const offchainOracle = await deploy('OffchainOracle', {

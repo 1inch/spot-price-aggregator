@@ -14,14 +14,14 @@ const oracles = {
 };
 
 const connectors = [
-    tokens.ETH,  // BNB
+    tokens.ETH, // BNB
     tokens.NONE,
-    '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',  // WBNB
-    '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3',  // DAI
-    '0x2170Ed0880ac9A755fd29B2688956BD959F933F8',  // ETH
-    '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',  // USDC
-    '0x55d398326f99059fF775485246999027B3197955',  // USDT
-    '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56',  // BUSD
+    '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', // WBNB
+    '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3', // DAI
+    '0x2170Ed0880ac9A755fd29B2688956BD959F933F8', // ETH
+    '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', // USDC
+    '0x55d398326f99059fF775485246999027B3197955', // USDT
+    '0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56', // BUSD
 ];
 
 const multiWrapper = '0xA31bB36c5164B165f9c36955EA4CcBaB42B3B28E';
@@ -54,7 +54,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             (new BN('0')).toString(),
         ],
         connectors,
-        '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c',  // WBNB
+        '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', // WBNB
     ];
 
     const offchainOracle = await deploy('OffchainOracle', {
