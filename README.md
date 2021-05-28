@@ -73,6 +73,26 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 * USDT
 * BUSD
 
+### Polygon
+
+#### Oracle [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](https://explorer-mainnet.maticvigil.com/address/0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9/transactions)
+
+#### Supported DEXes
+
+* QuickSwap
+* ComethSwap
+* SushiSwap
+
+#### Supported wrappers
+
+* AAVE
+* WMATIC
+
+#### Supported connectors
+
+* MATIC
+* WMATIC
+
 ### Kovan
 
 #### Oracle [0x29BC86Ad68bB3BD3d54841a8522e0020C1882C22](https://kovan.etherscan.io/address/0x29BC86Ad68bB3BD3d54841a8522e0020C1882C22)
