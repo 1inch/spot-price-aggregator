@@ -47,7 +47,7 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 
 ### Binance Smart Chain
 
-#### Oracle [0xe26A18b00E4827eD86bc136B2c1e95D5ae115edD](https://bscscan.com/address/0xe26A18b00E4827eD86bc136B2c1e95D5ae115edD)
+#### Oracle [0xfbD61B037C325b959c0F6A7e69D8f37770C2c550](https://bscscan.com/address/0xfbD61B037C325b959c0F6A7e69D8f37770C2c550)
 
 #### Supported DEXes
 
