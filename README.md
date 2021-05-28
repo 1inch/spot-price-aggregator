@@ -14,12 +14,11 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 
 ### Ethereum Mainnet
 
-#### Oracle [0x080ab73787a8b13ec7f40bd7d00d6cc07f9b24d0](https://etherscan.io/address/0x080ab73787a8b13ec7f40bd7d00d6cc07f9b24d0)
+#### Oracle [0x07D91f5fb9Bf7798734C3f606dB065549F6893bb](https://etherscan.io/address/0x07D91f5fb9Bf7798734C3f606dB065549F6893bb)
 
 #### Supported DEXes
 
 * Mooniswap
-* 1inch Liquidity Protocol V1
 * 1inch Liquidity Protocol V1.1
 * Uniswap V1
 * Uniswap V2
