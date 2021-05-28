@@ -32,4 +32,7 @@ module.exports = {
         enable: true,
         currency: 'USD',
     },
+    mocha: {
+        timeout: 90000,
+    },
 };

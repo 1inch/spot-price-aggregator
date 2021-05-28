@@ -1,3 +1,6 @@
+const { BN } = require('@openzeppelin/test-helpers/src/setup');
+const { assert } = require('chai');
+
 const tokens = {
     DAI: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
     WETH: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
@@ -19,6 +22,19 @@ const tokens = {
     COMP: '0xc00e94Cb662C3520282E6f5717214004A7f26888',
 };
 
+function assertRoughlyEquals (x, y, significantDigits) {
+    const xBN = new BN(x);
+    const yBN = new BN(y);
+    let valid;
+    if (xBN.gt(yBN)) {
+        valid = xBN.sub(yBN).mul((new BN('10')).pow(new BN(significantDigits.toString()))).lt(yBN);
+    } else {
+        valid = yBN.sub(xBN).mul((new BN('10')).pow(new BN(significantDigits.toString()))).lt(xBN);
+    }
+    assert.isTrue(valid, `${x} != ${y} with at least ${significantDigits} significant digits`);
+}
+
 module.exports = {
     tokens,
+    assertRoughlyEquals,
 };
