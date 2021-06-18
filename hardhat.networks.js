@@ -3,9 +3,6 @@ const networks = {
         forking: {
             url: process.env.MAINNET_RPC_URL,
         },
-        accounts: {
-            mnemonic: 'test test test test test test test test test test test junk',
-        },
         gasPrice: 1000000000,
         blockGasLimit: 1000000000,
     },
