@@ -12,7 +12,7 @@ if (process.env.MAINNET_RPC_URL && process.env.MAINNET_PRIVATE_KEY) {
     networks.mainnet = {
         url: process.env.MAINNET_RPC_URL,
         chainId: 1,
-        gasPrice: 45000000000,
+        gasPrice: 16000000000,
         accounts: [process.env.MAINNET_PRIVATE_KEY],
     };
 }
