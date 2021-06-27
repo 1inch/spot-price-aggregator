@@ -21,7 +21,7 @@ contract UniswapV3LikeOracle is IOracle {
         require(tokens0.length == pools.length, "UniV3O: invalid pools length");
         for (uint i = 0; i < tokens0.length; i++) {
             require(address(tokens0[i]) == pools[i].token0(), "UniV3O: token source mismatch");
-            require(address(tokens1[i]) == pools[i].token1(), "UniV3O: token source mismatch");
+            require(address(tokens1[i]) == pools[i].token1(), "UniV3O: token target mismatch");
             token0ToToken1ToUniswapV3Pool[tokens0[i]][tokens1[i]] = pools[i];
         }
     }
@@ -44,6 +44,6 @@ contract UniswapV3LikeOracle is IOracle {
     function _getRate(IERC20 srcToken, IERC20 dstToken) internal view returns (uint256 rate, uint256 liquidity) {
         IUniswapV3Pool pool = token0ToToken1ToUniswapV3Pool[srcToken][dstToken];
         (uint160 sqrtPriceX96,,,,,, ) = pool.slot0();
-        return (sqrtPriceX96, pool.liquidity());
+        return (uint256(sqrtPriceX96).sqrt(), pool.liquidity());
     }
 }
