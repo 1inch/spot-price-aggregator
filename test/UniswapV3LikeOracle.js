@@ -1,6 +1,6 @@
 const { BN, ether } = require('@openzeppelin/test-helpers');
 const { expect } = require('chai');
-const { tokens, assertRoughlyEquals } = require('./helpers.js');
+const { tokens, assertRoughlyEquals, getUniswapV3Fee } = require('./helpers.js');
 
 const UniswapV2LikeOracle = artifacts.require('UniswapV2LikeOracle');
 const UniswapV3LikeOracle = artifacts.require('UniswapV3LikeOracle');
@@ -16,11 +16,14 @@ describe('UniswapV3LikeOracle', async function () {
 
     it.only('dai -> weth', async function () {
         const v2Result = await this.uniswapV2LikeOracle.getRate(tokens.DAI, tokens.WETH, tokens.NONE);
-        const v3Result = await this.uniswapV3LikeOracle.getRate(tokens.DAI, tokens.WETH, tokens.NONE, 3000);
-        console.log(v2Result.rate.toString());
-        console.log(v2Result.weight.toString());
-        console.log(v3Result.rate.toString());
-        console.log(v3Result.weight.toString());
+        const v3Result = await this.uniswapV3LikeOracle.getRate(tokens.DAI, tokens.WETH, tokens.NONE, getUniswapV3Fee(0.3));
+        assertRoughlyEquals(v3Result.rate.toString(), v2Result.rate.toString(), 3);
+        assertRoughlyEquals(v3Result.weight.toString(), v2Result.weight.toString(), 3);
+    });
+
+    it.only('weth -> dai', async function () {
+        const v2Result = await this.uniswapV2LikeOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE);
+        const v3Result = await this.uniswapV3LikeOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE, getUniswapV3Fee(0.3));
         assertRoughlyEquals(v3Result.rate.toString(), v2Result.rate.toString(), 3);
         assertRoughlyEquals(v3Result.weight.toString(), v2Result.weight.toString(), 3);
     });

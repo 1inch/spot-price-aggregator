@@ -36,7 +36,12 @@ function assertRoughlyEquals (x, y, significantDigits) {
     }
 }
 
+function getUniswapV3Fee(percents) {
+    return new BN(percents*10000);
+}
+
 module.exports = {
     tokens,
     assertRoughlyEquals,
+    getUniswapV3Fee
 };
