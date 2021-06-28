@@ -7,32 +7,33 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "../interfaces/IOracle.sol";
 import "../libraries/Sqrt.sol";
 import "../interfaces/IUniswapV3Pool.sol";
+import "../interfaces/IUniswapV3Factory.sol";
 
-contract UniswapV3LikeOracle is IOracle {
+import "hardhat/console.sol";
+
+contract UniswapV3LikeOracle {
     using SafeMath for uint256;
+    using SafeMath for uint160;
     using Sqrt for uint256;
 
-    mapping(IERC20 => mapping(IERC20 => IUniswapV3Pool)) private token0ToToken1ToUniswapV3Pool;
-    IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
-    IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
+    IUniswapV3Factory public immutable factory;
+    address private constant _NONE = address(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 
-    constructor(IERC20[] memory tokens0, IERC20[] memory tokens1, IUniswapV3Pool[] memory pools) {
-        require(tokens0.length == tokens1.length, "UniV3O: invalid tokens length");
-        require(tokens0.length == pools.length, "UniV3O: invalid pools length");
-        for (uint i = 0; i < tokens0.length; i++) {
-            require(address(tokens0[i]) == pools[i].token0(), "UniV3O: token source mismatch");
-            require(address(tokens1[i]) == pools[i].token1(), "UniV3O: token target mismatch");
-            token0ToToken1ToUniswapV3Pool[tokens0[i]][tokens1[i]] = pools[i];
-        }
+    constructor(IUniswapV3Factory _factory) {
+        factory = _factory;
     }
 
-    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
+    function getRate(address srcToken, address dstToken, address connector, uint24 fee) external view returns (uint256 rate, uint256 weight) {
+        console.log("Bar");
+        IUniswapV3Pool pool = IUniswapV3Pool(factory.getPool(srcToken, dstToken, fee));
+        require(address(pool) != address(0), "UNI3O: Cannot find a pool");
+        console.log("Foo");
         if (connector == _NONE) {
-            return _getRate(srcToken, dstToken);
+            return _getRate(pool, srcToken, dstToken);
         }
 
-        (uint256 rate0, uint256 liquidity0) = _getRate(srcToken, connector);
-        (uint256 rate1, uint256 liquidity1) = _getRate(connector, dstToken);
+        (uint256 rate0, uint256 liquidity0) = _getRate(pool, srcToken, connector);
+        (uint256 rate1, uint256 liquidity1) = _getRate(pool, connector, dstToken);
         if (rate0 > rate1) {
             rate = rate0.mul(1e18).div(rate1);
         } else {
@@ -41,9 +42,9 @@ contract UniswapV3LikeOracle is IOracle {
         weight = liquidity0.mul(liquidity1).sqrt();
     }
 
-    function _getRate(IERC20 srcToken, IERC20 dstToken) internal view returns (uint256 rate, uint256 liquidity) {
-        IUniswapV3Pool pool = token0ToToken1ToUniswapV3Pool[srcToken][dstToken];
+    function _getRate(IUniswapV3Pool pool, address srcToken, address dstToken) internal view returns (uint256 rate, uint256 liquidity) {
         (uint160 sqrtPriceX96,,,,,, ) = pool.slot0();
-        return (uint256(sqrtPriceX96).sqrt(), pool.liquidity());
+        uint256 sqrtPriceScaled = uint256(sqrtPriceX96).mul(1e18) >> 96;
+        return (sqrtPriceScaled.mul(sqrtPriceScaled).div(1e18), pool.liquidity());
     }
 }
