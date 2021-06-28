@@ -31,7 +31,9 @@ function assertRoughlyEquals (x, y, significantDigits) {
     } else {
         valid = yBN.sub(xBN).mul((new BN('10')).pow(new BN(significantDigits.toString()))).lt(xBN);
     }
-    assert.isTrue(valid, `${x} != ${y} with at least ${significantDigits} significant digits`);
+    if (!valid) {
+        expect(x).to.be.bignumber.equal(y, `${x} != ${y} with at least ${significantDigits} significant digits`);
+    }
 }
 
 module.exports = {

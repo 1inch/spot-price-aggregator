@@ -22,5 +22,6 @@ describe('UniswapV3LikeOracle', async function () {
         console.log(v3Result.rate.toString());
         console.log(v3Result.weight.toString());
         assertRoughlyEquals(v3Result.rate.toString(), v2Result.rate.toString(), 3);
+        assertRoughlyEquals(v3Result.weight.toString(), v2Result.weight.toString(), 3);
     });
 });
