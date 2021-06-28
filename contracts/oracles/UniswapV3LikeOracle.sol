@@ -21,6 +21,7 @@ contract UniswapV3LikeOracle {
         factory = _factory;
     }
 
+    // @dev fee in ppm (e.g. 3000 for 0.3% fee)
     function getRate(address srcToken, address dstToken, address connector, uint24 fee) external view returns (uint256 rate, uint256 weight) {
         if (connector == _NONE) {
             return _getRate(srcToken, dstToken, fee);
