@@ -15,16 +15,17 @@ describe('UniswapV3LikeOracle', async function () {
     });
 
     it.only('dai -> weth', async function () {
-        const v2Result = await this.uniswapV2LikeOracle.getRate(tokens.DAI, tokens.WETH, tokens.NONE);
-        const v3Result = await this.uniswapV3LikeOracle.getRate(tokens.DAI, tokens.WETH, tokens.NONE, getUniswapV3Fee(0.3));
-        assertRoughlyEquals(v3Result.rate.toString(), v2Result.rate.toString(), 3);
-        assertRoughlyEquals(v3Result.weight.toString(), v2Result.weight.toString(), 3);
+        await testRate(this, tokens.DAI, tokens.WETH, tokens.NONE)
     });
 
     it.only('weth -> dai', async function () {
-        const v2Result = await this.uniswapV2LikeOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE);
-        const v3Result = await this.uniswapV3LikeOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE, getUniswapV3Fee(0.3));
+        await testRate(this, tokens.WETH, tokens.DAI, tokens.NONE)
+    });
+
+    async function testRate(self, srcToken, dstToken, connector) {
+        const v2Result = await self.uniswapV2LikeOracle.getRate(srcToken, dstToken, connector);
+        const v3Result = await self.uniswapV3LikeOracle.getRate(srcToken, dstToken, connector, getUniswapV3Fee(0.3));
         assertRoughlyEquals(v3Result.rate.toString(), v2Result.rate.toString(), 3);
         assertRoughlyEquals(v3Result.weight.toString(), v2Result.weight.toString(), 3);
-    });
+    }
 });
