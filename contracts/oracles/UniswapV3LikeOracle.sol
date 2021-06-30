@@ -42,7 +42,8 @@ contract UniswapV3LikeOracle {
             } else {
                 balance1 = balance1.mul(balanceConnector0).div(balanceConnector1);
             }
-            rate = rate0.mul(1e18).div(rate1);
+
+            rate = rate0.mul(rate1).div(1e18);
         }
 
         weight = balance0.mul(balance1).sqrt();
