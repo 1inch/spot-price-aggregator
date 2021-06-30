@@ -26,29 +26,39 @@ contract UniswapV3LikeOracle {
 
     // @dev fee in ppm (e.g. 3000 for 0.3% fee)
     function getRate(address srcToken, address dstToken, address connector, uint24 fee) external view returns (uint256 rate, uint256 weight) {
+        uint256 balance0;
+        uint256 balance1;
         if (connector == _NONE) {
-            return _getRate(srcToken, dstToken, fee);
+            (rate, balance0, balance1) = _getRate(srcToken, dstToken, fee);
+        } else {
+            uint256 balanceConnector0;
+            uint256 balanceConnector1;
+            uint256 rate0;
+            uint256 rate1;
+            (rate0, balance0, balanceConnector0) = _getRate(srcToken, connector, fee);
+            (rate1, balanceConnector1, balance1) = _getRate(connector, dstToken, fee);
+            if (balanceConnector0 > balanceConnector1) {
+                balance0 = balance0.mul(balanceConnector1).div(balanceConnector0);
+            } else {
+                balance1 = balance1.mul(balanceConnector0).div(balanceConnector1);
+            }
+            rate = rate0.mul(1e18).div(rate1);
         }
 
-        (uint256 rate0, uint256 weight0) = _getRate(srcToken, connector, fee);
-        (uint256 rate1, uint256 weight1) = _getRate(connector, dstToken, fee);
-        if (rate0 > rate1) {
-            rate = rate0.mul(1e18).div(rate1);
-        } else {
-            rate = rate1.mul(1e18).div(rate0);
-        }
-        weight = weight0.mul(weight1).sqrt();
+        weight = balance0.mul(balance1).sqrt();
     }
 
-    function _getRate(address srcToken, address dstToken, uint24 fee) internal view returns (uint256 rate, uint256 weight) {
+    function _getRate(address srcToken, address dstToken, uint24 fee) internal view returns (uint256 rate, uint256 srcBalance, uint256 dstBalance) {
         IUniswapV3Pool pool = IUniswapV3Pool(factory.getPool(srcToken, dstToken, fee));
         require(address(pool) != address(0), "UNI3O: Cannot find a pool");
         (uint160 sqrtPriceX96,,,,,, ) = pool.slot0();
         uint256 sqrtPriceScaled = uint256(sqrtPriceX96).mul(1e18) >> 96;
         rate = sqrtPriceScaled.mul(sqrtPriceScaled).div(1e18);
-        uint256 srcBalance = balance(pool, srcToken);
-        uint256 dstBalance = balance(pool, dstToken);
-        weight = srcBalance.mul(dstBalance).sqrt().mul(3138).div(1000);
+        if (dstToken == pool.token0()) {
+            rate = uint256(1e18*1e18).div(rate);
+        }
+        srcBalance = balance(pool, srcToken);
+        dstBalance = balance(pool, dstToken);
     }
 
     function balance(IUniswapV3Pool pool, address token) private view returns (uint256) {
