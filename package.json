@@ -36,6 +36,7 @@
         "test": "hardhat test --show-stack-traces",
         "clean": "rimraf artifacts cache coverage",
         "deploy": "hardhat deploy --network",
+        "deploy:test": "hardhat deploy",
         "coverage": "hardhat coverage",
         "lint:js": "eslint .",
         "lint:js:fix": "eslint . --fix",
