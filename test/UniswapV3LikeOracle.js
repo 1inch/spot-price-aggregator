@@ -1,5 +1,4 @@
-const { BN, ether } = require('@openzeppelin/test-helpers');
-const { expect } = require('chai');
+const { BN } = require('@openzeppelin/test-helpers');
 const { tokens, assertRoughlyEquals, getUniswapV3Fee } = require('./helpers.js');
 
 const UniswapV2LikeOracle = artifacts.require('UniswapV2LikeOracle');
@@ -22,51 +21,51 @@ describe('UniswapV3LikeOracle', async function () {
         this.uniswapV3LikeOracle = await UniswapV3LikeOracle.new(uniswapV3Factory, [
             getUniswapV3Fee(0.05),
             getUniswapV3Fee(0.3),
-            getUniswapV3Fee(1.0)
+            getUniswapV3Fee(1.0),
         ]);
     });
 
     it('dai -> weth', async function () {
-        await testRate(this, tokens.DAI, tokens.WETH, tokens.NONE)
+        await testRate(this, tokens.DAI, tokens.WETH, tokens.NONE);
     });
 
     it('weth -> dai', async function () {
-        await testRate(this, tokens.WETH, tokens.DAI, tokens.NONE)
+        await testRate(this, tokens.WETH, tokens.DAI, tokens.NONE);
     });
 
     it('WETH -> USDT', async function () {
-        await testRate(this, tokens.WETH, tokens.USDT, tokens.NONE)
+        await testRate(this, tokens.WETH, tokens.USDT, tokens.NONE);
     });
 
     it('USDT -> WETH', async function () {
-        await testRate(this, tokens.USDT, tokens.WETH, tokens.NONE)
+        await testRate(this, tokens.USDT, tokens.WETH, tokens.NONE);
     });
 
     it('UNI -> WETH', async function () {
-        await testRate(this, tokens.UNI, tokens.WETH, tokens.NONE)
+        await testRate(this, tokens.UNI, tokens.WETH, tokens.NONE);
     });
 
     it('WETH -> UNI', async function () {
-        await testRate(this, tokens.WETH, tokens.UNI, tokens.NONE)
+        await testRate(this, tokens.WETH, tokens.UNI, tokens.NONE);
     });
 
     it('AAVE -> WETH', async function () {
-        await testRate(this, tokens.AAVE, tokens.WETH, tokens.NONE)
+        await testRate(this, tokens.AAVE, tokens.WETH, tokens.NONE);
     });
 
     it('WETH -> AAVE', async function () {
-        await testRate(this, tokens.WETH, tokens.AAVE, tokens.NONE)
+        await testRate(this, tokens.WETH, tokens.AAVE, tokens.NONE);
     });
 
     it('weth -> usdc -> dai', async function () {
-        await testRate(this, tokens.WETH, tokens.DAI, tokens.USDC)
+        await testRate(this, tokens.WETH, tokens.DAI, tokens.USDC);
     });
 
     it('dai -> usdc -> weth', async function () {
-        await testRate(this, tokens.DAI, tokens.WETH, tokens.USDC)
+        await testRate(this, tokens.DAI, tokens.WETH, tokens.USDC);
     });
 
-    async function testRate(self, srcToken, dstToken, connector) {
+    async function testRate (self, srcToken, dstToken, connector) {
         const v2Result = await self.uniswapV2LikeOracle.getRate(srcToken, dstToken, connector);
         const v3Result = await self.uniswapV3LikeOracle.getRateForFee(srcToken, dstToken, connector, getUniswapV3Fee(0.3));
         assertRoughlyEquals(v3Result.rate.toString(), v2Result.rate.toString(), 2);
@@ -79,7 +78,7 @@ describe('UniswapV3LikeOracle doesn\'t ruin rates', async function () {
         this.uniswapV3LikeOracle = await UniswapV3LikeOracle.new(uniswapV3Factory, [
             getUniswapV3Fee(0.05),
             getUniswapV3Fee(0.3),
-            getUniswapV3Fee(1.0)
+            getUniswapV3Fee(1.0),
         ]);
         this.uniswapOracle = await UniswapOracle.new('0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95');
         this.mooniswapOracle = await MooniswapOracle.new(oneInchLP1);
@@ -160,7 +159,7 @@ describe('UniswapV3LikeOracle doesn\'t ruin rates', async function () {
         await testRate(this, tokens.USDC, tokens.WETH);
     });
 
-    async function testRate(self, srcToken, dstToken) {
+    async function testRate (self, srcToken, dstToken) {
         const expectedRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true);
         const actualRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true);
         const expectedReverseRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true);

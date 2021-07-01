@@ -1,5 +1,4 @@
 const { BN } = require('@openzeppelin/test-helpers/src/setup');
-const { assert } = require('chai');
 
 const tokens = {
     DAI: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
@@ -36,12 +35,12 @@ function assertRoughlyEquals (x, y, significantDigits) {
     }
 }
 
-function getUniswapV3Fee(percents) {
-    return new BN(percents*10000);
+function getUniswapV3Fee (percents) {
+    return new BN(percents * 10000);
 }
 
 module.exports = {
     tokens,
     assertRoughlyEquals,
-    getUniswapV3Fee
+    getUniswapV3Fee,
 };

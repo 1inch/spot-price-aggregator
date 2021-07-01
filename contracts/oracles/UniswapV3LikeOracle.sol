@@ -19,20 +19,20 @@ contract UniswapV3LikeOracle is IOracle {
 
     IUniswapV3Factory public immutable factory;
     address private constant _NONE = address(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
-    uint24[] private defaultFees;
+    uint24[] private _defaultFees;
 
-    constructor(IUniswapV3Factory _factory, uint24[] memory _defaultFees) {
+    constructor(IUniswapV3Factory _factory, uint24[] memory defaultFees) {
         factory = _factory;
-        defaultFees = _defaultFees;
+        _defaultFees = defaultFees;
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
         uint256 weightedRate = 0;
         uint256 totalWeight = 0;
-        for (uint256 i = 0; i < defaultFees.length; i++) {
-            (uint256 rate_i, uint256 weight_i) = getRateForFee(address(srcToken), address(dstToken), address(connector), defaultFees[i]);
-            weightedRate = weightedRate.add(rate_i.mul(weight_i));
-            totalWeight = totalWeight.add(weight_i);
+        for (uint256 i = 0; i < _defaultFees.length; i++) {
+            (uint256 rateForFee, uint256 weightForFee) = getRateForFee(address(srcToken), address(dstToken), address(connector), _defaultFees[i]);
+            weightedRate = weightedRate.add(rateForFee.mul(weightForFee));
+            totalWeight = totalWeight.add(weightForFee);
         }
         rate = weightedRate.div(totalWeight);
         weight = totalWeight;
@@ -72,14 +72,14 @@ contract UniswapV3LikeOracle is IOracle {
         if (dstToken == pool.token0()) {
             rate = uint256(1e18*1e18).div(rate);
         }
-        srcBalance = balance(pool, srcToken);
-        dstBalance = balance(pool, dstToken);
+        srcBalance = _balance(pool, srcToken);
+        dstBalance = _balance(pool, dstToken);
     }
 
-    function balance(IUniswapV3Pool pool, address token) private view returns (uint256) {
+    function _balance(IUniswapV3Pool pool, address token) private view returns (uint256) {
         (bool success, bytes memory data) =
         token.staticcall(abi.encodeWithSelector(IERC20Minimal.balanceOf.selector, address(pool)));
-        require(success && data.length >= 32);
+        require(success && data.length >= 32, "UNI3O: invalid balance response");
         return abi.decode(data, (uint256));
     }
 }
