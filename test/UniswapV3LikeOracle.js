@@ -19,7 +19,11 @@ const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 describe('UniswapV3LikeOracle', async function () {
     before(async function () {
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
-        this.uniswapV3LikeOracle = await UniswapV3LikeOracle.new(uniswapV3Factory);
+        this.uniswapV3LikeOracle = await UniswapV3LikeOracle.new(uniswapV3Factory, [
+            getUniswapV3Fee(0.05),
+            getUniswapV3Fee(0.3),
+            getUniswapV3Fee(1.0)
+        ]);
     });
 
     it('dai -> weth', async function () {
@@ -64,7 +68,7 @@ describe('UniswapV3LikeOracle', async function () {
 
     async function testRate(self, srcToken, dstToken, connector) {
         const v2Result = await self.uniswapV2LikeOracle.getRate(srcToken, dstToken, connector);
-        const v3Result = await self.uniswapV3LikeOracle.getRate(srcToken, dstToken, connector, getUniswapV3Fee(0.3));
+        const v3Result = await self.uniswapV3LikeOracle.getRateForFee(srcToken, dstToken, connector, getUniswapV3Fee(0.3));
         assertRoughlyEquals(v3Result.rate.toString(), v2Result.rate.toString(), 2);
     }
 });
@@ -72,7 +76,11 @@ describe('UniswapV3LikeOracle', async function () {
 describe('UniswapV3LikeOracle doesn\'t ruin rates', async function () {
     before(async function () {
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
-        this.uniswapV3LikeOracle = await UniswapV3LikeOracle.new(uniswapV3Factory);
+        this.uniswapV3LikeOracle = await UniswapV3LikeOracle.new(uniswapV3Factory, [
+            getUniswapV3Fee(0.05),
+            getUniswapV3Fee(0.3),
+            getUniswapV3Fee(1.0)
+        ]);
         this.uniswapOracle = await UniswapOracle.new('0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95');
         this.mooniswapOracle = await MooniswapOracle.new(oneInchLP1);
 
@@ -157,7 +165,7 @@ describe('UniswapV3LikeOracle doesn\'t ruin rates', async function () {
         const actualRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true);
         const expectedReverseRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true);
         const actualReverseRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true);
-        expect(actualRate).to.be.bignumber.equal(expectedRate.toString());
-        expect(actualReverseRate).to.be.bignumber.equal(expectedReverseRate.toString());
+        assertRoughlyEquals(actualRate.toString(), expectedRate.toString(), 3);
+        assertRoughlyEquals(actualReverseRate.toString(), expectedReverseRate.toString(), 3);
     }
 });

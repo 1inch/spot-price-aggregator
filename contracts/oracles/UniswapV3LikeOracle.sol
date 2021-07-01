@@ -12,20 +12,34 @@ import "../interfaces/IERC20Minimal.sol";
 
 import "hardhat/console.sol";
 
-contract UniswapV3LikeOracle {
+contract UniswapV3LikeOracle is IOracle {
     using SafeMath for uint256;
     using SafeMath for uint160;
     using Sqrt for uint256;
 
     IUniswapV3Factory public immutable factory;
     address private constant _NONE = address(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
+    uint24[] private defaultFees;
 
-    constructor(IUniswapV3Factory _factory) {
+    constructor(IUniswapV3Factory _factory, uint24[] memory _defaultFees) {
         factory = _factory;
+        defaultFees = _defaultFees;
+    }
+
+    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
+        uint256 weightedRate = 0;
+        uint256 totalWeight = 0;
+        for (uint256 i = 0; i < defaultFees.length; i++) {
+            (uint256 rate_i, uint256 weight_i) = getRateForFee(address(srcToken), address(dstToken), address(connector), defaultFees[i]);
+            weightedRate = weightedRate.add(rate_i.mul(weight_i));
+            totalWeight = totalWeight.add(weight_i);
+        }
+        rate = weightedRate.div(totalWeight);
+        weight = totalWeight;
     }
 
     // @dev fee in ppm (e.g. 3000 for 0.3% fee)
-    function getRate(address srcToken, address dstToken, address connector, uint24 fee) external view returns (uint256 rate, uint256 weight) {
+    function getRateForFee(address srcToken, address dstToken, address connector, uint24 fee) public view returns (uint256 rate, uint256 weight) {
         uint256 balance0;
         uint256 balance1;
         if (connector == _NONE) {
