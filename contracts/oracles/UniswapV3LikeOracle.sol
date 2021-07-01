@@ -59,7 +59,7 @@ contract UniswapV3LikeOracle is IOracle {
 
     function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint256 srcBalance, uint256 dstBalance) {
         IUniswapV3Pool pool = factory.getPool(srcToken, dstToken, fee);
-        require(address(pool) != address(0), "UNI3O: Cannot find a pool");
+        require(pool != IUniswapV3Pool(0), "UNI3O: Cannot find a pool");
         (uint256 sqrtPriceX96,,,,,, ) = pool.slot0();
         uint256 sqrtPriceScaled = sqrtPriceX96.mul(1e18) >> 96;
         rate = sqrtPriceScaled.mul(sqrtPriceScaled).div(1e18);
