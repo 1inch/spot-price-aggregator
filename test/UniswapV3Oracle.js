@@ -2,7 +2,7 @@ const { BN } = require('@openzeppelin/test-helpers');
 const { tokens, assertRoughlyEquals, getUniswapV3Fee } = require('./helpers.js');
 
 const UniswapV2LikeOracle = artifacts.require('UniswapV2LikeOracle');
-const UniswapV3LikeOracle = artifacts.require('UniswapV3LikeOracle');
+const UniswapV3Oracle = artifacts.require('UniswapV3Oracle');
 const UniswapOracle = artifacts.require('UniswapOracle');
 const BaseCoinWrapper = artifacts.require('BaseCoinWrapper');
 const MooniswapOracle = artifacts.require('MooniswapOracle');
@@ -15,10 +15,10 @@ const uniswapV3Factory = '0x1F98431c8aD98523631AE4a59f267346ea31F984';
 const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
 const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 
-describe('UniswapV3LikeOracle', async function () {
+describe('UniswapV3Oracle', async function () {
     before(async function () {
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
-        this.uniswapV3LikeOracle = await UniswapV3LikeOracle.new(uniswapV3Factory, [
+        this.uniswapV3Oracle = await UniswapV3Oracle.new(uniswapV3Factory, [
             getUniswapV3Fee(0.05),
             getUniswapV3Fee(0.3),
             getUniswapV3Fee(1.0),
@@ -67,15 +67,15 @@ describe('UniswapV3LikeOracle', async function () {
 
     async function testRate (self, srcToken, dstToken, connector) {
         const v2Result = await self.uniswapV2LikeOracle.getRate(srcToken, dstToken, connector);
-        const v3Result = await self.uniswapV3LikeOracle.getRateForFee(srcToken, dstToken, connector, getUniswapV3Fee(0.3));
+        const v3Result = await self.uniswapV3Oracle.getRateForFee(srcToken, dstToken, connector, getUniswapV3Fee(0.3));
         assertRoughlyEquals(v3Result.rate.toString(), v2Result.rate.toString(), 2);
     }
 });
 
-describe('UniswapV3LikeOracle doesn\'t ruin rates', async function () {
+describe('UniswapV3Oracle doesn\'t ruin rates', async function () {
     before(async function () {
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
-        this.uniswapV3LikeOracle = await UniswapV3LikeOracle.new(uniswapV3Factory, [
+        this.uniswapV3Oracle = await UniswapV3Oracle.new(uniswapV3Factory, [
             getUniswapV3Fee(0.05),
             getUniswapV3Fee(0.3),
             getUniswapV3Fee(1.0),
@@ -124,7 +124,7 @@ describe('UniswapV3LikeOracle doesn\'t ruin rates', async function () {
                 this.uniswapV2LikeOracle.address,
                 this.uniswapOracle.address,
                 this.mooniswapOracle.address,
-                this.uniswapV3LikeOracle.address,
+                this.uniswapV3Oracle.address,
             ],
             [
                 (new BN('2')).toString(),

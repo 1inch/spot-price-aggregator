@@ -10,7 +10,7 @@ import "../interfaces/IUniswapV3Pool.sol";
 import "../libraries/Sqrt.sol";
 
 
-contract UniswapV3LikeOracle is IOracle {
+contract UniswapV3Oracle is IOracle {
     using SafeMath for uint256;
     using Sqrt for uint256;
 
