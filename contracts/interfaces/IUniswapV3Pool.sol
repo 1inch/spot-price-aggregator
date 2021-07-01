@@ -2,15 +2,10 @@
 
 pragma solidity ^0.7.6;
 
-import "./IUniswapV3PoolImmutables.sol";
-import "./IUniswapV3PoolState.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-/// @title The interface for a Uniswap V3 Pool
-/// @notice A Uniswap pool facilitates swapping and automated market making between any two assets that strictly conform
-/// to the ERC20 specification
-/// @dev The pool interface is broken up into many smaller pieces
-interface IUniswapV3Pool is // solhint-disable-line no-empty-blocks
-IUniswapV3PoolImmutables,
-IUniswapV3PoolState
-{
+
+interface IUniswapV3Pool {
+    function slot0() external view returns (uint160 sqrtPriceX96, int24, uint16, uint16, uint16, uint8, bool);
+    function token0() external view returns (IERC20 token);
 }
