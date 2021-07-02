@@ -1,4 +1,3 @@
-const { BN } = require('@openzeppelin/test-helpers');
 const { tokens, assertRoughlyEquals, getUniswapV3Fee } = require('./helpers.js');
 
 const UniswapV2LikeOracle = artifacts.require('UniswapV2LikeOracle');
