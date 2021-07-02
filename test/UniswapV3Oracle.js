@@ -104,9 +104,9 @@ describe('UniswapV3Oracle doesn\'t ruin rates', async function () {
                 this.mooniswapOracle.address,
             ],
             [
-                (new BN('2')).toString(),
-                (new BN('2')).toString(),
-                (new BN('2')).toString(),
+                '0',
+                '1',
+                '2',
             ],
             [
                 tokens.NONE,
@@ -127,10 +127,10 @@ describe('UniswapV3Oracle doesn\'t ruin rates', async function () {
                 this.uniswapV3Oracle.address,
             ],
             [
-                (new BN('2')).toString(),
-                (new BN('2')).toString(),
-                (new BN('2')).toString(),
-                (new BN('2')).toString(),
+                '0',
+                '1',
+                '2',
+                '0',
             ],
             [
                 tokens.NONE,
