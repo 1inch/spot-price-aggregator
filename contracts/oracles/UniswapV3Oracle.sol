@@ -29,7 +29,9 @@ contract UniswapV3Oracle is IOracle {
             rate = rate.add(rateForFee.mul(weightForFee));
             weight = weight.add(weightForFee);
         }
-        rate = rate.div(weight);
+        if (weight > 0) {
+            rate = rate.div(weight);
+        }
     }
 
     // @dev fee in ppm (e.g. 3000 for 0.3% fee)
@@ -45,6 +47,10 @@ contract UniswapV3Oracle is IOracle {
             uint256 rate1;
             (rate0, balance0, balanceConnector0) = _getRate(srcToken, connector, fee);
             (rate1, balanceConnector1, balance1) = _getRate(connector, dstToken, fee);
+            if (balance0 == 0 || balanceConnector0 == 0 || balanceConnector1 == 0 || balance1 == 0) {
+                return (0, 0);
+            }
+
             if (balanceConnector0 > balanceConnector1) {
                 balance0 = balance0.mul(balanceConnector1).div(balanceConnector0);
             } else {
@@ -59,7 +65,9 @@ contract UniswapV3Oracle is IOracle {
 
     function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint256 srcBalance, uint256 dstBalance) {
         IUniswapV3Pool pool = factory.getPool(srcToken, dstToken, fee);
-        require(pool != IUniswapV3Pool(0), "UNI3O: Cannot find a pool");
+        if (pool == IUniswapV3Pool(0)) {
+            return (0, 0, 0);
+        }
         (uint256 sqrtPriceX96,,,,,,) = pool.slot0();
         if (srcToken == pool.token0()) {
             rate = (uint256(1e18).mul(sqrtPriceX96) >> 96).mul(sqrtPriceX96) >> 96;
