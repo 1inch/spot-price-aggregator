@@ -46,8 +46,11 @@ contract UniswapV3Oracle is IOracle {
             uint256 rate0;
             uint256 rate1;
             (rate0, balance0, balanceConnector0) = _getRate(srcToken, connector, fee);
+            if (balance0 == 0 || balanceConnector0 == 0) {
+                return (0, 0);
+            }
             (rate1, balanceConnector1, balance1) = _getRate(connector, dstToken, fee);
-            if (balance0 == 0 || balanceConnector0 == 0 || balanceConnector1 == 0 || balance1 == 0) {
+            if (balanceConnector1 == 0 || balance1 == 0) {
                 return (0, 0);
             }
 
