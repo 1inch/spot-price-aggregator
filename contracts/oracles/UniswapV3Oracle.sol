@@ -4,33 +4,31 @@ pragma solidity 0.7.6;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
 import "../interfaces/IOracle.sol";
-import "../interfaces/IUniswapV3Factory.sol";
 import "../interfaces/IUniswapV3Pool.sol";
 import "../libraries/Sqrt.sol";
 
 
 contract UniswapV3Oracle is IOracle {
+    using Address for address;
     using SafeMath for uint256;
     using Sqrt for uint256;
 
-    IUniswapV3Factory public immutable factory;
+    bytes32 public constant POOL_INIT_CODE_HASH = 0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54;
+    address public constant FACTORY = 0x1F98431c8aD98523631AE4a59f267346ea31F984;
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
-    uint24[] private _defaultFees;
-
-    constructor(IUniswapV3Factory _factory, uint24[] memory defaultFees) {
-        factory = _factory;
-        _defaultFees = defaultFees;
-    }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
-        for (uint256 i = 0; i < _defaultFees.length; i++) {
-            (uint256 rateForFee, uint256 weightForFee) = getRateForFee(srcToken, dstToken, connector, _defaultFees[i]);
+        uint24[3] memory fees = [uint24(500), 3000, 10000];
+        for (uint256 i = 0; i < 3; i++) {
+            (uint256 rateForFee, uint256 weightForFee) = getRateForFee(srcToken, dstToken, connector, fees[i]);
             rate = rate.add(rateForFee.mul(weightForFee));
             weight = weight.add(weightForFee);
         }
         if (weight > 0) {
             rate = rate.div(weight);
+            weight = weight.sqrt();
         }
     }
 
@@ -63,21 +61,37 @@ contract UniswapV3Oracle is IOracle {
             rate = rate0.mul(rate1).div(1e18);
         }
 
-        weight = balance0.mul(balance1).sqrt();
+        weight = balance0.mul(balance1);
     }
 
     function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint256 srcBalance, uint256 dstBalance) {
-        IUniswapV3Pool pool = factory.getPool(srcToken, dstToken, fee);
-        if (pool == IUniswapV3Pool(0)) {
+        (IERC20 token0, IERC20 token1) = srcToken < dstToken ? (srcToken, dstToken) : (dstToken, srcToken);
+        address pool = _getPool(address(token0), address(token1), fee);
+        if (!pool.isContract()) {
             return (0, 0, 0);
         }
-        (uint256 sqrtPriceX96,,,,,,) = pool.slot0();
-        if (srcToken == pool.token0()) {
+        (uint256 sqrtPriceX96,,,,,,) = IUniswapV3Pool(pool).slot0();
+        if (srcToken == token0) {
             rate = (uint256(1e18).mul(sqrtPriceX96) >> 96).mul(sqrtPriceX96) >> 96;
         } else {
             rate = uint256(1e18 << 192).div(sqrtPriceX96).div(sqrtPriceX96);
         }
         srcBalance = srcToken.balanceOf(address(pool));
         dstBalance = dstToken.balanceOf(address(pool));
+    }
+
+    function _getPool(address token0, address token1, uint24 fee) private pure returns (address) {
+        return address(
+            uint256(
+                keccak256(
+                    abi.encodePacked(
+                        hex'ff',
+                        FACTORY,
+                        keccak256(abi.encode(token0, token1, fee)),
+                        POOL_INIT_CODE_HASH
+                    )
+                )
+            )
+        );
     }
 }
