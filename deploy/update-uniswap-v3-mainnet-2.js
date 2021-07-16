@@ -10,7 +10,6 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
     const offchainOracle = OffchainOracle.attach((await deployments.get('OffchainOracle')).address);
 
-
     const uniswapV3Oracle = await deploy('UniswapV3Oracle', {
         from: deployer,
         skipIfAlreadyDeployed: false,
