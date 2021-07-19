@@ -15,8 +15,8 @@ const token = {
 };
 
 offChainOracleContract.methods.getRateToEth(
-    token.address, //source token
-    true //use source wrappers
+    token.address, // source token
+    true, // use source wrappers
 ).call()
     .then((rate) => {
         const numerator = BigNumber.from(10).pow(token.decimals);
