@@ -34,9 +34,8 @@ const tokens = [
 
 const callData = tokens.map((token) => ({
     to: offChainOracleAddress,
-    data: offChainOracleContract.methods.getRate(
+    data: offChainOracleContract.methods.getRateToEth(
         token.address,
-        '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE', // rate to ETH
         true, // use wrapper
     ).encodeABI(),
 }));
