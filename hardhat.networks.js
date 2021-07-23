@@ -44,4 +44,14 @@ if (process.env.MATIC_RPC_URL && process.env.MATIC_PRIVATE_KEY) {
     };
 }
 
+if (process.env.OPTIMISM_KOVAN_RPC_URL && process.env.OPTIMISM_KOVAN_PRIVATE_KEY) {
+    networks['optimism-kovan'] = {
+        url: process.env.OPTIMISM_KOVAN_RPC_URL,
+        chainId: 69,
+        gasPrice: 0,
+        accounts: [process.env.OPTIMISM_KOVAN_PRIVATE_KEY],
+        ovm: true
+    };
+}
+
 module.exports = networks;

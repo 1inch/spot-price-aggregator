@@ -1,3 +1,4 @@
+require('@eth-optimism/hardhat-ovm');
 require('@nomiclabs/hardhat-ethers');
 require('@nomiclabs/hardhat-etherscan');
 require('@nomiclabs/hardhat-truffle5');
@@ -10,6 +11,9 @@ require('dotenv').config();
 const networks = require('./hardhat.networks');
 
 module.exports = {
+    ovm: {
+        solcVersion: '0.7.6',
+    },
     solidity: {
         version: '0.7.6',
         settings: {
