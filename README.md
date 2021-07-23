@@ -14,12 +14,11 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 
 ### Ethereum Mainnet
 
-#### Oracle [0x080ab73787a8b13ec7f40bd7d00d6cc07f9b24d0](https://etherscan.io/address/0x080ab73787a8b13ec7f40bd7d00d6cc07f9b24d0)
+#### Oracle [0x07D91f5fb9Bf7798734C3f606dB065549F6893bb](https://etherscan.io/address/0x07D91f5fb9Bf7798734C3f606dB065549F6893bb)
 
 #### Supported DEXes
 
 * Mooniswap
-* 1inch Liquidity Protocol V1
 * 1inch Liquidity Protocol V1.1
 * Uniswap V1
 * Uniswap V2
@@ -48,7 +47,7 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 
 ### Binance Smart Chain
 
-#### Oracle [0xe26A18b00E4827eD86bc136B2c1e95D5ae115edD](https://bscscan.com/address/0xe26A18b00E4827eD86bc136B2c1e95D5ae115edD)
+#### Oracle [0xfbD61B037C325b959c0F6A7e69D8f37770C2c550](https://bscscan.com/address/0xfbD61B037C325b959c0F6A7e69D8f37770C2c550)
 
 #### Supported DEXes
 
@@ -73,6 +72,26 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 * USDC
 * USDT
 * BUSD
+
+### Polygon
+
+#### Oracle [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](https://explorer-mainnet.maticvigil.com/address/0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9/transactions)
+
+#### Supported DEXes
+
+* QuickSwap
+* ComethSwap
+* SushiSwap
+
+#### Supported wrappers
+
+* AAVE
+* WMATIC
+
+#### Supported connectors
+
+* MATIC
+* WMATIC
 
 ### Kovan
 

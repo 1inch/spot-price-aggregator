@@ -9,7 +9,7 @@ const AWETHV2 = '0x030bA81f1c18d280636F32af80b9AAd02Cf0854e';
 
 describe('AaveWrapperV2', async function () {
     before(async function () {
-        this.aaveWrapper = await AaveWrapperV2.new();
+        this.aaveWrapper = await AaveWrapperV2.new('0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9');
         await this.aaveWrapper.addMarkets([tokens.DAI, tokens.WETH]);
     });
 
