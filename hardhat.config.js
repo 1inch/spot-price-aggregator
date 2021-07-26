@@ -12,7 +12,10 @@ const networks = require('./hardhat.networks');
 
 module.exports = {
     ovm: {
-        solcVersion: '0.7.6',
+        solcVersion: '0.7.6+commit.3b061308',
+    },
+    paths : {
+        artifacts: './artifacts-ovm'
     },
     solidity: {
         version: '0.7.6',

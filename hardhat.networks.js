@@ -48,7 +48,7 @@ if (process.env.OPTIMISM_KOVAN_RPC_URL && process.env.OPTIMISM_KOVAN_PRIVATE_KEY
     networks['optimism-kovan'] = {
         url: process.env.OPTIMISM_KOVAN_RPC_URL,
         chainId: 69,
-        gasPrice: 0,
+        gasPrice: 15000000,
         accounts: [process.env.OPTIMISM_KOVAN_PRIVATE_KEY],
         ovm: true
     };
