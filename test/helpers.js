@@ -39,7 +39,7 @@ function assertRoughlyEqualValues (x, y, relativeDiff) {
     const xBN = new BN(x);
     const yBN = new BN(y);
 
-    let multiplerNumerator = relativeDiff
+    let multiplerNumerator = relativeDiff;
     let multiplerDenominator = new BN('1');
     while (!Number.isInteger(multiplerNumerator)) {
         multiplerDenominator = multiplerDenominator.mul(new BN('10'));
