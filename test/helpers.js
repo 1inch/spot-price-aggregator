@@ -39,13 +39,14 @@ function assertRoughlyEqualValues (x, y, relativeDiff) {
     const xBN = new BN(x);
     const yBN = new BN(y);
 
-    let order = new BN('1');
-    while (!Number.isInteger(relativeDiff)) {
-        order = order.mul(new BN('10'));
-        relativeDiff *= 10;
+    let multiplerNumerator = relativeDiff
+    let multiplerDenominator = new BN('1');
+    while (!Number.isInteger(multiplerNumerator)) {
+        multiplerDenominator = multiplerDenominator.mul(new BN('10'));
+        multiplerNumerator *= 10;
     }
     const [min, max] = xBN.lt(yBN) ? [xBN, yBN] : [yBN, xBN];
-    return (max - min) < max.mul(new BN(relativeDiff)).div(order);
+    return (max - min) < max.mul(new BN(multiplerNumerator)).div(multiplerDenominator);
 }
 
 function getUniswapV3Fee (percents) {

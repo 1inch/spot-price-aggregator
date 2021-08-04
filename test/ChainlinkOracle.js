@@ -4,7 +4,7 @@ const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
 
 const ChainlinkOracle = artifacts.require('ChainlinkOracle');
 
-describe.only('ChainlinkOracle', async function () {
+describe('ChainlinkOracle', async function () {
     before(async function () {
         this.chainlinkOracle = await ChainlinkOracle.new('0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf');
     });
