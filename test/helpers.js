@@ -35,6 +35,19 @@ function assertRoughlyEquals (x, y, significantDigits) {
     }
 }
 
+function assertRoughlyEqualValues (x, y, relativeDiff) {
+    const xBN = new BN(x);
+    const yBN = new BN(y);
+
+    let order = new BN('1');
+    while (!Number.isInteger(relativeDiff)) {
+        order = order.mul(new BN('10'));
+        relativeDiff *= 10;
+    }
+    const [min, max] = xBN.lt(yBN) ? [xBN, yBN] : [yBN, xBN];
+    return (max - min) < max.mul(new BN(relativeDiff)).div(order);
+}
+
 function getUniswapV3Fee (percents) {
     return new BN(percents * 10000);
 }
@@ -42,5 +55,6 @@ function getUniswapV3Fee (percents) {
 module.exports = {
     tokens,
     assertRoughlyEquals,
+    assertRoughlyEqualValues,
     getUniswapV3Fee,
 };
