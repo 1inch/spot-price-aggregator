@@ -45,11 +45,8 @@ function assertRoughlyEqualValues (expected, actual, relativeDiff) {
         multiplerDenominator = multiplerDenominator.mul(new BN('10'));
         multiplerNumerator *= 10;
     }
-    console.log(`Expected ${expectedBN.toString()}`);
-    console.log(`Actual   ${actualBN.toString()}`);
     const diff = expectedBN.sub(actualBN).abs();
     const treshold = expectedBN.mul(new BN(multiplerNumerator)).div(multiplerDenominator);
-    console.log(`${expectedBN} - ${actualBN} (${diff}) < ${treshold}: ${diff.lte(treshold)}`);
     if (!diff.lte(treshold)) {
         expect(actualBN).to.be.bignumber.equal(expectedBN, `${actualBN} != ${expectedBN} with ${relativeDiff} precision`);
     }

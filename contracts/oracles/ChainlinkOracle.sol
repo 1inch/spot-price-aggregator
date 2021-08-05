@@ -8,8 +8,6 @@ import "@openzeppelin/contracts/utils/Address.sol";
 import "../interfaces/IChainlink.sol";
 import "../interfaces/IOracle.sol";
 
-import "hardhat/console.sol";
-
 contract ChainlinkOracle is IOracle {
     using Address for address;
     using SafeMath for uint256;
