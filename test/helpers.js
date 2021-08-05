@@ -35,9 +35,9 @@ function assertRoughlyEquals (x, y, significantDigits) {
     }
 }
 
-function assertRoughlyEqualValues (x, y, relativeDiff) {
-    const xBN = new BN(x);
-    const yBN = new BN(y);
+function assertRoughlyEqualValues (expected, actual, relativeDiff) {
+    const expectedBN = new BN(expected);
+    const actualBN = new BN(actual);
 
     let multiplerNumerator = relativeDiff;
     let multiplerDenominator = new BN('1');
@@ -45,8 +45,14 @@ function assertRoughlyEqualValues (x, y, relativeDiff) {
         multiplerDenominator = multiplerDenominator.mul(new BN('10'));
         multiplerNumerator *= 10;
     }
-    const [min, max] = xBN.lt(yBN) ? [xBN, yBN] : [yBN, xBN];
-    return (max - min) < max.mul(new BN(multiplerNumerator)).div(multiplerDenominator);
+    console.log(`Expected ${expectedBN.toString()}`);
+    console.log(`Actual   ${actualBN.toString()}`);
+    const diff = expectedBN.sub(actualBN).abs();
+    const treshold = expectedBN.mul(new BN(multiplerNumerator)).div(multiplerDenominator);
+    console.log(`${expectedBN} - ${actualBN} (${diff}) < ${treshold}: ${diff.lte(treshold)}`);
+    if (!diff.lte(treshold)) {
+        expect(actualBN).to.be.bignumber.equal(expectedBN, `${actualBN} != ${expectedBN} with ${relativeDiff} precision`);
+    }
 }
 
 function getUniswapV3Fee (percents) {
