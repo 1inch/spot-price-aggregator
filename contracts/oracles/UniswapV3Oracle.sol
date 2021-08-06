@@ -15,7 +15,7 @@ contract UniswapV3Oracle is IOracle {
     using SafeMath for uint256;
     using Sqrt for uint256;
 
-    bytes32 public constant POOL_INIT_CODE_HASH = 0x1fc830513acbdb1608b8c18fd3cf4a4bee3329c69bb41d56400401c40fe02fd0;
+    bytes32 public constant POOL_INIT_CODE_HASH = 0x0c231002d0970d2126e7e00ce88c3b0e5ec8e48dac71478d56245c34ea2f9447;
     address public constant FACTORY = 0x1F98431c8aD98523631AE4a59f267346ea31F984;
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 

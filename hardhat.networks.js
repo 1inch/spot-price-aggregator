@@ -44,12 +44,22 @@ if (process.env.MATIC_RPC_URL && process.env.MATIC_PRIVATE_KEY) {
     };
 }
 
-if (process.env.OPTIMISM_KOVAN_RPC_URL && process.env.OPTIMISM_KOVAN_PRIVATE_KEY) {
-    networks['optimism-kovan'] = {
-        url: process.env.OPTIMISM_KOVAN_RPC_URL,
+if (process.env.KOVAN_OPTIMISTIC_RPC_URL && process.env.KOVAN_OPTIMISTIC_PRIVATE_KEY) {
+    networks['kovan-optimistic'] = {
+        url: process.env.KOVAN_OPTIMISTIC_RPC_URL,
         chainId: 69,
         gasPrice: 15000000,
-        accounts: [process.env.OPTIMISM_KOVAN_PRIVATE_KEY],
+        accounts: [process.env.KOVAN_OPTIMISTIC_PRIVATE_KEY],
+        ovm: true
+    };
+}
+
+if (process.env.OPTIMISTIC_RPC_URL && process.env.OPTIMISTIC_PRIVATE_KEY) {
+    networks['optimistic'] = {
+        url: process.env.OPTIMISTIC_RPC_URL,
+        chainId: 10,
+        gasPrice: 15000000,
+        accounts: [process.env.OPTIMISTIC_PRIVATE_KEY],
         ovm: true
     };
 }
