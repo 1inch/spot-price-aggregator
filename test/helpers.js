@@ -19,6 +19,8 @@ const tokens = {
     AAVE: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
     LRC: '0xBBbbCA6A901c926F240b89EacB641d8Aec7AEafD',
     COMP: '0xc00e94Cb662C3520282E6f5717214004A7f26888',
+    sREN: '0xD31533E8d0f3DF62060e94B3F1318137bB6E3525',
+    iREN: '0x0fEd38108bdb8e62ef7b5680E8E0726E2F29e0De',
 };
 
 function assertRoughlyEquals (x, y, significantDigits) {
