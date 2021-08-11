@@ -22,8 +22,17 @@ describe('SynthetixOracle', async function () {
         expect(symbolToBytes('iDOT')).equal('0x105687984');
     });
 
-    it('should return rates for sREN -> iDOT', async function () {
-        const result = await this.synthetixOracle.getRate(tokens.sREN, tokens.iDOT, tokens.NONE);
+    it('should return rates', async function () {
+        let result = await this.synthetixOracle.getRate(tokens.sREN, tokens.iDOT, tokens.NONE);
+        console.log(result.rate.toString(), result.weight.toString());
+
+        result = await this.synthetixOracle.getRate(tokens.ETH, tokens.iDOT, tokens.NONE);
+        console.log(result.rate.toString(), result.weight.toString());
+
+        result = await this.synthetixOracle.getRate(tokens.sREN, tokens.ETH, tokens.NONE);
+        console.log(result.rate.toString(), result.weight.toString());
+
+        result = await this.synthetixOracle.getRate(tokens.ETH, tokens.ETH, tokens.NONE);
         console.log(result.rate.toString(), result.weight.toString());
     });
 
