@@ -3,8 +3,7 @@ const networks = {
         forking: {
             url: process.env.MAINNET_RPC_URL,
         },
-        hardfork: 'london',
-        gasPrice: 7057121118400,
+        gasPrice: 1000000000,
         blockGasLimit: 1000000000,
     },
 };
