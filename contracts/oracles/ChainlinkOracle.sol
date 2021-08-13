@@ -24,26 +24,15 @@ contract ChainlinkOracle is IOracle {
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
         require(connector == _NONE, "CO: connector should be None");
-
-        uint256 srcAnswer;
-        if (srcToken != _ETH) {
-            (, int256 answer, , uint256 srcUpdatedAt, ) = chainlink.latestRoundData(srcToken, _QUOTE);
-            require(block.timestamp < srcUpdatedAt + _RATE_TTL, "CO: src rate too old");
-            srcAnswer = uint256(answer);
-        } else {
-            srcAnswer = 1e18;
-        }
-
-        uint256 dstAnswer;
-        if (dstToken != _ETH) {
-            (, int256 answer, , uint256 dstUpdatedAt, ) = chainlink.latestRoundData(dstToken, _QUOTE);
-            require(block.timestamp < dstUpdatedAt + _RATE_TTL, "CO: dst rate too old");
-            dstAnswer = uint256(answer);
-        } else {
-            dstAnswer = 1e18;
-        }
-
+        uint256 srcAnswer = srcToken != _ETH ? _getRate(srcToken) : 1e18;
+        uint256 dstAnswer = dstToken != _ETH ? _getRate(dstToken) : 1e18;
         rate = srcAnswer.mul(1e18).div(dstAnswer);
         weight = 1e24;
+    }
+
+    function _getRate(IERC20 token) private view returns (uint256) {
+        (, int256 answer, , uint256 srcUpdatedAt, ) = chainlink.latestRoundData(token, _QUOTE);
+        require(block.timestamp < srcUpdatedAt + _RATE_TTL, "CO: rate too old");
+        return uint256(answer);
     }
 }
