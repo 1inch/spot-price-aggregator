@@ -34,7 +34,6 @@
     },
     "scripts": {
         "test": "hardhat test --show-stack-traces",
-        "test:synth-oracle": "hardhat test --show-stack-traces test/SynthetixOracle.js",
         "clean": "rimraf artifacts cache coverage",
         "deploy": "hardhat deploy --network",
         "deploy:test": "hardhat deploy",

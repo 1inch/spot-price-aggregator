@@ -4,15 +4,13 @@ pragma solidity 0.7.6;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "../interfaces/ISynthetix.sol";
-import "../interfaces/ISynthProxy.sol";
+import "../interfaces/ISynthetixProxy.sol";
 import "../interfaces/ISynthAddressResolver.sol";
 import "../interfaces/IOracle.sol";
-import "../interfaces/IERC20Detailed.sol";
 
 contract SynthetixOracle is IOracle {
-    using Address for address;
     using SafeMath for uint256;
 
     ISynthetix public immutable synth;
@@ -28,51 +26,22 @@ contract SynthetixOracle is IOracle {
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
         require(connector == _NONE, "SO: connector should be None");
-
-        uint256 srcAnswer;
-        if (srcToken != _ETH) {
-        	string memory srcSymbol = IERC20Detailed(address(srcToken)).symbol();
-        	bytes32 srcCurrencyKey;
-        	assembly { // solhint-disable-line no-inline-assembly
-		        srcCurrencyKey := mload(add(srcSymbol, 32))
-		    }
-
-            _checkTokenInResolver(srcCurrencyKey, address(srcToken));
-
-            (uint answer, uint srcUpdatedAt) = synth.rateAndUpdatedTime(srcCurrencyKey);
-
-            require(block.timestamp < srcUpdatedAt + _RATE_TTL, "SO: src rate too old");
-
-            srcAnswer = uint256(answer);
-        } else {
-            srcAnswer = 1e18;
-        }
-
-        uint256 dstAnswer;
-        if (dstToken != _ETH) {
-        	string memory dstSymbol = IERC20Detailed(address(dstToken)).symbol();
-        	bytes32 dstCurrencyKey;
-        	assembly { // solhint-disable-line no-inline-assembly
-		        dstCurrencyKey := mload(add(dstSymbol, 32))
-		    }
-
-            _checkTokenInResolver(dstCurrencyKey, address(dstToken));
-
-            (uint answer, uint dstUpdatedAt) = synth.rateAndUpdatedTime(dstCurrencyKey);
-
-            require(block.timestamp < dstUpdatedAt + _RATE_TTL, "SO: dst rate too old");
-            
-            dstAnswer = uint256(answer);
-        } else {
-            dstAnswer = 1e18;
-        }
-
+        uint256 srcAnswer = srcToken != _ETH ? _getRate(address(srcToken)) : 1e18;
+        uint256 dstAnswer = dstToken != _ETH ? _getRate(address(dstToken)) : 1e18;
         rate = srcAnswer.mul(1e18).div(dstAnswer);
         weight = 1e24;
     }
 
-    function _checkTokenInResolver(bytes32 currencyKey, address token) internal view {
+    function _getRate(address token) private view returns(uint256) {
+        string memory dstSymbol = ERC20(token).symbol();
+        bytes32 dstCurrencyKey;
+        assembly { // solhint-disable-line no-inline-assembly
+            dstCurrencyKey := mload(add(dstSymbol, 32))
+        }
         ISynthAddressResolver resolver = ISynthAddressResolver(proxy.target());
-        require(resolver.getSynth(currencyKey) == token, "SO: key is diff from token");
+        require(resolver.getSynth(dstCurrencyKey) == token, "SO: key is diff from token");
+        (uint256 answer, uint256 dstUpdatedAt) = synth.rateAndUpdatedTime(dstCurrencyKey);
+        require(block.timestamp < dstUpdatedAt + _RATE_TTL, "SO: dst rate too old");
+        return answer;
     }
 }

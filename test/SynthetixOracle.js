@@ -12,7 +12,7 @@ describe('SynthetixOracle', async function () {
         }
         return result;
     }
-    
+
     before(async function () {
         this.synthetixOracle = await SynthetixOracle.new('0xd69b189020EF614796578AfE4d10378c5e7e1138', '0x4E3b31eB0E5CB73641EE1E65E7dCEFe520bA3ef2');
     });
