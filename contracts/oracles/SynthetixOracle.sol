@@ -18,7 +18,12 @@ contract SynthetixOracle is IOracle {
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
     uint256 private constant _RATE_TTL = 1 days;
     bytes32 private constant _EXCHANGE_RATES_KEY = 0x45786368616e6765526174657300000000000000000000000000000000000000;
-    bytes32 private constant _SETH_KEY = 0x7345544800000000000000000000000000000000000000000000000000000000;
+    bytes32 private constant _SETH_KEY           = 0x50726f7879734554480000000000000000000000000000000000000000000000;
+    bytes32 private constant _SNX_PROXY_KEY      = 0x50726f7879455243323000000000000000000000000000000000000000000000;
+    bytes32 private constant _SUSD_PROXY_KEY     = 0x50726f7879455243323073555344000000000000000000000000000000000000;
+    bytes32 private constant _PROXY_KEY          = 0x50726f7879000000000000000000000000000000000000000000000000000000;
+    bytes private constant _SNX = "SNX";
+    bytes private constant _SUSD = "sUSD";
 
     constructor(ISynthetixProxy _proxy) {
         proxy = _proxy;
@@ -29,21 +34,39 @@ contract SynthetixOracle is IOracle {
         ISynthetixAddressResolver resolver = ISynthetixAddressResolver(proxy.target());
         ISynthetixExchangeRates exchangeRates = ISynthetixExchangeRates(resolver.getAddress(_EXCHANGE_RATES_KEY));
 
-        uint256 srcAnswer = srcToken != _ETH ? _getRate(address(srcToken), resolver, exchangeRates) : _getRate(resolver.getSynth(_SETH_KEY), resolver, exchangeRates);
-        uint256 dstAnswer = dstToken != _ETH ? _getRate(address(dstToken), resolver, exchangeRates) : _getRate(resolver.getSynth(_SETH_KEY), resolver, exchangeRates);
+        uint256 srcAnswer = srcToken != _ETH ? _getRate(address(srcToken), resolver, exchangeRates) : _getRate(resolver.getAddress(_SETH_KEY), resolver, exchangeRates);
+        uint256 dstAnswer = dstToken != _ETH ? _getRate(address(dstToken), resolver, exchangeRates) : _getRate(resolver.getAddress(_SETH_KEY), resolver, exchangeRates);
         rate = srcAnswer.mul(1e18).div(dstAnswer);
         weight = 1e24;
     }
 
     function _getRate(address token, ISynthetixAddressResolver resolver, ISynthetixExchangeRates exchangeRates) private view returns(uint256) {
-        string memory dstSymbol = ERC20(token).symbol();
-        bytes32 dstCurrencyKey;
-        assembly { // solhint-disable-line no-inline-assembly
-            dstCurrencyKey := mload(add(dstSymbol, 32))
+        string memory symbol = ERC20(token).symbol();
+
+        bytes32 proxyKey;
+        if (_memcmp(bytes(symbol), _SNX)) {
+            proxyKey = _SNX_PROXY_KEY;
+        } else if (_memcmp(bytes(symbol), _SUSD)) {
+            proxyKey = _SUSD_PROXY_KEY;
+        } else {
+            assembly { // solhint-disable-line no-inline-assembly
+                proxyKey := or(_PROXY_KEY, shr(40, mload(add(symbol, 32))))
+            }
         }
-        require(resolver.getSynth(dstCurrencyKey) == token, "SO: key is diff from token");
-        (uint256 answer, uint256 dstUpdatedAt) = exchangeRates.rateAndUpdatedTime(dstCurrencyKey);
-        require(block.timestamp < dstUpdatedAt + _RATE_TTL, "SO: dst rate too old");
+        require(resolver.getAddress(proxyKey) == token, "SO: unregistered token");
+
+        bytes32 key;
+        assembly { // solhint-disable-line no-inline-assembly
+            key := mload(add(symbol, 32))
+        }
+
+        (uint256 answer, bool isInvalid) = exchangeRates.rateAndInvalid(key);
+        require(!isInvalid, "SO: rate is invalid");
+
         return answer;
+    }
+
+    function _memcmp(bytes memory a, bytes memory b) private pure returns(bool) {
+        return (a.length == b.length) && (keccak256(a) == keccak256(b));
     }
 }
