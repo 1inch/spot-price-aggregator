@@ -154,7 +154,7 @@ describe('UniswapV3Oracle doesn\'t ruin rates', async function () {
         const actualRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true);
         const expectedReverseRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true);
         const actualReverseRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true);
-        assertRoughlyEquals(actualRate.toString(), expectedRate.toString(), 3);
-        assertRoughlyEquals(actualReverseRate.toString(), expectedReverseRate.toString(), 3);
+        assertRoughlyEquals(actualRate.toString(), expectedRate.toString(), 2);
+        assertRoughlyEquals(actualReverseRate.toString(), expectedReverseRate.toString(), 2);
     }
 });

@@ -6,6 +6,31 @@ on:
   pull_request:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+
+      - run: npm install -g yarn
+
+      - id: yarn-cache
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - run: yarn
+      - run: yarn lint
+
   test:
     runs-on: ubuntu-latest
 
@@ -35,7 +60,6 @@ jobs:
           echo BSC_RPC_URL=${{ secrets.BSC_RPC_URL }} >> .env
 
       - run: yarn
-      - run: yarn lint
       - run: yarn test
 
   coverage:

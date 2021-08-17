@@ -19,6 +19,10 @@ const tokens = {
     AAVE: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
     LRC: '0xBBbbCA6A901c926F240b89EacB641d8Aec7AEafD',
     COMP: '0xc00e94Cb662C3520282E6f5717214004A7f26888',
+    sREN: '0xD31533E8d0f3DF62060e94B3F1318137bB6E3525',
+    iDOT: '0x46a97629C9C1F58De6EC18C7F536e7E6d6A6ecDe',
+    sUSD: '0x57Ab1ec28D129707052df4dF418D58a2D46d5f51',
+    SNX: '0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F',
 };
 
 function assertRoughlyEquals (x, y, significantDigits) {
@@ -35,6 +39,23 @@ function assertRoughlyEquals (x, y, significantDigits) {
     }
 }
 
+function assertRoughlyEqualValues (expected, actual, relativeDiff) {
+    const expectedBN = new BN(expected);
+    const actualBN = new BN(actual);
+
+    let multiplerNumerator = relativeDiff;
+    let multiplerDenominator = new BN('1');
+    while (!Number.isInteger(multiplerNumerator)) {
+        multiplerDenominator = multiplerDenominator.mul(new BN('10'));
+        multiplerNumerator *= 10;
+    }
+    const diff = expectedBN.sub(actualBN).abs();
+    const treshold = expectedBN.mul(new BN(multiplerNumerator)).div(multiplerDenominator);
+    if (!diff.lte(treshold)) {
+        expect(actualBN).to.be.bignumber.equal(expectedBN, `${actualBN} != ${expectedBN} with ${relativeDiff} precision`);
+    }
+}
+
 function getUniswapV3Fee (percents) {
     return new BN(percents * 10000);
 }
@@ -42,5 +63,6 @@ function getUniswapV3Fee (percents) {
 module.exports = {
     tokens,
     assertRoughlyEquals,
+    assertRoughlyEqualValues,
     getUniswapV3Fee,
 };
