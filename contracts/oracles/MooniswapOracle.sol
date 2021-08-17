@@ -8,6 +8,7 @@ import "./OracleBase.sol";
 
 contract MooniswapOracle is OracleBase {
     IMooniswapFactory public immutable factory;
+    IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
 
     constructor(IMooniswapFactory _factory) {
         factory = _factory;
@@ -18,7 +19,11 @@ contract MooniswapOracle is OracleBase {
         IERC20[] memory tokens = mooniswap.getTokens();
         uint256[2] memory balances;
         for (uint256 i = 0; i < 2; ++i) {
-            balances[i] = tokens[i].balanceOf(address(mooniswap));
+            if (tokens[i] == _ETH) {
+                balances[i] = address(mooniswap).balance;
+            } else {
+                balances[i] = tokens[i].balanceOf(address(mooniswap));
+            }
         }
         if (tokens[0] == srcToken) {
             return (balances[0], balances[1]);
