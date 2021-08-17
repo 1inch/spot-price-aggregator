@@ -4,5 +4,7 @@ coverage.json
 build
 artifacts
 cache
+artifacts-ovm
+cache-ovm
 .env
 .idea

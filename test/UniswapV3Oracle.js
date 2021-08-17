@@ -10,13 +10,14 @@ const AaveWrapperV1 = artifacts.require('AaveWrapperV1');
 const AaveWrapperV2 = artifacts.require('AaveWrapperV2');
 const MultiWrapper = artifacts.require('MultiWrapper');
 const uniswapV2Factory = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
-const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
+const initcodeHashV2 = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
+const initcodeHashV3 = '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54';
 const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 
 describe('UniswapV3Oracle', async function () {
     before(async function () {
-        this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
-        this.uniswapV3Oracle = await UniswapV3Oracle.new();
+        this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHashV2);
+        this.uniswapV3Oracle = await UniswapV3Oracle.new(initcodeHashV3);
     });
 
     it('dai -> weth', async function () {
@@ -68,8 +69,8 @@ describe('UniswapV3Oracle', async function () {
 
 describe('UniswapV3Oracle doesn\'t ruin rates', async function () {
     before(async function () {
-        this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
-        this.uniswapV3Oracle = await UniswapV3Oracle.new();
+        this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHashV2);
+        this.uniswapV3Oracle = await UniswapV3Oracle.new(initcodeHashV3);
         this.uniswapOracle = await UniswapOracle.new('0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95');
         this.mooniswapOracle = await MooniswapOracle.new(oneInchLP1);
 

@@ -11,6 +11,7 @@
         "@openzeppelin/contracts": "3.4.1-solc-0.7-2"
     },
     "devDependencies": {
+        "@eth-optimism/hardhat-ovm": "^0.2.2",
         "@nomiclabs/hardhat-ethers": "^2.0.2",
         "@nomiclabs/hardhat-etherscan": "^2.1.4",
         "@nomiclabs/hardhat-truffle5": "^2.0.0",
@@ -34,9 +35,9 @@
     },
     "scripts": {
         "test": "hardhat test --show-stack-traces",
-        "clean": "rimraf artifacts cache coverage",
+        "clean": "rimraf artifacts cache coverage artifacts-ovm cache-ovm",
         "deploy": "hardhat deploy --network",
-        "deploy:test": "hardhat deploy",
+        "deploy:optimism": "hardhat deploy --config hardhat-ovm.config.js --network",
         "coverage": "hardhat coverage",
         "lint:js": "eslint .",
         "lint:js:fix": "eslint . --fix",
