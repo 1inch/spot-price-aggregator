@@ -48,17 +48,17 @@ if (process.env.KOVAN_OPTIMISTIC_RPC_URL && process.env.KOVAN_OPTIMISTIC_PRIVATE
         chainId: 69,
         gasPrice: 15000000,
         accounts: [process.env.KOVAN_OPTIMISTIC_PRIVATE_KEY],
-        ovm: true
+        ovm: true,
     };
 }
 
 if (process.env.OPTIMISTIC_RPC_URL && process.env.OPTIMISTIC_PRIVATE_KEY) {
-    networks['optimistic'] = {
+    networks.optimistic = {
         url: process.env.OPTIMISTIC_RPC_URL,
         chainId: 10,
         gasPrice: 15000000,
         accounts: [process.env.OPTIMISTIC_PRIVATE_KEY],
-        ovm: true
+        ovm: true,
     };
 }
 
