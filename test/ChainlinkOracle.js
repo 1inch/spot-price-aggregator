@@ -28,6 +28,11 @@ describe('ChainlinkOracle', async function () {
         expect(rate.rate).to.be.bignumber.lessThan(ether('0.001'));
     });
 
+    it.only('Supports tokens with custom decimals', async function () {
+        const rate = await this.chainlinkOracle.getRate(tokens.USDT, tokens.ETH, tokens.NONE);
+        expect(rate.rate).to.be.bignumber.greaterThan(ether('100000000'));
+    });
+
     it('Throws if connector is specified', async function () {
         await expectRevert(
             this.chainlinkOracle.getRate(tokens.DAI, tokens.DAI, tokens.USDT),

@@ -4,6 +4,7 @@ pragma solidity 0.7.6;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "../interfaces/IChainlink.sol";
 import "../interfaces/IOracle.sol";
@@ -30,9 +31,13 @@ contract ChainlinkOracle is IOracle {
         weight = 1e24;
     }
 
-    function _getRate(IERC20 token) private view returns (uint256) {
+    function _getRate(IERC20 token) private view returns (uint256 rate) {
         (, int256 answer, , uint256 srcUpdatedAt, ) = chainlink.latestRoundData(token, _QUOTE);
         require(block.timestamp < srcUpdatedAt + _RATE_TTL, "CO: rate too old");
-        return uint256(answer);
+        rate = uint256(answer);
+        uint8 decimals = ERC20(address(token)).decimals();
+        if (decimals > 0) {
+            rate = rate * (10 ** (18 - decimals));
+        }
     }
 }
