@@ -37,7 +37,7 @@ contract ChainlinkOracle is IOracle {
         rate = uint256(answer);
         uint8 decimals = ERC20(address(token)).decimals();
         if (decimals > 0) {
-            rate = rate * (10 ** (18 - decimals));
+            rate = rate * (10 ** (uint256(18).sub(decimals)));
         }
     }
 }
