@@ -13,9 +13,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
 
     const dfynV2Oracle = await deploy('UniswapV2LikeOracle', {
-        args: ,
+        args: [DFYN_V2_FACTORY, DFYN_V2_HASH],
         from: deployer,
-        skipIfAlreadyDeployed: true,
+        skipIfAlreadyDeployed: false,
     });
 
     const offchainOracle = OffchainOracle.attach((await deployments.get('OffchainOracle')).address);
