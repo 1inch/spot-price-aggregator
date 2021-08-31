@@ -13,7 +13,7 @@
     "devDependencies": {
         "@eth-optimism/hardhat-ovm": "^0.2.3",
         "@nomiclabs/hardhat-ethers": "^2.0.2",
-        "@nomiclabs/hardhat-etherscan": "^2.1.5",
+        "@nomiclabs/hardhat-etherscan": "^2.1.6",
         "@nomiclabs/hardhat-truffle5": "^2.0.0",
         "@nomiclabs/hardhat-web3": "^2.0.0",
         "@openzeppelin/test-helpers": "^0.5.12",
@@ -31,7 +31,7 @@
         "rimraf": "^3.0.2",
         "solc": "^0.7.6",
         "solhint": "^3.3.6",
-        "solidity-coverage": "^0.7.16"
+        "solidity-coverage": "^0.7.17"
     },
     "scripts": {
         "test": "hardhat test --show-stack-traces",
