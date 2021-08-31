@@ -24,6 +24,9 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 * Uniswap V2
 * Sushiswap
 * Equalizer.fi
+* Uniswap V3
+* Synthetix
+* Chainlink
 
 #### Supported wrappers
 
@@ -82,6 +85,7 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 * QuickSwap
 * ComethSwap
 * SushiSwap
+* Dfyn
 
 #### Supported wrappers
 
@@ -112,6 +116,15 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 
 * ETH
 * WETH
+
+### Optimistic
+
+#### Oracle [0x11DEE30E710B8d4a8630392781Cc3c0046365d4c](https://optimistic.etherscan.io/address/0x11DEE30E710B8d4a8630392781Cc3c0046365d4c)
+
+#### Supported DEXes
+
+* Uniswap V3
+* Synthetix
 
 ## Examples
 
