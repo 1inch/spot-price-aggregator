@@ -3,14 +3,11 @@
 pragma solidity 0.7.6;
 
 import "@openzeppelin/contracts/math/SafeMath.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/utils/Address.sol";
 import "../interfaces/IChainlink.sol";
 import "../interfaces/IOracle.sol";
 
 contract ChainlinkOracle is IOracle {
-    using Address for address;
     using SafeMath for uint256;
 
     IChainlink public immutable chainlink;
@@ -36,8 +33,6 @@ contract ChainlinkOracle is IOracle {
         require(block.timestamp < srcUpdatedAt + _RATE_TTL, "CO: rate too old");
         rate = uint256(answer);
         uint8 decimals = ERC20(address(token)).decimals();
-        if (decimals > 0) {
-            rate = rate * (10 ** (uint256(18).sub(decimals)));
-        }
+        rate = rate * (10 ** (uint256(18).sub(decimals)));
     }
 }
