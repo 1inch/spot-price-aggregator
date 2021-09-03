@@ -19,7 +19,6 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         skipIfAlreadyDeployed: false,
     });
 
-
     const txn1 = await offchainOracle.addOracle(chainlinkOracle.address, '1', {
         from: deployer,
         maxFeePerGas: 100000000000,
