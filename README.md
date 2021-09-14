@@ -117,7 +117,7 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 * ETH
 * WETH
 
-### Optimistic
+### Optimism
 
 #### Oracle [0x11DEE30E710B8d4a8630392781Cc3c0046365d4c](https://optimistic.etherscan.io/address/0x11DEE30E710B8d4a8630392781Cc3c0046365d4c)
 
@@ -125,6 +125,16 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 
 * Uniswap V3
 * Synthetix
+
+### Arbitrum
+
+#### Oracle [0x735247fb0a604c0adC6cab38ACE16D0DbA31295F](https://arbiscan.io/address/0x735247fb0a604c0adc6cab38ace16d0dba31295f)
+
+#### Supported DEXes
+
+* Uniswap V3
+* Sushiswap
+* Swapr
 
 ## Examples
 

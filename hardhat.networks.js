@@ -61,4 +61,13 @@ if (process.env.OPTIMISTIC_RPC_URL && process.env.OPTIMISTIC_PRIVATE_KEY) {
     };
 }
 
+if (process.env.ARBITRUM_RPC_URL && process.env.ARBITRUM_PRIVATE_KEY) {
+    networks.arbitrum = {
+        url: process.env.ARBITRUM_RPC_URL,
+        chainId: 42161,
+        gasPrice: 1e9,
+        accounts: [process.env.ARBITRUM_PRIVATE_KEY],
+    };
+}
+
 module.exports = networks;
