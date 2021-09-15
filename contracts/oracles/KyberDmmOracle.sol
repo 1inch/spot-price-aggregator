@@ -53,7 +53,7 @@ contract KyberDmmOracle is IOracle {
         IERC20 token0 = pool.token0();
         IERC20 token1 = pool.token1();
         
-        if (address(srcToken) == address(token0) && address(dstToken) == address(token1)) {
+        if (srcToken == token0 && dstToken == token1) {
             (, , srcBalance, dstBalance,) = pool.getTradeInfo();
             return (srcBalance, dstBalance);
         }
