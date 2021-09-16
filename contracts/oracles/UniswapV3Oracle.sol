@@ -52,7 +52,7 @@ contract UniswapV3Oracle is IOracle {
                     if (b.srcToken == 0 || b.dstConnector == 0) {
                         return (0, 0);
                     }
-                    (rate1, b.srcConnector, b.dstToken) = _getRate(connector, dstToken, fees[i]);
+                    (rate1, b.srcConnector, b.dstToken) = _getRate(connector, dstToken, fees[j]);
                     if (b.srcConnector == 0 || b.dstToken == 0) {
                         return (0, 0);
                     }
