@@ -5,14 +5,7 @@ const KyberDmmOracle = artifacts.require('KyberDmmOracle');
 
 describe('KyberDmmOracle', async function () {
     before(async function () {
-        this.kyberDmmOracle = await KyberDmmOracle.new('0x1c87257f5e8609940bc751a07bb085bb7f8cdbe6');
-    });
-
-    it('should revert with connector error', async function () {
-        await expectRevert(
-            this.kyberDmmOracle.contract.methods.getRate(tokens.KNC, tokens.EEE, tokens.WETH).call(),
-            'KO: connector should be None',
-        );
+        this.kyberDmmOracle = await KyberDmmOracle.new('0x833e4083b7ae46cea85695c4f7ed25cdad8886de');
     });
 
     it('should revert with amount of pools error', async function () {
@@ -22,20 +15,30 @@ describe('KyberDmmOracle', async function () {
         );
     });
 
-    it('should revert with _getBalances method error', async function () {
+    it('should revert with amount of pools with connector error', async function () {
         await expectRevert(
-            this.kyberDmmOracle.contract.methods.getPoolRate(tokens.KNC, tokens.EEE, '0x566EB77Bf46c2863501c4149bdcd60D313056E8f').call(),
-            'KO: tokens do not match the pool',
+            this.kyberDmmOracle.contract.methods.getRate(tokens.KNC, tokens.WETH, tokens.MKR).call(),
+            'KO: there are no pools with connector',
         );
     });
 
-    it('should return KNC rates of WETH', async function () {
+    it('KNC -> WETH', async function () {
         const result = await this.kyberDmmOracle.getRate(tokens.KNC, tokens.WETH, tokens.NONE);
         console.log(`1 KNC = ${web3.utils.fromWei(result.rate.toString(), 'ether')} WETH, weight = ${result.weight.toString()}`);
     });
 
-    it('should return WETH rates of KNC', async function () {
+    it('WETH -> KNC', async function () {
         const result = await this.kyberDmmOracle.getRate(tokens.WETH, tokens.KNC, tokens.NONE);
         console.log(`1 WETH = ${web3.utils.fromWei(result.rate.toString(), 'ether')} KNC, weight = ${result.weight.toString()}`);
+    });
+
+    it('KNC -> WETH -> USDC', async function () {
+        const result = await this.kyberDmmOracle.getRate(tokens.KNC, tokens.USDC, tokens.WETH);
+        console.log(`1 KNC = ${web3.utils.fromWei(result.rate.toString(), 'mwei')} USDC, weight = ${result.weight.toString()}`);
+    });
+
+    it('USDC -> WETH -> KNC', async function () {
+        const result = await this.kyberDmmOracle.getRate(tokens.USDC, tokens.KNC, tokens.WETH);
+        console.log(`1 USDC = ${web3.utils.fromWei(result.rate.toString(), 'ether')} KNC, weight = ${result.weight.toString()}`);
     });
 });
