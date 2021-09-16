@@ -4,6 +4,9 @@ const { tokens } = require('./helpers.js');
 const KyberDmmOracle = artifacts.require('KyberDmmOracle');
 
 describe('KyberDmmOracle', async function () {
+    const kncDecimals = 18;
+    const usdcDecimals = 6;
+
     before(async function () {
         this.kyberDmmOracle = await KyberDmmOracle.new('0x833e4083b7ae46cea85695c4f7ed25cdad8886de');
     });
@@ -34,11 +37,13 @@ describe('KyberDmmOracle', async function () {
 
     it('KNC -> WETH -> USDC', async function () {
         const result = await this.kyberDmmOracle.getRate(tokens.KNC, tokens.USDC, tokens.WETH);
-        console.log(`1 KNC = ${web3.utils.fromWei(result.rate.toString(), 'mwei')} USDC, weight = ${result.weight.toString()}`);
+        const correction = web3.utils.toBN(10).pow(web3.utils.toBN(kncDecimals - usdcDecimals));
+        console.log(`1 KNC = ${web3.utils.fromWei(result.rate.mul(correction).toString(), 'ether')} USDC, weight = ${result.weight.toString()}`);
     });
 
     it('USDC -> WETH -> KNC', async function () {
         const result = await this.kyberDmmOracle.getRate(tokens.USDC, tokens.KNC, tokens.WETH);
-        console.log(`1 USDC = ${web3.utils.fromWei(result.rate.toString(), 'ether')} KNC, weight = ${result.weight.toString()}`);
+        const correction = web3.utils.toBN(10).pow(web3.utils.toBN(kncDecimals - usdcDecimals));
+        console.log(`1 USDC = ${web3.utils.fromWei(result.rate.div(correction).toString(), 'ether')} KNC, weight = ${result.weight.toString()}`);
     });
 });
