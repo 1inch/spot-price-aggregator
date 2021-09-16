@@ -11,14 +11,14 @@ describe('KyberDmmOracle', async function () {
     it('should revert with amount of pools error', async function () {
         await expectRevert(
             this.kyberDmmOracle.contract.methods.getRate(tokens.KNC, tokens.EEE, tokens.NONE).call(),
-            'KO: there are no pools',
+            'KO: no pools',
         );
     });
 
     it('should revert with amount of pools with connector error', async function () {
         await expectRevert(
             this.kyberDmmOracle.contract.methods.getRate(tokens.KNC, tokens.WETH, tokens.MKR).call(),
-            'KO: there are no pools with connector',
+            'KO: no pools with connector',
         );
     });
 
