@@ -23,13 +23,55 @@ contract UniswapV3Oracle is IOracle {
         poolInitCodeHash = _poolInitCodeHash;
     }
 
+    struct Balances {
+        uint256 srcToken;
+        uint256 dstToken;
+        uint256 dstConnector;
+        uint256 srcConnector;
+    }
+
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
         uint24[3] memory fees = [uint24(500), 3000, 10000];
-        for (uint256 i = 0; i < 3; i++) {
-            (uint256 rateForFee, uint256 weightForFee) = getRateForFee(srcToken, dstToken, connector, fees[i]);
-            rate = rate.add(rateForFee.mul(weightForFee));
-            weight = weight.add(weightForFee);
+        Balances memory b;
+        uint256 tmpRate;
+        uint256 tmpWeight;
+        if (connector == _NONE) {
+            for (uint256 i = 0; i < 3; i++) {
+                (tmpRate, b.srcToken, b.dstToken) = _getRate(srcToken, dstToken, fees[i]);
+                tmpWeight = b.srcToken.mul(b.dstToken);
+                
+                rate = rate.add(tmpRate.mul(tmpWeight));
+                weight = weight.add(tmpWeight);
+            }
+        } else {
+            for (uint256 i = 0; i < 3; i++) {
+                for (uint256 j = 0; j < 3; i++) {
+                    uint256 rate0;
+                    uint256 rate1;
+                    (rate0, b.srcToken, b.dstConnector) = _getRate(srcToken, connector, fees[i]);
+                    if (b.srcToken == 0 || b.dstConnector == 0) {
+                        return (0, 0);
+                    }
+                    (rate1, b.srcConnector, b.dstToken) = _getRate(connector, dstToken, fees[i]);
+                    if (b.srcConnector == 0 || b.dstToken == 0) {
+                        return (0, 0);
+                    }
+
+                    if (b.dstConnector > b.srcConnector) {
+                        b.srcToken = b.srcToken.mul(b.srcConnector).div(b.dstConnector);
+                    } else {
+                        b.dstToken = b.dstToken.mul(b.dstConnector).div(b.srcConnector);
+                    }
+
+                    tmpRate = rate0.mul(rate1).div(1e18);
+                    tmpWeight = b.srcToken.mul(b.dstToken);
+
+                    rate = rate.add(tmpRate.mul(tmpWeight));
+                    weight = weight.add(tmpWeight);
+                }
+            }
         }
+
         if (weight > 0) {
             rate = rate.div(weight);
             weight = weight.sqrt();
