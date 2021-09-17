@@ -45,7 +45,7 @@ contract UniswapV3Oracle is IOracle {
             }
         } else {
             for (uint256 i = 0; i < 3; i++) {
-                for (uint256 j = 0; j < 3; i++) {
+                for (uint256 j = 0; j < 3; j++) {
                     uint256 rate0;
                     uint256 rate1;
                     (rate0, b.srcToken, b.dstConnector) = _getRate(srcToken, connector, fees[i]);
