@@ -45,7 +45,7 @@ contract UniswapV3Oracle is IOracle {
                         return (0, 0);
                     }
 
-                    if (bc2 > bc1) {
+                    if (bc2 < bc1) {
                         (bc1, bc2) = (bc2, bc1);
                     }
                     uint256 w = b1.mul(b2).mul(bc1).div(bc2);
