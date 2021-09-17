@@ -25,47 +25,41 @@ contract UniswapV3Oracle is IOracle {
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
         uint24[3] memory fees = [uint24(500), 3000, 10000];
-        for (uint256 i = 0; i < 3; i++) {
-            (uint256 rateForFee, uint256 weightForFee) = getRateForFee(srcToken, dstToken, connector, fees[i]);
-            rate = rate.add(rateForFee.mul(weightForFee));
-            weight = weight.add(weightForFee);
+
+        if (connector == _NONE) {
+            for (uint256 i = 0; i < 3; i++) {
+                (uint256 rate0, uint256 b1, uint256 b2) = _getRate(srcToken, dstToken, fees[i]);
+                uint256 w = b1.mul(b2);
+                rate = rate.add(rate0.mul(w));
+                weight = weight.add(w);
+            }
+        } else {
+            for (uint256 i = 0; i < 3; i++) {
+                for (uint256 j = 0; j < 3; j++) {
+                    (uint256 rate0, uint256 b1, uint256 bc1) = _getRate(srcToken, connector, fees[i]);
+                    if (b1 == 0 || bc1 == 0) {
+                        return (0, 0);
+                    }
+                    (uint256 rate1, uint256 bc2, uint256 b2) = _getRate(connector, dstToken, fees[j]);
+                    if (bc2 == 0 || b2 == 0) {
+                        return (0, 0);
+                    }
+
+                    if (bc2 < bc1) {
+                        (bc1, bc2) = (bc2, bc1);
+                    }
+                    uint256 w = b1.mul(b2).mul(bc1).div(bc2);
+
+                    rate = rate.add(rate0.mul(rate1).div(1e18).mul(w));
+                    weight = weight.add(w);
+                }
+            }
         }
+
         if (weight > 0) {
             rate = rate.div(weight);
             weight = weight.sqrt();
         }
-    }
-
-    // @dev fee in ppm (e.g. 3000 for 0.3% fee)
-    function getRateForFee(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint24 fee) public view returns (uint256 rate, uint256 weight) {
-        uint256 balance0;
-        uint256 balance1;
-        if (connector == _NONE) {
-            (rate, balance0, balance1) = _getRate(srcToken, dstToken, fee);
-        } else {
-            uint256 balanceConnector0;
-            uint256 balanceConnector1;
-            uint256 rate0;
-            uint256 rate1;
-            (rate0, balance0, balanceConnector0) = _getRate(srcToken, connector, fee);
-            if (balance0 == 0 || balanceConnector0 == 0) {
-                return (0, 0);
-            }
-            (rate1, balanceConnector1, balance1) = _getRate(connector, dstToken, fee);
-            if (balanceConnector1 == 0 || balance1 == 0) {
-                return (0, 0);
-            }
-
-            if (balanceConnector0 > balanceConnector1) {
-                balance0 = balance0.mul(balanceConnector1).div(balanceConnector0);
-            } else {
-                balance1 = balance1.mul(balanceConnector0).div(balanceConnector1);
-            }
-
-            rate = rate0.mul(rate1).div(1e18);
-        }
-
-        weight = balance0.mul(balance1);
     }
 
     function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint256 srcBalance, uint256 dstBalance) {
