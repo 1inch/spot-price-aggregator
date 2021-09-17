@@ -56,13 +56,8 @@ function assertRoughlyEqualValues (expected, actual, relativeDiff) {
     }
 }
 
-function getUniswapV3Fee (percents) {
-    return new BN(percents * 10000);
-}
-
 module.exports = {
     tokens,
     assertRoughlyEquals,
     assertRoughlyEqualValues,
-    getUniswapV3Fee,
 };

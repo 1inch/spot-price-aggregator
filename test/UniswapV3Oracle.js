@@ -1,4 +1,4 @@
-const { tokens, assertRoughlyEquals, getUniswapV3Fee } = require('./helpers.js');
+const { tokens, assertRoughlyEquals } = require('./helpers.js');
 
 const UniswapV2LikeOracle = artifacts.require('UniswapV2LikeOracle');
 const UniswapV3Oracle = artifacts.require('UniswapV3Oracle');
@@ -62,7 +62,7 @@ describe('UniswapV3Oracle', async function () {
 
     async function testRate (self, srcToken, dstToken, connector) {
         const v2Result = await self.uniswapV2LikeOracle.getRate(srcToken, dstToken, connector);
-        const v3Result = await self.uniswapV3Oracle.getRateForFee(srcToken, dstToken, connector, getUniswapV3Fee(0.3));
+        const v3Result = await self.uniswapV3Oracle.getRate(srcToken, dstToken, connector);
         assertRoughlyEquals(v3Result.rate.toString(), v2Result.rate.toString(), 2);
     }
 });
