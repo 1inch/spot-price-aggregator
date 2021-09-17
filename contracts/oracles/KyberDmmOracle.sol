@@ -16,13 +16,6 @@ contract KyberDmmOracle is IOracle {
 
     IKyberDmmFactory public immutable factory;
 
-    struct Balances {
-        uint256 srcToken;
-        uint256 dstToken;
-        uint256 dstConnector;
-        uint256 srcConnector;
-    }
-
     constructor(IKyberDmmFactory _factory) {
         factory = _factory;
     }
@@ -30,44 +23,38 @@ contract KyberDmmOracle is IOracle {
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
-        Balances memory b;
         if (connector == _NONE) {
             address[] memory pools = factory.getPools(srcToken, dstToken);
-            
+
             require(pools.length > 0, "KO: no pools");
-            
+
             for (uint256 i = 0; i < pools.length; i++) {
-                (b.srcToken, b.dstToken) = _getBalances(srcToken, IKyberDmmPool(pools[i]));
-                
-                uint256 poolRate = b.dstToken.mul(1e18).div(b.srcToken);
-                uint256 poolWeight = b.srcToken.mul(b.dstToken);
-                
-                rate = rate.add(poolRate.mul(poolWeight));
-                weight = weight.add(poolWeight);
+                (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, pools[i]);
+
+                uint256 w = b0.mul(b1);
+                rate = rate.add(b1.mul(1e18).div(b0).mul(w));
+                weight = weight.add(w);
             }
         } else {
-            address[] memory poolsConnector0 = factory.getPools(srcToken, connector);
-            address[] memory poolsConnector1 = factory.getPools(connector, dstToken);
-            
-            require(poolsConnector0.length > 0 && poolsConnector1.length > 0, "KO: no pools with connector");
+            address[] memory pools0 = factory.getPools(srcToken, connector);
+            address[] memory pools1 = factory.getPools(connector, dstToken);
 
-            uint256 rateConnector;
-            uint256 weightConnector;
-            for (uint256 i = 0; i < poolsConnector0.length; i++) {
-                for (uint256 j = 0; j < poolsConnector1.length; j ++) {
-                    (b.srcToken, b.dstConnector) = _getBalances(srcToken, IKyberDmmPool(poolsConnector0[i]));
-                    (b.srcConnector, b.dstToken) = _getBalances(connector, IKyberDmmPool(poolsConnector1[j]));
-                    if (b.dstConnector > b.srcConnector) {
-                        b.srcToken = b.srcToken.mul(b.srcConnector).div(b.dstConnector);
+            require(pools0.length > 0 && pools1.length > 0, "KO: no pools with connector");
+
+            for (uint256 i = 0; i < pools0.length; i++) {
+                for (uint256 j = 0; j < pools1.length; j++) {
+                    (uint256 b0, uint256 bc0) = _getBalances(srcToken, connector, pools0[i]);
+                    (uint256 bc1, uint256 b1) = _getBalances(connector, dstToken, pools1[j]);
+
+                    if (bc0 > bc1) {
+                        b0 = b0.mul(bc1).div(bc0);
                     } else {
-                        b.dstToken = b.dstToken.mul(b.dstConnector).div(b.srcConnector);
+                        b1 = b1.mul(bc0).div(bc1);
                     }
 
-                    rateConnector = b.dstToken.mul(1e18).div(b.srcToken);
-                    weightConnector = b.srcToken.mul(b.dstToken);
-                    
-                    rate = rate.add(rateConnector.mul(weightConnector));
-                    weight = weight.add(weightConnector);
+                    uint256 w = b0.mul(b1);
+                    rate = rate.add(b1.mul(1e18).div(b0).mul(w));
+                    weight = weight.add(w);
                 }
             }
         }
@@ -78,9 +65,9 @@ contract KyberDmmOracle is IOracle {
         }
     }
 
-    function _getBalances(IERC20 srcToken, IKyberDmmPool pool) internal view virtual returns (uint256 srcBalance, uint256 dstBalance) {
-        (, , srcBalance, dstBalance,) = pool.getTradeInfo();
-        if (srcToken == pool.token1()) {
+    function _getBalances(IERC20 srcToken, IERC20 dstToken, address pool) private view returns (uint256 srcBalance, uint256 dstBalance) {
+        (, , srcBalance, dstBalance,) = IKyberDmmPool(pool).getTradeInfo();
+        if (srcToken > dstToken) {
             (srcBalance, dstBalance) = (dstBalance, srcBalance);
         }
     }
