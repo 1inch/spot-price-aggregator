@@ -151,7 +151,7 @@ contract OffchainOracle is Ownable {
         Usage of the dex oracle on chain is highly discouraged!
         getRate function can be easily manipulated inside transaction!
     */
-    function getRate(IERC20 srcToken, IERC20 dstToken, bool useWrappers) external returns (uint256 weightedRate) {
+    function getRate(IERC20 srcToken, IERC20 dstToken, bool useWrappers) external view returns (uint256 weightedRate) {
         require(srcToken != dstToken, "Tokens should not be the same");
         uint256 totalWeight;
         (IOracle[] memory allOracles, ) = oracles();

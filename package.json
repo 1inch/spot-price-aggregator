@@ -19,7 +19,7 @@
         "@openzeppelin/test-helpers": "^0.5.15",
         "chai": "^4.3.4",
         "dotenv": "^10.0.0",
-        "eslint": "^8.0.0",
+        "eslint": "7.32.0",
         "eslint-config-standard": "^16.0.3",
         "eslint-plugin-import": "^2.24.2",
         "eslint-plugin-node": "^11.1.0",
