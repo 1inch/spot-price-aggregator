@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.7.6;
+pragma solidity ^0.8.9;
+pragma abicoder v1;
 
 import "../interfaces/IWrapper.sol";
 

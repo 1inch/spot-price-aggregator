@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.7.6;
+pragma solidity ^0.8.9;
+pragma abicoder v1;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "../interfaces/IChainlink.sol";
 import "../interfaces/IOracle.sol";
@@ -30,7 +31,9 @@ contract ChainlinkOracle is IOracle {
 
     function _getRate(IERC20 token) private view returns (uint256 rate, uint8 decimals) {
         (, int256 answer, , uint256 srcUpdatedAt, ) = chainlink.latestRoundData(token, _QUOTE);
-        require(block.timestamp < srcUpdatedAt + _RATE_TTL, "CO: rate too old");
+        unchecked {
+            require(block.timestamp < srcUpdatedAt + _RATE_TTL, "CO: rate too old");
+        }
         rate = uint256(answer);
         decimals = ERC20(address(token)).decimals();
         rate = rate * (10 ** (uint256(18).sub(decimals)));

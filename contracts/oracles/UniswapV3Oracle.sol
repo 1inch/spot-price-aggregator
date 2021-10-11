@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.7.6;
+pragma solidity ^0.8.9;
+pragma abicoder v1;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "../interfaces/IOracle.sol";
@@ -26,32 +27,34 @@ contract UniswapV3Oracle is IOracle {
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
         uint24[3] memory fees = [uint24(500), 3000, 10000];
 
-        if (connector == _NONE) {
-            for (uint256 i = 0; i < 3; i++) {
-                (uint256 rate0, uint256 b1, uint256 b2) = _getRate(srcToken, dstToken, fees[i]);
-                uint256 w = b1.mul(b2);
-                rate = rate.add(rate0.mul(w));
-                weight = weight.add(w);
-            }
-        } else {
-            for (uint256 i = 0; i < 3; i++) {
-                for (uint256 j = 0; j < 3; j++) {
-                    (uint256 rate0, uint256 b1, uint256 bc1) = _getRate(srcToken, connector, fees[i]);
-                    if (b1 == 0 || bc1 == 0) {
-                        return (0, 0);
-                    }
-                    (uint256 rate1, uint256 bc2, uint256 b2) = _getRate(connector, dstToken, fees[j]);
-                    if (bc2 == 0 || b2 == 0) {
-                        return (0, 0);
-                    }
-
-                    if (bc2 < bc1) {
-                        (bc1, bc2) = (bc2, bc1);
-                    }
-                    uint256 w = b1.mul(b2).mul(bc1).div(bc2);
-
-                    rate = rate.add(rate0.mul(rate1).div(1e18).mul(w));
+        unchecked {
+            if (connector == _NONE) {
+                for (uint256 i = 0; i < 3; i++) {
+                    (uint256 rate0, uint256 b1, uint256 b2) = _getRate(srcToken, dstToken, fees[i]);
+                    uint256 w = b1.mul(b2);
+                    rate = rate.add(rate0.mul(w));
                     weight = weight.add(w);
+                }
+            } else {
+                for (uint256 i = 0; i < 3; i++) {
+                    for (uint256 j = 0; j < 3; j++) {
+                        (uint256 rate0, uint256 b1, uint256 bc1) = _getRate(srcToken, connector, fees[i]);
+                        if (b1 == 0 || bc1 == 0) {
+                            return (0, 0);
+                        }
+                        (uint256 rate1, uint256 bc2, uint256 b2) = _getRate(connector, dstToken, fees[j]);
+                        if (bc2 == 0 || b2 == 0) {
+                            return (0, 0);
+                        }
+
+                        if (bc2 < bc1) {
+                            (bc1, bc2) = (bc2, bc1);
+                        }
+                        uint256 w = b1.mul(b2).mul(bc1).div(bc2);
+
+                        rate = rate.add(rate0.mul(rate1).div(1e18).mul(w));
+                        weight = weight.add(w);
+                    }
                 }
             }
         }
@@ -79,8 +82,7 @@ contract UniswapV3Oracle is IOracle {
     }
 
     function _getPool(address token0, address token1, uint24 fee) private view returns (address) {
-        return address(
-            uint256(
+        return address(uint160(uint256(
                 keccak256(
                     abi.encodePacked(
                         hex'ff',
@@ -89,7 +91,6 @@ contract UniswapV3Oracle is IOracle {
                         poolInitCodeHash
                     )
                 )
-            )
-        );
+            )));
     }
 }

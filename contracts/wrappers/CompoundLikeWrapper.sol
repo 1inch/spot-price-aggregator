@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.7.6;
+pragma solidity ^0.8.9;
+pragma abicoder v1;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../interfaces/IComptroller.sol";
 import "../interfaces/IWrapper.sol";
 
@@ -23,22 +24,26 @@ contract CompoundLikeWrapper is IWrapper {
     }
 
     function addMarkets(ICToken[] memory markets) external {
-        for (uint256 i = 0; i < markets.length; i++) {
-            (bool isListed, , ) = _comptroller.markets(markets[i]);
-            require(isListed, "Market is not listed");
-            IERC20 underlying = markets[i].underlying();
-            cTokenToToken[markets[i]] = underlying;
-            tokenTocToken[underlying] = markets[i];
+        unchecked {
+            for (uint256 i = 0; i < markets.length; i++) {
+                (bool isListed, , ) = _comptroller.markets(markets[i]);
+                require(isListed, "Market is not listed");
+                IERC20 underlying = markets[i].underlying();
+                cTokenToToken[markets[i]] = underlying;
+                tokenTocToken[underlying] = markets[i];
+            }
         }
     }
 
     function removeMarkets(ICToken[] memory markets) external {
-        for (uint256 i = 0; i < markets.length; i++) {
-            (bool isListed, , ) = _comptroller.markets(markets[i]);
-            require(!isListed, "Market is listed");
-            IERC20 underlying = markets[i].underlying();
-            delete cTokenToToken[markets[i]];
-            delete tokenTocToken[underlying];
+        unchecked {
+            for (uint256 i = 0; i < markets.length; i++) {
+                (bool isListed, , ) = _comptroller.markets(markets[i]);
+                require(!isListed, "Market is listed");
+                IERC20 underlying = markets[i].underlying();
+                delete cTokenToToken[markets[i]];
+                delete tokenTocToken[underlying];
+            }
         }
     }
 
@@ -50,9 +55,9 @@ contract CompoundLikeWrapper is IWrapper {
         }
         IERC20 underlying = cTokenToToken[token];
         IERC20 cToken = tokenTocToken[token];
-        if (underlying != IERC20(0)) {
+        if (underlying != IERC20(address(0))) {
             return (underlying, ICToken(address(token)).exchangeRateStored());
-        } else if (cToken != IERC20(0)) {
+        } else if (cToken != IERC20(address(0))) {
             return (cToken, uint256(1e36).div(ICToken(address(cToken)).exchangeRateStored()));
         } else {
             revert("Unsupported token");

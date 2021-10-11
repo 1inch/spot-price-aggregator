@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.7.6;
+pragma solidity ^0.8.9;
+pragma abicoder v1;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../interfaces/ILoanToken.sol";
 import "../interfaces/IBzxProtocol.sol";
 import "../interfaces/IWrapper.sol";
@@ -17,29 +18,33 @@ contract FulcrumWrapper is IWrapper {
     mapping(IERC20 => IERC20) public tokenToiToken;
 
     function addMarkets(IERC20[] memory markets) external {
-        for (uint256 i = 0; i < markets.length; i++) {
-            address loanPool = _BZX_PROTOCOL.underlyingToLoanPool(address(markets[i]));
-            require(loanPool != address(0), "Token is not supported");
-            iTokenToToken[IERC20(loanPool)] = markets[i];
-            tokenToiToken[markets[i]] = IERC20(loanPool);
+        unchecked {
+            for (uint256 i = 0; i < markets.length; i++) {
+                address loanPool = _BZX_PROTOCOL.underlyingToLoanPool(address(markets[i]));
+                require(loanPool != address(0), "Token is not supported");
+                iTokenToToken[IERC20(loanPool)] = markets[i];
+                tokenToiToken[markets[i]] = IERC20(loanPool);
+            }
         }
     }
 
     function removeMarkets(IERC20[] memory markets) external {
-        for (uint256 i = 0; i < markets.length; i++) {
-            address loanPool = _BZX_PROTOCOL.underlyingToLoanPool(address(markets[i]));
-            require(loanPool == address(0), "Token is still supported");
-            delete iTokenToToken[IERC20(loanPool)];
-            delete tokenToiToken[markets[i]];
+        unchecked {
+            for (uint256 i = 0; i < markets.length; i++) {
+                address loanPool = _BZX_PROTOCOL.underlyingToLoanPool(address(markets[i]));
+                require(loanPool == address(0), "Token is still supported");
+                delete iTokenToToken[IERC20(loanPool)];
+                delete tokenToiToken[markets[i]];
+            }
         }
     }
 
     function wrap(IERC20 token) external view override returns (IERC20 wrappedToken, uint256 rate) {
         IERC20 underlying = iTokenToToken[token];
         IERC20 iToken = tokenToiToken[token];
-        if (underlying != IERC20(0)) {
+        if (underlying != IERC20(address(0))) {
             return (underlying, uint256(1e36).div(ILoanToken(address(token)).tokenPrice()));
-        } else if (iToken != IERC20(0)) {
+        } else if (iToken != IERC20(address(0))) {
             return (iToken, ILoanToken(address(iToken)).tokenPrice());
         } else {
             revert("Unsupported token");
