@@ -31,7 +31,7 @@ contract MultiWrapper is Ownable {
         allWrappers = new IWrapper[](_wrappers.length());
         unchecked {
             for (uint256 i = 0; i < allWrappers.length; i++) {
-                allWrappers[i] = IWrapper(address(uint160(uint256(_wrappers._inner._values[i]))));
+                allWrappers[i] = IWrapper(address(bytes20(_wrappers._inner._values[i])));
             }
         }
     }
@@ -52,13 +52,13 @@ contract MultiWrapper is Ownable {
             uint256[] memory memRates = new uint256[](20);
             uint256 len = 0;
             for (uint256 i = 0; i < _wrappers._inner._values.length; i++) {
-                try IWrapper(address(uint160(uint256(_wrappers._inner._values[i])))).wrap(token) returns (IERC20 wrappedToken, uint256 rate) {
+                try IWrapper(address(bytes20(_wrappers._inner._values[i]))).wrap(token) returns (IERC20 wrappedToken, uint256 rate) {
                     memWrappedTokens[len] = wrappedToken;
                     memRates[len] = rate;
                     len += 1;
                     for (uint256 j = 0; j < _wrappers._inner._values.length; j++) {
                         if (i != j) {
-                            try IWrapper(address(uint160(uint256(_wrappers._inner._values[j])))).wrap(wrappedToken) returns (IERC20 wrappedToken2, uint256 rate2) {
+                            try IWrapper(address(bytes20(_wrappers._inner._values[j]))).wrap(wrappedToken) returns (IERC20 wrappedToken2, uint256 rate2) {
                                 bool used = false;
                                 for (uint256 k = 0; k < len; k++) {
                                     if (wrappedToken2 == memWrappedTokens[k]) {
