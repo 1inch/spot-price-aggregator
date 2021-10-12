@@ -61,7 +61,7 @@ contract OffchainOracle is Ownable {
             IOracle[] memory oraclesBuffer = new IOracle[](_wethOracles._inner._values.length + _ethOracles._inner._values.length);
             OracleType[] memory oracleTypesBuffer = new OracleType[](oraclesBuffer.length);
             for (uint256 i = 0; i < _wethOracles._inner._values.length; i++) {
-                oraclesBuffer[i] = IOracle(address(bytes20(_wethOracles._inner._values[i])));
+                oraclesBuffer[i] = IOracle(address(uint160(uint256(_wethOracles._inner._values[i]))));
                 oracleTypesBuffer[i] = OracleType.WETH;
             }
 
@@ -70,7 +70,7 @@ contract OffchainOracle is Ownable {
             for (uint256 i = 0; i < _ethOracles._inner._values.length; i++) {
                 OracleType kind = OracleType.ETH;
                 uint256 oracleIndex = actualItemsCount;
-                IOracle oracle = IOracle(address(bytes20(_ethOracles._inner._values[i])));
+                IOracle oracle = IOracle(address(uint160(uint256(_ethOracles._inner._values[i]))));
                 for (uint j = 0; j < oraclesBuffer.length; j++) {
                     if (oraclesBuffer[j] == oracle) {
                         oracleIndex = j;
@@ -98,7 +98,7 @@ contract OffchainOracle is Ownable {
         unchecked {
             allConnectors = new IERC20[](_connectors.length());
             for (uint256 i = 0; i < allConnectors.length; i++) {
-                allConnectors[i] = IERC20(address(bytes20(_connectors._inner._values[i])));
+                allConnectors[i] = IERC20(address(uint160(uint256(_connectors._inner._values[i]))));
             }
         }
     }
@@ -166,11 +166,11 @@ contract OffchainOracle is Ownable {
                         return srcRates[k1].mul(dstRates[k2]).div(1e18);
                     }
                     for (uint256 j = 0; j < connectors_.length; j++) {
-                        if (IERC20(address(bytes20(connectors_[j]))) == wrappedSrcTokens[k1] || IERC20(address(bytes20(connectors_[j]))) == wrappedDstTokens[k2]) {
+                        if (IERC20(address(uint160(uint256(connectors_[j])))) == wrappedSrcTokens[k1] || IERC20(address(uint160(uint256(connectors_[j])))) == wrappedDstTokens[k2]) {
                             continue;
                         }
                         for (uint256 i = 0; i < allOracles.length; i++) {
-                            try allOracles[i].getRate(wrappedSrcTokens[k1], wrappedDstTokens[k2], IERC20(address(bytes20(connectors_[j])))) returns (uint256 rate, uint256 weight) {
+                            try allOracles[i].getRate(wrappedSrcTokens[k1], wrappedDstTokens[k2], IERC20(address(uint160(uint256(connectors_[j]))))) returns (uint256 rate, uint256 weight) {
                                 rate = rate.mul(srcRates[k1]).mul(dstRates[k2]).div(1e36);
                                 weight = weight.mul(weight);
                                 weightedRate = weightedRate.add(rate.mul(weight));
@@ -201,12 +201,12 @@ contract OffchainOracle is Ownable {
                         return srcRates[k1];
                     }
                     for (uint256 j = 0; j < connectors_.length; j++) {
-                        IERC20 connector = IERC20(address(bytes20(connectors_[j])));
+                        IERC20 connector = IERC20(address(uint160(uint256(connectors_[j]))));
                         if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
                             continue;
                         }
                         for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
-                            try IOracle(address(bytes20(wrappedOracles[k2][i]))).getRate(wrappedSrcTokens[k1], wrappedDstTokens[k2], connector) returns (uint256 rate, uint256 weight) {
+                            try IOracle(address(uint160(uint256(wrappedOracles[k2][i])))).getRate(wrappedSrcTokens[k1], wrappedDstTokens[k2], connector) returns (uint256 rate, uint256 weight) {
                                 rate = rate.mul(srcRates[k1]).div(1e18);
                                 weight = weight.mul(weight);
                                 weightedRate = weightedRate.add(rate.mul(weight));
