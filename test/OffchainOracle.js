@@ -100,9 +100,9 @@ describe('OffchainOracle', async function () {
         expect(rate).to.be.bignumber.equal(ether('1'));
     });
 
-    it.skip('getRate(dai -> link)_GasCheck', async function () {
+    it('getRate(dai -> link)_GasCheck', async function () {
         const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRate(tokens.DAI, tokens.LINK, true).encodeABI());
-        assertRoughlyEquals(result.gasUsed, '702878', 3);
+        assertRoughlyEquals(result.gasUsed, '701592', 3);
     });
 
     it('getRateToEth(dai)_ShouldHaveCorrectRate', async function () {
@@ -111,9 +111,9 @@ describe('OffchainOracle', async function () {
         assertRoughlyEquals(expectedRate, actualRate, 7);
     });
 
-    it.skip('getRateToEth(dai)_GasCheck', async function () {
+    it('getRateToEth(dai)_GasCheck', async function () {
         const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRateToEth(tokens.DAI, true).encodeABI());
-        assertRoughlyEquals(result.gasUsed, '969548', 3);
+        assertRoughlyEquals(result.gasUsed, '969413', 3);
     });
 
     it('getRateDirect(dai -> link)_ShouldHaveCorrectRate', async function () {
@@ -122,8 +122,8 @@ describe('OffchainOracle', async function () {
         assertRoughlyEquals(expectedRate, actualRate, 7);
     });
 
-    it.skip('getRateDirect(dai -> link)_GasCheck', async function () {
+    it('getRateDirect(dai -> link)_GasCheck', async function () {
         const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRate(tokens.DAI, tokens.LINK, false).encodeABI());
-        assertRoughlyEquals(result.gasUsed, '362872', 2);
+        assertRoughlyEquals(result.gasUsed, '362562', 2);
     });
 });
