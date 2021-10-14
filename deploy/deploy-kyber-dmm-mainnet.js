@@ -15,15 +15,24 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         from: deployer,
         args: args,
         skipIfAlreadyDeployed: false,
+        maxPriorityFeePerGas: 2e9,
+        maxFeePerGas: 100e9,
+        nonce: 652,
     });
 
-    const txn1 = await offchainOracle.addOracle(kyberDmmOracle.address, '1');
+    const txn1 = await offchainOracle.addOracle(
+        kyberDmmOracle.address,
+        '0',
+        { from: deployer, maxPriorityFeePerGas: 2e9, maxFeePerGas: 100e9, nonce: 653 }
+    );
     await txn1;
 
-    await hre.run('verify:verify', {
-        address: kyberDmmOracle.address,
-        constructorArguments: args,
-    });
+    if (await getChainId() !== '31337') {
+        await hre.run('verify:verify', {
+            address: kyberDmmOracle.address,
+            constructorArguments: args,
+        });
+    }
 };
 
 module.exports.skip = async () => true;
