@@ -109,4 +109,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('OffchainOracle deployed to:', offchainOracle.address);
 };
 
-module.exports.skip = async () => false;
+module.exports.skip = async () => true;
