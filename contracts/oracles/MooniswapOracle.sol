@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.7.6;
+pragma solidity 0.8.9;
+pragma abicoder v1;
 
 import "../interfaces/IMooniswapFactory.sol";
 import "./OracleBase.sol";
@@ -18,11 +19,13 @@ contract MooniswapOracle is OracleBase {
         IMooniswap mooniswap = factory.pools(srcToken, dstToken);
         IERC20[] memory tokens = mooniswap.getTokens();
         uint256[2] memory balances;
-        for (uint256 i = 0; i < 2; ++i) {
-            if (tokens[i] == _ETH) {
-                balances[i] = address(mooniswap).balance;
-            } else {
-                balances[i] = tokens[i].balanceOf(address(mooniswap));
+        unchecked {
+            for (uint256 i = 0; i < 2; ++i) {
+                if (tokens[i] == _ETH) {
+                    balances[i] = address(mooniswap).balance;
+                } else {
+                    balances[i] = tokens[i].balanceOf(address(mooniswap));
+                }
             }
         }
         if (tokens[0] == srcToken) {
