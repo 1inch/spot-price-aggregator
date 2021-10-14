@@ -3,7 +3,6 @@
 pragma solidity 0.8.9;
 pragma abicoder v1;
 
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "../interfaces/ISynthetixExchangeRates.sol";
@@ -12,8 +11,6 @@ import "../interfaces/ISynthetixAddressResolver.sol";
 import "../interfaces/IOracle.sol";
 
 contract SynthetixOracle is IOracle {
-    using SafeMath for uint256;
-
     ISynthetixProxy public immutable proxy;
     IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
@@ -37,7 +34,7 @@ contract SynthetixOracle is IOracle {
 
         uint256 srcAnswer = srcToken != _ETH ? _getRate(address(srcToken), resolver, exchangeRates) : _getRate(resolver.getAddress(_SETH_KEY), resolver, exchangeRates);
         uint256 dstAnswer = dstToken != _ETH ? _getRate(address(dstToken), resolver, exchangeRates) : _getRate(resolver.getAddress(_SETH_KEY), resolver, exchangeRates);
-        rate = srcAnswer.mul(1e18).div(dstAnswer);
+        rate = srcAnswer * 1e18 / dstAnswer;
         weight = 1e24;
     }
 

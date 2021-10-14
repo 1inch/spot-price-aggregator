@@ -60,7 +60,7 @@ contract UniswapV3Oracle is IOracle {
         }
 
         if (weight > 0) {
-            rate = rate.div(weight);
+            rate = rate / weight;
             weight = weight.sqrt();
         }
     }
@@ -73,9 +73,9 @@ contract UniswapV3Oracle is IOracle {
         }
         (uint256 sqrtPriceX96,,,,,,) = IUniswapV3Pool(pool).slot0();
         if (srcToken == token0) {
-            rate = (uint256(1e18).mul(sqrtPriceX96) >> 96).mul(sqrtPriceX96) >> 96;
+            rate = (((1e18 * sqrtPriceX96) >> 96) * sqrtPriceX96) >> 96;
         } else {
-            rate = uint256(1e18 << 192).div(sqrtPriceX96).div(sqrtPriceX96);
+            rate = (1e18 << 192) / sqrtPriceX96 / sqrtPriceX96;
         }
         srcBalance = srcToken.balanceOf(address(pool));
         dstBalance = dstToken.balanceOf(address(pool));

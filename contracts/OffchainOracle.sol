@@ -182,7 +182,7 @@ contract OffchainOracle is Ownable {
             }
         }
         if (totalWeight > 0) {
-            weightedRate = weightedRate.div(totalWeight);
+            weightedRate = weightedRate / totalWeight;
         }
     }
 
@@ -218,7 +218,7 @@ contract OffchainOracle is Ownable {
             }
         }
         if (totalWeight > 0) {
-            weightedRate = weightedRate.div(totalWeight);
+            weightedRate = weightedRate / totalWeight;
         }
     }
 

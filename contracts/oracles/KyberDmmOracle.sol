@@ -60,11 +60,11 @@ contract KyberDmmOracle is IOracle {
                     }
                 }
             }
+        }
 
-            if (weight > 0) {
-                rate = rate.div(weight);
-                weight = weight.sqrt();
-            }
+        if (weight > 0) {
+            rate = rate / weight;
+            weight = weight.sqrt();
         }
     }
 

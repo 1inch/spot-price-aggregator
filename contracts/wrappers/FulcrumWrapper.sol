@@ -3,15 +3,12 @@
 pragma solidity 0.8.9;
 pragma abicoder v1;
 
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../interfaces/ILoanToken.sol";
 import "../interfaces/IBzxProtocol.sol";
 import "../interfaces/IWrapper.sol";
 
 
 contract FulcrumWrapper is IWrapper {
-    using SafeMath for uint256;
-
     IBzxProtocol private constant _BZX_PROTOCOL = IBzxProtocol(0xD8Ee69652E4e4838f2531732a46d1f7F584F0b7f);
 
     mapping(IERC20 => IERC20) public iTokenToToken;
@@ -43,7 +40,7 @@ contract FulcrumWrapper is IWrapper {
         IERC20 underlying = iTokenToToken[token];
         IERC20 iToken = tokenToiToken[token];
         if (underlying != IERC20(address(0))) {
-            return (underlying, uint256(1e36).div(ILoanToken(address(token)).tokenPrice()));
+            return (underlying, 1e36 / ILoanToken(address(token)).tokenPrice());
         } else if (iToken != IERC20(address(0))) {
             return (iToken, ILoanToken(address(iToken)).tokenPrice());
         } else {
