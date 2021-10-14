@@ -8,7 +8,7 @@ describe('SynthetixOracle', async function () {
     function symbolToBytes (symbol) {
         let result = '0x';
         for (let i = 0; i < symbol.length; i++) {
-            result += symbol.charCodeAt(i);
+            result += parseInt(symbol.charCodeAt(i)).toString(16);
         }
         return result;
     }
@@ -18,18 +18,18 @@ describe('SynthetixOracle', async function () {
     });
 
     it('should correct convert', async function () {
-        expect(symbolToBytes('sREN')).equal('0x115826978');
-        expect(symbolToBytes('iDOT')).equal('0x105687984');
+        expect(symbolToBytes('sLINK')).equal('0x734c494e4b');
+        expect(symbolToBytes('sKRW')).equal('0x734b5257');
     });
 
     it('should return rates', async function () {
-        let result = await this.synthetixOracle.getRate(tokens.sREN, tokens.iDOT, tokens.NONE);
+        let result = await this.synthetixOracle.getRate(tokens.sLINK, tokens.sKRW, tokens.NONE);
         console.log(result.rate.toString(), result.weight.toString());
 
-        result = await this.synthetixOracle.getRate(tokens.ETH, tokens.iDOT, tokens.NONE);
+        result = await this.synthetixOracle.getRate(tokens.ETH, tokens.sKRW, tokens.NONE);
         console.log(result.rate.toString(), result.weight.toString());
 
-        result = await this.synthetixOracle.getRate(tokens.sREN, tokens.ETH, tokens.NONE);
+        result = await this.synthetixOracle.getRate(tokens.sLINK, tokens.ETH, tokens.NONE);
         console.log(result.rate.toString(), result.weight.toString());
 
         result = await this.synthetixOracle.getRate(tokens.ETH, tokens.ETH, tokens.NONE);
@@ -46,7 +46,7 @@ describe('SynthetixOracle', async function () {
         const incorrectSREN = '0x4287dac1cC7434991119Eba7413189A66fFE65cF';
 
         await expectRevert(
-            this.synthetixOracle.contract.methods.getRate(incorrectSREN, tokens.iDOT, tokens.NONE).call(),
+            this.synthetixOracle.contract.methods.getRate(incorrectSREN, tokens.sKRW, tokens.NONE).call(),
             'SO: unregistered token',
         );
     });
