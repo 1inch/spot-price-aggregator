@@ -31,4 +31,9 @@ Note that answer and updatedAt may change between queries.
 #### Return Values:
 | Name                           | Type          | Description                                                                  |
 | :----------------------------- | :------------ | :--------------------------------------------------------------------------- |
-|`roundId`| contract IERC20 | is the round ID from the aggregator for which the data was retrieved combined with a phase to ensure that round IDs get larger as time moves forward. |`answer`| address | is the answer for the given round |`startedAt`|  | is the timestamp when the round was started. (Only some AggregatorV3Interface implementations return meaningful values) |`updatedAt`|  | is the timestamp when the round last was updated (i.e. answer was last computed) |`answeredInRound`|  | is the round ID of the round in which the answer was computed. (Only some AggregatorV3Interface implementations return meaningful values) 
+|`roundId`| uint80 | is the round ID from the aggregator for which the data was retrieved combined with a phase to ensure that round IDs get larger as time moves forward. 
+|`answer`| int256 | is the answer for the given round 
+|`startedAt`| uint256 | is the timestamp when the round was started. (Only some AggregatorV3Interface implementations return meaningful values) 
+|`updatedAt`| uint256 | is the timestamp when the round last was updated (i.e. answer was last computed) 
+|`answeredInRound`| uint80 | is the round ID of the round in which the answer was computed. (Only some AggregatorV3Interface implementations return meaningful values) 
+
