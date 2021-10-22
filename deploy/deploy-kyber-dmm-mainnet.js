@@ -22,7 +22,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const txn1 = await offchainOracle.addOracle(
         kyberDmmOracle.address,
         '0',
-        { from: deployer, maxPriorityFeePerGas: 2e9, maxFeePerGas: 100e9 }
+        { from: deployer, maxPriorityFeePerGas: 2e9, maxFeePerGas: 100e9 },
     );
     await txn1;
 
