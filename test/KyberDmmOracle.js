@@ -1,14 +1,17 @@
 const { expectRevert } = require('@openzeppelin/test-helpers');
-const { tokens } = require('./helpers.js');
+const { tokens, assertRoughlyEqualValues} = require('./helpers.js');
 
 const KyberDmmOracle = artifacts.require('KyberDmmOracle');
+const UniswapV3Oracle = artifacts.require('UniswapV3Oracle');
+const initcodeHashV3 = '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54';
 
-describe('KyberDmmOracle', async function () {
+describe.only('KyberDmmOracle', async function () {
     const kncDecimals = 18;
     const usdcDecimals = 6;
 
     before(async function () {
         this.kyberDmmOracle = await KyberDmmOracle.new('0x833e4083b7ae46cea85695c4f7ed25cdad8886de');
+        this.uniswapV3Oracle = await UniswapV3Oracle.new(initcodeHashV3);
     });
 
     it('should revert with amount of pools error', async function () {
@@ -26,24 +29,24 @@ describe('KyberDmmOracle', async function () {
     });
 
     it('KNC -> WETH', async function () {
-        const result = await this.kyberDmmOracle.getRate(tokens.KNC, tokens.WETH, tokens.NONE);
-        console.log(`1 KNC = ${web3.utils.fromWei(result.rate.toString(), 'ether')} WETH, weight = ${result.weight.toString()}`);
+        await testRate(this, tokens.KNC, tokens.WETH, tokens.NONE);
     });
 
     it('WETH -> KNC', async function () {
-        const result = await this.kyberDmmOracle.getRate(tokens.WETH, tokens.KNC, tokens.NONE);
-        console.log(`1 WETH = ${web3.utils.fromWei(result.rate.toString(), 'ether')} KNC, weight = ${result.weight.toString()}`);
+        await testRate(this, tokens.WETH, tokens.KNC, tokens.NONE);
     });
 
     it('KNC -> WETH -> USDC', async function () {
-        const result = await this.kyberDmmOracle.getRate(tokens.KNC, tokens.USDC, tokens.WETH);
-        const correction = web3.utils.toBN(10).pow(web3.utils.toBN(kncDecimals - usdcDecimals));
-        console.log(`1 KNC = ${web3.utils.fromWei(result.rate.mul(correction).toString(), 'ether')} USDC, weight = ${result.weight.toString()}`);
+        await testRate(this, tokens.KNC, tokens.USDC, tokens.WETH);
     });
 
     it('USDC -> WETH -> KNC', async function () {
-        const result = await this.kyberDmmOracle.getRate(tokens.USDC, tokens.KNC, tokens.WETH);
-        const correction = web3.utils.toBN(10).pow(web3.utils.toBN(kncDecimals - usdcDecimals));
-        console.log(`1 USDC = ${web3.utils.fromWei(result.rate.div(correction).toString(), 'ether')} KNC, weight = ${result.weight.toString()}`);
+        await testRate(this, tokens.USDC, tokens.KNC, tokens.WETH);
     });
+
+    async function testRate (self, srcToken, dstToken, connector) {
+        const kyberResult = await self.kyberDmmOracle.getRate(srcToken, dstToken, connector);
+        const v3Result = await self.uniswapV3Oracle.getRate(srcToken, dstToken, connector);
+        assertRoughlyEqualValues(v3Result.rate.toString(), kyberResult.rate.toString(), 0.05);
+    }
 });
