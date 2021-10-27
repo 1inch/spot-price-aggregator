@@ -1,14 +1,11 @@
 const { expectRevert } = require('@openzeppelin/test-helpers');
-const { tokens, assertRoughlyEqualValues} = require('./helpers.js');
+const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
 
 const KyberDmmOracle = artifacts.require('KyberDmmOracle');
 const UniswapV3Oracle = artifacts.require('UniswapV3Oracle');
 const initcodeHashV3 = '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54';
 
-describe.only('KyberDmmOracle', async function () {
-    const kncDecimals = 18;
-    const usdcDecimals = 6;
-
+describe('KyberDmmOracle', async function () {
     before(async function () {
         this.kyberDmmOracle = await KyberDmmOracle.new('0x833e4083b7ae46cea85695c4f7ed25cdad8886de');
         this.uniswapV3Oracle = await UniswapV3Oracle.new(initcodeHashV3);
