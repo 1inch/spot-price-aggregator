@@ -10,7 +10,6 @@ import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV3Pool.sol";
 import "../libraries/Sqrt.sol";
 
-
 contract UniswapV3Oracle is IOracle {
     using Address for address;
     using SafeMath for uint256;
@@ -40,11 +39,11 @@ contract UniswapV3Oracle is IOracle {
                     for (uint256 j = 0; j < 3; j++) {
                         (uint256 rate0, uint256 b1, uint256 bc1) = _getRate(srcToken, connector, fees[i]);
                         if (b1 == 0 || bc1 == 0) {
-                            return (0, 0);
+                            continue;
                         }
                         (uint256 rate1, uint256 bc2, uint256 b2) = _getRate(connector, dstToken, fees[j]);
                         if (bc2 == 0 || b2 == 0) {
-                            return (0, 0);
+                            continue;
                         }
 
                         if (bc2 < bc1) {
