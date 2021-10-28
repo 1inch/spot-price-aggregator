@@ -14,25 +14,25 @@ describe('ChainlinkOracle', async function () {
     it('USDT -> DAI', async function () {
         const actual = await this.chainlinkOracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE);
         const expected = await this.uniswapV3Oracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE);
-        await assertRoughlyEqualValues(expected.rate.toString(), actual.rate.toString(), 0.01);
+        await assertRoughlyEqualValues(expected.rate.toString(), actual.rate.toString(), 0.05);
     });
 
     it('DAI -> USDT', async function () {
         const actual = await this.chainlinkOracle.getRate(tokens.DAI, tokens.USDT, tokens.NONE);
         const expected = await this.uniswapV3Oracle.getRate(tokens.DAI, tokens.USDT, tokens.NONE);
-        await assertRoughlyEqualValues(expected.rate.toString(), actual.rate.toString(), 0.01);
+        await assertRoughlyEqualValues(expected.rate.toString(), actual.rate.toString(), 0.05);
     });
 
     it('ETH -> DAI', async function () {
         const actual = await this.chainlinkOracle.getRate(tokens.ETH, tokens.DAI, tokens.NONE);
         const expected = await this.uniswapV3Oracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE);
-        await assertRoughlyEqualValues(expected.rate.toString(), actual.rate.toString(), 0.01);
+        await assertRoughlyEqualValues(expected.rate.toString(), actual.rate.toString(), 0.05);
     });
 
     it('DAI -> ETH', async function () {
         const actual = await this.chainlinkOracle.getRate(tokens.DAI, tokens.ETH, tokens.NONE);
         const expected = await this.uniswapV3Oracle.getRate(tokens.DAI, tokens.WETH, tokens.NONE);
-        await assertRoughlyEqualValues(expected.rate.toString(), actual.rate.toString(), 0.01);
+        await assertRoughlyEqualValues(expected.rate.toString(), actual.rate.toString(), 0.05);
     });
 
     it('Supports tokens with custom decimals', async function () {
