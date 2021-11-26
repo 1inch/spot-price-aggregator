@@ -15,13 +15,9 @@ contract UniswapV3Oracle is IOracle {
     using SafeMath for uint256;
     using Sqrt for uint256;
 
-    bytes32 public immutable poolInitCodeHash;
+    bytes32 public constant POOL_INIT_CODE_HASH = 0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54;
     address public constant FACTORY = 0x1F98431c8aD98523631AE4a59f267346ea31F984;
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
-
-    constructor(bytes32 _poolInitCodeHash) {
-        poolInitCodeHash = _poolInitCodeHash;
-    }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
         uint24[3] memory fees = [uint24(500), 3000, 10000];
@@ -87,7 +83,7 @@ contract UniswapV3Oracle is IOracle {
                         hex'ff',
                         FACTORY,
                         keccak256(abi.encode(token0, token1, fee)),
-                        poolInitCodeHash
+                        POOL_INIT_CODE_HASH
                     )
                 )
             )));
