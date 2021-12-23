@@ -3,7 +3,7 @@ const { getChainId } = hre;
 const { BN } = require('@openzeppelin/test-helpers');
 const { tokens } = require('../test/helpers.js');
 
-const WETH = '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1';
+const WXDAI = '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d';
 
 const HONEYSWAP_FACTORY = '0x1C232F01118CB8B424793ae03F870aa7D0ac7f77';
 const HONEYSWAP_HASH = '0x3f88503e8580ab941773b59034fb4b2a63e86dbc031b3633a925533ad3ed2b93';
@@ -16,7 +16,7 @@ const SWAPR_HASH = '0xd306a548755b9295ee49cc729e13ca4a45e00199bbd890fa146da43a50
 
 const connectors = [
     tokens.ETH,
-    WETH,
+    WXDAI,
     tokens.NONE,
 ];
 
@@ -27,15 +27,15 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const { deploy } = deployments;
     const { deployer } = await getNamedAccounts();
 
-    const wethWrapper = await deploy('BaseCoinWrapper', {
-        args: [WETH],
+    const baseCoinWrapper = await deploy('BaseCoinWrapper', {
+        args: [WXDAI],
         from: deployer,
     });
 
-    console.log('wethWrapper deployed to:', wethWrapper.address);
+    console.log('wethWrapper deployed to:', baseCoinWrapper.address);
 
     const multiWrapper = await deploy('MultiWrapper', {
-        args: [[wethWrapper.address]],
+        args: [[baseCoinWrapper.address]],
         from: deployer,
     });
 
@@ -78,7 +78,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             (new BN('0')).toString(),
         ],
         connectors,
-        WETH,
+        WXDAI,
     ];
 
     const offchainOracle = await deploy('OffchainOracle', {

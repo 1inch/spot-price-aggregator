@@ -147,7 +147,7 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 
 ### xDai
 
-#### Oracle [0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9](https://blockscout.com/xdai/mainnet/address/0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9)
+#### Oracle [0x142DB045195CEcaBe415161e1dF1CF0337A4d02E](https://blockscout.com/xdai/mainnet/address/0x142DB045195CEcaBe415161e1dF1CF0337A4d02E)
 
 #### Supported DEXes
 
