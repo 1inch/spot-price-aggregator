@@ -1,0 +1,119 @@
+{
+  "address": "0x015f78275ef05C40A98C4c6ea75b5d6b1f7388dc",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_factory",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "_initcodeHash",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "factory",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "srcToken",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "dstToken",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "connector",
+          "type": "address"
+        }
+      ],
+      "name": "getRate",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "rate",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "weight",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "initcodeHash",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xff1eb9c9bea186528387835414302c3435934606e6cff362355e97da0e1db747",
+  "receipt": {
+    "to": null,
+    "from": "0x08f2112B3bA6c20c76988BaB9Ad94F7676652608",
+    "contractAddress": "0x015f78275ef05C40A98C4c6ea75b5d6b1f7388dc",
+    "transactionIndex": 8,
+    "gasUsed": "348726",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xd1b901603f0fd94325c2a21d6bc0936f4fa67be3198d08b018969fa9ba96f80b",
+    "transactionHash": "0xff1eb9c9bea186528387835414302c3435934606e6cff362355e97da0e1db747",
+    "logs": [],
+    "blockNumber": 8608550,
+    "cumulativeGasUsed": "1374020",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x9Ad6C38BE94206cA50bb0d90783181662f0Cfa10",
+    "0x0bbca9af0511ad1a1da383135cf3a8d2ac620e549ef9f6ae3a4c33c2fed0af91"
+  ],
+  "solcInputHash": "7c9c9f881e461dea85a8d2131f7d68e1",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_factory\",\"type\":\"address\"},{\"internalType\":\"bytes32\",\"name\":\"_initcodeHash\",\"type\":\"bytes32\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"factory\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"srcToken\",\"type\":\"address\"},{\"internalType\":\"contract IERC20\",\"name\":\"dstToken\",\"type\":\"address\"},{\"internalType\":\"contract IERC20\",\"name\":\"connector\",\"type\":\"address\"}],\"name\":\"getRate\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"rate\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"weight\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"initcodeHash\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/oracles/UniswapV2LikeOracle.sol\":\"UniswapV2LikeOracle\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":1000000},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts v4.4.0 (token/ERC20/IERC20.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Interface of the ERC20 standard as defined in the EIP.\\n */\\ninterface IERC20 {\\n    /**\\n     * @dev Returns the amount of tokens in existence.\\n     */\\n    function totalSupply() external view returns (uint256);\\n\\n    /**\\n     * @dev Returns the amount of tokens owned by `account`.\\n     */\\n    function balanceOf(address account) external view returns (uint256);\\n\\n    /**\\n     * @dev Moves `amount` tokens from the caller's account to `recipient`.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transfer(address recipient, uint256 amount) external returns (bool);\\n\\n    /**\\n     * @dev Returns the remaining number of tokens that `spender` will be\\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\\n     * zero by default.\\n     *\\n     * This value changes when {approve} or {transferFrom} are called.\\n     */\\n    function allowance(address owner, address spender) external view returns (uint256);\\n\\n    /**\\n     * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\\n     * that someone may use both the old and the new allowance by unfortunate\\n     * transaction ordering. One possible solution to mitigate this race\\n     * condition is to first reduce the spender's allowance to 0 and set the\\n     * desired value afterwards:\\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\\n     *\\n     * Emits an {Approval} event.\\n     */\\n    function approve(address spender, uint256 amount) external returns (bool);\\n\\n    /**\\n     * @dev Moves `amount` tokens from `sender` to `recipient` using the\\n     * allowance mechanism. `amount` is then deducted from the caller's\\n     * allowance.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transferFrom(\\n        address sender,\\n        address recipient,\\n        uint256 amount\\n    ) external returns (bool);\\n\\n    /**\\n     * @dev Emitted when `value` tokens are moved from one account (`from`) to\\n     * another (`to`).\\n     *\\n     * Note that `value` may be zero.\\n     */\\n    event Transfer(address indexed from, address indexed to, uint256 value);\\n\\n    /**\\n     * @dev Emitted when the allowance of a `spender` for an `owner` is set by\\n     * a call to {approve}. `value` is the new allowance.\\n     */\\n    event Approval(address indexed owner, address indexed spender, uint256 value);\\n}\\n\",\"keccak256\":\"0xc1452b054778f1926419196ef12ae200758a4ee728df69ae1cd13e5c16ca7df7\",\"license\":\"MIT\"},\"contracts/interfaces/IOracle.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n\\r\\npragma solidity 0.8.10;\\r\\npragma abicoder v1;\\r\\n\\r\\nimport \\\"@openzeppelin/contracts/token/ERC20/IERC20.sol\\\";\\r\\n\\r\\n\\r\\ninterface IOracle {\\r\\n    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view returns (uint256 rate, uint256 weight);\\r\\n}\\r\\n\",\"keccak256\":\"0x67f7a178bb5771b63eafdac34447a75588b0817a15365837ae455c47af9777a7\",\"license\":\"MIT\"},\"contracts/interfaces/IUniswapV2Pair.sol\":{\"content\":\"// SPDX-License-Identifier: UNLICENSED\\r\\n\\r\\npragma solidity 0.8.10;\\r\\npragma abicoder v1;\\r\\n\\r\\n\\r\\ninterface IUniswapV2Pair {\\r\\n    function getReserves() external view returns (uint112 _reserve0, uint112 _reserve1, uint32 _blockTimestampLast);\\r\\n}\\r\\n\",\"keccak256\":\"0x48ff34bcba844563ea39f8f5c1ebc4a5073582ee2a0ab60057f85a25d18b1599\",\"license\":\"UNLICENSED\"},\"contracts/libraries/Sqrt.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n\\r\\npragma solidity 0.8.10;\\r\\npragma abicoder v1;\\r\\n\\r\\n\\r\\nlibrary Sqrt {\\r\\n    function sqrt(uint y) internal pure returns (uint z) {\\r\\n        unchecked {\\r\\n            if (y > 3) {\\r\\n                z = y;\\r\\n                uint x = y / 2 + 1;\\r\\n                while (x < z) {\\r\\n                    z = x;\\r\\n                    x = (y / x + x) / 2;\\r\\n                }\\r\\n            } else if (y != 0) {\\r\\n                z = 1;\\r\\n            }\\r\\n        }\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0x38bac9f27b0a103f9f2cb1eff33bb766263facf7c14860ace8dfbf54cbe5319f\",\"license\":\"MIT\"},\"contracts/oracles/OracleBase.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n\\r\\npragma solidity 0.8.10;\\r\\npragma abicoder v1;\\r\\n\\r\\nimport \\\"@openzeppelin/contracts/token/ERC20/IERC20.sol\\\";\\r\\nimport \\\"../interfaces/IOracle.sol\\\";\\r\\nimport \\\"../libraries/Sqrt.sol\\\";\\r\\n\\r\\n\\r\\nabstract contract OracleBase is IOracle {\\r\\n    using Sqrt for uint256;\\r\\n\\r\\n    IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);\\r\\n\\r\\n    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {\\r\\n        uint256 balance0;\\r\\n        uint256 balance1;\\r\\n        if (connector == _NONE) {\\r\\n            (balance0, balance1) = _getBalances(srcToken, dstToken);\\r\\n        } else {\\r\\n            uint256 balanceConnector0;\\r\\n            uint256 balanceConnector1;\\r\\n            (balance0, balanceConnector0) = _getBalances(srcToken, connector);\\r\\n            (balanceConnector1, balance1) = _getBalances(connector, dstToken);\\r\\n            if (balanceConnector0 > balanceConnector1) {\\r\\n                balance0 = balance0 * balanceConnector1 / balanceConnector0;\\r\\n            } else {\\r\\n                balance1 = balance1 * balanceConnector0 / balanceConnector1;\\r\\n            }\\r\\n        }\\r\\n\\r\\n        rate = balance1 * 1e18 / balance0;\\r\\n        weight = (balance0 * balance1).sqrt();\\r\\n    }\\r\\n\\r\\n    function _getBalances(IERC20 srcToken, IERC20 dstToken) internal view virtual returns (uint256 srcBalance, uint256 dstBalance);\\r\\n}\\r\\n\",\"keccak256\":\"0xb4fc789ac2493f69eb2dba45d2dc95e1d9ad6da6b62a7a7ef01db56b9dedeecd\",\"license\":\"MIT\"},\"contracts/oracles/UniswapV2LikeOracle.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\r\\n\\r\\npragma solidity 0.8.10;\\r\\npragma abicoder v1;\\r\\n\\r\\nimport \\\"./OracleBase.sol\\\";\\r\\nimport \\\"../interfaces/IUniswapV2Pair.sol\\\";\\r\\n\\r\\n\\r\\ncontract UniswapV2LikeOracle is OracleBase {\\r\\n    address public immutable factory;\\r\\n    bytes32 public immutable initcodeHash;\\r\\n\\r\\n    constructor(address _factory, bytes32 _initcodeHash) {\\r\\n        factory = _factory;\\r\\n        initcodeHash = _initcodeHash;\\r\\n    }\\r\\n\\r\\n    // calculates the CREATE2 address for a pair without making any external calls\\r\\n    function _pairFor(IERC20 tokenA, IERC20 tokenB) private view returns (address pair) {\\r\\n        pair = address(uint160(uint256(keccak256(abi.encodePacked(\\r\\n                hex\\\"ff\\\",\\r\\n                factory,\\r\\n                keccak256(abi.encodePacked(tokenA, tokenB)),\\r\\n                initcodeHash\\r\\n            )))));\\r\\n    }\\r\\n\\r\\n    function _getBalances(IERC20 srcToken, IERC20 dstToken) internal view override returns (uint256 srcBalance, uint256 dstBalance) {\\r\\n        (IERC20 token0, IERC20 token1) = srcToken < dstToken ? (srcToken, dstToken) : (dstToken, srcToken);\\r\\n        (uint256 reserve0, uint256 reserve1,) = IUniswapV2Pair(_pairFor(token0, token1)).getReserves();\\r\\n        (srcBalance, dstBalance) = srcToken == token0 ? (reserve0, reserve1) : (reserve1, reserve0);\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0xf8a240714154c4ff7e5e31875e4538fb0a79121dd3b107794864122d405f0b2f\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60c060405234801561001057600080fd5b506040516105d83803806105d88339818101604052604081101561003357600080fd5b5080516020909101516001600160a01b0390911660805260a05260805160a05161055a61007e6000396000818160a901526102fe01526000818160e201526102cc015261055a6000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c806314999e79146100465780635a4fb9a8146100a4578063c45a0155146100dd575b600080fd5b61008b6004803603606081101561005c57600080fd5b5073ffffffffffffffffffffffffffffffffffffffff813581169160208101358216916040909101351661012d565b6040805192835260208301919091528051918290030190f35b6100cb7f000000000000000000000000000000000000000000000000000000000000000081565b60408051918252519081900360200190f35b6101047f000000000000000000000000000000000000000000000000000000000000000081565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b600080808073ffffffffffffffffffffffffffffffffffffffff85811614156101645761015a8787610200565b90925090506101c3565b6000806101718988610200565b90945091506101808789610200565b93509050808211156101a857816101978286610456565b6101a191906104e9565b93506101c0565b806101b38385610456565b6101bd91906104e9565b92505b50505b816101d682670de0b6b3a7640000610456565b6101e091906104e9565b93506101f46101ef8284610456565b6103f8565b92505050935093915050565b6000806000808473ffffffffffffffffffffffffffffffffffffffff168673ffffffffffffffffffffffffffffffffffffffff1610610240578486610243565b85855b9150915060008061033f8484604080517fffffffffffffffffffffffffffffffffffffffff000000000000000000000000606094851b811660208084019190915293851b81166034830152825160288184030181526048830184528051908501207fff0000000000000000000000000000000000000000000000000000000000000060688401527f000000000000000000000000000000000000000000000000000000000000000090951b166069820152607d8101939093527f0000000000000000000000000000000000000000000000000000000000000000609d808501919091528151808503909101815260bd9093019052815191012090565b73ffffffffffffffffffffffffffffffffffffffff16630902f1ac6040518163ffffffff1660e01b8152600401606060405180830381865afa158015610389573d6000803e3d6000fd5b505050506040513d606081101561039f57600080fd5b5080516020909101516dffffffffffffffffffffffffffff918216935016905073ffffffffffffffffffffffffffffffffffffffff888116908516146103e65780826103e9565b81815b90999098509650505050505050565b60006003821115610447575080600160028204015b818110156104415780915060028182858161042a5761042a6104ba565b040181610439576104396104ba565b04905061040d565b50919050565b8115610451575060015b919050565b6000817fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff04831182151516156104b5577f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fd5b500290565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601260045260246000fd5b60008261051f577f4e487b7100000000000000000000000000000000000000000000000000000000600052601260045260246000fd5b50049056fea2646970667358221220e3df9ab7d2cc264255b47a3f89c282c2cdc3ae8b7e1b7c1e12a5fc642884085064736f6c634300080a0033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c806314999e79146100465780635a4fb9a8146100a4578063c45a0155146100dd575b600080fd5b61008b6004803603606081101561005c57600080fd5b5073ffffffffffffffffffffffffffffffffffffffff813581169160208101358216916040909101351661012d565b6040805192835260208301919091528051918290030190f35b6100cb7f000000000000000000000000000000000000000000000000000000000000000081565b60408051918252519081900360200190f35b6101047f000000000000000000000000000000000000000000000000000000000000000081565b6040805173ffffffffffffffffffffffffffffffffffffffff9092168252519081900360200190f35b600080808073ffffffffffffffffffffffffffffffffffffffff85811614156101645761015a8787610200565b90925090506101c3565b6000806101718988610200565b90945091506101808789610200565b93509050808211156101a857816101978286610456565b6101a191906104e9565b93506101c0565b806101b38385610456565b6101bd91906104e9565b92505b50505b816101d682670de0b6b3a7640000610456565b6101e091906104e9565b93506101f46101ef8284610456565b6103f8565b92505050935093915050565b6000806000808473ffffffffffffffffffffffffffffffffffffffff168673ffffffffffffffffffffffffffffffffffffffff1610610240578486610243565b85855b9150915060008061033f8484604080517fffffffffffffffffffffffffffffffffffffffff000000000000000000000000606094851b811660208084019190915293851b81166034830152825160288184030181526048830184528051908501207fff0000000000000000000000000000000000000000000000000000000000000060688401527f000000000000000000000000000000000000000000000000000000000000000090951b166069820152607d8101939093527f0000000000000000000000000000000000000000000000000000000000000000609d808501919091528151808503909101815260bd9093019052815191012090565b73ffffffffffffffffffffffffffffffffffffffff16630902f1ac6040518163ffffffff1660e01b8152600401606060405180830381865afa158015610389573d6000803e3d6000fd5b505050506040513d606081101561039f57600080fd5b5080516020909101516dffffffffffffffffffffffffffff918216935016905073ffffffffffffffffffffffffffffffffffffffff888116908516146103e65780826103e9565b81815b90999098509650505050505050565b60006003821115610447575080600160028204015b818110156104415780915060028182858161042a5761042a6104ba565b040181610439576104396104ba565b04905061040d565b50919050565b8115610451575060015b919050565b6000817fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff04831182151516156104b5577f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fd5b500290565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601260045260246000fd5b60008261051f577f4e487b7100000000000000000000000000000000000000000000000000000000600052601260045260246000fd5b50049056fea2646970667358221220e3df9ab7d2cc264255b47a3f89c282c2cdc3ae8b7e1b7c1e12a5fc642884085064736f6c634300080a0033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}

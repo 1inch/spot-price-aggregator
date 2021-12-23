@@ -136,6 +136,15 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 * Sushiswap
 * Swapr
 
+### Avax
+
+#### Oracle [0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9](https://snowtrace.io/address/0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9)
+
+#### Supported DEXes
+
+* Trader Joe
+* Pangolin Exchange
+
 ## Examples
 
 * [Single token-to-ETH price usage](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/single-price.js)
