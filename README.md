@@ -145,6 +145,16 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 * Trader Joe
 * Pangolin Exchange
 
+### xDai
+
+#### Oracle [0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9](https://blockscout.com/xdai/mainnet/address/0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9)
+
+#### Supported DEXes
+
+* Honeyswap
+* Levinswap
+* Swapr
+
 ## Examples
 
 * [Single token-to-ETH price usage](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/single-price.js)
