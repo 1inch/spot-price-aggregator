@@ -16,21 +16,21 @@ const connectors = [
     tokens.NONE,
 ];
 
-const delay = (ms) => 
+const delay = (ms) =>
     new Promise((resolve) => {
-      setTimeout(resolve, ms);
+        setTimeout(resolve, ms);
     });
 
 const tryRun = async (f, n = 10) => {
     if (typeof f !== 'function') {
-        throw Error("f is not a function");
+        throw Error('f is not a function');
     }
-    for (i = 0; ; i++) {
+    for (let i = 0; ; i++) {
         try {
             return await f();
         } catch (error) {
-            if (error.message === "Contract source code already verified" || error.message.includes('Reason: Already Verified')) {
-                console.log("Contract already verified. Skipping verification");
+            if (error.message === 'Contract source code already verified' || error.message.includes('Reason: Already Verified')) {
+                console.log('Contract already verified. Skipping verification');
                 break;
             }
             console.error(error);
@@ -40,7 +40,7 @@ const tryRun = async (f, n = 10) => {
             }
         }
     }
-}
+};
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running deploy script');
@@ -72,7 +72,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const joeOracle = await deploy('UniswapV2LikeOracle_Joe', {
         args: [JOE_FACTORY, JOE_HASH],
         from: deployer,
-        contract: 'UniswapV2LikeOracle'
+        contract: 'UniswapV2LikeOracle',
     });
 
     await tryRun(() => hre.run('verify:verify', {
@@ -83,7 +83,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const pangolinOracle = await deploy('UniswapV2LikeOracle_Pangolin', {
         args: [PANGOLIN_FACTORY, PANGOLIN_HASH],
         from: deployer,
-        contract: 'UniswapV2LikeOracle'
+        contract: 'UniswapV2LikeOracle',
     });
 
     await tryRun(() => hre.run('verify:verify', {
