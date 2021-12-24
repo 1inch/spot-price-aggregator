@@ -20,7 +20,7 @@ contract UniswapV3Oracle is IOracle {
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
-        uint24[3] memory fees = [uint24(500), 3000, 10000];
+        uint24[4] memory fees = [uint24(100), 500, 3000, 10000];
 
         unchecked {
             if (connector == _NONE) {
