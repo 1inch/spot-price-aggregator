@@ -76,7 +76,7 @@ contract UniswapV3Oracle is IOracle {
         dstBalance = dstToken.balanceOf(address(pool));
     }
 
-    function _getPool(address token0, address token1, uint24 fee) private view returns (address) {
+    function _getPool(address token0, address token1, uint24 fee) private pure returns (address) {
         return address(uint160(uint256(
                 keccak256(
                     abi.encodePacked(
