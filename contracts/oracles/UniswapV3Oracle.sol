@@ -18,21 +18,22 @@ contract UniswapV3Oracle is IOracle {
     bytes32 public constant POOL_INIT_CODE_HASH = 0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54;
     address public constant FACTORY = 0x1F98431c8aD98523631AE4a59f267346ea31F984;
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
+    uint256 private constant _SUPPORTED_FEES_COUNT = 4;
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
-        uint24[4] memory fees = [uint24(100), 500, 3000, 10000];
+        uint24[_SUPPORTED_FEES_COUNT] memory fees = [uint24(100), 500, 3000, 10000];
 
         unchecked {
             if (connector == _NONE) {
-                for (uint256 i = 0; i < 3; i++) {
+                for (uint256 i = 0; i < _SUPPORTED_FEES_COUNT; i++) {
                     (uint256 rate0, uint256 b1, uint256 b2) = _getRate(srcToken, dstToken, fees[i]);
                     uint256 w = b1.mul(b2);
                     rate = rate.add(rate0.mul(w));
                     weight = weight.add(w);
                 }
             } else {
-                for (uint256 i = 0; i < 3; i++) {
-                    for (uint256 j = 0; j < 3; j++) {
+                for (uint256 i = 0; i < _SUPPORTED_FEES_COUNT; i++) {
+                    for (uint256 j = 0; j < _SUPPORTED_FEES_COUNT; j++) {
                         (uint256 rate0, uint256 b1, uint256 bc1) = _getRate(srcToken, connector, fees[i]);
                         if (b1 == 0 || bc1 == 0) {
                             continue;
