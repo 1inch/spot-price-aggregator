@@ -27,6 +27,7 @@ As some tokens do not have direct liquidity pairs oracle uses connector tokes to
 * Uniswap V3
 * Synthetix
 * Chainlink
+* Shibaswap
 
 #### Supported wrappers
 
