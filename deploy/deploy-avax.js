@@ -1,5 +1,5 @@
 const hre = require('hardhat');
-const { getChainId } = hre;
+const { getChainId, ethers } = hre;
 const { BN } = require('@openzeppelin/test-helpers');
 const { tokens } = require('../test/helpers.js');
 const constants = require('@openzeppelin/test-helpers/src/constants');
@@ -66,65 +66,58 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running deploy script');
     console.log('network id ', await getChainId());
 
-    const { deploy } = deployments;
+    const { deploy, getOrNull } = deployments;
     const { deployer } = await getNamedAccounts();
 
-    const wavaxWrapper = await deploy('BaseCoinWrapper', {
-        args: [WAVAX],
-        from: deployer,
-    });
 
-    await tryRun(() => hre.run('verify:verify', {
-        address: wavaxWrapper.address,
-        constructorArguments: [WAVAX],
-    }));
+    const idempotentDeploy = async (contractName, constructorArgs, deploymentName = contractName) => {
+        const existingContract = await getOrNull(deploymentName);
+        if (existingContract) {
+            console.log(`Skipping deploy for existing contract ${contractName} (${deploymentName})`)
+            return existingContract;
+        }
 
-    const multiWrapper = await deploy('MultiWrapper', {
-        args: [[wavaxWrapper.address]],
-        from: deployer,
-    });
+        const contract = await deploy(deploymentName, {
+            args: constructorArgs,
+            from: deployer,
+            contract: contractName,
+        });
 
-    await tryRun(() => hre.run('verify:verify', {
-        address: multiWrapper.address,
-        constructorArguments: [[wavaxWrapper.address]],
-    }));
+        await tryRun(() => hre.run('verify:verify', {
+            address: contract.address,
+            constructorArguments: constructorArgs,
+        }));
 
-    const aaveWrapperV2 = await deploy('AaveWrapperV2', {
-        args: [AAVE_LENDING_POOL],
-        from: deployer,
-    });
+        return contract;
+    }
 
-    await tryRun(() => hre.run('verify:verify', {
-        address: aaveWrapperV2.address,
-        constructorArguments: [AAVE_LENDING_POOL],
-    }));
+    const idempotentDeployGetContract = async (contractName, constructorArgs) => {
+        const deployResult = await idempotentDeploy(contractName, constructorArgs);
+        const contractFactory = await ethers.getContractFactory(contractName);
+        const contract = contractFactory.attach(deployResult.address);
+        return contract;
+    };
 
+    const wavaxWrapper = await idempotentDeploy('BaseCoinWrapper', [WAVAX]);
+    const multiWrapper = await idempotentDeployGetContract('MultiWrapper', [[wavaxWrapper.address]]);
+    const aaveWrapperV2 = await idempotentDeployGetContract('AaveWrapperV2', [AAVE_LENDING_POOL]);
     const aTokens = await Promise.all(AAWE_WRAPPER_TOKENS.map(x => aaveWrapperV2.tokenToaToken(x)));
-    const tokensToDeploy = zip(AAWE_WRAPPER_TOKENS, aTokens).filter(([, aToken]) => aToken !== constants.ZERO_ADDRESS).map(([token]) => token);
-    console.log("AaveWrapperV2 tokens to deploy: ", tokensToDeploy);
-    await aaveWrapperV2.addMarkets(tokensToDeploy);
+    const tokensToDeploy = zip(AAWE_WRAPPER_TOKENS, aTokens).filter(([, aToken]) => aToken === constants.ZERO_ADDRESS).map(([token]) => token);
+    if (tokensToDeploy.length > 0) {
+        console.log("AaveWrapperV2 tokens to deploy: ", tokensToDeploy);
+        await aaveWrapperV2.addMarkets(tokensToDeploy);
+    } else {
+        console.log("All tokens are already deployed");
+    }
 
-    const joeOracle = await deploy('UniswapV2LikeOracle_Joe', {
-        args: [JOE_FACTORY, JOE_HASH],
-        from: deployer,
-        contract: 'UniswapV2LikeOracle',
-    });
+    const existingWrappers = await multiWrapper.wrappers();
+    if (!existingWrappers.includes(aaveWrapperV2.address)) {
+        console.log("Adding aave wrapper");
+        await multiWrapper.addWrapper(aaveWrapperV2.address);
+    }
 
-    await tryRun(() => hre.run('verify:verify', {
-        address: joeOracle.address,
-        constructorArguments: [JOE_FACTORY, JOE_HASH],
-    }));
-
-    const pangolinOracle = await deploy('UniswapV2LikeOracle_Pangolin', {
-        args: [PANGOLIN_FACTORY, PANGOLIN_HASH],
-        from: deployer,
-        contract: 'UniswapV2LikeOracle',
-    });
-
-    await tryRun(() => hre.run('verify:verify', {
-        address: pangolinOracle.address,
-        constructorArguments: [PANGOLIN_FACTORY, PANGOLIN_HASH],
-    }));
+    const joeOracle = await idempotentDeploy('UniswapV2LikeOracle', [JOE_FACTORY, JOE_HASH], 'UniswapV2LikeOracle_Joe');
+    const pangolinOracle = await idempotentDeploy('UniswapV2LikeOracle', [JOE_FACTORY, JOE_HASH], 'UniswapV2LikeOracle_Pangolin');
 
     const args = [
         multiWrapper.address,
@@ -139,18 +132,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         connectors,
         WAVAX,
     ];
-
-    const offchainOracle = await deploy('OffchainOracle', {
-        args: args,
-        from: deployer,
-        skipIfAlreadyDeployed: true,
-    });
-
-    await tryRun(() => hre.run('verify:verify', {
-        address: offchainOracle.address,
-        constructorArguments: args,
-    }));
-
+    const offchainOracle = await idempotentDeploy('OffchainOracle', args);
     console.log('OffchainOracle deployed to:', offchainOracle.address);
 };
 
