@@ -12,12 +12,12 @@ const JOE_HASH = '0x0bbca9af0511ad1a1da383135cf3a8d2ac620e549ef9f6ae3a4c33c2fed0
 const PANGOLIN_FACTORY = '0xefa94DE7a4656D787667C749f7E1223D71E9FD88';
 const PANGOLIN_HASH = '0x40231f6b438bce0797c9ada29b718a87ea0a5cea3fe9a771abdd76bd41a3e545';
 
-const WETH = "0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB";
-const DAI = "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70";
-const USDT = "0xc7198437980c041c805A1EDcbA50c1Ce5db95118";
-const USDC = "0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664";
-const AAVE = "0x63a72806098Bd3D9520cC43356dD78afe5D386D9";
-const WBTC = "0x50b7545627a5162F82A992c33b87aDc75187B218";
+const WETH = '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB';
+const DAI = '0xd586E7F844cEa2F87f50152665BCbc2C279D8d70';
+const USDT = '0xc7198437980c041c805A1EDcbA50c1Ce5db95118';
+const USDC = '0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664';
+const AAVE = '0x63a72806098Bd3D9520cC43356dD78afe5D386D9';
+const WBTC = '0x50b7545627a5162F82A992c33b87aDc75187B218';
 const AAWE_WRAPPER_TOKENS = [
     WETH,
     DAI,
@@ -25,7 +25,7 @@ const AAWE_WRAPPER_TOKENS = [
     USDC,
     AAVE,
     WBTC,
-    WAVAX
+    WAVAX,
 ];
 
 const connectors = [
@@ -69,11 +69,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const { deploy, getOrNull } = deployments;
     const { deployer } = await getNamedAccounts();
 
-
     const idempotentDeploy = async (contractName, constructorArgs, deploymentName = contractName) => {
         const existingContract = await getOrNull(deploymentName);
         if (existingContract) {
-            console.log(`Skipping deploy for existing contract ${contractName} (${deploymentName})`)
+            console.log(`Skipping deploy for existing contract ${contractName} (${deploymentName})`);
             return existingContract;
         }
 
@@ -89,7 +88,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         }));
 
         return contract;
-    }
+    };
 
     const idempotentDeployGetContract = async (contractName, constructorArgs) => {
         const deployResult = await idempotentDeploy(contractName, constructorArgs);
@@ -104,20 +103,20 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const aTokens = await Promise.all(AAWE_WRAPPER_TOKENS.map(x => aaveWrapperV2.tokenToaToken(x)));
     const tokensToDeploy = zip(AAWE_WRAPPER_TOKENS, aTokens).filter(([, aToken]) => aToken === constants.ZERO_ADDRESS).map(([token]) => token);
     if (tokensToDeploy.length > 0) {
-        console.log("AaveWrapperV2 tokens to deploy: ", tokensToDeploy);
+        console.log('AaveWrapperV2 tokens to deploy: ', tokensToDeploy);
         await aaveWrapperV2.addMarkets(tokensToDeploy);
     } else {
-        console.log("All tokens are already deployed");
+        console.log('All tokens are already deployed');
     }
 
     const existingWrappers = await multiWrapper.wrappers();
     if (!existingWrappers.includes(aaveWrapperV2.address)) {
-        console.log("Adding aave wrapper");
+        console.log('Adding aave wrapper');
         await multiWrapper.addWrapper(aaveWrapperV2.address);
     }
 
     const joeOracle = await idempotentDeploy('UniswapV2LikeOracle', [JOE_FACTORY, JOE_HASH], 'UniswapV2LikeOracle_Joe');
-    const pangolinOracle = await idempotentDeploy('UniswapV2LikeOracle', [JOE_FACTORY, JOE_HASH], 'UniswapV2LikeOracle_Pangolin');
+    const pangolinOracle = await idempotentDeploy('UniswapV2LikeOracle', [PANGOLIN_FACTORY, PANGOLIN_HASH], 'UniswapV2LikeOracle_Pangolin');
 
     const args = [
         multiWrapper.address,
@@ -136,4 +135,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('OffchainOracle deployed to:', offchainOracle.address);
 };
 
-module.exports.skip = async () => false;
+module.exports.skip = async () => true;
