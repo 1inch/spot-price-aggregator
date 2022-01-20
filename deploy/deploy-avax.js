@@ -11,6 +11,8 @@ const JOE_FACTORY = '0x9Ad6C38BE94206cA50bb0d90783181662f0Cfa10';
 const JOE_HASH = '0x0bbca9af0511ad1a1da383135cf3a8d2ac620e549ef9f6ae3a4c33c2fed0af91';
 const PANGOLIN_FACTORY = '0xefa94DE7a4656D787667C749f7E1223D71E9FD88';
 const PANGOLIN_HASH = '0x40231f6b438bce0797c9ada29b718a87ea0a5cea3fe9a771abdd76bd41a3e545';
+const SUSHISWAP_FACTORY = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4';
+const SUSHISWAP_HASH = '0xe18a34eb0e04b04f7a0ac29a6e80748dca96319b42c54d679cb821dca90c6303';
 
 const WETH = '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB';
 const DAI = '0xd586E7F844cEa2F87f50152665BCbc2C279D8d70';
@@ -28,10 +30,15 @@ const AAWE_WRAPPER_TOKENS = [
     WAVAX,
 ];
 
-const connectors = [
+const CONNECTORS = [
     tokens.ETH, // avax
     WAVAX,
     tokens.NONE,
+
+    WETH,
+    USDT,
+    WBTC,
+    USDC
 ];
 
 const delay = (ms) =>
@@ -104,7 +111,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const tokensToDeploy = zip(AAWE_WRAPPER_TOKENS, aTokens).filter(([, aToken]) => aToken === constants.ZERO_ADDRESS).map(([token]) => token);
     if (tokensToDeploy.length > 0) {
         console.log('AaveWrapperV2 tokens to deploy: ', tokensToDeploy);
-        await aaveWrapperV2.addMarkets(tokensToDeploy);
+        await (await aaveWrapperV2.addMarkets(tokensToDeploy)).wait();
     } else {
         console.log('All tokens are already deployed');
     }
@@ -112,7 +119,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const existingWrappers = await multiWrapper.wrappers();
     if (!existingWrappers.includes(aaveWrapperV2.address)) {
         console.log('Adding aave wrapper');
-        await multiWrapper.addWrapper(aaveWrapperV2.address);
+        await (await multiWrapper.addWrapper(aaveWrapperV2.address)).wait();
     }
 
     const joeOracle = await idempotentDeploy('UniswapV2LikeOracle', [JOE_FACTORY, JOE_HASH], 'UniswapV2LikeOracle_Joe');
@@ -128,11 +135,32 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             (new BN('0')).toString(),
             (new BN('0')).toString(),
         ],
-        connectors,
+        CONNECTORS,
         WAVAX,
     ];
-    const offchainOracle = await idempotentDeploy('OffchainOracle', args);
+    const offchainOracle = await idempotentDeployGetContract('OffchainOracle', args);
     console.log('OffchainOracle deployed to:', offchainOracle.address);
+
+    // --- upd1
+
+    const sushiOracle = await idempotentDeploy('UniswapV2LikeOracle', [SUSHISWAP_FACTORY, SUSHISWAP_HASH], 'UniswapV2LikeOracle_Sushi');
+    const existingOracles = await offchainOracle.oracles();
+    if (!existingOracles.allOracles.includes(sushiOracle.address)) {
+        console.log('Adding sushi oracle');
+        await (await offchainOracle.addOracle(sushiOracle.address, '0')).wait();
+    } else {
+        console.log('Sushi oracle already added');
+    }
+
+    const existingConnectors = new Set((await offchainOracle.connectors()).map(x => x.toLowerCase()));
+    const conntextorsToAdd = CONNECTORS.filter(x => !existingConnectors.has(x.toLowerCase()));
+    console.log(`Adding connextors: `, conntextorsToAdd);
+    for (let connector of conntextorsToAdd) {
+        await (await offchainOracle.addConnector(connector)).wait();
+        console.log("Added", connector);
+    }
+    console.log("All oracles:", await offchainOracle.oracles());
+    console.log("All connectors:", await offchainOracle.connectors());
 };
 
-module.exports.skip = async () => true;
+module.exports.skip = async () => false;
