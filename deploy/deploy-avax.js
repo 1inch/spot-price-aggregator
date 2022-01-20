@@ -38,7 +38,7 @@ const CONNECTORS = [
     WETH,
     USDT,
     WBTC,
-    USDC
+    USDC,
 ];
 
 const delay = (ms) =>
@@ -154,13 +154,13 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const existingConnectors = new Set((await offchainOracle.connectors()).map(x => x.toLowerCase()));
     const conntextorsToAdd = CONNECTORS.filter(x => !existingConnectors.has(x.toLowerCase()));
-    console.log(`Adding connextors: `, conntextorsToAdd);
-    for (let connector of conntextorsToAdd) {
+    console.log('Adding connextors: ', conntextorsToAdd);
+    for (const connector of conntextorsToAdd) {
         await (await offchainOracle.addConnector(connector)).wait();
-        console.log("Added", connector);
+        console.log('Added', connector);
     }
-    console.log("All oracles:", await offchainOracle.oracles());
-    console.log("All connectors:", await offchainOracle.connectors());
+    console.log('All oracles:', await offchainOracle.oracles());
+    console.log('All connectors:', await offchainOracle.connectors());
 };
 
 module.exports.skip = async () => false;
