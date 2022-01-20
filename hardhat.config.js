@@ -26,7 +26,10 @@ module.exports = {
         },
     },
     etherscan: {
-        apiKey: process.env.MAINNET_ETHERSCAN_KEY,
+        apiKey: {
+            mainnet: process.env.MAINNET_ETHERSCAN_KEY,
+            avalanche: process.env.AVAX_ETHERSCAN_KEY,
+        },
     },
     gasReporter: {
         enable: true,
