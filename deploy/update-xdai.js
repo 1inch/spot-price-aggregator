@@ -1,6 +1,5 @@
 const hre = require('hardhat');
-const { getChainId } = hre;
-const { BN } = require('@openzeppelin/test-helpers');
+const { getChainId, ethers } = hre;
 
 const WETH = '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1';
 const HONEY = '0x71850b7E9Ee3f13Ab46d67167341E4bDc905Eef9';
@@ -31,8 +30,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         await txn.wait();
     }
 
-    const txn = await OffchainOracle.removeOracle((await deployments.get('UniswapV2LikeOracle_Honeyswap')).address, '0');
-    await txn;
+    {
+        const txn = await OffchainOracle.removeOracle((await deployments.get('UniswapV2LikeOracle_Honeyswap')).address, '0');
+        await txn.wait();
+    }
 
     const honeyswapOracle = await deploy('UniswapV2LikeOracle_Honeyswap', {
         args: [HONEYSWAP_FACTORY, HONEYSWAP_HASH],
@@ -42,8 +43,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     console.log('honeyswapOracle deployed to:', honeyswapOracle.address);
 
-    const txn = await OffchainOracle.addOracle(honeyswapOracle.address, '0');
-    await txn;
+    {
+        const txn = await OffchainOracle.addOracle(honeyswapOracle.address, '0');
+        await txn.wait();
+    }
 
     const sushiswapOracle = await deploy('UniswapV2LikeOracle_Sushiswap', {
         args: [SUSHISWAP_FACTORY, SUSHISWAP_HASH],
@@ -53,8 +56,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     console.log('sushiswapOracle deployed to:', sushiswapOracle.address);
 
-    const txn = await OffchainOracle.addOracle(sushiswapOracle.address, '0');
-    await txn;
+    {
+        const txn = await OffchainOracle.addOracle(sushiswapOracle.address, '0');
+        await txn.wait();
+    }
 };
 
 module.exports.skip = async () => true;
