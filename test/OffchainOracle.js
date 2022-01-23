@@ -5,11 +5,13 @@ const { tokens, assertRoughlyEquals } = require('./helpers.js');
 const uniswapV2Factory = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
 const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
+const BancorRegistry = '0x52Ae12ABe5D8BD778BD5397F99cA900624CfADD4';
 
 const BaseCoinWrapper = artifacts.require('BaseCoinWrapper');
 const UniswapV2LikeOracle = artifacts.require('UniswapV2LikeOracle');
 const UniswapOracle = artifacts.require('UniswapOracle');
 const MooniswapOracle = artifacts.require('MooniswapOracle');
+const BancorOracle = artifacts.require('BancorOracle');
 const OffchainOracle = artifacts.require('OffchainOracle');
 const AaveWrapperV1 = artifacts.require('AaveWrapperV1');
 const AaveWrapperV2 = artifacts.require('AaveWrapperV2');
@@ -23,6 +25,7 @@ describe('OffchainOracle', async function () {
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
         this.uniswapOracle = await UniswapOracle.new('0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95');
         this.mooniswapOracle = await MooniswapOracle.new(oneInchLP1);
+        this.bancorOracle = await BancorOracle.new(BancorRegistry);
 
         this.wethWrapper = await BaseCoinWrapper.new(tokens.WETH);
         this.aaveWrapperV1 = await AaveWrapperV1.new();
@@ -43,8 +46,10 @@ describe('OffchainOracle', async function () {
                 this.uniswapV2LikeOracle.address,
                 this.uniswapOracle.address,
                 this.mooniswapOracle.address,
+                this.bancorOracle.address,
             ],
             [
+                (new BN('2')).toString(),
                 (new BN('2')).toString(),
                 (new BN('2')).toString(),
                 (new BN('2')).toString(),
@@ -63,8 +68,10 @@ describe('OffchainOracle', async function () {
                 this.uniswapV2LikeOracle.address,
                 this.uniswapOracle.address,
                 this.mooniswapOracle.address,
+                this.bancorOracle.address,
             ],
             [
+                (new BN('2')).toString(),
                 (new BN('2')).toString(),
                 (new BN('2')).toString(),
                 (new BN('2')).toString(),
