@@ -1,6 +1,6 @@
 const { ether } = require('@openzeppelin/test-helpers');
 const { expect } = require('chai');
-const { tokens, assertRoughlyEquals } = require('./helpers.js');
+const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
 
 const uniswapV2Factory = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
@@ -23,24 +23,34 @@ describe('BancorOracle', async function () {
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
     });
 
-    it.skip('usdt -> dai', async function () {
+    it('usdt -> dai', async function () {
         const rate = await this.bancorOracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE);
-        expect(rate.rate).to.be.bignumber.greaterThan(ether('9800000'));
+        const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE);
+        assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 
     it('comp -> dai', async function () {
         const rate = await this.bancorOracle.getRate(tokens.COMP, tokens.DAI, tokens.NONE);
-        expect(rate.rate).to.be.bignumber.greaterThan(ether('100'));
+        const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.COMP, tokens.DAI, tokens.NONE);
+        assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 
     it('eth -> link', async function () {
         const rate = await this.bancorOracle.getRate(tokens.ETH, tokens.LINK, tokens.NONE);
-        expect(rate.rate).to.be.bignumber.greaterThan(ether('100'));
+        const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.ETH, tokens.LINK, tokens.NONE);
+        assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
     
-    it.skip('usdc -> dai', async function () {
+    it('usdc -> dai', async function () {
         const rate = await this.bancorOracle.getRate(tokens.USDC, tokens.DAI, tokens.NONE);
-        expect(rate.rate).to.be.bignumber.greaterThan(ether('9800000'));
+        const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.USDC, tokens.DAI, tokens.NONE);
+        assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
+    });
+
+    it('dai -> usdc', async function () {
+        const rate = await this.bancorOracle.getRate(tokens.DAI, tokens.USDC, tokens.NONE);
+        const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.DAI, tokens.USDC, tokens.NONE);
+        assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 });
 
@@ -82,8 +92,6 @@ describe('BancorOracle doesn\'t ruin rates', async function () {
                 tokens.WETH,
                 tokens.USDC,
                 tokens.DAI,
-                tokens.LINK,
-                tokens.COMP,
             ],
             tokens.WETH,
         );
@@ -105,11 +113,8 @@ describe('BancorOracle doesn\'t ruin rates', async function () {
             [
                 tokens.NONE,
                 tokens.ETH,
-                tokens.WETH,
                 tokens.USDC,
                 tokens.DAI,
-                tokens.LINK,
-                tokens.COMP,
             ],
             tokens.WETH,
         );
@@ -127,7 +132,7 @@ describe('BancorOracle doesn\'t ruin rates', async function () {
         await testRate(this, tokens.COMP, tokens.DAI);
     });
 
-    it.skip('USDC WETH', async function () {
+    it('USDC WETH', async function () {
         await testRate(this, tokens.USDC, tokens.WETH);
     });
 
@@ -136,7 +141,7 @@ describe('BancorOracle doesn\'t ruin rates', async function () {
         const actualRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true);
         const expectedReverseRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true);
         const actualReverseRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true);
-        assertRoughlyEquals(actualRate.toString(), expectedRate.toString(), 1);
-        assertRoughlyEquals(actualReverseRate.toString(), expectedReverseRate.toString(), 1);
+        assertRoughlyEqualValues(actualRate.toString(), expectedRate.toString(), '0.05');
+        assertRoughlyEqualValues(actualReverseRate.toString(), expectedReverseRate.toString(), '0.05');
     }
 });
