@@ -37,7 +37,11 @@ contract CurveOracle is IOracle {
         bool underlying;
         (a, b, underlying) = registry.get_coin_indices(pool, address(_srcToken), address(_dstToken));
 
-        rate = ICurveSwap(pool).get_dy(a, b, 1e6) * 1e12;
+        if (underlying) {
+            rate = ICurveSwap(pool).get_dy(a, b, 1e6) * 1e12;
+        } else {
+            rate = ICurveSwap(pool).get_dy_underlying(a, b, 1e6) * 1e12;
+        }
         require(rate != 0, "Swap rate not available");
         
         uint256 srcBalance = _srcToken.balanceOf(pool);
