@@ -50,29 +50,32 @@ contract CurveOracle is IOracle {
         int128 b;
         bool underlying;
         uint256[8] memory balances;
+        uint256[8] memory decimals;
         (a, b, underlying) = registry.get_coin_indices(pool, address(_srcToken), address(_dstToken));
-
-        if (!underlying) {
-            rate = ICurveSwap(pool).get_dy(a, b, 1e6) * 1e12;
-            balances = registry.get_balances(pool);
-        } else {
-            rate = ICurveSwap(pool).get_dy_underlying(a, b, 1e6) * 1e12;
-            balances = registry.get_underlying_balances(pool);
-        }
-        require(rate != 0, "Swap rate not available");
+        decimals = registry.get_decimals(pool);
 
         // this is for converting int128 -> uint
         int128 j = 0;
         uint256 srcBalance;
         uint256 dstBalance;
+        uint256 srcDecimal;
         for (uint256 i = 0; i < 8; i++) {
             if (j == a) {
                 srcBalance = balances[i];
+                srcDecimal = decimals[i];
             } else if (j == b) {
                 dstBalance = balances[i];
             }
             j++;
         }
         weight = (srcBalance * dstBalance).sqrt();
+
+        if (!underlying) {
+            rate = ICurveSwap(pool).get_dy(a, b, 10 ** srcDecimal) * 1e12;
+            balances = registry.get_balances(pool);
+        } else {
+            rate = ICurveSwap(pool).get_dy_underlying(a, b, 10 ** srcDecimal) * 1e12;
+            balances = registry.get_underlying_balances(pool);
+        }
     }
 }
