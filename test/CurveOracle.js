@@ -1,6 +1,4 @@
-const { ether } = require('@openzeppelin/test-helpers');
-const { expect } = require('chai');
-const { tokens, assertRoughlyEquals } = require('./helpers.js');
+const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
 
 const uniswapV2Factory = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
@@ -26,19 +24,19 @@ describe('CurveOracle', async function () {
     it('usdt -> dai', async function () {
         const rate = await this.curveOracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE);
         const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE);
-        assertRoughlyEquals(rate.rate.toString(), expectedRate.rate.toString(), 2);
+        assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 
     it('usdt -> usdc', async function () {
         const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.USDC, tokens.USDT, tokens.NONE);
         const rate = await this.curveOracle.getRate(tokens.USDC, tokens.USDT, tokens.NONE);
-        assertRoughlyEquals(rate.rate.toString(), expectedRate.rate.toString(), 2);
+        assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 
     it('usdc -> dai', async function () {
         const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.USDC, tokens.DAI, tokens.NONE);
         const rate = await this.curveOracle.getRate(tokens.USDC, tokens.DAI, tokens.NONE);
-        assertRoughlyEquals(rate.rate.toString(), expectedRate.rate.toString(), 2);
+        assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 });
 
@@ -125,7 +123,7 @@ describe('CurveOracle doesn\'t ruin rates', async function () {
         const actualRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true);
         const expectedReverseRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true);
         const actualReverseRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true);
-        assertRoughlyEquals(actualRate.toString(), expectedRate.toString(), 2);
-        assertRoughlyEquals(actualReverseRate.toString(), expectedReverseRate.toString(), 2);
+        assertRoughlyEqualValues(actualRate.toString(), expectedRate.toString(), '0.05');
+        assertRoughlyEqualValues(actualReverseRate.toString(), expectedReverseRate.toString(), '0.05');
     }
 });
