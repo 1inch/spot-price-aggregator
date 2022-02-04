@@ -3,6 +3,7 @@
 pragma solidity 0.8.11;
 pragma abicoder v1;
 
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "../interfaces/IOracle.sol";
 import "../libraries/Sqrt.sol";
@@ -22,60 +23,38 @@ contract CurveOracle is IOracle {
     }
 
     function getRate(IERC20 _srcToken, IERC20 _dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
-
         require(connector == _NONE, "connector should be NONE");
 
-        ICurveRegistry registry;
-        address pool;
+        address srcToken = address(_srcToken);
+        address dstToken = address(_dstToken);
+        uint256 index = 0;
+        ICurveRegistry registry = ICurveRegistry(addressProvider.get_address(0));
+        address pool = registry.find_pool_for_coins(srcToken, dstToken, index);
 
-        // first check crypto registry (curve v2) for pools and select first one
-        registry = ICurveRegistry(addressProvider.get_address(5));
-        pool = registry.find_pool_for_coins(address(_srcToken), address(_dstToken));
+        require(pool != address(0), "CO: no pools");
 
-        // if not found, check main registry and select first one
-        if (pool == address(0)){
-            registry = ICurveRegistry(addressProvider.get_address(0));
-            pool = registry.find_pool_for_coins(address(_srcToken), address(_dstToken));
-        }
+        uint256 b0;
+        uint256 b1;
 
-        // if not found, check factory registry (permissionless) and select first one
-        if (pool == address(0)){
-            registry = ICurveRegistry(addressProvider.get_address(3));
-            pool = registry.find_pool_for_coins(address(_srcToken), address(_dstToken));
-        }
-
-        require(pool != address(0), "Pool does not exist");
-
-        int128 a;
-        int128 b;
-        bool underlying;
-        uint256[8] memory balances;
-        uint256[8] memory decimals;
-        (a, b, underlying) = registry.get_coin_indices(pool, address(_srcToken), address(_dstToken));
-        decimals = registry.get_decimals(pool);
-
-        // this is for converting int128 -> uint
-        int128 j = 0;
-        uint256 srcBalance;
-        uint256 dstBalance;
-        uint256 srcDecimal;
-        for (uint256 i = 0; i < 8; i++) {
-            if (j == a) {
-                srcBalance = balances[i];
-                srcDecimal = decimals[i];
-            } else if (j == b) {
-                dstBalance = balances[i];
+        while (pool != address(0)) {
+            (int128 srcTokenIndex, int128 dstTokenIndex, bool isUnderlying) = registry.get_coin_indices(pool, srcToken, dstToken);
+            b0 = 10 ** ERC20(srcToken).decimals();
+            if (!isUnderlying) {
+                b1 = ICurveSwap(pool).get_dy(srcTokenIndex, dstTokenIndex, b0);
+            } else {
+                b1 = ICurveSwap(pool).get_dy_underlying(srcTokenIndex, dstTokenIndex, b0);
             }
-            j++;
-        }
-        weight = (srcBalance * dstBalance).sqrt();
 
-        if (!underlying) {
-            rate = ICurveSwap(pool).get_dy(a, b, 10 ** srcDecimal) * 1e12;
-            balances = registry.get_balances(pool);
-        } else {
-            rate = ICurveSwap(pool).get_dy_underlying(a, b, 10 ** srcDecimal) * 1e12;
-            balances = registry.get_underlying_balances(pool);
+            uint256 w = b0 * b1;
+            rate = rate + (b1 * 1e18 / b0 * w);
+            weight = weight + w;
+
+            pool = registry.find_pool_for_coins(srcToken, dstToken, ++index);
+        }
+
+        if (weight > 0) {
+            rate = rate / weight;
+            weight = weight.sqrt();
         }
     }
 }
