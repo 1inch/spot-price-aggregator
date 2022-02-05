@@ -20,6 +20,7 @@ const MultiWrapper = artifacts.require('MultiWrapper');
 describe('BancorOracle', async function () {
     before(async function () {
         this.bancorOracle = await BancorOracle.new(BancorRegistry);
+        this.uniswapOracle = await UniswapOracle.new('0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95');
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
     });
 
@@ -37,7 +38,13 @@ describe('BancorOracle', async function () {
 
     it('eth -> link', async function () {
         const rate = await this.bancorOracle.getRate(tokens.ETH, tokens.LINK, tokens.NONE);
-        const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.ETH, tokens.LINK, tokens.NONE);
+        const expectedRate = await this.uniswapOracle.getRate(tokens.ETH, tokens.LINK, tokens.NONE);
+        assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
+    });
+
+    it('link -> eth', async function () {
+        const rate = await this.bancorOracle.getRate(tokens.LINK, tokens.ETH, tokens.NONE);
+        const expectedRate = await this.uniswapOracle.getRate(tokens.LINK, tokens.ETH, tokens.NONE);
         assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
     
@@ -128,8 +135,16 @@ describe('BancorOracle doesn\'t ruin rates', async function () {
         await testRate(this, tokens.ETH, tokens.LINK);
     });
 
+    it('LINK ETH', async function () {
+        await testRate(this, tokens.LINK, tokens.ETH);
+    });
+
     it('COMP DAI', async function () {
         await testRate(this, tokens.COMP, tokens.DAI);
+    });
+
+    it('DAI COMP', async function () {
+        await testRate(this, tokens.DAI, tokens.COMP);
     });
 
     it('USDC WETH', async function () {
