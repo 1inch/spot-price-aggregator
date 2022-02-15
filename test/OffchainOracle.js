@@ -102,7 +102,7 @@ describe('OffchainOracle', async function () {
 
     it('getRate(dai -> link)_GasCheck', async function () {
         const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address, this.expensiveOffachinOracle.contract.methods.getRate(tokens.DAI, tokens.LINK, true).encodeABI());
-        assertRoughlyEquals(result.gasUsed, '684174', 3);
+        assertRoughlyEquals(result.gasUsed, '683074', 3);
     });
 
     it('getRateToEth(dai)_ShouldHaveCorrectRate', async function () {
