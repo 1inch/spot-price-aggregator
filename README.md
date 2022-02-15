@@ -1,14 +1,14 @@
-# Offchain Price Oracle
+# Spot Price Aggregator
 
-Price oracle that shows liquidity-weighted average of spot prices of multiple dexes. The oracle can be easily manipulated inside transaction so it should ONLY be used offchain. See Examples section below.
+Price Aggregator that shows liquidity-weighted average of spot prices of multiple dexes. This aggregator can be easily manipulated inside transaction so it should ONLY be used offchain. See Examples section below.
 
 ## Wrappers
 
-Price Oracle handles wrapped tokens like WETH, cDAI, aDAI, etc. using custom wrapper smart contracts that wrap/unwrap tokens with latest wrapping exchange rate.
+Price Aggregator handles wrapped tokens like WETH, cDAI, aDAI, etc. using custom wrapper smart contracts that wrap/unwrap tokens with latest wrapping exchange rate.
 
 ## Connectors
 
-As some tokens do not have direct liquidity pairs oracle uses connector tokes to find prices for such tokens.
+As some tokens do not have direct liquidity pairs contract uses connector tokens for price discovery.
 
 ## Supported Deployments
 
