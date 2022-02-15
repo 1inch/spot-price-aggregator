@@ -1,14 +1,14 @@
 # Spot Price Aggregator
 
-Price Aggregator that shows liquidity-weighted average of spot prices of multiple dexes. This aggregator can be easily manipulated inside transaction so it should ONLY be used offchain. See Examples section below.
+The 1inch spot price aggregator is a set of smart contracts that extract price data for tokens traded on DEXes from the blockchain. To avoid price manipulations within a transaction, the spot price aggregator should ONLY be used off-chain. DO NOT use it on-chain. For off-chain usage see [Examples](https://github.com/1inch/spot-price-aggregator#examples) section below.
 
 ## Wrappers
 
-Price Aggregator handles wrapped tokens like WETH, cDAI, aDAI, etc. using custom wrapper smart contracts that wrap/unwrap tokens with latest wrapping exchange rate.
+To handle wrapped tokens, such as wETH, cDAI, aDAI etc., the 1inch spot price aggregator uses custom wrapper smart contracts that wrap/unwrap tokens at the current wrapping exchange rate. 
 
 ## Connectors
 
-As some tokens do not have direct liquidity pairs contract uses connector tokens for price discovery.
+If no direct liquidity pair exists between two tokens, the spot price aggregator calculates rates for those coins using another token that has pairs with both of them – a connector token.
 
 ## Supported Deployments
 
