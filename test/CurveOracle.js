@@ -21,21 +21,21 @@ describe('CurveOracle', async function () {
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2Factory, initcodeHash);
     });
 
-    it('usdt -> dai', async function () {
-        const rate = await this.curveOracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE);
-        const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE);
+    it('usdt -> wbtc', async function () {
+        const rate = await this.curveOracle.getRate(tokens.USDT, tokens.WBTC, tokens.NONE);
+        const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.USDT, tokens.WBTC, tokens.NONE);
         assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 
-    it('usdt -> usdc', async function () {
-        const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.USDC, tokens.USDT, tokens.NONE);
-        const rate = await this.curveOracle.getRate(tokens.USDC, tokens.USDT, tokens.NONE);
+    it('wbtc -> usdc', async function () {
+        const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.WBTC, tokens.USDT, tokens.NONE);
+        const rate = await this.curveOracle.getRate(tokens.WBTC, tokens.USDT, tokens.NONE);
         assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 
-    it('usdc -> dai', async function () {
-        const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.USDC, tokens.DAI, tokens.NONE);
-        const rate = await this.curveOracle.getRate(tokens.USDC, tokens.DAI, tokens.NONE);
+    it('wbtc -> weth', async function () {
+        const expectedRate = await this.uniswapV2LikeOracle.getRate(tokens.WBTC, tokens.WETH, tokens.NONE);
+        const rate = await this.curveOracle.getRate(tokens.WBTC, tokens.WETH, tokens.NONE);
         assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 });
@@ -106,16 +106,16 @@ describe('CurveOracle doesn\'t ruin rates', async function () {
         );
     });
 
-    it('USDC DAI', async function () {
-        await testRate(this, tokens.USDC, tokens.DAI);
+    it('WBTC WETH', async function () {
+        await testRate(this, tokens.WBTC, tokens.WETH);
     });
 
-    it('USDT USDC', async function () {
-        await testRate(this, tokens.USDC, tokens.USDT);
+    it('WETH WBTC', async function () {
+        await testRate(this, tokens.WETH, tokens.WBTC);
     });
 
-    it('DAI USDC', async function () {
-        await testRate(this, tokens.DAI, tokens.USDC);
+    it('WBTC USDT', async function () {
+        await testRate(this, tokens.WBTC, tokens.USDT);
     });
 
     async function testRate (self, srcToken, dstToken) {
