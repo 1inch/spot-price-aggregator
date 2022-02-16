@@ -31,23 +31,33 @@ contract CurveOracle is IOracle {
         ICurveRegistry registry = ICurveRegistry(addressProvider.get_address(0));
         address pool = registry.find_pool_for_coins(srcToken, dstToken, index);
 
-        require(pool != address(0), "CO: no pools");
-
-        uint256 b0;
-        uint256 b1;
-
         while (pool != address(0)) {
             (int128 srcTokenIndex, int128 dstTokenIndex, bool isUnderlying) = registry.get_coin_indices(pool, srcToken, dstToken);
-            b0 = 10 ** ERC20(srcToken).decimals();
+            uint256 b0 = 10 ** ERC20(srcToken).decimals();
+            uint256 b1;
+            uint256 w;
             if (!isUnderlying) {
-                b1 = ICurveSwap(pool).get_dy(srcTokenIndex, dstTokenIndex, b0);
+                (bool success, bytes memory data) = pool.staticcall(abi.encodeWithSelector(ICurveSwap.get_dy.selector, srcTokenIndex, dstTokenIndex, b0));
+                if (success && data.length == 32) {
+                    b1 = abi.decode(data, (uint256));
+                } else {
+                    b1 = ICurveSwapNew(pool).get_dy(uint128(srcTokenIndex), uint128(dstTokenIndex), b0);
+                }
+                uint256[8] memory balances = registry.get_balances(pool);
+                w = balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)];
             } else {
-                b1 = ICurveSwap(pool).get_dy_underlying(srcTokenIndex, dstTokenIndex, b0);
+                (bool success, bytes memory data) = pool.staticcall(abi.encodeWithSelector(ICurveSwap.get_dy_underlying.selector, srcTokenIndex, dstTokenIndex, b0));
+                if (success && data.length == 32) {
+                    b1 = abi.decode(data, (uint256));
+                } else {
+                    b1 = ICurveSwapNew(pool).get_dy_underlying(uint128(srcTokenIndex), uint128(dstTokenIndex), b0);
+                }
+                uint256[8] memory balances = registry.get_underlying_balances(pool);
+                w = balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)] / (10 ** (36 - ERC20(srcToken).decimals() - ERC20(dstToken).decimals()));
             }
 
-            uint256 w = b0 * b1;
-            rate = rate + (b1 * 1e18 / b0 * w);
-            weight = weight + w;
+            rate += b1 * 1e18 / b0 * w;
+            weight += w;
 
             pool = registry.find_pool_for_coins(srcToken, dstToken, ++index);
         }
