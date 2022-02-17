@@ -33,7 +33,7 @@ contract CurveOracle is IOracle {
 
         while (pool != address(0)) {
             (int128 srcTokenIndex, int128 dstTokenIndex, bool isUnderlying) = registry.get_coin_indices(pool, srcToken, dstToken);
-            uint256 b0 = 10 ** ERC20(srcToken).decimals();
+            uint256 b0 = 10 ** (ERC20(srcToken).decimals() - 4);
             uint256 b1;
             uint256 w;
             if (!isUnderlying) {
