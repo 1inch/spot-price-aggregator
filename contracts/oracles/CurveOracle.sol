@@ -33,27 +33,30 @@ contract CurveOracle is IOracle {
 
         while (pool != address(0)) {
             (int128 srcTokenIndex, int128 dstTokenIndex, bool isUnderlying) = registry.get_coin_indices(pool, srcToken, dstToken);
-            uint256 b0 = 10 ** (ERC20(srcToken).decimals() - 4);
+            uint256 b0;
             uint256 b1;
             uint256 w;
             if (!isUnderlying) {
+                uint256[8] memory balances = registry.get_balances(pool);
+                w = balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)];
+                b0 = balances[uint128(srcTokenIndex)] / 10000;
                 (bool success, bytes memory data) = pool.staticcall(abi.encodeWithSelector(ICurveSwap.get_dy.selector, srcTokenIndex, dstTokenIndex, b0));
                 if (success && data.length == 32) {
                     b1 = abi.decode(data, (uint256));
                 } else {
                     b1 = ICurveSwapNew(pool).get_dy(uint128(srcTokenIndex), uint128(dstTokenIndex), b0);
                 }
-                uint256[8] memory balances = registry.get_balances(pool);
-                w = balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)];
             } else {
+                uint256[8] memory balances = registry.get_underlying_balances(pool);
+                uint256 srcDecimals = ERC20(srcToken).decimals();
+                w = balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)] / (10 ** (36 - srcDecimals - ERC20(dstToken).decimals()));
+                b0 = balances[uint128(srcTokenIndex)] / (10 ** (14 - srcDecimals));
                 (bool success, bytes memory data) = pool.staticcall(abi.encodeWithSelector(ICurveSwap.get_dy_underlying.selector, srcTokenIndex, dstTokenIndex, b0));
                 if (success && data.length == 32) {
                     b1 = abi.decode(data, (uint256));
                 } else {
                     b1 = ICurveSwapNew(pool).get_dy_underlying(uint128(srcTokenIndex), uint128(dstTokenIndex), b0);
                 }
-                uint256[8] memory balances = registry.get_underlying_balances(pool);
-                w = balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)] / (10 ** (36 - ERC20(srcToken).decimals() - ERC20(dstToken).decimals()));
             }
 
             rate += b1 * 1e18 / b0 * w;
