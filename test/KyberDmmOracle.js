@@ -1,5 +1,5 @@
 const { expectRevert } = require('@openzeppelin/test-helpers');
-const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
+const { tokens, assertRoughlyEqualValues, sqrt } = require('./helpers.js');
 
 const KyberDmmOracle = artifacts.require('KyberDmmOracle');
 const UniswapV3Oracle = artifacts.require('UniswapV3Oracle');
@@ -25,25 +25,51 @@ describe('KyberDmmOracle', async function () {
         );
     });
 
-    it.skip('KNC -> WETH //todo: fix KyberDmmOracle', async function () {
+    it('KNC -> WETH', async function () {
         await testRate(this, tokens.KNC, tokens.WETH, tokens.NONE);
     });
 
-    it.skip('WETH -> KNC //todo: fix KyberDmmOracle', async function () {
+    it('WETH -> KNC', async function () {
         await testRate(this, tokens.WETH, tokens.KNC, tokens.NONE);
     });
 
-    it.skip('KNC -> WETH -> USDC //todo: fix KyberDmmOracle', async function () {
+    it('USDT -> WETH', async function () {
+        await testRate(this, tokens.USDT, tokens.WETH, tokens.NONE);
+    });
+
+    it('WETH -> USDT', async function () {
+        await testRate(this, tokens.WETH, tokens.USDT, tokens.NONE);
+    });
+
+    it('USDC -> WETH', async function () {
+        await testRate(this, tokens.USDC, tokens.WETH, tokens.NONE);
+    });
+
+    it('WETH -> USDC', async function () {
+        await testRate(this, tokens.WETH, tokens.USDC, tokens.NONE);
+    });
+
+    it('KNC -> WETH -> USDC', async function () {
         await testRate(this, tokens.KNC, tokens.USDC, tokens.WETH);
     });
 
-    it.skip('USDC -> WETH -> KNC //todo: fix KyberDmmOracle', async function () {
+    it('USDC -> WETH -> KNC', async function () {
         await testRate(this, tokens.USDC, tokens.KNC, tokens.WETH);
     });
 
     async function testRate (self, srcToken, dstToken, connector) {
         const kyberResult = await self.kyberDmmOracle.getRate(srcToken, dstToken, connector);
         const v3Result = await self.uniswapV3Oracle.getRate(srcToken, dstToken, connector);
-        assertRoughlyEqualValues(v3Result.rate.toString(), kyberResult.rate.toString(), 0.05);
+
+        const v3weightCalc = v3Result.weight.mul(v3Result.weight);
+        const v3rateCalc = v3Result.rate.mul(v3weightCalc);
+        const kyberWeightCalc = kyberResult.weight;
+        const kyberRateCalc = kyberResult.rate;
+
+        const newRate = v3rateCalc.add(kyberRateCalc.mul(kyberWeightCalc));
+        const newWeight = v3weightCalc.add(kyberWeightCalc);
+
+        assertRoughlyEqualValues(v3Result.rate.toString(), newRate.div(newWeight).toString(), 0.05);
+        assertRoughlyEqualValues(v3Result.weight.toString(), sqrt(newWeight).toString(), 0.00001);
     }
 });

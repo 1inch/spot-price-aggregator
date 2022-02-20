@@ -57,8 +57,21 @@ function assertRoughlyEqualValues (expected, actual, relativeDiff) {
     }
 }
 
+function sqrt (value) {
+    const ONE = new BN('1');
+    const TWO = new BN('2');
+    let z = value.add(ONE).div(TWO);
+    let y = value;
+    while (z.sub(y).isNeg()) {
+        y = z;
+        z = value.div(z).add(z).div(TWO);
+    }
+    return y;
+}
+
 module.exports = {
     tokens,
     assertRoughlyEquals,
     assertRoughlyEqualValues,
+    sqrt,
 };
