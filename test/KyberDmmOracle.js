@@ -1,5 +1,5 @@
 const { expectRevert } = require('@openzeppelin/test-helpers');
-const { tokens, assertRoughlyEqualValues, sqrt } = require('./helpers.js');
+const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
 
 const KyberDmmOracle = artifacts.require('KyberDmmOracle');
 const UniswapV3Oracle = artifacts.require('UniswapV3Oracle');
