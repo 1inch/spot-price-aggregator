@@ -63,13 +63,12 @@ describe('KyberDmmOracle', async function () {
 
         const v3weightCalc = v3Result.weight.mul(v3Result.weight);
         const v3rateCalc = v3Result.rate.mul(v3weightCalc);
-        const kyberWeightCalc = kyberResult.weight;
-        const kyberRateCalc = kyberResult.rate;
+        const kyberWeightCalc = kyberResult.weight.mul(kyberResult.weight);
+        const kyberRateCalc = kyberResult.rate.mul(kyberWeightCalc);
 
-        const newRate = v3rateCalc.add(kyberRateCalc.mul(kyberWeightCalc));
-        const newWeight = v3weightCalc.add(kyberWeightCalc);
+        const sumWeightCalc = v3weightCalc.add(kyberWeightCalc);
+        const newRate = v3rateCalc.add(kyberRateCalc).div(sumWeightCalc);
 
-        assertRoughlyEqualValues(v3Result.rate.toString(), newRate.div(newWeight).toString(), 0.05);
-        assertRoughlyEqualValues(v3Result.weight.toString(), sqrt(newWeight).toString(), 0.00001);
+        assertRoughlyEqualValues(v3Result.rate.toString(), newRate.toString(), 0.05);
     }
 });
