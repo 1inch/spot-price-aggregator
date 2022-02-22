@@ -1,5 +1,8 @@
 # Spot Price Aggregator
 
+[![Build Status](https://github.com/1inch/spot-price-aggregator/actions/workflows/test.yml/badge.svg)](https://github.com/1inch/spot-price-aggregator/actions)
+[![Coverage Status](https://coveralls.io/repos/github/1inch/spot-price-aggregator/badge.svg)](https://coveralls.io/github/1inch/spot-price-aggregator)
+
 The 1inch spot price aggregator is a set of smart contracts that extract price data for tokens traded on DEXes from the blockchain. To avoid price manipulations within a transaction, the spot price aggregator should ONLY be used off-chain. DO NOT use it on-chain. For off-chain usage see [Examples](#examples) section below.
 
 ## Wrappers
