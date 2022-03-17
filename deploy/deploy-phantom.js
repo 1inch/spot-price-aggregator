@@ -71,7 +71,11 @@ const zip = (a, b) => a.map((k, i) => [k, b[i]]);
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running deploy script');
-    console.log('network id ', await getChainId());
+    const chainId = await getChainId();
+    console.log('network id ', chainId);
+    console.log(chainId === 250);
+    console.log(chainId === '250');
+    return;
 
     const { deploy, getOrNull } = deployments;
     const { deployer } = await getNamedAccounts();
@@ -163,4 +167,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('All connectors:', await offchainOracle.connectors());
 };
 
-module.exports.skip = async () => true;
+module.exports.skip = async () => false;
