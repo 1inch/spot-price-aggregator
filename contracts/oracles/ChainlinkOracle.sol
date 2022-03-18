@@ -28,6 +28,7 @@ contract ChainlinkOracle is IOracle {
 
     function _getRate(IERC20 token) private view returns (uint256 rate, uint8 decimals) {
         (, int256 answer, , uint256 srcUpdatedAt, ) = chainlink.latestRoundData(token, _QUOTE);
+        require(answer >= 0, "CO: bad data from oracle");
         unchecked {
             require(block.timestamp < srcUpdatedAt + _RATE_TTL, "CO: rate too old");
         }
