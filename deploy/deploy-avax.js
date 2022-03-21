@@ -163,4 +163,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('All connectors:', await offchainOracle.connectors());
 };
 
-module.exports.skip = async () => false;
+module.exports.skip = async () => true;

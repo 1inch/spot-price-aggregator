@@ -29,6 +29,8 @@ module.exports = {
         apiKey: {
             mainnet: process.env.MAINNET_ETHERSCAN_KEY,
             avalanche: process.env.AVAX_ETHERSCAN_KEY,
+            opera: process.env.FANTOM_ETHERSCAN_KEY,
+            ftmTestnet: process.env.FANTOM_ETHERSCAN_KEY,
         },
     },
     gasReporter: {

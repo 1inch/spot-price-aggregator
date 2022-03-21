@@ -165,6 +165,16 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 * Swapr
 * Sushiswap
 
+#### Oracle [0xE8E598A1041b6fDB13999D275a202847D9b654ca](https://ftmscan.com/address/0xE8E598A1041b6fDB13999D275a202847D9b654ca)
+
+#### Supported DEXes
+
+* SpookySwap
+* Solidex
+* SpiritSwap
+* Sushiswap
+
+
 ## Examples
 
 * [Single token-to-ETH price usage](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/single-price.js)
