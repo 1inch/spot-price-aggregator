@@ -4,8 +4,6 @@ const { BN } = require('@openzeppelin/test-helpers');
 const { tokens } = require('../test/helpers.js');
 const constants = require('@openzeppelin/test-helpers/src/constants');
 
-const AAVE_LENDING_POOL = '0x9FAD24f572045c7869117160A571B2e50b10d068';
-
 const NETWORK_TOKENS = {
     WFTM: '0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83',
     gFTM: '0x39b3bd37208cbade74d0fcbdbb12d606295b430a',
@@ -24,30 +22,30 @@ const SCREAM = '0xe0654C8e6fd4D733349ac7E09f6f23DA256bF475';
 const ORACLES = {
     SpookySwap: {
         factory: '0x152eE697f2E276fA89E96742e9bB9aB1F2E61bE3',
-        initHash: '0xcdf2deca40a0bd56de8e3ce5c7df6727e5b1bf2ac96f283fa9c4b3e6b42ea9d2'
+        initHash: '0xcdf2deca40a0bd56de8e3ce5c7df6727e5b1bf2ac96f283fa9c4b3e6b42ea9d2',
     },
     Solidex: {
         factory: '0x3fAaB499b519fdC5819e3D7ed0C26111904cbc28',
-        initHash: '0x57ae84018c47ebdaf7ddb2d1216c8c36389d12481309af65428eb6d460f747a4'
+        initHash: '0x57ae84018c47ebdaf7ddb2d1216c8c36389d12481309af65428eb6d460f747a4',
     },
     SpiritSwap: {
         factory: '0xEF45d134b73241eDa7703fa787148D9C9F4950b0',
-        initHash: '0xe242e798f6cee26a9cb0bbf24653bf066e5356ffeac160907fe2cc108e238617'
+        initHash: '0xe242e798f6cee26a9cb0bbf24653bf066e5356ffeac160907fe2cc108e238617',
     },
     SushiSwap: {
         factory: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4',
-        initHash: '0xe18a34eb0e04b04f7a0ac29a6e80748dca96319b42c54d679cb821dca90c6303'
-    }
-}
+        initHash: '0xe18a34eb0e04b04f7a0ac29a6e80748dca96319b42c54d679cb821dca90c6303',
+    },
+};
 
 const WRAPPERS = {
     aave: {
-        geist: '0x9FAD24f572045c7869117160A571B2e50b10d068'
+        geist: '0x9FAD24f572045c7869117160A571B2e50b10d068',
     },
     compound: {
-        scream: '0x260E596DAbE3AFc463e75B6CC05d8c46aCAcFB09'
+        scream: '0x260E596DAbE3AFc463e75B6CC05d8c46aCAcFB09',
     },
-}
+};
 
 const CONNECTORS = [
     tokens.ETH,
@@ -85,7 +83,7 @@ const tryRun = async (f, n = 10) => {
 
 const zip = (a, b) => a.map((k, i) => [k, b[i]]);
 
-async function addAaveTokens(aaveWrapperV2) {
+async function addAaveTokens (aaveWrapperV2) {
     const aTokens = await Promise.all(AAWE_WRAPPER_TOKENS.map(x => aaveWrapperV2.tokenToaToken(x)));
     const tokensToDeploy = zip(AAWE_WRAPPER_TOKENS, aTokens).filter(([, aToken]) => aToken === constants.ZERO_ADDRESS).map(([token]) => token);
     if (tokensToDeploy.length < 0) {
@@ -97,7 +95,7 @@ async function addAaveTokens(aaveWrapperV2) {
 }
 
 // not idemponent. Needs to be rewritten a bit if another run is required
-async function addCompoundTokens(compoundLikeWrapper, cTokens) {
+async function addCompoundTokens (compoundLikeWrapper, cTokens) {
     await (await compoundLikeWrapper.addMarkets(cTokens)).wait();
 }
 
@@ -106,7 +104,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const chainId = await getChainId();
     console.log('network id ', chainId);
     if (chainId !== '250') {
-        console.log("skipping wrong chain id deployment");
+        console.log('skipping wrong chain id deployment');
         return;
     }
 
@@ -143,21 +141,18 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const scream = await ethers.getContractAt('IComptroller', WRAPPERS.compound.scream);
     const screamCTokens = await scream.getAllMarkets();
-    console.log("Found scream cTokens", cTokens);
+    console.log('Found scream cTokens', screamCTokens);
 
-    const baseCoinWrapper = await idempotentDeploy('BaseCoinWrapper', [WFTM]);
-    const aaveWrapperV2 = await idempotentDeployGetContract('AaveWrapperV2', [AAVE_LENDING_POOL]);
+    const baseCoinWrapper = await idempotentDeploy('BaseCoinWrapper', [NETWORK_TOKENS.WFTM]);
     const geistWrapper = await idempotentDeployGetContract('AaveWrapperV2', [WRAPPERS.aave.geist]);
     const screamWrapper = await idempotentDeployGetContract('CompoundLikeWrapper', [WRAPPERS.compound.scream, SCREAM]);
-    await addAaveTokens(aaveWrapperV2);
     await addAaveTokens(geistWrapper);
     await addCompoundTokens(screamWrapper, screamCTokens);
 
     const multiWrapper = await idempotentDeployGetContract('MultiWrapper', [[
         baseCoinWrapper.address,
-        aaveWrapperV2.address,
         geistWrapper.address,
-        screamWrapper.address
+        screamWrapper.address,
     ]]);
 
     const spookSywap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.SpookySwap.factory, ORACLES.SpookySwap.initHash], 'UniswapV2LikeOracle_Spooky');
@@ -176,9 +171,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         [
             (new BN('0')).toString(),
             (new BN('0')).toString(),
+            (new BN('0')).toString(),
+            (new BN('0')).toString(),
         ],
         CONNECTORS,
-        WFTM,
+        NETWORK_TOKENS.WFTM,
     ];
     const offchainOracle = await idempotentDeployGetContract('OffchainOracle', args);
     console.log('OffchainOracle deployed to:', offchainOracle.address);

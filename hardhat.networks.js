@@ -1,5 +1,5 @@
 if (!process.env.MAINNET_RPC_URL) {
-    throw new Error(`Specify MAINNET_RPC_URL`)
+    throw new Error('Specify MAINNET_RPC_URL');
 }
 
 const networks = {
