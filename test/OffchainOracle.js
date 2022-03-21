@@ -108,7 +108,7 @@ describe('OffchainOracle', async function () {
     it('getRateToEth(dai)_ShouldHaveCorrectRate', async function () {
         const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.WETH, true);
         const actualRate = await this.offchainOracle.getRateToEth(tokens.DAI, true);
-        assertRoughlyEquals(expectedRate, actualRate, 7);
+        assertRoughlyEquals(expectedRate, actualRate, 3);
     });
 
     it('getRateToEth(dai)_GasCheck', async function () {
@@ -119,7 +119,7 @@ describe('OffchainOracle', async function () {
     it('getRateDirect(dai -> link)_ShouldHaveCorrectRate', async function () {
         const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.LINK, true);
         const actualRate = await this.offchainOracle.getRate(tokens.DAI, tokens.LINK, false);
-        assertRoughlyEquals(expectedRate, actualRate, 7);
+        assertRoughlyEquals(expectedRate, actualRate, 3);
     });
 
     it('getRateDirect(dai -> link)_GasCheck', async function () {
