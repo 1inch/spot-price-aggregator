@@ -4,10 +4,13 @@ pragma solidity 0.8.11;
 pragma abicoder v1;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import "../interfaces/IChainlink.sol";
 import "../interfaces/IOracle.sol";
 
 contract ChainlinkOracle is IOracle {
+    using SafeCast for int256;
+
     IChainlink public immutable chainlink;
     address private constant _QUOTE = address(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
     IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
@@ -31,7 +34,7 @@ contract ChainlinkOracle is IOracle {
         unchecked {
             require(block.timestamp < srcUpdatedAt + _RATE_TTL, "CO: rate too old");
         }
-        rate = uint256(answer);
+        rate = answer.toUint256();
         decimals = ERC20(address(token)).decimals();
         rate = rate * (10 ** (18 - decimals));
     }
