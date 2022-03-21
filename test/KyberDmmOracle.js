@@ -13,32 +13,40 @@ describe('KyberDmmOracle', async function () {
 
     it('should revert with amount of pools error', async function () {
         await expectRevert(
-            this.kyberDmmOracle.contract.methods.getRate(tokens.KNC, tokens.EEE, tokens.NONE).call(),
+            this.kyberDmmOracle.contract.methods.getRate(tokens.USDT, tokens.EEE, tokens.NONE).call(),
             'KO: no pools',
         );
     });
 
     it('should revert with amount of pools with connector error', async function () {
         await expectRevert(
-            this.kyberDmmOracle.contract.methods.getRate(tokens.KNC, tokens.WETH, tokens.MKR).call(),
+            this.kyberDmmOracle.contract.methods.getRate(tokens.USDT, tokens.WETH, tokens.MKR).call(),
             'KO: no pools with connector',
         );
     });
 
-    it.skip('KNC -> WETH //todo: fix KyberDmmOracle', async function () {
-        await testRate(this, tokens.KNC, tokens.WETH, tokens.NONE);
+    it('USDC -> USDT', async function () {
+        await testRate(this, tokens.USDC, tokens.USDT, tokens.NONE);
     });
 
-    it.skip('WETH -> KNC //todo: fix KyberDmmOracle', async function () {
-        await testRate(this, tokens.WETH, tokens.KNC, tokens.NONE);
+    it('USDT -> USDC', async function () {
+        await testRate(this, tokens.USDT, tokens.USDC, tokens.NONE);
     });
 
-    it.skip('KNC -> WETH -> USDC //todo: fix KyberDmmOracle', async function () {
-        await testRate(this, tokens.KNC, tokens.USDC, tokens.WETH);
+    it('WBTC -> WETH', async function () {
+        await testRate(this, tokens.WBTC, tokens.WETH, tokens.NONE);
     });
 
-    it.skip('USDC -> WETH -> KNC //todo: fix KyberDmmOracle', async function () {
-        await testRate(this, tokens.USDC, tokens.KNC, tokens.WETH);
+    it('WETH -> WBTC', async function () {
+        await testRate(this, tokens.WETH, tokens.WBTC, tokens.NONE);
+    });
+
+    it('SIPHER -> WETH -> WBTC', async function () {
+        await testRate(this, tokens.SIPHER, tokens.WBTC, tokens.WETH);
+    });
+
+    it('WBTC -> WETH -> SIPHER', async function () {
+        await testRate(this, tokens.WBTC, tokens.SIPHER, tokens.WETH);
     });
 
     async function testRate (self, srcToken, dstToken, connector) {
