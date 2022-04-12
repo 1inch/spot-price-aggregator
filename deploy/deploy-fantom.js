@@ -5,15 +5,15 @@ const { tokens } = require('../test/helpers.js');
 const constants = require('@openzeppelin/test-helpers/src/constants');
 
 const NETWORK_TOKENS = {
-    WFTM: '0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83',
-    gFTM: '0x39b3bd37208cbade74d0fcbdbb12d606295b430a',
-    gFUSDT: '0x940f41f0ec9ba1a34cf001cc03347ac092f5f6b5',
-    gDAI: '0x07e6332dd090d287d3489245038daf987955dcfb',
-    gUSDC: '0xe578c856933d8e1082740bf7661e379aa2a30b26',
-    gETH: '0x25c130b2624cf12a4ea30143ef50c5d68cefa22f',
-    gWBTC: '0x38aca5484b8603373acc6961ecd57a6a594510a3',
-    gCRV: '0x690754a168b022331caa2467207c61919b3f8a98',
-    gMIM: '0xc664fc7b8487a3e10824cda768c1d239f2403bbe',
+    DAI: '0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e',
+    ETH: '0x74b23882a30290451a17c44f4f05243b6b58c76d',
+    wFTM: '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83',
+    BTC: '0x321162cd933e2be498cd2267a90534a804051b11',
+    fUSDT: '0x049d68029688eabf473097a2fc38ef61633a3c7a',
+    USDC: '0x04068da6c83afcfa0e13ba15a6696662335d5b75',
+    CRV: '0x1e4f97b9f9f913c46f1632781732927b9019c68b',
+    MIM: '0x82f0b8b456c1a451378467398982d4834b6829c1',
+    LINK: '0xb3654dc3d10ea7645f8319668e8f54d2574fbdc8',
 };
 
 const AAWE_WRAPPER_TOKENS = Object.values(NETWORK_TOKENS);
@@ -49,7 +49,7 @@ const WRAPPERS = {
 
 const CONNECTORS = [
     tokens.ETH,
-    NETWORK_TOKENS.WFTM,
+    AAWE_WRAPPER_TOKENS.wFTM,
     tokens.NONE,
 
     // TODO: add custom connectors
@@ -86,7 +86,7 @@ const zip = (a, b) => a.map((k, i) => [k, b[i]]);
 async function addAaveTokens (aaveWrapperV2) {
     const aTokens = await Promise.all(AAWE_WRAPPER_TOKENS.map(x => aaveWrapperV2.tokenToaToken(x)));
     const tokensToDeploy = zip(AAWE_WRAPPER_TOKENS, aTokens).filter(([, aToken]) => aToken === constants.ZERO_ADDRESS).map(([token]) => token);
-    if (tokensToDeploy.length < 0) {
+    if (tokensToDeploy.length > 0) {
         console.log('AaveWrapperV2 tokens to deploy: ', tokensToDeploy);
         await (await aaveWrapperV2.addMarkets(tokensToDeploy)).wait();
     } else {
@@ -143,7 +143,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const screamCTokens = await scream.getAllMarkets();
     console.log('Found scream cTokens', screamCTokens);
 
-    const baseCoinWrapper = await idempotentDeploy('BaseCoinWrapper', [NETWORK_TOKENS.WFTM]);
+    const baseCoinWrapper = await idempotentDeploy('BaseCoinWrapper', [AAWE_WRAPPER_TOKENS.wFTM]);
     const geistWrapper = await idempotentDeployGetContract('AaveWrapperV2', [WRAPPERS.aave.geist]);
     const screamWrapper = await idempotentDeployGetContract('CompoundLikeWrapper', [WRAPPERS.compound.scream, SCREAM]);
     await addAaveTokens(geistWrapper);
@@ -175,7 +175,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             (new BN('0')).toString(),
         ],
         CONNECTORS,
-        NETWORK_TOKENS.WFTM,
+        AAWE_WRAPPER_TOKENS.wFTM,
     ];
     const offchainOracle = await idempotentDeployGetContract('OffchainOracle', args);
     console.log('OffchainOracle deployed to:', offchainOracle.address);
