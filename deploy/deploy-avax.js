@@ -13,6 +13,8 @@ const PANGOLIN_FACTORY = '0xefa94DE7a4656D787667C749f7E1223D71E9FD88';
 const PANGOLIN_HASH = '0x40231f6b438bce0797c9ada29b718a87ea0a5cea3fe9a771abdd76bd41a3e545';
 const SUSHISWAP_FACTORY = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4';
 const SUSHISWAP_HASH = '0xe18a34eb0e04b04f7a0ac29a6e80748dca96319b42c54d679cb821dca90c6303';
+const PRINTY_FACTORY = '0xc62Ca231Cd2b0c530C622269dA02374134511a36';
+const PRINTY_HASH = '0x96262ba85d1e33f4c9f8368149e7211436bc78c7058d43e303e73ffdfb9c0d8e';
 
 const WETH = '0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB';
 const DAI = '0xd586E7F844cEa2F87f50152665BCbc2C279D8d70';
@@ -124,12 +126,16 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const joeOracle = await idempotentDeploy('UniswapV2LikeOracle', [JOE_FACTORY, JOE_HASH], 'UniswapV2LikeOracle_Joe');
     const pangolinOracle = await idempotentDeploy('UniswapV2LikeOracle', [PANGOLIN_FACTORY, PANGOLIN_HASH], 'UniswapV2LikeOracle_Pangolin');
+    const printyOracle = await idempotentDeploy('UniswapV2LikeOracle', [PRINTY_FACTORY, PRINTY_HASH], 'UniswapV2LikeOracle_Printy');
+
 
     const args = [
         multiWrapper.address,
         [
             joeOracle.address,
             pangolinOracle.address,
+            printyOracle.address,
+
         ],
         [
             (new BN('0')).toString(),
