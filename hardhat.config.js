@@ -7,7 +7,7 @@ require('solidity-coverage');
 
 require('dotenv').config();
 
-const networks = require('./hardhat.networks');
+const { networks, etherscan } = require('./hardhat.networks');
 
 module.exports = {
     solidity: {
@@ -19,23 +19,12 @@ module.exports = {
             },
         },
     },
+    etherscan,
     networks,
     namedAccounts: {
         deployer: {
             default: 0,
         },
-    },
-    etherscan: {
-        apiKey: {
-            mainnet: process.env.MAINNET_ETHERSCAN_KEY,
-            avalanche: process.env.AVAX_ETHERSCAN_KEY,
-            opera: process.env.FANTOM_ETHERSCAN_KEY,
-            ftmTestnet: process.env.FANTOM_ETHERSCAN_KEY,
-        },
-    },
-    gasReporter: {
-        enable: true,
-        currency: 'USD',
     },
     mocha: {
         timeout: 90000,
