@@ -13,7 +13,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const args = ['0x1Cb059b7e74fD21665968C908806143E744D5F30'];
     const synthetixOracle = await deploy('SynthetixOracle', {
         from: deployer,
-        args: args,
+        args,
         skipIfAlreadyDeployed: false,
     });
 

@@ -13,7 +13,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const args = ['0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf'];
     const chainlinkOracle = await deploy('ChainlinkOracle', {
         from: deployer,
-        args: args,
+        args,
         maxFeePerGas: 100000000000,
         maxPriorityFeePerGas: 2000000000,
         skipIfAlreadyDeployed: false,

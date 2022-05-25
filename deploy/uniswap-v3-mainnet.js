@@ -14,7 +14,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const uniswapV3Oracle = await deploy('UniswapV3Oracle', {
         from: deployer,
-        args: args,
+        args,
         skipIfAlreadyDeployed: true,
     });
 

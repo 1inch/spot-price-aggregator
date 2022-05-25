@@ -13,7 +13,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const args = ['0x878dFE971d44e9122048308301F540910Bbd934c'];
     const kyberDmmOracle = await deploy('KyberDmmOracle', {
         from: deployer,
-        args: args,
+        args,
         skipIfAlreadyDeployed: false,
     });
 

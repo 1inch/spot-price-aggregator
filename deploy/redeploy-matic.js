@@ -41,7 +41,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     ];
 
     const offchainOracle = await deploy('OffchainOracle', {
-        args: args,
+        args,
         from: deployer,
         skipIfAlreadyDeployed: false,
     });
