@@ -1,11 +1,10 @@
 const hre = require('hardhat');
-const { getChainId } = hre;
+const { getChainId, ethers } = hre;
 const { BN } = require('@openzeppelin/test-helpers');
 const { tokens } = require('../test/helpers.js');
-const { web3 } = require('hardhat');
 
-const cETHbastion = "0x4E8fE8fd314cFC09BDb0942c5adCC37431abDCD0";
-const auETHaurigami = "0xca9511B610bA5fc7E311FDeF9cE16050eE4449E9";
+const cETHbastion = '0x4E8fE8fd314cFC09BDb0942c5adCC37431abDCD0';
+const auETHaurigami = '0xca9511B610bA5fc7E311FDeF9cE16050eE4449E9';
 const WETH = '0xC9BdeEd33CD01541e1eeD10f90519d2C06Fe3feB';
 
 const connectors = [
@@ -39,7 +38,6 @@ const WRAPPERS = {
         aurigami: '0x817af6cfAF35BdC1A634d6cC94eE9e4c68369Aeb',
     },
 };
-
 
 const delay = (ms) =>
     new Promise((resolve) => {
