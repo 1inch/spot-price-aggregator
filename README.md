@@ -176,6 +176,17 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 * SpiritSwap
 * Sushiswap
 
+### Aurora
+
+#### Oracle [0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795](https://aurorascan.dev/address/0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795)
+
+#### Supported DEXes
+
+* Trisolaris
+* WannaSwap
+* NearPAD
+* AuroraSwap
+
 
 ## Examples
 
