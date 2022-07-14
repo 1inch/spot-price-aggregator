@@ -17,7 +17,7 @@ const NETWORK_TOKENS = {
 };
 
 const AAWE_WRAPPER_TOKENS = Object.values(NETWORK_TOKENS);
-const scWFTM = '0x0A0aD52F5B4E267a5237bdC65Da8524b1A9BF75B';
+const SCREAM = '0xe0654C8e6fd4D733349ac7E09f6f23DA256bF475';
 
 const ORACLES = {
     SpookySwap: {
@@ -145,7 +145,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const baseCoinWrapper = await idempotentDeploy('BaseCoinWrapper', [AAWE_WRAPPER_TOKENS.wFTM]);
     const geistWrapper = await idempotentDeployGetContract('AaveWrapperV2', [WRAPPERS.aave.geist]);
-    const screamWrapper = await idempotentDeployGetContract('CompoundLikeWrapper', [WRAPPERS.compound.scream, scWFTM]);
+    const screamWrapper = await idempotentDeployGetContract('CompoundLikeWrapper', [WRAPPERS.compound.scream, SCREAM]);
     await addAaveTokens(geistWrapper);
     await addCompoundTokens(screamWrapper, screamCTokens);
 
