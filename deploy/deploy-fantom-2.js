@@ -12,6 +12,32 @@ const WRAPPERS = {
     },
 };
 
+const delay = (ms) =>
+    new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+
+const tryRun = async (f, n = 10) => {
+    if (typeof f !== 'function') {
+        throw Error('f is not a function');
+    }
+    for (let i = 0; ; i++) {
+        try {
+            return await f();
+        } catch (error) {
+            if (error.message === 'Contract source code already verified' || error.message.includes('Reason: Already Verified')) {
+                console.log('Contract already verified. Skipping verification');
+                break;
+            }
+            console.error(error);
+            await delay(1000);
+            if (i > n) {
+                throw new Error(`Couldn't verify deploy in ${n} runs`);
+            }
+        }
+    }
+};
+
 // not idemponent. Needs to be rewritten a bit if another run is required
 async function addCompoundTokens (compoundLikeWrapper, cTokens) {
     await (await compoundLikeWrapper.addMarkets(cTokens)).wait();
@@ -25,6 +51,37 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         console.log('skipping wrong chain id deployment');
         return;
     }
+
+    const { deploy, getOrNull } = deployments;
+    const { deployer } = await getNamedAccounts();
+
+    const idempotentDeploy = async (contractName, constructorArgs, deploymentName = contractName) => {
+        const existingContract = await getOrNull(deploymentName);
+        if (existingContract) {
+            console.log(`Skipping deploy for existing contract ${contractName} (${deploymentName})`);
+            return existingContract;
+        }
+
+        const contract = await deploy(deploymentName, {
+            args: constructorArgs,
+            from: deployer,
+            contract: contractName,
+        });
+
+        await tryRun(() => hre.run('verify:verify', {
+            address: contract.address,
+            constructorArguments: constructorArgs,
+        }));
+
+        return contract;
+    };
+
+    const idempotentDeployGetContract = async (contractName, constructorArgs) => {
+        const deployResult = await idempotentDeploy(contractName, constructorArgs);
+        const contractFactory = await ethers.getContractFactory(contractName);
+        const contract = contractFactory.attach(deployResult.address);
+        return contract;
+    };
 
     const scream = await ethers.getContractAt('IComptroller', WRAPPERS.compound.scream);
     const screamCTokens = await scream.getAllMarkets();
