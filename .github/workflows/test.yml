@@ -18,6 +18,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
+      - run: |
+          touch .env
+          echo MAINNET_RPC_URL=${{ secrets.MAINNET_RPC_URL }} >> .env
       - run: yarn test
 
   coverage:
@@ -25,5 +28,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
+      - run: |
+          touch .env
+          echo MAINNET_RPC_URL=${{ secrets.MAINNET_RPC_URL }} >> .env
       - run: yarn coverage
       - uses: codecov/codecov-action@v3
