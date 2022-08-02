@@ -21,11 +21,11 @@ const ORACLES = {
 const KLAP = '0x1b9c074111ec65E1342Ea844f7273D5449D2194B';
 
 const KLAP_TOKENS = [
-    '0x078db7827a5531359f6cb63f62cfa20183c4f10c',  // DAI
-    '0x6270b58be569a7c0b8f47594f191631ae5b2c86c',  // USDC
-    '0xd6dab4cff47df175349e6e7ee2bf7c40bb8c05a3',  // USDT
-    '0xdcbacf3f7a069922e677912998c8d57423c37dfa',  // WBTC
-    '0xcd6f29dc9ca217d0973d3d21bf58edd3ca871a86',  // WETH
+    '0x078db7827a5531359f6cb63f62cfa20183c4f10c', // DAI
+    '0x6270b58be569a7c0b8f47594f191631ae5b2c86c', // USDC
+    '0xd6dab4cff47df175349e6e7ee2bf7c40bb8c05a3', // USDT
+    '0xdcbacf3f7a069922e677912998c8d57423c37dfa', // WBTC
+    '0xcd6f29dc9ca217d0973d3d21bf58edd3ca871a86', // WETH
     WKLAY,
 ];
 
