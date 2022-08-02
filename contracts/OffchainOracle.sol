@@ -146,18 +146,35 @@ contract OffchainOracle is Ownable {
         emit ConnectorRemoved(connector);
     }
 
+    function _connectorsWithCustoms(IERC20[] memory customConnectors) internal view returns (IERC20[] memory allConnectorsWithCustoms) {
+        unchecked {
+            allConnectorsWithCustoms = new IERC20[](_connectors.length() + customConnectors.length);
+            for (uint256 i = 0; i < _connectors.length(); i++) {
+                allConnectorsWithCustoms[i] = IERC20(address(uint160(uint256(_connectors._inner._values[i]))));
+            }
+            for (uint256 i = 0; i < customConnectors.length; i++) {
+                allConnectorsWithCustoms[i] = customConnectors[i];
+            }
+        }
+    }
+
     /*
         WARNING!
         Usage of the dex oracle on chain is highly discouraged!
         getRate function can be easily manipulated inside transaction!
     */
-    function getRate(IERC20 srcToken, IERC20 dstToken, bool useWrappers) external view returns (uint256 weightedRate) {
+    function getRate(
+        IERC20 srcToken,
+        IERC20 dstToken,
+        bool useWrappers,
+        IERC20[] memory customConnectors
+    ) external view returns (uint256 weightedRate) {
         require(srcToken != dstToken, "Tokens should not be the same");
         uint256 totalWeight;
         (IOracle[] memory allOracles, ) = oracles();
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useWrappers);
         (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = _getWrappedTokens(dstToken, useWrappers);
-        bytes32[] memory connectors_ = _connectors._inner._values;
+        IERC20[] memory connectors_ = _connectorsWithCustoms(customConnectors);
 
         unchecked {
             for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
@@ -166,11 +183,11 @@ contract OffchainOracle is Ownable {
                         return srcRates[k1].mul(dstRates[k2]).div(1e18);
                     }
                     for (uint256 j = 0; j < connectors_.length; j++) {
-                        if (IERC20(address(uint160(uint256(connectors_[j])))) == wrappedSrcTokens[k1] || IERC20(address(uint160(uint256(connectors_[j])))) == wrappedDstTokens[k2]) {
+                        if (connectors_[j] == wrappedSrcTokens[k1] || connectors_[j] == wrappedDstTokens[k2]) {
                             continue;
                         }
                         for (uint256 i = 0; i < allOracles.length; i++) {
-                            try allOracles[i].getRate(wrappedSrcTokens[k1], wrappedDstTokens[k2], IERC20(address(uint160(uint256(connectors_[j]))))) returns (uint256 rate, uint256 weight) {
+                            try allOracles[i].getRate(wrappedSrcTokens[k1], wrappedDstTokens[k2], connectors_[j]) returns (uint256 rate, uint256 weight) {
                                 rate = rate.mul(srcRates[k1]).mul(dstRates[k2]).div(1e36);
                                 weight = weight.mul(weight);
                                 weightedRate = weightedRate.add(rate.mul(weight));
