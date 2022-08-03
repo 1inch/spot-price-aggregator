@@ -41,12 +41,12 @@ describe('KyberDmmOracle', async function () {
         await testRate(this, tokens.WETH, tokens.WBTC, tokens.NONE);
     });
 
-    it('SIPHER -> WETH -> WBTC', async function () {
-        await testRate(this, tokens.SIPHER, tokens.WBTC, tokens.WETH);
+    it('USDC -> WETH -> WBTC', async function () {
+        await testRate(this, tokens.USDC, tokens.WBTC, tokens.WETH);
     });
 
-    it('WBTC -> WETH -> SIPHER', async function () {
-        await testRate(this, tokens.WBTC, tokens.SIPHER, tokens.WETH);
+    it('WBTC -> WETH -> USDC', async function () {
+        await testRate(this, tokens.WBTC, tokens.USDC, tokens.WETH);
     });
 
     async function testRate (self, srcToken, dstToken, connector) {
