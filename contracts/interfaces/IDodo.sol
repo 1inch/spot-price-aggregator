@@ -9,7 +9,8 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 // solhint-disable func-name-mixedcase
 
 interface IDodo {
-    function getExpectedTarget() external view returns (uint256 baseTarget, uint256 quoteTarget);
+    function _BASE_BALANCE_() external view returns (uint256);
+    function _QUOTE_BALANCE_() external view returns (uint256);
     function getMidPrice() external view returns (uint256 midPrice);
 }
 

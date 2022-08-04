@@ -54,7 +54,8 @@ contract DodoOracle is IOracle {
 
         uint256 price = dodo.getMidPrice();
         rate = isSrcBase? price : 1e36 / price;
-        (uint256 balance0, uint256 balance1) = dodo.getExpectedTarget();
-        (balanceSrc, balanceDst) = isSrcBase? (balance0, balance1) : (balance1, balance0);
+        uint256 b0 = dodo._BASE_BALANCE_();
+        uint256 b1 = dodo._QUOTE_BALANCE_();
+        (balanceSrc, balanceDst) = isSrcBase? (b0, b1) : (b1, b0);
     }
 }
