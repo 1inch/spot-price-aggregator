@@ -10,15 +10,16 @@ import "../interfaces/IDodo.sol";
 import "../interfaces/IDodoFactories.sol";
 import "../libraries/Sqrt.sol";
 
-contract DodoOracle is IOracle {
+// solhint-disable var-name-mixedcase
+
+contract DodoV2Oracle is IOracle {
     using Sqrt for uint256;
 
-    IDodoZoo public immutable dodoZoo;
+    IDVMFactory public immutable DVMFactory;
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
-    IDodo private constant _ZERO_DODO = IDodo(0x0000000000000000000000000000000000000000);
 
-    constructor(IDodoZoo _dodoZoo) {
-        dodoZoo = _dodoZoo;
+    constructor(IDVMFactory _DVMFactory) {
+        DVMFactory = _DVMFactory;
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
@@ -47,14 +48,26 @@ contract DodoOracle is IOracle {
     function _getDodoInfo(IERC20 _srcToken, IERC20 _dstToken) internal view returns (uint256 rate, uint256 balanceSrc, uint256 balanceDst) {
         address srcToken = address(_srcToken);
         address dstToken = address(_dstToken);
-        IDodo dodo = IDodo(dodoZoo.getDODO(srcToken, dstToken));
-        bool isSrcBase = (dodo != _ZERO_DODO);
-        if (!isSrcBase) dodo = IDodo(dodoZoo.getDODO(dstToken, srcToken));
-        require(dodo != _ZERO_DODO, "DO: Dodo not found");
+        address[] memory machines = DVMFactory.getDODOPool(srcToken, dstToken);
+        bool isSrcBase = (machines.length != 0);
+        if (!isSrcBase) machines = DVMFactory.getDODOPool(dstToken, srcToken);
+        require(machines.length != 0, "DOV2: machines not found");
 
-        uint256 price = dodo.getMidPrice();
-        rate = isSrcBase? price : 1e36 / price;
-        (uint256 balance0, uint256 balance1) = dodo.getExpectedTarget();
-        (balanceSrc, balanceDst) = isSrcBase? (balance0, balance1) : (balance1, balance0);
+        for (uint256 i = 0; i < machines.length; i++) {
+            IDVM dvm = IDVM(machines[i]);
+            uint256 b0 = dvm._BASE_RESERVE_();
+            uint256 b1 = dvm._QUOTE_RESERVE_();
+            if (b0 != 0 && b1 != 0) {
+                uint256 price = dvm.getMidPrice();
+                uint256 w = b0 * b1;
+                rate += isSrcBase? price * w : 1e36 * w / price;
+                balanceSrc += isSrcBase? b0 : b1;
+                balanceDst += isSrcBase? b1 : b0;
+            }
+        }
+
+        if(balanceSrc > 0 && balanceDst > 0) {
+            rate /= (balanceSrc * balanceDst);
+        }
     }
 }

@@ -10,3 +10,6 @@ interface IDodoZoo {
     function getDODO(address baseToken, address quoteToken) external view returns (address);
 }
 
+interface IDVMFactory {
+    function getDODOPool(address baseToken, address quoteToken) external view returns (address[] memory machines);
+}
