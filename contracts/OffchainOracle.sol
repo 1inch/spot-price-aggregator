@@ -148,12 +148,14 @@ contract OffchainOracle is Ownable {
 
     function _connectorsWithCustoms(IERC20[] memory customConnectors) internal view returns (IERC20[] memory allConnectorsWithCustoms) {
         unchecked {
-            allConnectorsWithCustoms = new IERC20[](_connectors.length() + customConnectors.length);
-            for (uint256 i = 0; i < _connectors.length(); i++) {
+            uint256 storedConnectorsLength = _connectors.length();
+            uint256 customConnectorsLength = customConnectors.length;
+            allConnectorsWithCustoms = new IERC20[](storedConnectorsLength + customConnectorsLength);
+            for (uint256 i = 0; i < storedConnectorsLength; i++) {
                 allConnectorsWithCustoms[i] = IERC20(address(uint160(uint256(_connectors._inner._values[i]))));
             }
-            for (uint256 i = 0; i < customConnectors.length; i++) {
-                allConnectorsWithCustoms[i] = customConnectors[i];
+            for (uint256 i = 0; i < customConnectorsLength; i++) {
+                allConnectorsWithCustoms[i + storedConnectorsLength] = customConnectors[i];
             }
         }
     }
