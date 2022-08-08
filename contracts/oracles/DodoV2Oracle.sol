@@ -60,7 +60,7 @@ contract DodoV2Oracle is IOracle {
             if (b0 != 0 && b1 != 0) {
                 uint256 price = dvm.getMidPrice();
                 uint256 w = b0 * b1;
-                rate += isSrcBase? price * w : 1e36 * w / price;
+                rate += isSrcBase? price * w : 1e36 / price * w;
                 balanceSrc += isSrcBase? b0 : b1;
                 balanceDst += isSrcBase? b1 : b0;
             }
