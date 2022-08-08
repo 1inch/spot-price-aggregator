@@ -168,10 +168,10 @@ contract OffchainOracle is Ownable {
         IERC20 dstToken,
         bool useWrappers
     ) external view returns (uint256 weightedRate) {
-        return getRate(srcToken, dstToken, useWrappers, new IERC20[](0));
+        return getRateWithCustomConnectors(srcToken, dstToken, useWrappers, new IERC20[](0));
     }
 
-    function getRate(
+    function getRateWithCustomConnectors(
         IERC20 srcToken,
         IERC20 dstToken,
         bool useWrappers,

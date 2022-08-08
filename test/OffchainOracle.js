@@ -134,7 +134,6 @@ describe('OffchainOracle', async function () {
     describe('customConnectors', async function () {
         before(async function () {
             this.connectors = [
-                tokens.NONE,
                 tokens.ETH,
                 tokens.WETH,
                 tokens.USDC,
@@ -144,14 +143,15 @@ describe('OffchainOracle', async function () {
                 [
                     this.uniswapV2LikeOracle.address,
                     this.uniswapOracle.address,
-                    this.mooniswapOracle.address,
                 ],
                 [
                     (new BN('0')).toString(),
                     (new BN('1')).toString(),
-                    (new BN('2')).toString(),
                 ],
-                this.connectors,
+                [
+                    tokens.NONE,
+                    ...this.connectors,
+                ],
                 tokens.WETH,
             );
             this.offchainOracleWithoutConnectors = await OffchainOracle.new(
@@ -159,41 +159,41 @@ describe('OffchainOracle', async function () {
                 [
                     this.uniswapV2LikeOracle.address,
                     this.uniswapOracle.address,
-                    this.mooniswapOracle.address,
                 ],
                 [
                     (new BN('0')).toString(),
                     (new BN('1')).toString(),
-                    (new BN('2')).toString(),
                 ],
-                [],
+                [
+                    tokens.NONE,
+                ],
                 tokens.WETH,
             );
         });
 
         it('weth -> dai', async function () {
-            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRate(tokens.WETH, tokens.DAI, true, this.connectors);
+            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.WETH, tokens.DAI, true, this.connectors);
             const rate = await this.offchainOracle.getRate(tokens.WETH, tokens.DAI, true);
             expect(rateWithCustomConnector).to.be.bignumber.greaterThan(ether('1000'));
             assertRoughlyEqualValues(rateWithCustomConnector, rate, 1e-18);
         });
 
         it('eth -> dai', async function () {
-            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRate(tokens.ETH, tokens.DAI, true, this.connectors);
+            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.ETH, tokens.DAI, true, this.connectors);
             const rate = await this.offchainOracle.getRate(tokens.ETH, tokens.DAI, true);
             expect(rateWithCustomConnector).to.be.bignumber.greaterThan(ether('1000'));
             assertRoughlyEqualValues(rateWithCustomConnector, rate, 1e-18);
         });
 
         it('usdc -> dai', async function () {
-            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRate(tokens.USDC, tokens.DAI, true, this.connectors);
+            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.USDC, tokens.DAI, true, this.connectors);
             const rate = await this.offchainOracle.getRate(tokens.USDC, tokens.DAI, true);
             expect(rateWithCustomConnector).to.be.bignumber.greaterThan(ether('980000000000'));
             assertRoughlyEqualValues(rateWithCustomConnector, rate, 1e-18);
         });
 
         it('dai -> adai', async function () {
-            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRate(tokens.DAI, ADAIV2, true, this.connectors);
+            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.DAI, ADAIV2, true, this.connectors);
             const rate = await this.offchainOracle.getRate(tokens.DAI, ADAIV2, true);
             expect(rateWithCustomConnector).to.be.bignumber.equal(ether('1'));
             assertRoughlyEqualValues(rateWithCustomConnector, rate, 1e-18);
