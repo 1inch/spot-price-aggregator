@@ -166,9 +166,17 @@ contract OffchainOracle is Ownable {
     function getRate(
         IERC20 srcToken,
         IERC20 dstToken,
+        bool useWrappers
+    ) external view returns (uint256 weightedRate) {
+        return getRate(srcToken, dstToken, useWrappers, new IERC20[](0));
+    }
+
+    function getRate(
+        IERC20 srcToken,
+        IERC20 dstToken,
         bool useWrappers,
         IERC20[] memory customConnectors
-    ) external view returns (uint256 weightedRate) {
+    ) public view returns (uint256 weightedRate) {
         require(srcToken != dstToken, "Tokens should not be the same");
         uint256 totalWeight;
         (IOracle[] memory allOracles, ) = oracles();
