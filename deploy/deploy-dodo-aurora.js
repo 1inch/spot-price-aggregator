@@ -68,10 +68,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const txns = [];
 
-    txns.push(await offchainOracle.addOracle(dodo.address));
-    txns.push(await offchainOracle.addMarkets(dodoV2.address));
+    txns.push(await offchainOracle.addOracle(dodo.address, '0'));
+    txns.push(await offchainOracle.addOracle(dodoV2.address, '0'));
 
     await Promise.all(txns);
 };
 
-module.exports.skip = async () => true;
+module.exports.skip = async () => false;
