@@ -74,4 +74,4 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     await Promise.all(txns);
 };
 
-module.exports.skip = async () => false;
+module.exports.skip = async () => true;
