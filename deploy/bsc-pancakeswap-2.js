@@ -21,7 +21,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const offchainOracle = OffchainOracle.attach((await deployments.get('OffchainOracle')).address);
 
-    await offchainOracle.addOracle(pancakeV2Oracle.address);
+    await offchainOracle.addOracle(pancakeV2Oracle.address, '0');
 
     console.log('Pancake V2 Oracle deployed to:', pancakeV2Oracle.address);
 

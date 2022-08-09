@@ -51,8 +51,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const txns = [];
 
-    txns.push(await offchainOracle.addOracle(cometh.address));
-    txns.push(await offchainOracle.addOracle(sushi.address));
+    txns.push(await offchainOracle.addOracle(cometh, '0'));
+    txns.push(await offchainOracle.addOracle(sushi.address, '0'));
     txns.push(await aave.addMarkets(AAVE_TOKENS));
     txns.push(await multiWrapper.addWrapper(aave.address));
 
