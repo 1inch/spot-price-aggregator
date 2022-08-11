@@ -1,7 +1,9 @@
-const hre = require('hardhat');
-const { getChainId } = hre;
-const { BN } = require('@openzeppelin/test-helpers');
+const { getChainId } = require('hardhat');
+const { toBN } = require('@1inch/solidity-utils');
 const { tokens } = require('../test/helpers.js');
+const {
+    idempotentDeploy,
+} = require('./utils.js');
 
 const oracles = {
     quickswapOracle: '0xE295aD71242373C37C5FdA7B57F26f9eA1088AFe',
@@ -18,40 +20,33 @@ const connectors = [
 const multiWrapper = '0x54431918cEC22932fCF97E54769F4E00f646690F';
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    console.log('running deploy script');
+    console.log('running redeploy-matic deploy script');
     console.log('network id ', await getChainId());
 
-    const { deploy } = deployments;
     const { deployer } = await getNamedAccounts();
 
-    const args = [
-        multiWrapper,
+    await idempotentDeploy(
+        'OffchainOracle',
         [
-            oracles.quickswapOracle,
-            oracles.comethwapOracle,
-            oracles.sushiswapOracle,
+            multiWrapper,
+            [
+                oracles.quickswapOracle,
+                oracles.comethwapOracle,
+                oracles.sushiswapOracle,
+            ],
+            [
+                (toBN('0')).toString(),
+                (toBN('0')).toString(),
+                (toBN('0')).toString(),
+            ],
+            connectors,
+            '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', // WMATIC
         ],
-        [
-            (new BN('0')).toString(),
-            (new BN('0')).toString(),
-            (new BN('0')).toString(),
-        ],
-        connectors,
-        '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', // WMATIC
-    ];
-
-    const offchainOracle = await deploy('OffchainOracle', {
-        args,
-        from: deployer,
-        skipIfAlreadyDeployed: false,
-    });
-
-    console.log('OffchainOracle deployed to:', offchainOracle.address);
-
-    // await hre.run('verify:verify', {
-    //     address: offchainOracle.address,
-    //     constructorArguments: args,
-    // });
+        deployments,
+        deployer,
+        'OffchainOracle',
+        true, // skipVerify
+    );
 };
 
 module.exports.skip = async () => true;

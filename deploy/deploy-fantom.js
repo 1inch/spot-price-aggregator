@@ -1,8 +1,12 @@
-const hre = require('hardhat');
-const { getChainId, ethers } = hre;
-const { BN } = require('@openzeppelin/test-helpers');
+const { getChainId } = require('hardhat');
+const { toBN } = require('@1inch/solidity-utils');
+const {
+    idempotentDeploy,
+    idempotentDeployGetContract,
+    deployCompoundTokenWrapper,
+    addAaveTokens,
+} = require('./utils.js');
 const { tokens } = require('../test/helpers.js');
-const constants = require('@openzeppelin/test-helpers/src/constants');
 
 const NETWORK_TOKENS = {
     DAI: '0x8d11ec38a3eb5e956b052f67da8bdc9bef8abf3e',
@@ -55,50 +59,6 @@ const CONNECTORS = [
     // TODO: add custom connectors
 ];
 
-const delay = (ms) =>
-    new Promise((resolve) => {
-        setTimeout(resolve, ms);
-    });
-
-const tryRun = async (f, n = 10) => {
-    if (typeof f !== 'function') {
-        throw Error('f is not a function');
-    }
-    for (let i = 0; ; i++) {
-        try {
-            return await f();
-        } catch (error) {
-            if (error.message === 'Contract source code already verified' || error.message.includes('Reason: Already Verified')) {
-                console.log('Contract already verified. Skipping verification');
-                break;
-            }
-            console.error(error);
-            await delay(1000);
-            if (i > n) {
-                throw new Error(`Couldn't verify deploy in ${n} runs`);
-            }
-        }
-    }
-};
-
-const zip = (a, b) => a.map((k, i) => [k, b[i]]);
-
-async function addAaveTokens (aaveWrapperV2) {
-    const aTokens = await Promise.all(AAWE_WRAPPER_TOKENS.map(x => aaveWrapperV2.tokenToaToken(x)));
-    const tokensToDeploy = zip(AAWE_WRAPPER_TOKENS, aTokens).filter(([, aToken]) => aToken === constants.ZERO_ADDRESS).map(([token]) => token);
-    if (tokensToDeploy.length > 0) {
-        console.log('AaveWrapperV2 tokens to deploy: ', tokensToDeploy);
-        await (await aaveWrapperV2.addMarkets(tokensToDeploy)).wait();
-    } else {
-        console.log('All tokens are already deployed');
-    }
-}
-
-// not idemponent. Needs to be rewritten a bit if another run is required
-async function addCompoundTokens (compoundLikeWrapper, cTokens) {
-    await (await compoundLikeWrapper.addMarkets(cTokens)).wait();
-}
-
 module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running phantom deploy script');
     const chainId = await getChainId();
@@ -108,57 +68,30 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         return;
     }
 
-    const { deploy, getOrNull } = deployments;
     const { deployer } = await getNamedAccounts();
 
-    const idempotentDeploy = async (contractName, constructorArgs, deploymentName = contractName) => {
-        const existingContract = await getOrNull(deploymentName);
-        if (existingContract) {
-            console.log(`Skipping deploy for existing contract ${contractName} (${deploymentName})`);
-            return existingContract;
-        }
+    const screamWrapper = await deployCompoundTokenWrapper(WRAPPERS.compound.scream, SCREAM, deployments, deployer, 'CompoundLikeWrapper');
 
-        const contract = await deploy(deploymentName, {
-            args: constructorArgs,
-            from: deployer,
-            contract: contractName,
-        });
+    const baseCoinWrapper = await idempotentDeploy('BaseCoinWrapper', [AAWE_WRAPPER_TOKENS.wFTM], deployments, deployer);
+    const geistWrapper = await idempotentDeployGetContract('AaveWrapperV2', [WRAPPERS.aave.geist], deployments, deployer);
 
-        await tryRun(() => hre.run('verify:verify', {
-            address: contract.address,
-            constructorArguments: constructorArgs,
-        }));
+    await addAaveTokens(geistWrapper, AAWE_WRAPPER_TOKENS);
 
-        return contract;
-    };
+    const multiWrapper = await idempotentDeployGetContract(
+        'MultiWrapper',
+        [[
+            baseCoinWrapper.address,
+            geistWrapper.address,
+            screamWrapper.address,
+        ]],
+        deployments,
+        deployer,
+    );
 
-    const idempotentDeployGetContract = async (contractName, constructorArgs) => {
-        const deployResult = await idempotentDeploy(contractName, constructorArgs);
-        const contractFactory = await ethers.getContractFactory(contractName);
-        const contract = contractFactory.attach(deployResult.address);
-        return contract;
-    };
-
-    const scream = await ethers.getContractAt('IComptroller', WRAPPERS.compound.scream);
-    const screamCTokens = await scream.getAllMarkets();
-    console.log('Found scream cTokens', screamCTokens);
-
-    const baseCoinWrapper = await idempotentDeploy('BaseCoinWrapper', [AAWE_WRAPPER_TOKENS.wFTM]);
-    const geistWrapper = await idempotentDeployGetContract('AaveWrapperV2', [WRAPPERS.aave.geist]);
-    const screamWrapper = await idempotentDeployGetContract('CompoundLikeWrapper', [WRAPPERS.compound.scream, SCREAM]);
-    await addAaveTokens(geistWrapper);
-    await addCompoundTokens(screamWrapper, screamCTokens);
-
-    const multiWrapper = await idempotentDeployGetContract('MultiWrapper', [[
-        baseCoinWrapper.address,
-        geistWrapper.address,
-        screamWrapper.address,
-    ]]);
-
-    const spookSywap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.SpookySwap.factory, ORACLES.SpookySwap.initHash], 'UniswapV2LikeOracle_Spooky');
-    const solidex = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.Solidex.factory, ORACLES.Solidex.initHash], 'UniswapV2LikeOracle_Solidex');
-    const spiritSwap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.SpiritSwap.factory, ORACLES.SpiritSwap.initHash], 'UniswapV2LikeOracle_SpiritSwap');
-    const sushiSwap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.SushiSwap.factory, ORACLES.SushiSwap.initHash], 'UniswapV2LikeOracle_SushiSwap');
+    const spookSywap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.SpookySwap.factory, ORACLES.SpookySwap.initHash], deployments, deployer, 'UniswapV2LikeOracle_Spooky');
+    const solidex = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.Solidex.factory, ORACLES.Solidex.initHash], deployments, deployer, 'UniswapV2LikeOracle_Solidex');
+    const spiritSwap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.SpiritSwap.factory, ORACLES.SpiritSwap.initHash], deployments, deployer, 'UniswapV2LikeOracle_SpiritSwap');
+    const sushiSwap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.SushiSwap.factory, ORACLES.SushiSwap.initHash], deployments, deployer, 'UniswapV2LikeOracle_SushiSwap');
 
     const args = [
         multiWrapper.address,
@@ -169,16 +102,15 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             sushiSwap.address,
         ],
         [
-            (new BN('0')).toString(),
-            (new BN('0')).toString(),
-            (new BN('0')).toString(),
-            (new BN('0')).toString(),
+            (toBN('0')).toString(),
+            (toBN('0')).toString(),
+            (toBN('0')).toString(),
+            (toBN('0')).toString(),
         ],
         CONNECTORS,
         AAWE_WRAPPER_TOKENS.wFTM,
     ];
     const offchainOracle = await idempotentDeployGetContract('OffchainOracle', args);
-    console.log('OffchainOracle deployed to:', offchainOracle.address);
     console.log('All oracles:', await offchainOracle.oracles());
     console.log('All connectors:', await offchainOracle.connectors());
 };

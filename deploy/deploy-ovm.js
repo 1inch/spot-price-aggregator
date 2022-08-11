@@ -1,38 +1,45 @@
-const hre = require('hardhat');
-const { getChainId } = hre;
+const { getChainId } = require('hardhat');
+const {
+    idempotentDeploy,
+} = require('./utils.js');
 
 const WETH = '0x4200000000000000000000000000000000000006';
 const NONE = '0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF';
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    console.log('running deploy script');
+    console.log('running ovm deploy script');
     console.log('network id ', await getChainId());
 
-    const { deploy } = deployments;
     const { deployer } = await getNamedAccounts();
 
-    const multiWrapper = await deploy('MultiWrapper', {
-        args: [[]],
-        from: deployer,
-        skipIfAlreadyDeployed: true,
-    });
+    const skipVerify = true;
 
-    console.log('MultiWrapper deployed to:', multiWrapper.address);
+    const multiWrapper = await idempotentDeploy(
+        'MultiWrapper',
+        [[]],
+        deployments,
+        deployer,
+        'MultiWrapper',
+        skipVerify,
+    );
 
-    const uniswapV3Oracle = await deploy('UniswapV3Oracle', {
-        from: deployer,
-        skipIfAlreadyDeployed: false,
-    });
+    const uniswapV3Oracle = await idempotentDeploy(
+        'UniswapV3Oracle',
+        [],
+        deployments,
+        deployer,
+        'UniswapV3Oracle',
+        skipVerify,
+    );
 
-    console.log('UniswapV3Oracle deployed to:', uniswapV3Oracle.address);
-
-    const offchainOracle = await deploy('OffchainOracle', {
-        args: [multiWrapper.address, [uniswapV3Oracle.address], ['0'], [NONE, WETH], WETH],
-        from: deployer,
-        skipIfAlreadyDeployed: false,
-    });
-
-    console.log('OffchainOracle deployed to:', offchainOracle.address);
+    await idempotentDeploy(
+        'OffchainOracle',
+        [multiWrapper.address, [uniswapV3Oracle.address], ['0'], [NONE, WETH], WETH],
+        deployments,
+        deployer,
+        'OffchainOracle',
+        skipVerify,
+    );
 };
 
 module.exports.skip = async () => true;

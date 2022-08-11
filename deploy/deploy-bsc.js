@@ -1,7 +1,9 @@
-const hre = require('hardhat');
-const { getChainId } = hre;
-const { BN } = require('@openzeppelin/test-helpers');
+const { getChainId } = require('hardhat');
+const { toBN } = require('@1inch/solidity-utils');
 const { tokens } = require('../test/helpers.js');
+const {
+    idempotentDeploy,
+} = require('./utils.js');
 
 const oracles = {
     pancakeswapOracle: '0xE295aD71242373C37C5FdA7B57F26f9eA1088AFe',
@@ -13,10 +15,12 @@ const oracles = {
     pancakeswap2Oracle: '0x30c14fAcBf36DC93c2eA4D579851F1D14Faa2d46',
 };
 
+const WBNB = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c';
+
 const connectors = [
     tokens.ETH, // BNB
     tokens.NONE,
-    '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', // WBNB
+    WBNB,
     '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3', // DAI
     '0x2170Ed0880ac9A755fd29B2688956BD959F933F8', // ETH
     '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d', // USDC
@@ -27,48 +31,39 @@ const connectors = [
 const multiWrapper = '0xA31bB36c5164B165f9c36955EA4CcBaB42B3B28E';
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    console.log('running deploy script');
+    console.log('running bsc deploy script');
     console.log('network id ', await getChainId());
 
-    const { deploy } = deployments;
     const { deployer } = await getNamedAccounts();
 
-    const args = [
-        multiWrapper,
+    await idempotentDeploy(
+        'OffchainOracle',
         [
-            oracles.pancakeswapOracle,
-            oracles.demaxSwapOracle,
-            oracles.streetswapOracle,
-            oracles.oneInchLP1Oracle,
-            oracles.julswapOracle,
-            oracles.bakeryswapOracle,
-            oracles.pancakeswap2Oracle,
+            multiWrapper,
+            [
+                oracles.pancakeswapOracle,
+                oracles.demaxSwapOracle,
+                oracles.streetswapOracle,
+                oracles.oneInchLP1Oracle,
+                oracles.julswapOracle,
+                oracles.bakeryswapOracle,
+                oracles.pancakeswap2Oracle,
+            ],
+            [
+                (toBN('0')).toString(),
+                (toBN('0')).toString(),
+                (toBN('0')).toString(),
+                (toBN('2')).toString(),
+                (toBN('0')).toString(),
+                (toBN('0')).toString(),
+                (toBN('0')).toString(),
+            ],
+            connectors,
+            WBNB,
         ],
-        [
-            (new BN('0')).toString(),
-            (new BN('0')).toString(),
-            (new BN('0')).toString(),
-            (new BN('2')).toString(),
-            (new BN('0')).toString(),
-            (new BN('0')).toString(),
-            (new BN('0')).toString(),
-        ],
-        connectors,
-        '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', // WBNB
-    ];
-
-    const offchainOracle = await deploy('OffchainOracle', {
-        args,
-        from: deployer,
-        skipIfAlreadyDeployed: false,
-    });
-
-    console.log('OffchainOracle deployed to:', offchainOracle.address);
-
-    await hre.run('verify:verify', {
-        address: offchainOracle.address,
-        constructorArguments: args,
-    });
+        deployments,
+        deployer,
+    );
 };
 
 module.exports.skip = async () => true;

@@ -1,29 +1,25 @@
-const hre = require('hardhat');
-const { getChainId, ethers } = hre;
+const { getChainId } = require('hardhat');
+const {
+    idempotentDeploy,
+    getContract,
+} = require('./utils.js');
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    console.log('running deploy script');
+    console.log('running synthetix-mainnet deploy script');
     console.log('network id ', await getChainId());
 
-    const { deploy } = deployments;
     const { deployer } = await getNamedAccounts();
-    const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
-    const offchainOracle = OffchainOracle.attach((await deployments.get('OffchainOracle')).address);
 
-    const args = ['0x4E3b31eB0E5CB73641EE1E65E7dCEFe520bA3ef2'];
-    const synthetixOracle = await deploy('SynthetixOracle', {
-        from: deployer,
-        args,
-        skipIfAlreadyDeployed: false,
-    });
+    const synthetixOracle = await idempotentDeploy(
+        'SynthetixOracle',
+        ['0x4E3b31eB0E5CB73641EE1E65E7dCEFe520bA3ef2'],
+        deployments,
+        deployer,
+    );
 
-    const txn1 = await offchainOracle.addOracle(synthetixOracle.address, '1');
-    await txn1;
+    const offchainOracle = await getContract('OffchainOracle', deployments);
 
-    await hre.run('verify:verify', {
-        address: synthetixOracle.address,
-        constructorArguments: args,
-    });
+    await (await offchainOracle.addOracle(synthetixOracle.address, '1')).wait();
 };
 
 module.exports.skip = async () => true;
