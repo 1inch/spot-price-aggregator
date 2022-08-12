@@ -1,7 +1,10 @@
-const hre = require('hardhat');
-const { getChainId, ethers } = hre;
-const { BN } = require('@openzeppelin/test-helpers');
+const { getChainId } = require('hardhat');
 const { tokens } = require('../test/helpers.js');
+const { toBN } = require('@1inch/solidity-utils');
+const {
+    idempotentDeploy,
+    idempotentDeployGetContract,
+} = require('./utils.js');
 
 const WKLAY = '0xe4f05a66ec68b54a58b17c22107b02e0232cc817';
 
@@ -38,56 +41,39 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         return;
     }
 
-    const { deploy, getOrNull } = deployments;
     const { deployer } = await getNamedAccounts();
 
-    const idempotentDeploy = async (contractName, constructorArgs, deploymentName = contractName) => {
-        const existingContract = await getOrNull(deploymentName);
-        if (existingContract) {
-            console.log(`Skipping deploy for existing contract ${contractName} (${deploymentName})`);
-            return existingContract;
-        }
-
-        const contract = await deploy(deploymentName, {
-            args: constructorArgs,
-            from: deployer,
-            contract: contractName,
-        });
-
-        return contract;
-    };
-
-    const idempotentDeployGetContract = async (contractName, constructorArgs, deploymentName = contractName) => {
-        const deployResult = await idempotentDeploy(contractName, constructorArgs, deploymentName);
-        const contractFactory = await ethers.getContractFactory(contractName);
-        const contract = contractFactory.attach(deployResult.address);
-        return contract;
-    };
-
-    const baseCoinWrapper = await idempotentDeploy('BaseCoinWrapper', [WKLAY]);
-    const klapWrapper = await idempotentDeployGetContract('AaveWrapperV2', [KLAP], 'AaveWrapperV2_Klap');
+    const baseCoinWrapper = await idempotentDeploy('BaseCoinWrapper', [WKLAY], deployments, deployer);
+    const klapWrapper = await idempotentDeployGetContract('AaveWrapperV2', [KLAP], 'AaveWrapperV2_Klap', deployments, deployer);
     await (await klapWrapper.addMarkets(KLAP_TOKENS)).wait();
-    const multiWrapper = await idempotentDeploy('MultiWrapper', [[
-        baseCoinWrapper.address,
-        klapWrapper.address,
-    ]]);
+    const multiWrapper = await idempotentDeploy(
+        'MultiWrapper',
+        [[
+            baseCoinWrapper.address,
+            klapWrapper.address,
+        ]],
+        deployments,
+        deployer,
+    );
 
-    const claimSwap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.ClaimSwap.factory, ORACLES.ClaimSwap.initHash], 'UniswapV2LikeOracle_ClaimSwap');
+    const claimSwap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.ClaimSwap.factory, ORACLES.ClaimSwap.initHash], deployments, deployer, 'UniswapV2LikeOracle_ClaimSwap');
 
-    const args = [
-        multiWrapper.address,
+    await idempotentDeploy(
+        'OffchainOracle',
         [
-            claimSwap.address,
+            multiWrapper.address,
+            [
+                claimSwap.address,
+            ],
+            [
+                (toBN('0')).toString(),
+            ],
+            connectors,
+            WKLAY,
         ],
-        [
-            (new BN('0')).toString(),
-        ],
-        connectors,
-        WKLAY,
-    ];
-
-    const offchainOracle = await idempotentDeploy('OffchainOracle', args);
-    console.log('OffchainOracle deployed to:', offchainOracle.address);
+        deployments,
+        deployer,
+    );
 };
 
 module.exports.skip = async () => true;

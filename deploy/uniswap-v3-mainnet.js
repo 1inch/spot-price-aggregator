@@ -1,30 +1,25 @@
-const hre = require('hardhat');
-const { getChainId, ethers } = hre;
+const { getChainId } = require('hardhat');
+const {
+    idempotentDeploy,
+    getContract,
+} = require('./utils.js');
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    console.log('running deploy script');
+    console.log('running uniswap-v3-mainnet deploy script');
     console.log('network id ', await getChainId());
 
-    const { deploy } = deployments;
     const { deployer } = await getNamedAccounts();
-    const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
-    const offchainOracle = OffchainOracle.attach((await deployments.get('OffchainOracle')).address);
 
-    const args = ['0x1F98431c8aD98523631AE4a59f267346ea31F984', ['500', '3000', '10000']];
+    const uniswapV3Oracle = await idempotentDeploy(
+        'UniswapV3Oracle',
+        ['0x1F98431c8aD98523631AE4a59f267346ea31F984', ['500', '3000', '10000']],
+        deployments,
+        deployer,
+    );
 
-    const uniswapV3Oracle = await deploy('UniswapV3Oracle', {
-        from: deployer,
-        args,
-        skipIfAlreadyDeployed: true,
-    });
+    const offchainOracle = await getContract('OffchainOracle', deployments);
 
-    const txn = await offchainOracle.addOracle(uniswapV3Oracle.address, '0');
-    await txn;
-
-    await hre.run('verify:verify', {
-        address: uniswapV3Oracle.address,
-        constructorArguments: args,
-    });
+    await (await offchainOracle.addOracle(uniswapV3Oracle.address, '0')).wait();
 };
 
 module.exports.skip = async () => true;
