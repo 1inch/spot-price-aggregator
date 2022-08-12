@@ -23,51 +23,68 @@ contract DodoV2Oracle is IOracle {
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
-        uint256 balanceSrc;
-        uint256 balanceDst;
         if (connector == _NONE) {
-            (rate, balanceSrc, balanceDst) = _getDodoInfo(srcToken, dstToken);
-        } else {
-            uint256 balanceConnector0;
-            uint256 balanceConnector1;
-            uint256 rateSrcConnector;
-            uint256 rateConnectorDst;
-            (rateSrcConnector, balanceSrc, balanceConnector0) = _getDodoInfo(srcToken, connector);
-            (rateConnectorDst, balanceConnector1, balanceDst) = _getDodoInfo(connector, dstToken);
-            if (balanceConnector0 > balanceConnector1) {
-                balanceSrc = balanceSrc * balanceConnector1 / balanceConnector0;
-            } else {
-                balanceDst = balanceDst * balanceConnector0 / balanceConnector1;
+            (address[] memory machines, bool isSrcBase) = _getMachines(address(srcToken), address(dstToken));
+            for (uint256 i = 0; i < machines.length; i++) {
+                IDVM dvm = IDVM(machines[i]);
+                (uint256 r, uint256 b0, uint256 b1) = _getDodoInfo(dvm, isSrcBase);
+                uint256 w = b0 * b1;
+                rate += r * w;
+                weight += w;
             }
-            rate = rateSrcConnector * rateConnectorDst / 1e18;
+        } else {
+            (address[] memory machines0, bool isSrcBase0) = _getMachines(address(srcToken), address(connector));
+            (address[] memory machines1, bool isSrcBase1) = _getMachines(address(connector), address(dstToken));
+            for (uint256 i = 0; i < machines0.length; i++) {
+                IDVM dvm0 = IDVM(machines0[i]);
+                (uint256 r0, uint256 b0, uint256 bc0) = _getDodoInfo(dvm0, isSrcBase0);
+                if (b0 == 0 || bc0 == 0) {
+                    continue;
+                }
+                for (uint256 j = 0; j < machines1.length; j++) {
+                    IDVM dvm1 = IDVM(machines1[j]);
+                    uint256 b1;
+                    {               // stack too deep
+                        uint256 r1;
+                        uint256 bc1;
+                        (r1, bc1, b1) = _getDodoInfo(dvm1, isSrcBase1);
+                        if (b1 == 0 || bc1 == 0) {
+                            continue;
+                        }
+                        if (bc0 > bc1) {
+                            b0 = b0 * bc1 / bc0;
+                        } else {
+                            b1 = b1 * bc0 / bc1;
+                        }
+                        r0 *= r1;   // remove r1 after this block (stack too deep)
+                    }
+                    uint256 w = b0 * b1;
+                    rate += r0 / 1e18 * w;
+                    weight += w;
+                }
+            }
         }
 
-        weight = (balanceSrc * balanceDst).sqrt();
+        if(weight > 0) {
+            rate /= weight;
+            weight = weight.sqrt();
+        }
     }
 
-    function _getDodoInfo(IERC20 _srcToken, IERC20 _dstToken) internal view returns (uint256 rate, uint256 balanceSrc, uint256 balanceDst) {
-        address srcToken = address(_srcToken);
-        address dstToken = address(_dstToken);
-        address[] memory machines = DVMFactory.getDODOPool(srcToken, dstToken);
-        bool isSrcBase = (machines.length != 0);
+    function _getMachines(address srcToken, address dstToken) internal view returns (address[] memory machines, bool isSrcBase) {
+        machines = DVMFactory.getDODOPool(srcToken, dstToken);
+        isSrcBase = (machines.length != 0);
         if (!isSrcBase) machines = DVMFactory.getDODOPool(dstToken, srcToken);
         require(machines.length != 0, "DOV2: machines not found");
+    }
 
-        for (uint256 i = 0; i < machines.length; i++) {
-            IDVM dvm = IDVM(machines[i]);
+    function _getDodoInfo(IDVM dvm, bool isSrcBase) internal view returns (uint256 rate, uint256 balanceSrc, uint256 balanceDst) {
             uint256 b0 = dvm._BASE_RESERVE_();
             uint256 b1 = dvm._QUOTE_RESERVE_();
             if (b0 != 0 && b1 != 0) {
                 uint256 price = dvm.getMidPrice();
-                uint256 w = b0 * b1;
-                rate += isSrcBase? price * w : 1e36 / price * w;
-                balanceSrc += isSrcBase? b0 : b1;
-                balanceDst += isSrcBase? b1 : b0;
+                rate += isSrcBase? price : 1e36 / price;
+                (balanceSrc, balanceDst) = isSrcBase ? (b0, b1) : (b1, b0);
             }
         }
-
-        if(balanceSrc > 0 && balanceDst > 0) {
-            rate /= (balanceSrc * balanceDst);
-        }
-    }
 }
