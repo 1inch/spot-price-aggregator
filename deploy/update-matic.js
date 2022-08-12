@@ -1,4 +1,7 @@
-const { getChainId, ethers } = require('hardhat');
+const { getChainId } = require('hardhat');
+const {
+    getContract,
+} = require('./utils.js');
 
 const CONNECTORS = [
     '0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF',
@@ -7,16 +10,16 @@ const CONNECTORS = [
 ];
 
 module.exports = async ({ deployments }) => {
-    console.log('running deploy script');
+    console.log('running matic deploy script');
     console.log('network id ', await getChainId());
 
-    const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
-    const offchainOracle = OffchainOracle.attach((await deployments.get('OffchainOracle')).address);
+    const offchainOracle = await getContract('OffchainOracle', deployments);
 
     const txns = [];
     for (const connector of CONNECTORS) {
         txns.push(await offchainOracle.addConnector(connector));
     }
+    await Promise.all(txns);
 };
 
 module.exports.skip = async () => true;

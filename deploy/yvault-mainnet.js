@@ -1,26 +1,25 @@
-const hre = require('hardhat');
-const { getChainId, ethers } = hre;
+const { getChainId } = require('hardhat');
+const {
+    idempotentDeploy,
+    getContract,
+} = require('./utils.js');
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    console.log('running deploy script');
+    console.log('running yvault deploy script');
     console.log('network id ', await getChainId());
 
-    const { deploy } = deployments;
     const { deployer } = await getNamedAccounts();
-    const MultiWrapper = await ethers.getContractFactory('MultiWrapper');
-    const multiWrapper = MultiWrapper.attach((await deployments.get('MultiWrapper')).address);
 
-    const yvaultWrapper = await deploy('YVaultWrapper', {
-        from: deployer,
-        skipIfAlreadyDeployed: true,
-    });
+    const multiWrapper = await getContract('MultiWrapper', deployments);
 
-    const txn = await multiWrapper.addWrapper(yvaultWrapper.address);
-    await txn;
+    const yvaultWrapper = await idempotentDeploy(
+        'YVaultWrapper',
+        [],
+        deployments,
+        deployer,
+    );
 
-    await hre.run('verify:verify', {
-        address: yvaultWrapper.address,
-    });
+    await (await multiWrapper.addWrapper(yvaultWrapper.address)).wait();
 };
 
 module.exports.skip = async () => true;

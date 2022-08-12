@@ -1,10 +1,22 @@
 const { getChainId, ethers } = require('hardhat');
+const {
+    idempotentDeploy,
+    getContract,
+} = require('./utils.js');
 
-const COMETH_FACTORY = '0x800b052609c355cA8103E06F022aA30647eAd60a';
-const COMETH_HASH = '0x499154cad90a3563f914a25c3710ed01b9a43b8471a35ba8a66a056f37638542';
-const SUSHI_FACTORY = '0xc35DADB65012eC5796536bD9864eD8773aBc74C4';
-const SUSHI_HASH = '0xe18a34eb0e04b04f7a0ac29a6e80748dca96319b42c54d679cb821dca90c6303';
-const AAVE_LENDING_POOL = '0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf';
+const ORACLES = {
+    Cometh: {
+        factory: '0x800b052609c355cA8103E06F022aA30647eAd60a',
+        initHash: '0x499154cad90a3563f914a25c3710ed01b9a43b8471a35ba8a66a056f37638542',
+    },
+    Sushi: {
+        factory: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4',
+        initHash: '0xe18a34eb0e04b04f7a0ac29a6e80748dca96319b42c54d679cb821dca90c6303',
+    },
+    Aave: {
+        letdingPool: '0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf',
+    },
+};
 
 const AAVE_TOKENS = [
     '0xD6DF932A45C0f255f85145f286eA0b292B21C90B', // AAVE
@@ -17,46 +29,41 @@ const AAVE_TOKENS = [
 ];
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    console.log('running deploy script');
+    console.log('running matic-2 deploy script');
     console.log('network id ', await getChainId());
 
-    const { deploy } = deployments;
     const { deployer } = await getNamedAccounts();
 
+    const multiWrapper = await getContract('MultiWrapper', deployments);
+    const offchainOracle = await getContract('OffchainOracle', deployments);
+
+    const cometh = await idempotentDeploy(
+        'UniswapV2LikeOracle',
+        [ORACLES.Cometh.factory, ORACLES.Cometh.initHash],
+        deployments,
+        deployer,
+    );
+
+    const sushi = await idempotentDeploy(
+        'UniswapV2LikeOracle',
+        [ORACLES.Sushi.factory, ORACLES.Sushi.initHash],
+        deployments,
+        deployer,
+    );
+
     const AaveWrapperV2 = await ethers.getContractFactory('AaveWrapperV2');
-    const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
-    const MultiWrapper = await ethers.getContractFactory('MultiWrapper');
-    const offchainOracle = OffchainOracle.attach((await deployments.get('OffchainOracle')).address);
-    const multiWrapper = MultiWrapper.attach((await deployments.get('MultiWrapper')).address);
-
-    const cometh = await deploy('UniswapV2LikeOracle', {
-        args: [COMETH_FACTORY, COMETH_HASH],
-        from: deployer,
-        skipIfAlreadyDeployed: false,
-    });
-
-    const sushi = await deploy('UniswapV2LikeOracle', {
-        args: [SUSHI_FACTORY, SUSHI_HASH],
-        from: deployer,
-        skipIfAlreadyDeployed: false,
-    });
-
-    const aaveDeployment = await deploy('AaveWrapperV2', {
-        args: [AAVE_LENDING_POOL],
-        from: deployer,
-        skipIfAlreadyDeployed: true,
-    });
-
+    const aaveDeployment = await idempotentDeploy(
+        'AaveWrapperV2',
+        [ORACLES.Aave.letdingPool],
+        deployments,
+        deployer,
+    );
     const aave = AaveWrapperV2.attach(aaveDeployment.address);
 
-    const txns = [];
-
-    txns.push(await offchainOracle.addOracle(cometh, '0'));
-    txns.push(await offchainOracle.addOracle(sushi.address, '0'));
-    txns.push(await aave.addMarkets(AAVE_TOKENS));
-    txns.push(await multiWrapper.addWrapper(aave.address));
-
-    await Promise.all(txns);
+    await (await offchainOracle.addOracle(cometh.address, '0')).wait();
+    await (await offchainOracle.addOracle(sushi.address, '0')).wait();
+    await (await aave.addMarkets(AAVE_TOKENS)).wait();
+    await (await multiWrapper.addWrapper(aave.address)).wait();
 };
 
 module.exports.skip = async () => true;
