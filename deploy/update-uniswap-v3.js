@@ -1,5 +1,4 @@
 const { getChainId } = require('hardhat');
-
 const {
     idempotentDeploy,
     getContract,
