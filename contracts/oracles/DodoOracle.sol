@@ -25,14 +25,14 @@ contract DodoOracle is IOracle {
         uint256 balanceSrc;
         uint256 balanceDst;
         if (connector == _NONE) {
-            (rate, balanceSrc, balanceDst) = _getDodoInfo(srcToken, dstToken);
+            (rate, balanceSrc, balanceDst) = _getDodoInfo(address(srcToken), address(dstToken));
         } else {
             uint256 balanceConnector0;
             uint256 balanceConnector1;
             uint256 rateSrcConnector;
             uint256 rateConnectorDst;
-            (rateSrcConnector, balanceSrc, balanceConnector0) = _getDodoInfo(srcToken, connector);
-            (rateConnectorDst, balanceConnector1, balanceDst) = _getDodoInfo(connector, dstToken);
+            (rateSrcConnector, balanceSrc, balanceConnector0) = _getDodoInfo(address(srcToken), address(connector));
+            (rateConnectorDst, balanceConnector1, balanceDst) = _getDodoInfo(address(connector), address(dstToken));
             if (balanceConnector0 > balanceConnector1) {
                 balanceSrc = balanceSrc * balanceConnector1 / balanceConnector0;
             } else {
@@ -44,18 +44,16 @@ contract DodoOracle is IOracle {
         weight = (balanceSrc * balanceDst).sqrt();
     }
 
-    function _getDodoInfo(IERC20 _srcToken, IERC20 _dstToken) internal view returns (uint256 rate, uint256 balanceSrc, uint256 balanceDst) {
-        address srcToken = address(_srcToken);
-        address dstToken = address(_dstToken);
+    function _getDodoInfo(address srcToken, address dstToken) internal view returns (uint256 rate, uint256 balanceSrc, uint256 balanceDst) {
         IDodo dodo = IDodo(dodoZoo.getDODO(srcToken, dstToken));
         bool isSrcBase = (dodo != _ZERO_DODO);
         if (!isSrcBase) dodo = IDodo(dodoZoo.getDODO(dstToken, srcToken));
         require(dodo != _ZERO_DODO, "DO: Dodo not found");
 
         uint256 price = dodo.getMidPrice();
-        rate = isSrcBase? price : 1e36 / price;
+        rate = isSrcBase ? price : 1e36 / price;
         uint256 b0 = dodo._BASE_BALANCE_();
         uint256 b1 = dodo._QUOTE_BALANCE_();
-        (balanceSrc, balanceDst) = isSrcBase? (b0, b1) : (b1, b0);
+        (balanceSrc, balanceDst) = isSrcBase ? (b0, b1) : (b1, b0);
     }
 }
