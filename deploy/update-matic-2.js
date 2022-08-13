@@ -60,8 +60,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     );
     const aave = AaveWrapperV2.attach(aaveDeployment.address);
 
-    await (await offchainOracle.addOracle(cometh.address)).wait();
-    await (await offchainOracle.addOracle(sushi.address)).wait();
+    await (await offchainOracle.addOracle(cometh.address, '0')).wait();
+    await (await offchainOracle.addOracle(sushi.address, '0')).wait();
     await (await aave.addMarkets(AAVE_TOKENS)).wait();
     await (await multiWrapper.addWrapper(aave.address)).wait();
 };

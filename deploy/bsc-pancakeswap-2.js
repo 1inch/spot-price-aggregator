@@ -26,7 +26,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const offchainOracle = await getContract('OffchainOracle', deployments);
 
-    await (await offchainOracle.addOracle(pancakeV2Oracle.address)).wait();
+    await (await offchainOracle.addOracle(pancakeV2Oracle.address, '0')).wait();
 };
 
 module.exports.skip = async () => true;

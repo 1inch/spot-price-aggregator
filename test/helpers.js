@@ -23,6 +23,7 @@ const tokens = {
     sKRW: '0x269895a3dF4D73b077Fc823dD6dA1B95f72Aaf9B',
     sUSD: '0x57Ab1ec28D129707052df4dF418D58a2D46d5f51',
     SNX: '0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F',
+    XRA: '0x7025bab2ec90410de37f488d1298204cd4d6b29d',
 };
 
 function assertRoughlyEquals (x, y, significantDigits) {

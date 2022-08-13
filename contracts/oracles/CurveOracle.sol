@@ -66,7 +66,7 @@ contract CurveOracle is IOracle {
         }
 
         if (weight > 0) {
-            rate = rate / weight;
+            unchecked { rate /= weight; }
             weight = weight.sqrt();
         }
     }
