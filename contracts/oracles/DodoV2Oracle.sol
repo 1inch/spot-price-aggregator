@@ -81,7 +81,7 @@ contract DodoV2Oracle is IOracle {
             uint256 b1 = dvm._QUOTE_RESERVE_();
             if (b0 != 0 && b1 != 0) {
                 uint256 price = dvm.getMidPrice();
-                rate += isSrcBase? price : 1e36 / price;
+                rate += isSrcBase ? price : 1e36 / price;
                 (balanceSrc, balanceDst) = isSrcBase ? (b0, b1) : (b1, b0);
             }
         }
