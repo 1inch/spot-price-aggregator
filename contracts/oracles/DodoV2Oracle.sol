@@ -41,23 +41,17 @@ contract DodoV2Oracle is IOracle {
                     continue;
                 }
                 for (uint256 j = 0; j < machines1.length; j++) {
-                    uint256 b1;
-                    {               // stack too deep
-                        uint256 r1;
-                        uint256 bc1;
-                        (r1, bc1, b1) = _getDodoInfo(IDVM(machines1[j]), isSrcBase1);
-                        if (b1 == 0 || bc1 == 0) {
-                            continue;
-                        }
-                        if (bc0 > bc1) {
-                            b0 = b0 * bc1 / bc0;
-                        } else {
-                            b1 = b1 * bc0 / bc1;
-                        }
-                        r0 *= r1;   // remove r1 after this block (stack too deep)
+                    (uint256 r1, uint256 bc1, uint256 b1) = _getDodoInfo(IDVM(machines1[j]), isSrcBase1);
+                    if (b1 == 0 || bc1 == 0) {
+                        continue;
+                    }
+                    if (bc0 > bc1) {
+                        b0 = b0 * bc1 / bc0;
+                    } else {
+                        b1 = b1 * bc0 / bc1;
                     }
                     uint256 w = b0 * b1;
-                    rate += r0 / 1e18 * w;
+                    rate += r0 * r1 * w / 1e18;
                     weight += w;
                 }
             }
