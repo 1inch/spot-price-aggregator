@@ -36,18 +36,16 @@ contract DodoV2Oracle is IOracle {
             (address[] memory machines0, bool isSrcBase0) = _getMachines(address(srcToken), address(connector));
             (address[] memory machines1, bool isSrcBase1) = _getMachines(address(connector), address(dstToken));
             for (uint256 i = 0; i < machines0.length; i++) {
-                IDVM dvm0 = IDVM(machines0[i]);
-                (uint256 r0, uint256 b0, uint256 bc0) = _getDodoInfo(dvm0, isSrcBase0);
+                (uint256 r0, uint256 b0, uint256 bc0) = _getDodoInfo(IDVM(machines0[i]), isSrcBase0);
                 if (b0 == 0 || bc0 == 0) {
                     continue;
                 }
                 for (uint256 j = 0; j < machines1.length; j++) {
-                    IDVM dvm1 = IDVM(machines1[j]);
                     uint256 b1;
                     {               // stack too deep
                         uint256 r1;
                         uint256 bc1;
-                        (r1, bc1, b1) = _getDodoInfo(dvm1, isSrcBase1);
+                        (r1, bc1, b1) = _getDodoInfo(IDVM(machines1[j]), isSrcBase1);
                         if (b1 == 0 || bc1 == 0) {
                             continue;
                         }
