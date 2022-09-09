@@ -27,7 +27,7 @@ const getPrices = async (offchainOracle, step = 0) => {
     testRates[step] = testRates[step] || {};
     testRates[step].USDC_DAI_NONE = await offchainOracle.getRate(NETWORK_TOKENS.USDC, NETWORK_TOKENS.DAI, NETWORK_TOKENS.NONE);
     testRates[step].DAI_USDC_NONE = await offchainOracle.getRate(NETWORK_TOKENS.DAI, NETWORK_TOKENS.USDC, NETWORK_TOKENS.NONE);
-    testRates[step].BTC_USDT_NONE = await offchainOracle.getRate(NETWORK_TOKENS.BTC.b, NETWORK_TOKENS.USDT, NETWORK_TOKENS.NONE); // eslint-disable-line camelcase
+    testRates[step].BTC_USDT_NONE = await offchainOracle.getRate(NETWORK_TOKENS.BTC, NETWORK_TOKENS.USDT, NETWORK_TOKENS.NONE); // eslint-disable-line camelcase
     testRates[step].USDT_BTC_NONE = await offchainOracle.getRate(NETWORK_TOKENS.USDT, NETWORK_TOKENS.BTC, NETWORK_TOKENS.NONE); // eslint-disable-line camelcase
     testRates[step].BTC_USDT_WAVAX = await offchainOracle.getRate(NETWORK_TOKENS.BTC, NETWORK_TOKENS.USDT, NETWORK_TOKENS.WAVAX); // eslint-disable-line camelcase
     testRates[step].USDT_BTC_WAVAX = await offchainOracle.getRate(NETWORK_TOKENS.USDT, NETWORK_TOKENS.BTC, NETWORK_TOKENS.WAVAX); // eslint-disable-line camelcase
@@ -36,7 +36,7 @@ const getPrices = async (offchainOracle, step = 0) => {
         USDC -> DAI\t\t ${testRates[step].USDC_DAI_NONE.toString()}
         DAI -> USDC\t\t ${testRates[step].DAI_USDC_NONE.toString()}
         BTC -> USDT\t\t ${testRates[step].BTC_USDT_NONE.toString()}
-        fUSDT -> BTC\t\t ${testRates[step].fUSDT_BTC_NONE.toString()}
+        USDT -> BTC\t\t ${testRates[step].USDT_BTC_NONE.toString()}
         BTC -> WAVAX -> USDT\t ${testRates[step].BTC_USDT_WAVAX.toString()}
         USDT -> WAVAX -> BTC\t ${testRates[step].USDT_BTC_WAVAX.toString()}
     `);
