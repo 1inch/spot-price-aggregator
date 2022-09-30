@@ -109,3 +109,5 @@ module.exports = {
     idempotentDeploy,
     idempotentDeployGetContract,
 };
+
+module.exports.skip = async () => true;
