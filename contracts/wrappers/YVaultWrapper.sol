@@ -11,8 +11,7 @@ contract YVaultWrapper is IWrapper {
     // only unwrapping is supported for now
     function wrap(IERC20 token) external view override returns (IERC20 wrappedToken, uint256 rate) {
         IYVault vault = IYVault(address(token));
-        wrappedToken = vault.token();
-        try vault.token() returns(IERC20 _token) {
+        try vault.token{gas: 10000}() returns(IERC20 _token) {
             wrappedToken = _token;
             try vault.getPricePerFullShare() returns(uint256 _rate) {
                 // vault V1
