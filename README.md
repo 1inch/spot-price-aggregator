@@ -26,7 +26,6 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 #### Supported DEXes
 
-* Mooniswap
 * 1inch Liquidity Protocol V1.1
 * Uniswap V1
 * Uniswap V2
@@ -39,13 +38,11 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 #### Supported wrappers
 
-* Aave V1
-* Aave V2
-* Compound
-* Fulcrum V1
-* Fulcrum V2
-* WETH
-* Cream
+* Aave V1 +
+* Aave V2 +
+* Compound +
+* WETH +
+* Yvault
 
 #### Supported connectors
 
