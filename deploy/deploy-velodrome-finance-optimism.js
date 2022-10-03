@@ -59,7 +59,7 @@ const checkPrices = (step1, step2) => {
 };
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    console.log('running optimism script to change screamWrapper');
+    console.log('running optimism script to add velodrome finance oracle');
     const chainId = await getChainId();
     console.log('network id ', chainId);
     if (chainId !== '10') {
