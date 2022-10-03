@@ -131,6 +131,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 * Uniswap V3
 * Synthetix
+* Velodrome Finance
 
 ### Arbitrum
 
