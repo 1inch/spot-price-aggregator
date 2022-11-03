@@ -1,28 +1,27 @@
-const { expectRevert } = require('@openzeppelin/test-helpers');
+const { ethers } = require('hardhat');
+const { expect } = require('@1inch/solidity-utils');
 const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
-
-const KyberDmmOracle = artifacts.require('KyberDmmOracle');
-const UniswapV3Oracle = artifacts.require('UniswapV3Oracle');
-const initcodeHashV3 = '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54';
 
 describe('KyberDmmOracle', async function () {
     before(async function () {
-        this.kyberDmmOracle = await KyberDmmOracle.new('0x833e4083b7ae46cea85695c4f7ed25cdad8886de');
-        this.uniswapV3Oracle = await UniswapV3Oracle.new(initcodeHashV3);
+        const KyberDmmOracle = await ethers.getContractFactory('KyberDmmOracle');
+        const UniswapV3Oracle = await ethers.getContractFactory('UniswapV3Oracle');
+        this.kyberDmmOracle = await KyberDmmOracle.deploy('0x833e4083b7ae46cea85695c4f7ed25cdad8886de');
+        await this.kyberDmmOracle.deployed();
+        this.uniswapV3Oracle = await UniswapV3Oracle.deploy();
+        await this.uniswapV3Oracle.deployed();
     });
 
     it('should revert with amount of pools error', async function () {
-        await expectRevert(
-            this.kyberDmmOracle.contract.methods.getRate(tokens.USDT, tokens.EEE, tokens.NONE).call(),
-            'KO: no pools',
-        );
+        await expect(
+            this.kyberDmmOracle.callStatic.getRate(tokens.USDT, tokens.EEE, tokens.NONE),
+        ).to.be.revertedWith('KO: no pools');
     });
 
     it('should revert with amount of pools with connector error', async function () {
-        await expectRevert(
-            this.kyberDmmOracle.contract.methods.getRate(tokens.USDT, tokens.WETH, tokens.MKR).call(),
-            'KO: no pools with connector',
-        );
+        await expect(
+            this.kyberDmmOracle.callStatic.getRate(tokens.USDT, tokens.WETH, tokens.MKR),
+        ).to.be.revertedWith('KO: no pools with connector');
     });
 
     it('USDC -> USDT', async function () {

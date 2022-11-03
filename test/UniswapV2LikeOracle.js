@@ -1,8 +1,7 @@
-const { ether } = require('@openzeppelin/test-helpers');
-const { expect } = require('chai');
+const { ethers } = require('hardhat');
+const { expect, ether } = require('@1inch/solidity-utils');
 const { tokens } = require('./helpers.js');
 
-const UniswapV2LikeOracle = artifacts.require('UniswapV2LikeOracle');
 const uniswapV2 = {
     factory: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
     initcodeHash: '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f',
@@ -14,27 +13,30 @@ const shibaswap = {
 
 describe('UniswapV2LikeOracle', async function () {
     before(async function () {
-        this.uniswapV2LikeOracle = await UniswapV2LikeOracle.new(uniswapV2.factory, uniswapV2.initcodeHash);
-        this.shibaswapOracle = await UniswapV2LikeOracle.new(shibaswap.factory, shibaswap.initcodeHash);
+        const UniswapV2LikeOracle = await ethers.getContractFactory('UniswapV2LikeOracle');
+        this.uniswapV2LikeOracle = await UniswapV2LikeOracle.deploy(uniswapV2.factory, uniswapV2.initcodeHash);
+        await this.uniswapV2LikeOracle.deployed();
+        this.shibaswapOracle = await UniswapV2LikeOracle.deploy(shibaswap.factory, shibaswap.initcodeHash);
+        await this.shibaswapOracle.deployed();
     });
 
     it('uniswapV2 weth -> dai', async function () {
         const rate = await this.uniswapV2LikeOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE);
-        expect(rate.rate).to.be.bignumber.greaterThan(ether('1000'));
+        expect(rate.rate).to.be.gt(ether('1000'));
     });
 
     it('uniswapV2 weth -> usdc -> dai', async function () {
         const rate = await this.uniswapV2LikeOracle.getRate(tokens.WETH, tokens.DAI, tokens.USDC);
-        expect(rate.rate).to.be.bignumber.greaterThan(ether('1000'));
+        expect(rate.rate).to.be.gt(ether('1000'));
     });
 
     it('shibaswap weth -> dai', async function () {
         const rate = await this.shibaswapOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE);
-        expect(rate.rate).to.be.bignumber.greaterThan(ether('1000'));
+        expect(rate.rate).to.be.gt(ether('1000'));
     });
 
     it('shibaswap weth -> usdc -> dai', async function () {
         const rate = await this.shibaswapOracle.getRate(tokens.WETH, tokens.DAI, tokens.USDC);
-        expect(rate.rate).to.be.bignumber.greaterThan(ether('1000'));
+        expect(rate.rate).to.be.gt(ether('1000'));
     });
 });

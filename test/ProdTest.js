@@ -1,8 +1,6 @@
-const { ether } = require('@openzeppelin/test-helpers');
-const { expect } = require('chai');
+const { ethers } = require('hardhat');
+const { expect, ether } = require('@1inch/solidity-utils');
 const { tokens } = require('./helpers.js');
-
-const OffchainOracle = artifacts.require('OffchainOracle');
 
 const oracles = {
     mooniswapOracle: '0x1488a117641eD5D2D29AB3eD2397963FdEFEc25e',
@@ -17,10 +15,11 @@ const multiWrapper = '0x931e32b6d112f7be74b16f7fbc77d491b30fe18c';
 
 describe.skip('ProdTest', async function () {
     before(async function () {
-        // this.compoundWrapper = await CompoundWrapper.new();
+        // this.compoundWrapper = await CompoundWrapper.deploy();
         // await this.compoundWrapper.addMarkets([CDAI]);
 
-        this.offchainOracle = await OffchainOracle.new(
+        const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
+        this.offchainOracle = await OffchainOracle.deploy(
             multiWrapper,
             [
                 oracles.mooniswapOracle,
@@ -39,11 +38,12 @@ describe.skip('ProdTest', async function () {
                 tokens.NONE,
             ],
         );
+        await this.offchainOracle.deployed();
     });
 
     it('zks -> eth', async function () {
         const rate = await this.offchainOracle.getRate(tokens.WETH, '0x793786e2dd4Cc492ed366a94B88a3Ff9ba5E7546');
         console.log(rate.toString());
-        expect(rate).to.be.bignumber.lessThan(ether('0.001'));
+        expect(rate).to.be.lt(ether('0.001'));
     });
 });

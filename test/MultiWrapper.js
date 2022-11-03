@@ -1,13 +1,6 @@
-const { ether } = require('@openzeppelin/test-helpers');
-const { expect } = require('chai');
+const { ethers } = require('hardhat');
+const { expect, ether } = require('@1inch/solidity-utils');
 const { tokens } = require('./helpers.js');
-
-const BaseCoinWrapper = artifacts.require('BaseCoinWrapper');
-const CompoundLikeWrapper = artifacts.require('CompoundLikeWrapper');
-const FulcrumWrapper = artifacts.require('FulcrumWrapper');
-const AaveWrapperV1 = artifacts.require('AaveWrapperV1');
-const AaveWrapperV2 = artifacts.require('AaveWrapperV2');
-const MultiWrapper = artifacts.require('MultiWrapper');
 
 const aETHV1 = '0x3a3A65aAb0dd2A17E3F1947bA16138cd37d08c04';
 const aWETHV2 = '0x030bA81f1c18d280636F32af80b9AAd02Cf0854e';
@@ -20,17 +13,28 @@ const IDAIV2 = '0x6b093998D36f2C7F0cc359441FBB24CC629D5FF0';
 
 describe('MultiWrapper', async function () {
     before(async function () {
-        this.wethWrapper = await BaseCoinWrapper.new(tokens.WETH);
-        this.aaveWrapperV1 = await AaveWrapperV1.new();
+        const BaseCoinWrapper = await ethers.getContractFactory('BaseCoinWrapper');
+        const FulcrumWrapper = await ethers.getContractFactory('FulcrumWrapper');
+        const AaveWrapperV1 = await ethers.getContractFactory('AaveWrapperV1');
+        const AaveWrapperV2 = await ethers.getContractFactory('AaveWrapperV2');
+        const CompoundLikeWrapper = await ethers.getContractFactory('CompoundLikeWrapper');
+        const MultiWrapper = await ethers.getContractFactory('MultiWrapper');
+        this.wethWrapper = await BaseCoinWrapper.deploy(tokens.WETH);
+        await this.wethWrapper.deployed();
+        this.aaveWrapperV1 = await AaveWrapperV1.deploy();
+        await this.aaveWrapperV1.deployed();
         await this.aaveWrapperV1.addMarkets([tokens.DAI, tokens.EEE]);
-        this.aaveWrapperV2 = await AaveWrapperV2.new('0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9');
+        this.aaveWrapperV2 = await AaveWrapperV2.deploy('0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9');
+        await this.aaveWrapperV2.deployed();
         await this.aaveWrapperV2.addMarkets([tokens.DAI, tokens.WETH]);
-        this.compoundWrapper = await CompoundLikeWrapper.new('0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B', CETH);
+        this.compoundWrapper = await CompoundLikeWrapper.deploy('0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B', CETH);
+        await this.compoundWrapper.deployed();
         await this.compoundWrapper.addMarkets([CDAI]);
-        this.fulcrumWrapper = await FulcrumWrapper.new();
+        this.fulcrumWrapper = await FulcrumWrapper.deploy();
+        await this.fulcrumWrapper.deployed();
         await this.fulcrumWrapper.addMarkets([tokens.DAI, tokens.WETH]);
 
-        this.multiWrapper = await MultiWrapper.new(
+        this.multiWrapper = await MultiWrapper.deploy(
             [
                 this.wethWrapper.address,
                 this.aaveWrapperV1.address,
@@ -39,6 +43,7 @@ describe('MultiWrapper', async function () {
                 this.fulcrumWrapper.address,
             ],
         );
+        await this.multiWrapper.deployed();
     });
 
     it('eth', async function () {
@@ -46,10 +51,10 @@ describe('MultiWrapper', async function () {
         expect(response.wrappedTokens).to.be.deep.equal([tokens.WETH, aWETHV2, iETHV2, aETHV1, CETH, tokens.ETH]);
 
         for (const i of [0, 1, 3, 5]) {
-            expect(response.rates[i]).to.be.bignumber.eq(ether('1'));
+            expect(response.rates[i]).to.eq(ether('1'));
         }
-        expect(response.rates[2]).to.be.bignumber.gt(ether('1'));
-        expect(response.rates[4]).to.be.bignumber.lt('5000000000');
+        expect(response.rates[2]).to.be.gt(ether('1'));
+        expect(response.rates[4]).to.be.lt('5000000000');
     });
 
     it('dai', async function () {
@@ -57,10 +62,10 @@ describe('MultiWrapper', async function () {
         expect(response.wrappedTokens).to.be.deep.equal([ADAIV1, ADAIV2, CDAI, IDAIV2, tokens.DAI]);
 
         for (const i of [0, 1, 4]) {
-            expect(response.rates[i]).to.be.bignumber.eq(ether('1'));
+            expect(response.rates[i]).to.eq(ether('1'));
         }
-        expect(response.rates[2]).to.be.bignumber.lt('5000000000');
-        expect(response.rates[3]).to.be.bignumber.gt(ether('1'));
+        expect(response.rates[2]).to.be.lt('5000000000');
+        expect(response.rates[3]).to.be.gt(ether('1'));
     });
 
     it('aETHv1', async function () {
@@ -68,8 +73,8 @@ describe('MultiWrapper', async function () {
         expect(response.wrappedTokens).to.be.deep.equal([tokens.ETH, tokens.WETH, CETH, aETHV1]);
 
         for (const i of [0, 1, 3]) {
-            expect(response.rates[i]).to.be.bignumber.eq(ether('1'));
+            expect(response.rates[i]).to.eq(ether('1'));
         }
-        expect(response.rates[2]).to.be.bignumber.lt('5000000000');
+        expect(response.rates[2]).to.be.lt('5000000000');
     });
 });

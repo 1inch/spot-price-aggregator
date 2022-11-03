@@ -1,4 +1,5 @@
-const { BN } = require('@openzeppelin/test-helpers/src/setup');
+const { expect } = require('@1inch/solidity-utils');
+const { BigNumber: BN } = require('ethers');
 
 const tokens = {
     DAI: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
@@ -27,33 +28,33 @@ const tokens = {
 };
 
 function assertRoughlyEquals (x, y, significantDigits) {
-    const xBN = new BN(x);
-    const yBN = new BN(y);
+    const xBN = BN.from(x);
+    const yBN = BN.from(y);
     let valid;
     if (xBN.gt(yBN)) {
-        valid = xBN.sub(yBN).mul((new BN('10')).pow(new BN(significantDigits.toString()))).lt(yBN);
+        valid = xBN.sub(yBN).mul((BN.from('10')).pow(significantDigits - 1)).lt(yBN);
     } else {
-        valid = yBN.sub(xBN).mul((new BN('10')).pow(new BN(significantDigits.toString()))).lt(xBN);
+        valid = yBN.sub(xBN).mul((BN.from('10')).pow(significantDigits - 1)).lt(xBN);
     }
     if (!valid) {
-        expect(x).to.be.bignumber.equal(y, `${x} != ${y} with at least ${significantDigits} significant digits`);
+        expect(x).to.equal(y, `${x} != ${y} with at least ${significantDigits} significant digits`);
     }
 }
 
 function assertRoughlyEqualValues (expected, actual, relativeDiff) {
-    const expectedBN = new BN(expected);
-    const actualBN = new BN(actual);
+    const expectedBN = BN.from(expected);
+    const actualBN = BN.from(actual);
 
     let multiplerNumerator = relativeDiff;
-    let multiplerDenominator = new BN('1');
+    let multiplerDenominator = BN.from('1');
     while (!Number.isInteger(multiplerNumerator)) {
-        multiplerDenominator = multiplerDenominator.mul(new BN('10'));
+        multiplerDenominator = multiplerDenominator.mul(BN.from('10'));
         multiplerNumerator *= 10;
     }
     const diff = expectedBN.sub(actualBN).abs();
-    const treshold = expectedBN.mul(new BN(multiplerNumerator)).div(multiplerDenominator);
+    const treshold = expectedBN.mul(BN.from(multiplerNumerator)).div(multiplerDenominator);
     if (!diff.lte(treshold)) {
-        expect(actualBN).to.be.bignumber.equal(expectedBN, `${actualBN} != ${expectedBN} with ${relativeDiff} precision`);
+        expect(actualBN).to.equal(expectedBN, `${actualBN} != ${expectedBN} with ${relativeDiff} precision`);
     }
 }
 
