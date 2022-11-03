@@ -29,7 +29,7 @@
         "rimraf": "3.0.2",
         "solc": "^0.8.17",
         "solhint": "^3.3.7",
-        "solidity-coverage": "0.7.21"
+        "solidity-coverage": "^0.8.2"
     },
     "scripts": {
         "test": "hardhat test --show-stack-traces",
