@@ -11,16 +11,16 @@ describe('UniswapOracle', async function () {
 
     it('weth -> dai', async function () {
         const rate = await this.uniswapOracle.getRate(tokens.WETH, tokens.DAI, tokens.ETH);
-        expect(rate.rate).to.be.gt(ether('1000'));
+        expect(rate.rate).to.gt(ether('1000'));
     });
 
     it('eth -> dai', async function () {
         const rate = await this.uniswapOracle.getRate(tokens.ETH, tokens.DAI, tokens.NONE);
-        expect(rate.rate).to.be.gt(ether('1000'));
+        expect(rate.rate).to.gt(ether('1000'));
     });
 
     it('dai -> eth', async function () {
         const rate = await this.uniswapOracle.getRate(tokens.DAI, tokens.ETH, tokens.NONE);
-        expect(rate.rate).to.be.lt(ether('0.001'));
+        expect(rate.rate).to.lt(ether('0.001'));
     });
 });

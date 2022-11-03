@@ -48,33 +48,33 @@ describe('MultiWrapper', async function () {
 
     it('eth', async function () {
         const response = await this.multiWrapper.getWrappedTokens(tokens.ETH);
-        expect(response.wrappedTokens).to.be.deep.equal([tokens.WETH, aWETHV2, iETHV2, aETHV1, CETH, tokens.ETH]);
+        expect(response.wrappedTokens).to.deep.equal([tokens.WETH, aWETHV2, iETHV2, aETHV1, CETH, tokens.ETH]);
 
         for (const i of [0, 1, 3, 5]) {
             expect(response.rates[i]).to.eq(ether('1'));
         }
-        expect(response.rates[2]).to.be.gt(ether('1'));
-        expect(response.rates[4]).to.be.lt('5000000000');
+        expect(response.rates[2]).to.gt(ether('1'));
+        expect(response.rates[4]).to.lt('5000000000');
     });
 
     it('dai', async function () {
         const response = await this.multiWrapper.getWrappedTokens(tokens.DAI);
-        expect(response.wrappedTokens).to.be.deep.equal([ADAIV1, ADAIV2, CDAI, IDAIV2, tokens.DAI]);
+        expect(response.wrappedTokens).to.deep.equal([ADAIV1, ADAIV2, CDAI, IDAIV2, tokens.DAI]);
 
         for (const i of [0, 1, 4]) {
             expect(response.rates[i]).to.eq(ether('1'));
         }
-        expect(response.rates[2]).to.be.lt('5000000000');
-        expect(response.rates[3]).to.be.gt(ether('1'));
+        expect(response.rates[2]).to.lt('5000000000');
+        expect(response.rates[3]).to.gt(ether('1'));
     });
 
     it('aETHv1', async function () {
         const response = await this.multiWrapper.getWrappedTokens(aETHV1);
-        expect(response.wrappedTokens).to.be.deep.equal([tokens.ETH, tokens.WETH, CETH, aETHV1]);
+        expect(response.wrappedTokens).to.deep.equal([tokens.ETH, tokens.WETH, CETH, aETHV1]);
 
         for (const i of [0, 1, 3]) {
             expect(response.rates[i]).to.eq(ether('1'));
         }
-        expect(response.rates[2]).to.be.lt('5000000000');
+        expect(response.rates[2]).to.lt('5000000000');
     });
 });

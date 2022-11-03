@@ -27,7 +27,7 @@ describe('FulcrumWrapperLegacy', async function () {
     it('wrap', async function () {
         for (const test of tests) {
             const response = await this.fulcrumWrapperLegacy.wrap(test.token);
-            expect(response.rate).to.be.gt(ether('1'));
+            expect(response.rate).to.gt(ether('1'));
             expect(response.wrappedToken).to.equal(test.itoken);
         }
     });
@@ -35,7 +35,7 @@ describe('FulcrumWrapperLegacy', async function () {
     it('unwrap', async function () {
         for (const test of tests) {
             const response = await this.fulcrumWrapperLegacy.wrap(test.itoken);
-            expect(response.rate).to.be.lt(ether('1'));
+            expect(response.rate).to.lt(ether('1'));
             expect(response.wrappedToken).to.equal(test.token);
         }
     });

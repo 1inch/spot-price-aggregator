@@ -22,21 +22,21 @@ describe('UniswapV2LikeOracle', async function () {
 
     it('uniswapV2 weth -> dai', async function () {
         const rate = await this.uniswapV2LikeOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE);
-        expect(rate.rate).to.be.gt(ether('1000'));
+        expect(rate.rate).to.gt(ether('1000'));
     });
 
     it('uniswapV2 weth -> usdc -> dai', async function () {
         const rate = await this.uniswapV2LikeOracle.getRate(tokens.WETH, tokens.DAI, tokens.USDC);
-        expect(rate.rate).to.be.gt(ether('1000'));
+        expect(rate.rate).to.gt(ether('1000'));
     });
 
     it('shibaswap weth -> dai', async function () {
         const rate = await this.shibaswapOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE);
-        expect(rate.rate).to.be.gt(ether('1000'));
+        expect(rate.rate).to.gt(ether('1000'));
     });
 
     it('shibaswap weth -> usdc -> dai', async function () {
         const rate = await this.shibaswapOracle.getRate(tokens.WETH, tokens.DAI, tokens.USDC);
-        expect(rate.rate).to.be.gt(ether('1000'));
+        expect(rate.rate).to.gt(ether('1000'));
     });
 });

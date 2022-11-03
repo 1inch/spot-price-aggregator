@@ -13,11 +13,11 @@ describe('MooniswapOracle', async function () {
 
     it('eth -> dai', async function () {
         const rate = await this.mooniswapOracle.getRate(tokens.ETH, tokens.DAI, tokens.NONE);
-        expect(rate.rate).to.be.gt(ether('1000'));
+        expect(rate.rate).to.gt(ether('1000'));
     });
 
     it('eth -> usdc -> 1inch', async function () {
         const rate = await this.mooniswapOracle.getRate(tokens.ETH, tokens['1INCH'], tokens.USDC);
-        expect(rate.rate).to.be.gt(ether('200'));
+        expect(rate.rate).to.gt(ether('200'));
     });
 });

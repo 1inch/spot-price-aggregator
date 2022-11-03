@@ -29,13 +29,9 @@ describe('DodoV2Oracle', async () => {
         await testRate(tokens.XRA, tokens.USDC, tokens.WETH);
     });
 
-    /*
-    NOTE: Deprecated testcase due to XRA unavailability.
-
-    it('USDC -> WETH -> XRA', async () => {
+    it.skip('USDC -> WETH -> XRA', async () => {
         await testRate(tokens.USDC, tokens.XRA, tokens.WETH);
     });
-    */
 
     const testRate = async (srcToken, dstToken, connector) => {
         const dodoResult = await this.dodoV2Oracle.getRate(srcToken, dstToken, connector);
