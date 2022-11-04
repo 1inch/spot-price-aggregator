@@ -15,7 +15,9 @@ const multiWrapper = '0x931e32b6d112f7be74b16f7fbc77d491b30fe18c';
 
 describe.skip('ProdTest', async function () {
     before(async function () {
-        // this.compoundWrapper = await CompoundWrapper.deploy();
+        // const CompoundLikeWrapper = await ethers.getContractFactory('CompoundLikeWrapper');
+        // this.compoundWrapper = await CompoundLikeWrapper.deploy();
+        // await this.compoundWrapper.deployed('0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B', CETH);
         // await this.compoundWrapper.addMarkets([CDAI]);
 
         const OffchainOracle = await ethers.getContractFactory('OffchainOracle');

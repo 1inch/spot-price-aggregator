@@ -96,7 +96,7 @@ describe('CurveOracle doesn\'t ruin rates', async function () {
         );
         await this.oldOffchainOracle.deployed();
 
-        this.deployOffchainOracle = await OffchainOracle.deploy(
+        this.newOffchainOracle = await OffchainOracle.deploy(
             this.multiWrapper.address,
             [
                 this.uniswapV2LikeOracle.address,
@@ -118,7 +118,7 @@ describe('CurveOracle doesn\'t ruin rates', async function () {
             ],
             tokens.WETH,
         );
-        await this.deployOffchainOracle.deployed();
+        await this.newOffchainOracle.deployed();
     });
 
     it('WBTC WETH', async function () {
@@ -135,9 +135,9 @@ describe('CurveOracle doesn\'t ruin rates', async function () {
 
     async function testRate (self, srcToken, dstToken) {
         const expectedRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true);
-        const actualRate = await self.deployOffchainOracle.getRate(srcToken, dstToken, true);
+        const actualRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true);
         const expectedReverseRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true);
-        const actualReverseRate = await self.deployOffchainOracle.getRate(srcToken, dstToken, true);
+        const actualReverseRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true);
         assertRoughlyEqualValues(actualRate.toString(), expectedRate.toString(), '0.05');
         assertRoughlyEqualValues(actualReverseRate.toString(), expectedReverseRate.toString(), '0.05');
     }
