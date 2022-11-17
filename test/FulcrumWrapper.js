@@ -16,7 +16,7 @@ const tests = [
     },
 ];
 
-describe('FulcrumWrapper', async function () {
+describe('FulcrumWrapper', function () {
     before(async function () {
         const FulcrumWrapper = await ethers.getContractFactory('FulcrumWrapper');
         this.fulcrumWrapper = await FulcrumWrapper.deploy();

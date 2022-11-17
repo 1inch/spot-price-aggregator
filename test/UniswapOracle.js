@@ -2,7 +2,7 @@ const { ethers } = require('hardhat');
 const { expect, ether } = require('@1inch/solidity-utils');
 const { tokens } = require('./helpers.js');
 
-describe('UniswapOracle', async function () {
+describe('UniswapOracle', function () {
     before(async function () {
         const UniswapOracle = await ethers.getContractFactory('UniswapOracle');
         this.uniswapOracle = await UniswapOracle.deploy('0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95');

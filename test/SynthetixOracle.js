@@ -3,7 +3,7 @@ const { expect } = require('@1inch/solidity-utils');
 const { BigNumber: BN } = require('ethers');
 const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
 
-describe('SynthetixOracle', async function () {
+describe('SynthetixOracle', function () {
     function symbolToBytes (symbol) {
         let result = '0x';
         for (let i = 0; i < symbol.length; i++) {

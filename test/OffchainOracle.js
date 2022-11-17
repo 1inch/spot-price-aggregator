@@ -8,7 +8,7 @@ const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7d
 const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 const ADAIV2 = '0x028171bCA77440897B824Ca71D1c56caC55b68A3';
 
-describe('OffchainOracle', async function () {
+describe('OffchainOracle', function () {
     before(async function () {
         const UniswapV2LikeOracle = await ethers.getContractFactory('UniswapV2LikeOracle');
         const UniswapOracle = await ethers.getContractFactory('UniswapOracle');
@@ -42,7 +42,7 @@ describe('OffchainOracle', async function () {
         await this.multiWrapper.deployed();
     });
 
-    describe('built-in connectors', async function () {
+    describe('built-in connectors', function () {
         before(async function () {
             const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
             this.offchainOracle = await OffchainOracle.deploy(
@@ -140,7 +140,7 @@ describe('OffchainOracle', async function () {
         });
     });
 
-    describe('customConnectors', async function () {
+    describe('customConnectors', function () {
         before(async function () {
             this.connectors = [
                 tokens.ETH,

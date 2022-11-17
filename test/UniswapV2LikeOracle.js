@@ -11,7 +11,7 @@ const shibaswap = {
     initcodeHash: '0x65d1a3b1e46c6e4f1be1ad5f99ef14dc488ae0549dc97db9b30afe2241ce1c7a',
 };
 
-describe('UniswapV2LikeOracle', async function () {
+describe('UniswapV2LikeOracle', function () {
     before(async function () {
         const UniswapV2LikeOracle = await ethers.getContractFactory('UniswapV2LikeOracle');
         this.uniswapV2LikeOracle = await UniswapV2LikeOracle.deploy(uniswapV2.factory, uniswapV2.initcodeHash);

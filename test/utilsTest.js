@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const { assertRoughlyEqualValues } = require('./helpers.js');
 
-describe('UtilsTest', async function () {
+describe('UtilsTest', function () {
     it('100 ~= 100 (0.01)', async function () {
         assertRoughlyEqualValues('100', '100', 0.01);
     });

@@ -2,7 +2,7 @@ const { ethers } = require('hardhat');
 const { expect } = require('@1inch/solidity-utils');
 const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
 
-describe('KyberDmmOracle', async function () {
+describe('KyberDmmOracle', function () {
     before(async function () {
         const KyberDmmOracle = await ethers.getContractFactory('KyberDmmOracle');
         const UniswapV3Oracle = await ethers.getContractFactory('UniswapV3Oracle');

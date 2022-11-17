@@ -4,7 +4,7 @@ const { tokens } = require('./helpers.js');
 
 const mooniswapFactory = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 
-describe('MooniswapOracle', async function () {
+describe('MooniswapOracle', function () {
     before(async function () {
         const MooniswapOracle = await ethers.getContractFactory('MooniswapOracle');
         this.mooniswapOracle = await MooniswapOracle.deploy(mooniswapFactory);

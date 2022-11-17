@@ -6,7 +6,7 @@ const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7d
 const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 const curveRegistry = '0x0000000022D53366457F9d5E68Ec105046FC4383';
 
-describe('CurveOracle', async function () {
+describe('CurveOracle', function () {
     before(async function () {
         const UniswapV2LikeOracle = await ethers.getContractFactory('UniswapV2LikeOracle');
         const CurveOracle = await ethers.getContractFactory('CurveOracle');
@@ -35,7 +35,7 @@ describe('CurveOracle', async function () {
     });
 });
 
-describe('CurveOracle doesn\'t ruin rates', async function () {
+describe('CurveOracle doesn\'t ruin rates', function () {
     before(async function () {
         const CurveOracle = await ethers.getContractFactory('CurveOracle');
         const UniswapOracle = await ethers.getContractFactory('UniswapOracle');

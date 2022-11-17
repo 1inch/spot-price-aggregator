@@ -6,7 +6,7 @@ const { tokens } = require('./helpers.js');
 const ADAIV1 = '0xfC1E690f61EFd961294b3e1Ce3313fBD8aa4f85d';
 const AETHV1 = '0x3a3A65aAb0dd2A17E3F1947bA16138cd37d08c04';
 
-describe('AaveWrapperV1', async function () {
+describe('AaveWrapperV1', function () {
     before(async function () {
         const AaveWrapperV1 = await ethers.getContractFactory('AaveWrapperV1');
         this.aaveWrapper = await AaveWrapperV1.deploy();

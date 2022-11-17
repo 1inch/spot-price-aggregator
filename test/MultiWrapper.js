@@ -11,7 +11,7 @@ const CETH = '0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5';
 const iETHV2 = '0xB983E01458529665007fF7E0CDdeCDB74B967Eb6';
 const IDAIV2 = '0x6b093998D36f2C7F0cc359441FBB24CC629D5FF0';
 
-describe('MultiWrapper', async function () {
+describe('MultiWrapper', function () {
     before(async function () {
         const BaseCoinWrapper = await ethers.getContractFactory('BaseCoinWrapper');
         const FulcrumWrapper = await ethers.getContractFactory('FulcrumWrapper');

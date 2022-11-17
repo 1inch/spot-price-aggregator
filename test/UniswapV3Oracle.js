@@ -5,7 +5,7 @@ const uniswapV2Factory = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 const initcodeHashV2 = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
 const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 
-describe('UniswapV3Oracle', async function () {
+describe('UniswapV3Oracle', function () {
     before(async function () {
         const UniswapV2LikeOracle = await ethers.getContractFactory('UniswapV2LikeOracle');
         const UniswapV3Oracle = await ethers.getContractFactory('UniswapV3Oracle');
@@ -62,7 +62,7 @@ describe('UniswapV3Oracle', async function () {
     }
 });
 
-describe('UniswapV3Oracle doesn\'t ruin rates', async function () {
+describe('UniswapV3Oracle doesn\'t ruin rates', function () {
     before(async function () {
         const UniswapV2LikeOracle = await ethers.getContractFactory('UniswapV2LikeOracle');
         const UniswapV3Oracle = await ethers.getContractFactory('UniswapV3Oracle');
