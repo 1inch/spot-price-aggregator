@@ -1,14 +1,15 @@
-const { expectRevert } = require('@openzeppelin/test-helpers');
+const { ethers } = require('hardhat');
+const { expect } = require('@1inch/solidity-utils');
 const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
 
-const ChainlinkOracle = artifacts.require('ChainlinkOracle');
-const UniswapV3Oracle = artifacts.require('UniswapV3Oracle');
-const initcodeHashV3 = '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54';
-
-describe('ChainlinkOracle', async function () {
+describe('ChainlinkOracle', function () {
     before(async function () {
-        this.chainlinkOracle = await ChainlinkOracle.new('0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf');
-        this.uniswapV3Oracle = await UniswapV3Oracle.new(initcodeHashV3);
+        const ChainlinkOracle = await ethers.getContractFactory('ChainlinkOracle');
+        const UniswapV3Oracle = await ethers.getContractFactory('UniswapV3Oracle');
+        this.chainlinkOracle = await ChainlinkOracle.deploy('0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf');
+        await this.chainlinkOracle.deployed();
+        this.uniswapV3Oracle = await UniswapV3Oracle.deploy();
+        await this.uniswapV3Oracle.deployed();
     });
 
     it('USDT -> DAI', async function () {
@@ -42,9 +43,8 @@ describe('ChainlinkOracle', async function () {
     });
 
     it('Throws if connector is specified', async function () {
-        await expectRevert(
+        await expect(
             this.chainlinkOracle.getRate(tokens.DAI, tokens.DAI, tokens.USDT),
-            'CO: connector should be None',
-        );
+        ).to.be.revertedWith('CO: connector should be None');
     });
 });

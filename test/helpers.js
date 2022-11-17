@@ -1,4 +1,4 @@
-const { BN } = require('@openzeppelin/test-helpers/src/setup');
+const { expect } = require('@1inch/solidity-utils');
 
 const tokens = {
     DAI: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
@@ -27,33 +27,33 @@ const tokens = {
 };
 
 function assertRoughlyEquals (x, y, significantDigits) {
-    const xBN = new BN(x);
-    const yBN = new BN(y);
+    const xBN = BigInt(x);
+    const yBN = BigInt(y);
     let valid;
-    if (xBN.gt(yBN)) {
-        valid = xBN.sub(yBN).mul((new BN('10')).pow(new BN(significantDigits.toString()))).lt(yBN);
+    if (xBN > yBN) {
+        valid = (xBN - yBN) * (10n ** BigInt(significantDigits - 1)) < yBN;
     } else {
-        valid = yBN.sub(xBN).mul((new BN('10')).pow(new BN(significantDigits.toString()))).lt(xBN);
+        valid = (yBN - xBN) * (10n ** BigInt(significantDigits - 1)) < xBN;
     }
     if (!valid) {
-        expect(x).to.be.bignumber.equal(y, `${x} != ${y} with at least ${significantDigits} significant digits`);
+        expect(x).to.equal(y, `${x} != ${y} with at least ${significantDigits} significant digits`);
     }
 }
 
 function assertRoughlyEqualValues (expected, actual, relativeDiff) {
-    const expectedBN = new BN(expected);
-    const actualBN = new BN(actual);
+    const expectedBN = BigInt(expected);
+    const actualBN = BigInt(actual);
 
     let multiplerNumerator = relativeDiff;
-    let multiplerDenominator = new BN('1');
+    let multiplerDenominator = 1n;
     while (!Number.isInteger(multiplerNumerator)) {
-        multiplerDenominator = multiplerDenominator.mul(new BN('10'));
+        multiplerDenominator *= 10n;
         multiplerNumerator *= 10;
     }
-    const diff = expectedBN.sub(actualBN).abs();
-    const treshold = expectedBN.mul(new BN(multiplerNumerator)).div(multiplerDenominator);
-    if (!diff.lte(treshold)) {
-        expect(actualBN).to.be.bignumber.equal(expectedBN, `${actualBN} != ${expectedBN} with ${relativeDiff} precision`);
+    const diff = expectedBN > actualBN ? expectedBN - actualBN : actualBN - expectedBN;
+    const treshold = expectedBN * BigInt(multiplerNumerator) / multiplerDenominator;
+    if (diff > treshold) {
+        expect(actualBN).to.equal(expectedBN, `${actualBN} != ${expectedBN} with ${relativeDiff} precision`);
     }
 }
 

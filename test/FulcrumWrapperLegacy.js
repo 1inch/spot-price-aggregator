@@ -1,8 +1,6 @@
-const { ether } = require('@openzeppelin/test-helpers');
-const { expect } = require('chai');
+const { ethers } = require('hardhat');
+const { expect, ether } = require('@1inch/solidity-utils');
 const { tokens } = require('./helpers.js');
-
-const FulcrumWrapperLegacy = artifacts.require('FulcrumWrapperLegacy');
 
 const IUSDC = '0xF013406A0B1d544238083DF0B93ad0d2cBE0f65f';
 const IWETH = '0x77f973FCaF871459aa58cd81881Ce453759281bC';
@@ -18,25 +16,27 @@ const tests = [
     },
 ];
 
-describe('FulcrumWrapperLegacy', async function () {
+describe('FulcrumWrapperLegacy', function () {
     before(async function () {
-        this.fulcrumWrapperLegacy = await FulcrumWrapperLegacy.new();
+        const FulcrumWrapperLegacy = await ethers.getContractFactory('FulcrumWrapperLegacy');
+        this.fulcrumWrapperLegacy = await FulcrumWrapperLegacy.deploy();
+        await this.fulcrumWrapperLegacy.deployed();
         await this.fulcrumWrapperLegacy.addMarkets([IUSDC, IWETH]);
     });
 
     it('wrap', async function () {
         for (const test of tests) {
             const response = await this.fulcrumWrapperLegacy.wrap(test.token);
-            expect(response.rate).to.be.bignumber.greaterThan(ether('1'));
-            expect(response.wrappedToken).to.be.equal(test.itoken);
+            expect(response.rate).to.gt(ether('1'));
+            expect(response.wrappedToken).to.equal(test.itoken);
         }
     });
 
     it('unwrap', async function () {
         for (const test of tests) {
             const response = await this.fulcrumWrapperLegacy.wrap(test.itoken);
-            expect(response.rate).to.be.bignumber.lessThan(ether('1'));
-            expect(response.wrappedToken).to.be.equal(test.token);
+            expect(response.rate).to.lt(ether('1'));
+            expect(response.wrappedToken).to.equal(test.token);
         }
     });
 });
