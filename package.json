@@ -32,7 +32,6 @@
         "solidity-coverage": "0.8.2"
     },
     "scripts": {
-        "test": "hardhat test --show-stack-traces",
         "clean": "rimraf artifacts cache coverage",
         "deploy": "hardhat deploy --network",
         "docify": "npx solidity-utils-docify",
@@ -42,6 +41,8 @@
         "lint:sol": "solhint --max-warnings 0 \"contracts/**/*.sol\"",
         "lint:sol:fix": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix",
         "lint": "yarn lint:js && yarn lint:sol",
-        "lint:fix": "yarn lint:js:fix && yarn lint:sol:fix"
+        "lint:fix": "yarn lint:js:fix && yarn lint:sol:fix",
+        "test": "hardhat test --parallel",
+        "test:ci": "hardhat test"
     }
 }
