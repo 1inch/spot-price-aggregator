@@ -6,6 +6,7 @@ const dodoZoo = '0x3A97247DF274a17C59A3bd12735ea3FcDFb49950';
 
 describe('DodoOracle', function () {
     let dodoOracle;
+    let uniswapV3Oracle;
 
     before(async function () {
         const DodoOracle = await ethers.getContractFactory('DodoOracle');

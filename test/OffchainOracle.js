@@ -51,7 +51,7 @@ describe('OffchainOracle', function () {
                     this.uniswapOracle.address,
                     this.mooniswapOracle.address,
                 ],
-                [ '0', '1', '2' ],
+                ['0', '1', '2'],
                 [
                     tokens.NONE,
                     tokens.ETH,
@@ -68,7 +68,7 @@ describe('OffchainOracle', function () {
                     this.uniswapOracle.address,
                     this.mooniswapOracle.address,
                 ],
-                [ '2', '2', '2' ],
+                ['2', '2', '2'],
                 [
                     ...Object.values(tokens).slice(0, 10),
                 ],
@@ -145,7 +145,7 @@ describe('OffchainOracle', function () {
                     this.uniswapV2LikeOracle.address,
                     this.uniswapOracle.address,
                 ],
-                [ '0', '1' ],
+                ['0', '1'],
                 [
                     tokens.NONE,
                     ...this.connectors,
@@ -159,7 +159,7 @@ describe('OffchainOracle', function () {
                     this.uniswapV2LikeOracle.address,
                     this.uniswapOracle.address,
                 ],
-                [ '0', '1' ],
+                ['0', '1'],
                 [
                     tokens.NONE,
                 ],
