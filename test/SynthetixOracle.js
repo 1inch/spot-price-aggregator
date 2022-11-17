@@ -1,6 +1,5 @@
 const { ethers } = require('hardhat');
 const { expect } = require('@1inch/solidity-utils');
-const { BigNumber: BN } = require('ethers');
 const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
 
 describe('SynthetixOracle', function () {
@@ -68,21 +67,21 @@ describe('SynthetixOracle', function () {
         const synthResult = await self.synthetixOracle.getRate(srcTokens[0], dstTokens[0], connector);
         const v3Result = await self.uniswapV3Oracle.getRate(srcTokens[1], dstTokens[1], connector);
 
-        let actualResult = synthResult.rate;
-        let expectedResult = v3Result.rate;
+        let actualResult = synthResult.rate.toBigInt();
+        let expectedResult = v3Result.rate.toBigInt();
         const srcActualDecimals = await getDecimals(srcTokens[0]);
         const srcExpectedDecimals = await getDecimals(srcTokens[1]);
         const dstActualDecimals = await getDecimals(dstTokens[0]);
         const dstExpectedDecimals = await getDecimals(dstTokens[1]);
 
-        if (srcActualDecimals.gt(srcExpectedDecimals)) {
-            const diff = srcActualDecimals.sub(srcExpectedDecimals);
-            expectedResult = expectedResult.div(BN.from('10').pow(diff));
+        if (srcActualDecimals > srcExpectedDecimals) {
+            const diff = srcActualDecimals - srcExpectedDecimals;
+            expectedResult = expectedResult / (10n ** diff);
         }
 
-        if (dstActualDecimals.gt(dstExpectedDecimals)) {
-            const diff = dstActualDecimals.sub(dstExpectedDecimals);
-            actualResult = actualResult.div(BN.from('10').pow(diff));
+        if (dstActualDecimals > dstExpectedDecimals) {
+            const diff = dstActualDecimals - dstExpectedDecimals;
+            actualResult = actualResult / (10n ** diff);
         }
 
         assertRoughlyEqualValues(expectedResult.toString(), actualResult.toString(), 0.05);
@@ -90,9 +89,9 @@ describe('SynthetixOracle', function () {
 
     async function getDecimals (token) {
         if (token === tokens.ETH || token === token.EEE) {
-            return BN.from('18');
+            return 18n;
         }
         const ERC20 = await ethers.getContractFactory('ERC20');
-        return BN.from(await (await ERC20.attach(token)).decimals());
+        return BigInt(await (await ERC20.attach(token)).decimals());
     }
 });

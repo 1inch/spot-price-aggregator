@@ -1,5 +1,4 @@
 const { expect } = require('@1inch/solidity-utils');
-const { BigNumber: BN } = require('ethers');
 
 const tokens = {
     DAI: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
@@ -28,13 +27,13 @@ const tokens = {
 };
 
 function assertRoughlyEquals (x, y, significantDigits) {
-    const xBN = BN.from(x);
-    const yBN = BN.from(y);
+    const xBN = BigInt(x);
+    const yBN = BigInt(y);
     let valid;
-    if (xBN.gt(yBN)) {
-        valid = xBN.sub(yBN).mul((BN.from('10')).pow(significantDigits - 1)).lt(yBN);
+    if (xBN > yBN) {
+        valid = (xBN - yBN) * (10n ** BigInt(significantDigits - 1)) < yBN;
     } else {
-        valid = yBN.sub(xBN).mul((BN.from('10')).pow(significantDigits - 1)).lt(xBN);
+        valid = (yBN - xBN) * (10n ** BigInt(significantDigits - 1)) < xBN;
     }
     if (!valid) {
         expect(x).to.equal(y, `${x} != ${y} with at least ${significantDigits} significant digits`);
@@ -42,18 +41,18 @@ function assertRoughlyEquals (x, y, significantDigits) {
 }
 
 function assertRoughlyEqualValues (expected, actual, relativeDiff) {
-    const expectedBN = BN.from(expected);
-    const actualBN = BN.from(actual);
+    const expectedBN = BigInt(expected);
+    const actualBN = BigInt(actual);
 
     let multiplerNumerator = relativeDiff;
-    let multiplerDenominator = BN.from('1');
+    let multiplerDenominator = 1n;
     while (!Number.isInteger(multiplerNumerator)) {
-        multiplerDenominator = multiplerDenominator.mul(BN.from('10'));
+        multiplerDenominator *= 10n;
         multiplerNumerator *= 10;
     }
-    const diff = expectedBN.sub(actualBN).abs();
-    const treshold = expectedBN.mul(BN.from(multiplerNumerator)).div(multiplerDenominator);
-    if (!diff.lte(treshold)) {
+    const diff = expectedBN > actualBN ? expectedBN - actualBN : actualBN - expectedBN;
+    const treshold = expectedBN * BigInt(multiplerNumerator) / multiplerDenominator;
+    if (diff > treshold) {
         expect(actualBN).to.equal(expectedBN, `${actualBN} != ${expectedBN} with ${relativeDiff} precision`);
     }
 }

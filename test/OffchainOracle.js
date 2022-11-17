@@ -1,5 +1,4 @@
 const { ethers } = require('hardhat');
-const { BigNumber: BN } = require('ethers');
 const { expect, ether, assertRoughlyEqualValues } = require('@1inch/solidity-utils');
 const { tokens, assertRoughlyEquals } = require('./helpers.js');
 
@@ -52,11 +51,7 @@ describe('OffchainOracle', function () {
                     this.uniswapOracle.address,
                     this.mooniswapOracle.address,
                 ],
-                [
-                    (BN.from('0')).toString(),
-                    (BN.from('1')).toString(),
-                    (BN.from('2')).toString(),
-                ],
+                [ '0', '1', '2' ],
                 [
                     tokens.NONE,
                     tokens.ETH,
@@ -73,11 +68,7 @@ describe('OffchainOracle', function () {
                     this.uniswapOracle.address,
                     this.mooniswapOracle.address,
                 ],
-                [
-                    (BN.from('2')).toString(),
-                    (BN.from('2')).toString(),
-                    (BN.from('2')).toString(),
-                ],
+                [ '2', '2', '2' ],
                 [
                     ...Object.values(tokens).slice(0, 10),
                 ],
@@ -154,10 +145,7 @@ describe('OffchainOracle', function () {
                     this.uniswapV2LikeOracle.address,
                     this.uniswapOracle.address,
                 ],
-                [
-                    (BN.from('0')).toString(),
-                    (BN.from('1')).toString(),
-                ],
+                [ '0', '1' ],
                 [
                     tokens.NONE,
                     ...this.connectors,
@@ -171,10 +159,7 @@ describe('OffchainOracle', function () {
                     this.uniswapV2LikeOracle.address,
                     this.uniswapOracle.address,
                 ],
-                [
-                    (BN.from('0')).toString(),
-                    (BN.from('1')).toString(),
-                ],
+                [ '0', '1' ],
                 [
                     tokens.NONE,
                 ],
