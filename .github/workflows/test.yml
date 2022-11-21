@@ -21,7 +21,7 @@ jobs:
       - run: |
           touch .env
           echo MAINNET_RPC_URL=${{ secrets.MAINNET_RPC_URL }} >> .env
-      - run: yarn test
+      - run: yarn test:ci
 
   coverage:
     runs-on: ubuntu-latest
