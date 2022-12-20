@@ -42,7 +42,7 @@
         "lint:sol:fix": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix",
         "lint": "yarn lint:js && yarn lint:sol",
         "lint:fix": "yarn lint:js:fix && yarn lint:sol:fix",
-        "test": "hardhat test --parallel",
+        "test": "hardhat test",
         "test:ci": "hardhat test"
     }
 }

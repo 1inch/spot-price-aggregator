@@ -9,6 +9,7 @@ import "@openzeppelin/contracts/utils/Address.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV3Pool.sol";
 import "../libraries/Sqrt.sol";
+import "hardhat/console.sol";
 
 contract UniswapV3Oracle is IOracle {
     using Address for address;
@@ -26,27 +27,23 @@ contract UniswapV3Oracle is IOracle {
         unchecked {
             if (connector == _NONE) {
                 for (uint256 i = 0; i < _SUPPORTED_FEES_COUNT; i++) {
-                    (uint256 rate0, uint256 b1, uint256 b2) = _getRate(srcToken, dstToken, fees[i]);
-                    uint256 w = b1.mul(b2);
+                    (uint256 rate0, uint256 w) = _getRate(srcToken, dstToken, fees[i]);
                     rate = rate.add(rate0.mul(w));
                     weight = weight.add(w);
                 }
             } else {
                 for (uint256 i = 0; i < _SUPPORTED_FEES_COUNT; i++) {
                     for (uint256 j = 0; j < _SUPPORTED_FEES_COUNT; j++) {
-                        (uint256 rate0, uint256 b1, uint256 bc1) = _getRate(srcToken, connector, fees[i]);
-                        if (b1 == 0 || bc1 == 0) {
+                        (uint256 rate0, uint256 w0) = _getRate(srcToken, connector, fees[i]);
+                        if (w0 == 0) {
                             continue;
                         }
-                        (uint256 rate1, uint256 bc2, uint256 b2) = _getRate(connector, dstToken, fees[j]);
-                        if (bc2 == 0 || b2 == 0) {
+                        (uint256 rate1, uint256 w1) = _getRate(connector, dstToken, fees[j]);
+                        if (w1 == 0) {
                             continue;
                         }
 
-                        if (bc2 < bc1) {
-                            (bc1, bc2) = (bc2, bc1);
-                        }
-                        uint256 w = b1.mul(b2).mul(bc1).div(bc2);
+                        uint256 w = Sqrt.sqrt(w0 * w1);
 
                         rate = rate.add(rate0.mul(rate1).div(1e18).mul(w));
                         weight = weight.add(w);
@@ -61,20 +58,27 @@ contract UniswapV3Oracle is IOracle {
         }
     }
 
-    function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint256 srcBalance, uint256 dstBalance) {
+    function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint128 ticksLiquidity) {
         (IERC20 token0, IERC20 token1) = srcToken < dstToken ? (srcToken, dstToken) : (dstToken, srcToken);
         address pool = _getPool(address(token0), address(token1), fee);
         if (!pool.isContract() || IUniswapV3Pool(pool).liquidity() == 0) {
-            return (0, 0, 0);
+            return (0, 0);
         }
-        (uint256 sqrtPriceX96,,,,,,) = IUniswapV3Pool(pool).slot0();
+        (uint256 sqrtPriceX96, int24 tick,,,,,) = IUniswapV3Pool(pool).slot0();
+        int24 tickSpacing = IUniswapV3Pool(pool).tickSpacing();
+        tick = tick / tickSpacing * tickSpacing;
+        (uint128 liquidityGross,,,,,,,) = IUniswapV3Pool(pool).ticks(tick);
+        (uint128 liquidityGrossLeft,,,,,,,) = IUniswapV3Pool(pool).ticks(tick - tickSpacing);
+        (uint128 liquidityGrossRight,,,,,,,) = IUniswapV3Pool(pool).ticks(tick + tickSpacing);
+        if (liquidityGross == 0 || liquidityGrossLeft == 0 || liquidityGrossRight == 0) {
+            return (0, 0);
+        }
         if (srcToken == token0) {
             rate = (((1e18 * sqrtPriceX96) >> 96) * sqrtPriceX96) >> 96;
         } else {
             rate = (1e18 << 192) / sqrtPriceX96 / sqrtPriceX96;
         }
-        srcBalance = srcToken.balanceOf(address(pool));
-        dstBalance = dstToken.balanceOf(address(pool));
+        ticksLiquidity = liquidityGross + liquidityGrossLeft + liquidityGrossRight;
     }
 
     function _getPool(address token0, address token1, uint24 fee) private pure returns (address) {
