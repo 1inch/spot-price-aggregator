@@ -9,7 +9,6 @@ import "@openzeppelin/contracts/utils/Address.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV3Pool.sol";
 import "../libraries/Sqrt.sol";
-import "hardhat/console.sol";
 
 contract UniswapV3Oracle is IOracle {
     using Address for address;
@@ -20,6 +19,7 @@ contract UniswapV3Oracle is IOracle {
     address public constant FACTORY = 0x1F98431c8aD98523631AE4a59f267346ea31F984;
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
     uint256 private constant _SUPPORTED_FEES_COUNT = 4;
+    int24 private constant _TICK_STEPS = 2;
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
         uint24[_SUPPORTED_FEES_COUNT] memory fees = [uint24(100), 500, 3000, 10000];
@@ -58,27 +58,30 @@ contract UniswapV3Oracle is IOracle {
         }
     }
 
-    function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint128 ticksLiquidity) {
+    function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint256 liquidity) {
         (IERC20 token0, IERC20 token1) = srcToken < dstToken ? (srcToken, dstToken) : (dstToken, srcToken);
         address pool = _getPool(address(token0), address(token1), fee);
-        if (!pool.isContract() || IUniswapV3Pool(pool).liquidity() == 0) {
+        liquidity = IUniswapV3Pool(pool).liquidity();
+        if (!pool.isContract() || liquidity == 0) {
             return (0, 0);
         }
         (uint256 sqrtPriceX96, int24 tick,,,,,) = IUniswapV3Pool(pool).slot0();
         int24 tickSpacing = IUniswapV3Pool(pool).tickSpacing();
         tick = tick / tickSpacing * tickSpacing;
-        (uint128 liquidityGross,,,,,,,) = IUniswapV3Pool(pool).ticks(tick);
-        (uint128 liquidityGrossLeft,,,,,,,) = IUniswapV3Pool(pool).ticks(tick - tickSpacing);
-        (uint128 liquidityGrossRight,,,,,,,) = IUniswapV3Pool(pool).ticks(tick + tickSpacing);
-        if (liquidityGross == 0 || liquidityGrossLeft == 0 || liquidityGrossRight == 0) {
-            return (0, 0);
+        for (int24 i = -_TICK_STEPS; i <= _TICK_STEPS; i++) {
+            if (i == 0) {
+                continue;
+            }
+            (, int256 liquidityNet,,,,,,) = IUniswapV3Pool(pool).ticks(tick - i * tickSpacing);
+            if (int256(liquidity) + i * liquidityNet == 0) {
+                return (0, 0);
+            }
         }
         if (srcToken == token0) {
             rate = (((1e18 * sqrtPriceX96) >> 96) * sqrtPriceX96) >> 96;
         } else {
             rate = (1e18 << 192) / sqrtPriceX96 / sqrtPriceX96;
         }
-        ticksLiquidity = liquidityGross + liquidityGrossLeft + liquidityGrossRight;
     }
 
     function _getPool(address token0, address token1, uint24 fee) private pure returns (address) {
