@@ -61,8 +61,11 @@ contract UniswapV3Oracle is IOracle {
     function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint256 liquidity) {
         (IERC20 token0, IERC20 token1) = srcToken < dstToken ? (srcToken, dstToken) : (dstToken, srcToken);
         address pool = _getPool(address(token0), address(token1), fee);
+        if (!pool.isContract() ) {
+            return (0, 0);
+        }
         liquidity = IUniswapV3Pool(pool).liquidity();
-        if (!pool.isContract() || liquidity == 0) {
+        if (liquidity == 0) {
             return (0, 0);
         }
         (uint256 sqrtPriceX96, int24 tick,,,,,) = IUniswapV3Pool(pool).slot0();
