@@ -1,6 +1,6 @@
 const hre = require('hardhat');
 const { ethers } = hre;
-const constants = require('@openzeppelin/test-helpers/src/constants');
+const { constants } = require('@1inch/solidity-utils');
 
 const _delay = (ms) =>
     new Promise((resolve) => {
@@ -51,11 +51,11 @@ async function addAaveTokens (aaveWrapperV2, AAWE_WRAPPER_TOKENS) {
     }
 }
 
-const idempotentDeploy = async (contractName, constructorArgs, deployments, deployer, deploymentName = contractName, skipVerify = false) => {
+const idempotentDeploy = async (contractName, constructorArgs, deployments, deployer, deploymentName = contractName, skipVerify = false, skipIfAlreadyDeployed = true) => {
     const { deploy, getOrNull } = deployments;
 
     const existingContract = await getOrNull(deploymentName);
-    if (existingContract) {
+    if (existingContract && skipIfAlreadyDeployed) {
         console.log(`Skipping deploy for existing contract ${contractName} (${deploymentName})`);
         return existingContract;
     }
@@ -64,6 +64,7 @@ const idempotentDeploy = async (contractName, constructorArgs, deployments, depl
         args: constructorArgs,
         from: deployer,
         contract: contractName,
+        skipIfAlreadyDeployed,
     });
 
     console.log(`${deploymentName} deployed to: ${contract.address}`);

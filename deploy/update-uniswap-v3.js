@@ -18,6 +18,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         [],
         deployments,
         deployer,
+        'UniswapV3Oracle',
+        false,
+        false,
     );
 
     await (await offchainOracle.removeOracle(oldUniswapV3Oracle.address, '0')).wait();
