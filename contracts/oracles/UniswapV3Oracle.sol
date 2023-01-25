@@ -54,7 +54,6 @@ contract UniswapV3Oracle is IOracle {
 
         if (weight > 0) {
             rate = rate / weight;
-            weight = weight.sqrt();
         }
     }
 
