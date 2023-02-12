@@ -1,7 +1,7 @@
 const { ethers } = require('hardhat');
 const { tokens } = require('../test/helpers');
 
-const usdPrice = (ethPrice) => { return ethers.utils.formatEther(BigInt(ethPrice) * BigInt(process.env.ETH_PRICE) / BigInt(1e18)); };
+const usdPrice = (ethPrice) => { return ethers.utils.formatEther(BigInt(ethPrice) * BigInt(process.env.ETH_PRICE)); };
 
 async function main () {
     if (!process.env.ETH_PRICE) {
@@ -28,7 +28,7 @@ async function main () {
     await offchainOracle.deployed();
 
     console.log('======================');
-    console.log('Current state\'s price =', usdPrice(await offchainOracle.getRateToEth(token, true)));
+    console.log('Current state\'s price =', usdPrice(await deployedOffchainOracle.getRateToEth(token, true)));
 
     const oracles = await deployedOffchainOracle.oracles();
     for (let i = 0; i < oracles.allOracles.length; i++) {
