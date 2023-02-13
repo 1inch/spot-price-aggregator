@@ -49,7 +49,7 @@ async function main () {
                     else symbol = await (await ethers.getContractAt('IERC20Metadata', connectors[j])).symbol();
 
                     const { rate, weight } = await oracle.getRate(token, weth, connectors[j]);
-                    pricesViaConnector.push({ connector: symbol, rate: usdPrice(rate), weight: weight.toString() });
+                    pricesViaConnector.push({ connector: symbol, rate: parseFloat(usdPrice(rate)).toFixed(2), weight: weight.toString() });
                 } catch {}
             }
             console.table(pricesViaConnector.sort((a, b) => { return parseFloat(b.rate) - parseFloat(a.rate); }));
