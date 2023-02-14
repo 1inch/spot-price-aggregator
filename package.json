@@ -43,6 +43,7 @@
         "lint": "yarn lint:js && yarn lint:sol",
         "lint:fix": "yarn lint:js:fix && yarn lint:sol:fix",
         "test": "hardhat test --parallel",
-        "test:ci": "hardhat test"
+        "test:ci": "hardhat test",
+        "scripts:check-token": "hardhat run scripts/check-token.js"
     }
 }
