@@ -44,6 +44,7 @@
         "lint:fix": "yarn lint:js:fix && yarn lint:sol:fix",
         "test": "hardhat test --parallel",
         "test:ci": "hardhat test",
-        "scripts:check-token": "hardhat run scripts/check-token.js"
+        "scripts:check-token": "hardhat run scripts/check-token.js",
+        "scripts:check-tokens-prices": "hardhat run scripts/check-tokens-prices.js"
     }
 }
