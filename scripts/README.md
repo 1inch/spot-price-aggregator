@@ -29,7 +29,14 @@ The script's behavior is controlled by environment variables, which are specifie
     - Example: result of `https://token-prices.1inch.io/v1.1/1`
 - `SCRIPT_NETWORK_NAME` (optional) - Specifies the network from which OffchainOracle's address is obtained during deployment. If not specified, the script defaults to the mainnet.
 - `SCRIPT_SKIP_ORACLES` (optional) - Comma-separated list of oracle addresses that should not be added from a deployed oracle.
-- `SCRIPT_ADD_ORACLES` (optional) - Tube-separated (`|`) list of new oracles to be added. Each entry in the list should follow the format `ContractOracleName,OracleType,[constructor params]`
-    - Example for add current implementation of UniswapV3Oracle without constructor: `SCRIPT_ADD_ORACLES=UniswapV3Oracle,0,`
+- `SCRIPT_ADD_ORACLES` (optional) - Tube-separated (`|`) list of new oracles to be added. Each entry in the list should follow the format `ContractOracleName:OracleType:[constructor params]`
+    - Example for add current implementation of UniswapV3Oracle without constructor:
+        ```
+        SCRIPT_ADD_ORACLES=UniswapV3Oracle:0:
+        ```
+    - Example for add current implementation of all oracles which support connectors:
+        ```
+        SCRIPT_ADD_ORACLES=UniswapV3Oracle:0:|KyberDmmOracle:0:["0x833e4083b7ae46cea85695c4f7ed25cdad8886de"]|UniswapV2LikeOracle:0:["0x115934131916c8b277dd010ee02de363c09d037c","0x65d1a3b1e46c6e4f1be1ad5f99ef14dc488ae0549dc97db9b30afe2241ce1c7a"]
+        ```
 
 Note that the `SCRIPT_TOKENLIST` must be a valid path to a file containing the list of tokens to be checked. The script uses the require function to import the file, so it must be either a JavaScript or JSON file.

@@ -45,9 +45,10 @@ async function main () {
     for (let i = 0; i < addOracles.length; i++) {
         if (addOracles[i] === '') continue;
 
-        const config = addOracles[i].split(',');
+        const config = addOracles[i].split(':');
         const Oracle = await ethers.getContractFactory(config[0]);
-        const oracle = await Oracle.deploy(...config[2]);
+        const oracleConstructorParams = config[2] ? JSON.parse(config[2]) : [];
+        const oracle = await Oracle.deploy(...oracleConstructorParams);
         await oracle.deployed();
 
         await offchainOracle.addOracle(oracle.address, config[1]);
