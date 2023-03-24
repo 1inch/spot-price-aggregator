@@ -264,7 +264,6 @@ contract OffchainOracle is Ownable {
     function _getRateImpl(IOracle oracle, IERC20 srcToken, uint256 srcTokenRate, IERC20 dstToken, uint256 dstTokenRate, IERC20 connector) private view returns (uint256 rate, uint256 weight) {
         try oracle.getRate(srcToken, dstToken, connector) returns (uint256 rate_, uint256 weight_) {
             rate_ = rate_ * srcTokenRate * dstTokenRate / 1e36;
-            // weight_ *= weight_;
             rate += rate_ * weight_;
             weight += weight_;
         } catch {}  // solhint-disable-line no-empty-blocks
