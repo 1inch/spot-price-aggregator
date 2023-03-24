@@ -5,6 +5,7 @@ pragma abicoder v1;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IDodo.sol";
 import "../interfaces/IDodoFactories.sol";
@@ -45,12 +46,7 @@ contract DodoV2Oracle is IOracle {
                     if (b1 == 0 || bc1 == 0) {
                         continue;
                     }
-                    if (bc0 > bc1) {
-                        b0 = b0 * bc1 / bc0;
-                    } else {
-                        b1 = b1 * bc0 / bc1;
-                    }
-                    uint256 w = b0 * b1;
+                    uint256 w = Math.min(b0 * bc0, b1 * bc1);
                     rate += r0 * r1 * w / 1e18;
                     weight += w;
                 }

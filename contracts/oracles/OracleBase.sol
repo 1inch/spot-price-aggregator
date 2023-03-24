@@ -4,6 +4,7 @@ pragma solidity 0.8.15;
 pragma abicoder v1;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 import "../interfaces/IOracle.sol";
 import "../libraries/Sqrt.sol";
 
@@ -18,6 +19,7 @@ abstract contract OracleBase is IOracle {
         uint256 balance1;
         if (connector == _NONE) {
             (balance0, balance1) = _getBalances(srcToken, dstToken);
+            weight = balance0 * balance1;
         } else {
             uint256 balanceConnector0;
             uint256 balanceConnector1;
@@ -28,10 +30,11 @@ abstract contract OracleBase is IOracle {
             } else {
                 balance1 = balance1 * balanceConnector0 / balanceConnector1;
             }
+            weight = Math.min(balance0 * balanceConnector0, balance1 * balanceConnector1);
         }
 
         rate = balance1 * 1e18 / balance0;
-        weight = (balance0 * balance1).sqrt();
+        weight = weight.sqrt();
     }
 
     function _getBalances(IERC20 srcToken, IERC20 dstToken) internal view virtual returns (uint256 srcBalance, uint256 dstBalance);

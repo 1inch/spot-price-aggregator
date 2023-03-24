@@ -3,8 +3,9 @@
 pragma solidity 0.8.15;
 pragma abicoder v1;
 
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IKyberDmmFactory.sol";
 import "../interfaces/IKyberDmmPool.sol";
@@ -46,16 +47,12 @@ contract KyberDmmOracle is IOracle {
                 for (uint256 i = 0; i < pools0.length; i++) {
                     for (uint256 j = 0; j < pools1.length; j++) {
                         (uint256 b0, uint256 bc0) = _getBalances(srcToken, connector, pools0[i]);
+                        uint256 rate0 = bc0 * 1e18 / b0;
                         (uint256 bc1, uint256 b1) = _getBalances(connector, dstToken, pools1[j]);
+                        uint256 rate1 = bc1 * 1e18 / b1;
 
-                        if (bc0 > bc1) {
-                            b0 = b0.mul(bc1).div(bc0);
-                        } else {
-                            b1 = b1.mul(bc0).div(bc1);
-                        }
-
-                        uint256 w = b0.mul(b1);
-                        rate = rate.add(b1.mul(1e18).div(b0).mul(w));
+                        uint256 w = Math.min(b0 * bc0, b1 * bc1);
+                        rate = rate.add(rate0.mul(rate1).div(1e18).mul(w));
                         weight = weight.add(w);
                     }
                 }
