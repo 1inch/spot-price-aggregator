@@ -5,15 +5,16 @@ pragma abicoder v1;
 
 import "./OracleBase.sol";
 import "../interfaces/IUniswapV2Pair.sol";
+import "../interfaces/IUniswapV2Factory.sol";
 
 
 contract UniswapV2LikeOracle is OracleBase {
     address public immutable factory;
     bytes32 public immutable initcodeHash;
 
-    constructor(address _factory, bytes32 _initcodeHash) {
+    constructor(address _factory) {
         factory = _factory;
-        initcodeHash = _initcodeHash;
+        initcodeHash = IUniswapV2Factory(factory).INIT_CODE_PAIR_HASH();
     }
 
     // calculates the CREATE2 address for a pair without making any external calls
