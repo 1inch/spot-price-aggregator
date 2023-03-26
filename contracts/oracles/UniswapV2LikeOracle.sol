@@ -10,11 +10,15 @@ import "../interfaces/IUniswapV2Factory.sol";
 
 contract UniswapV2LikeOracle is OracleBase {
     address public immutable factory;
-    bytes32 public immutable initcodeHash;
+    bytes32 public initcodeHash;
 
-    constructor(address _factory) {
+    constructor(address _factory, bytes32 _initcodeHash) {
         factory = _factory;
-        initcodeHash = IUniswapV2Factory(factory).INIT_CODE_PAIR_HASH();
+        try IUniswapV2Factory(_factory).INIT_CODE_PAIR_HASH() returns (bytes32 initcodeHashFromFactory) {
+            initcodeHash = initcodeHashFromFactory;
+        } catch {
+            initcodeHash = _initcodeHash;
+        }
     }
 
     // calculates the CREATE2 address for a pair without making any external calls
