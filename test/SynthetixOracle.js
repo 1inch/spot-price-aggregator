@@ -1,6 +1,7 @@
 const { ethers } = require('hardhat');
+const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect } = require('@1inch/solidity-utils');
-const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
+const { tokens, assertRoughlyEqualValues, deployContract } = require('./helpers.js');
 
 describe('SynthetixOracle', function () {
     function symbolToBytes (symbol) {
@@ -16,56 +17,60 @@ describe('SynthetixOracle', function () {
         expect(symbolToBytes('sKRW')).equal('0x734b5257');
     });
 
-    before(async function () {
-        const SynthetixOracle = await ethers.getContractFactory('SynthetixOracle');
-        const UniswapV3Oracle = await ethers.getContractFactory('UniswapV3Oracle');
-        this.synthetixOracle = await SynthetixOracle.deploy('0x4E3b31eB0E5CB73641EE1E65E7dCEFe520bA3ef2');
-        await this.synthetixOracle.deployed();
-        this.uniswapV3Oracle = await UniswapV3Oracle.deploy();
-        await this.uniswapV3Oracle.deployed();
-    });
+    async function initContracts () {
+        const synthetixOracle = await deployContract('SynthetixOracle', ['0x4E3b31eB0E5CB73641EE1E65E7dCEFe520bA3ef2']);
+        const uniswapV3Oracle = await deployContract('UniswapV3Oracle');
+        return { synthetixOracle, uniswapV3Oracle };
+    }
 
     it('should revert for unregistered token', async function () {
+        const { synthetixOracle } = await loadFixture(initContracts);
         const incorrectSREN = '0x4287dac1cC7434991119Eba7413189A66fFE65cF';
-
         await expect(
-            this.synthetixOracle.callStatic.getRate(incorrectSREN, tokens.sKRW, tokens.NONE),
+            synthetixOracle.callStatic.getRate(incorrectSREN, tokens.sKRW, tokens.NONE),
         ).to.be.revertedWith('SO: unregistered token');
     });
 
     it('should revert on connector usage', async function () {
+        const { synthetixOracle, uniswapV3Oracle } = await loadFixture(initContracts);
         await expect(
-            testRate(this, [tokens.sBTC, tokens.WBTC], [tokens.ETH, tokens.WETH], tokens.USDC),
+            testRate([tokens.sBTC, tokens.WBTC], [tokens.ETH, tokens.WETH], tokens.USDC, synthetixOracle, uniswapV3Oracle),
         ).to.be.revertedWith('SO: connector should be None');
     });
 
     it('BTC -> ETH', async function () {
-        await testRate(this, [tokens.sBTC, tokens.WBTC], [tokens.ETH, tokens.WETH], tokens.NONE);
+        const { synthetixOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+        await testRate([tokens.sBTC, tokens.WBTC], [tokens.ETH, tokens.WETH], tokens.NONE, synthetixOracle, uniswapV3Oracle);
     });
 
     it('ETH -> BTC', async function () {
-        await testRate(this, [tokens.ETH, tokens.WETH], [tokens.sBTC, tokens.WBTC], tokens.NONE);
+        const { synthetixOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+        await testRate([tokens.ETH, tokens.WETH], [tokens.sBTC, tokens.WBTC], tokens.NONE, synthetixOracle, uniswapV3Oracle);
     });
 
     it('USDC -> ETH', async function () {
-        await testRate(this, [tokens.sUSD, tokens.USDC], [tokens.ETH, tokens.WETH], tokens.NONE);
+        const { synthetixOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+        await testRate([tokens.sUSD, tokens.USDC], [tokens.ETH, tokens.WETH], tokens.NONE, synthetixOracle, uniswapV3Oracle);
     });
 
     it('ETH -> USDC', async function () {
-        await testRate(this, [tokens.ETH, tokens.WETH], [tokens.sUSD, tokens.USDC], tokens.NONE);
+        const { synthetixOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+        await testRate([tokens.ETH, tokens.WETH], [tokens.sUSD, tokens.USDC], tokens.NONE, synthetixOracle, uniswapV3Oracle);
     });
 
     it('SNX -> ETH', async function () {
-        await testRate(this, [tokens.SNX, tokens.SNX], [tokens.ETH, tokens.WETH], tokens.NONE);
+        const { synthetixOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+        await testRate([tokens.SNX, tokens.SNX], [tokens.ETH, tokens.WETH], tokens.NONE, synthetixOracle, uniswapV3Oracle);
     });
 
     it('ETH -> SNX', async function () {
-        await testRate(this, [tokens.ETH, tokens.WETH], [tokens.SNX, tokens.SNX], tokens.NONE);
+        const { synthetixOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+        await testRate([tokens.ETH, tokens.WETH], [tokens.SNX, tokens.SNX], tokens.NONE, synthetixOracle, uniswapV3Oracle);
     });
 
-    async function testRate (self, srcTokens, dstTokens, connector) {
-        const synthResult = await self.synthetixOracle.getRate(srcTokens[0], dstTokens[0], connector);
-        const v3Result = await self.uniswapV3Oracle.getRate(srcTokens[1], dstTokens[1], connector);
+    async function testRate (srcTokens, dstTokens, connector, synthetixOracle, uniswapV3Oracle) {
+        const synthResult = await synthetixOracle.getRate(srcTokens[0], dstTokens[0], connector);
+        const v3Result = await uniswapV3Oracle.getRate(srcTokens[1], dstTokens[1], connector);
 
         let actualResult = synthResult.rate.toBigInt();
         let expectedResult = v3Result.rate.toBigInt();

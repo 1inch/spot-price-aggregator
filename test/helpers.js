@@ -1,3 +1,4 @@
+const { ethers } = require('hardhat');
 const { expect } = require('@1inch/solidity-utils');
 
 const tokens = {
@@ -57,8 +58,16 @@ function assertRoughlyEqualValues (expected, actual, relativeDiff) {
     }
 }
 
+async function deployContract (contractName, contractParams = []) {
+    const Contract = await ethers.getContractFactory(contractName);
+    const contract = await Contract.deploy(...contractParams);
+    await contract.deployed();
+    return contract;
+}
+
 module.exports = {
     tokens,
     assertRoughlyEquals,
     assertRoughlyEqualValues,
+    deployContract,
 };

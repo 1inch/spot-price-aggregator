@@ -1,45 +1,44 @@
-const { ethers } = require('hardhat');
+const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect } = require('@1inch/solidity-utils');
-const { tokens, assertRoughlyEqualValues } = require('./helpers.js');
+const { tokens, assertRoughlyEqualValues, deployContract } = require('./helpers.js');
 
 const dodoZoo = '0x3A97247DF274a17C59A3bd12735ea3FcDFb49950';
 
 describe('DodoOracle', function () {
-    let dodoOracle;
-    let uniswapV3Oracle;
-
-    before(async function () {
-        const DodoOracle = await ethers.getContractFactory('DodoOracle');
-        const UniswapV3Oracle = await ethers.getContractFactory('UniswapV3Oracle');
-        dodoOracle = await DodoOracle.deploy(dodoZoo);
-        await dodoOracle.deployed();
-        uniswapV3Oracle = await UniswapV3Oracle.deploy();
-        await uniswapV3Oracle.deployed();
-    });
+    async function initContracts () {
+        const dodoOracle = await deployContract('DodoOracle', [dodoZoo]);
+        const uniswapV3Oracle = await deployContract('UniswapV3Oracle');
+        return { dodoOracle, uniswapV3Oracle };
+    }
 
     it('should revert with amount of pools error', async function () {
+        const { dodoOracle } = await loadFixture(initContracts);
         await expect(
             dodoOracle.getRate(tokens.USDT, tokens['1INCH'], tokens.NONE),
         ).to.be.revertedWith('DO: Dodo not found');
     });
 
     it('WETH -> USDC', async function () {
-        await testRate(tokens.WETH, tokens.USDC, tokens.NONE);
+        const { dodoOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+        await testRate(tokens.WETH, tokens.USDC, tokens.NONE, dodoOracle, uniswapV3Oracle);
     });
 
     it('USDC -> WETH', async function () {
-        await testRate(tokens.USDC, tokens.WETH, tokens.NONE);
+        const { dodoOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+        await testRate(tokens.USDC, tokens.WETH, tokens.NONE, dodoOracle, uniswapV3Oracle);
     });
 
     it('WETH -> USDC -> WBTC', async function () {
-        await testRate(tokens.WETH, tokens.WBTC, tokens.USDC);
+        const { dodoOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+        await testRate(tokens.WETH, tokens.WBTC, tokens.USDC, dodoOracle, uniswapV3Oracle);
     });
 
     it('WBTC -> USDC -> WETH', async function () {
-        await testRate(tokens.WBTC, tokens.WETH, tokens.USDC);
+        const { dodoOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+        await testRate(tokens.WBTC, tokens.WETH, tokens.USDC, dodoOracle, uniswapV3Oracle);
     });
 
-    const testRate = async function (srcToken, dstToken, connector) {
+    const testRate = async function (srcToken, dstToken, connector, dodoOracle, uniswapV3Oracle) {
         const dodoResult = await dodoOracle.getRate(srcToken, dstToken, connector);
         const v3Result = await uniswapV3Oracle.getRate(srcToken, dstToken, connector);
         assertRoughlyEqualValues(v3Result.rate.toString(), dodoResult.rate.toString(), 0.05);
