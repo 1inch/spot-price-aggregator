@@ -38,7 +38,7 @@ contract CurveOracle is IOracle {
             uint256 w;
             if (!isUnderlying) {
                 uint256[8] memory balances = registry.get_balances(pool);
-                w = balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)];
+                w = (balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)]).sqrt();
                 b0 = balances[uint128(srcTokenIndex)] / 10000;
                 (bool success, bytes memory data) = pool.staticcall(abi.encodeWithSelector(ICurveSwap.get_dy.selector, srcTokenIndex, dstTokenIndex, b0));
                 if (success && data.length == 32) {
@@ -49,7 +49,7 @@ contract CurveOracle is IOracle {
             } else {
                 uint256[8] memory balances = registry.get_underlying_balances(pool);
                 uint256 srcDecimals = ERC20(srcToken).decimals();
-                w = balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)] / (10 ** (36 - srcDecimals - ERC20(dstToken).decimals()));
+                w = (balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)] / (10 ** (36 - srcDecimals - ERC20(dstToken).decimals()))).sqrt();
                 b0 = balances[uint128(srcTokenIndex)] / (10 ** (14 - srcDecimals));
                 (bool success, bytes memory data) = pool.staticcall(abi.encodeWithSelector(ICurveSwap.get_dy_underlying.selector, srcTokenIndex, dstTokenIndex, b0));
                 if (success && data.length == 32) {
@@ -67,7 +67,6 @@ contract CurveOracle is IOracle {
 
         if (weight > 0) {
             unchecked { rate /= weight; }
-            weight = weight.sqrt();
         }
     }
 }

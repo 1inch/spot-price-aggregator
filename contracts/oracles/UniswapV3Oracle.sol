@@ -3,9 +3,10 @@
 pragma solidity 0.8.15;
 pragma abicoder v1;
 
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV3Pool.sol";
 import "../libraries/Sqrt.sol";
@@ -43,8 +44,7 @@ contract UniswapV3Oracle is IOracle {
                             continue;
                         }
 
-                        uint256 w = Sqrt.sqrt(w0 * w1);
-
+                        uint256 w = Math.min(w0, w1);
                         rate = rate.add(rate0.mul(rate1).div(1e18).mul(w));
                         weight = weight.add(w);
                     }

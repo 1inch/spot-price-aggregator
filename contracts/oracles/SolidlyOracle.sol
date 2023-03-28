@@ -25,14 +25,13 @@ contract SolidlyOracle is IOracle {
         require(connector == _NONE, "SO: connector should be None");
         for (uint256 i = 1; i < 2; i++) {
             (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, i == 0 ? true : false);
-            uint256 w = b0 * b1;
+            uint256 w = (b0 * b1).sqrt();
             rate = rate + b1 * 1e18 / b0 * w;
             weight = weight + w;
         }
 
         if (weight > 0) {
             unchecked { rate /= weight; }
-            weight = weight.sqrt();
         }
     }
 

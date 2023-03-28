@@ -5,6 +5,7 @@ pragma abicoder v1;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IDodo.sol";
 import "../interfaces/IDodoFactories.sol";
@@ -26,6 +27,7 @@ contract DodoOracle is IOracle {
         uint256 balanceDst;
         if (connector == _NONE) {
             (rate, balanceSrc, balanceDst) = _getDodoInfo(address(srcToken), address(dstToken));
+            weight = (balanceSrc * balanceDst).sqrt();
         } else {
             uint256 balanceConnector0;
             uint256 balanceConnector1;
@@ -33,15 +35,9 @@ contract DodoOracle is IOracle {
             uint256 rateConnectorDst;
             (rateSrcConnector, balanceSrc, balanceConnector0) = _getDodoInfo(address(srcToken), address(connector));
             (rateConnectorDst, balanceConnector1, balanceDst) = _getDodoInfo(address(connector), address(dstToken));
-            if (balanceConnector0 > balanceConnector1) {
-                balanceSrc = balanceSrc * balanceConnector1 / balanceConnector0;
-            } else {
-                balanceDst = balanceDst * balanceConnector0 / balanceConnector1;
-            }
+            weight = Math.min(balanceSrc * balanceConnector0, balanceDst * balanceConnector1).sqrt();
             rate = rateSrcConnector * rateConnectorDst / 1e18;
         }
-
-        weight = (balanceSrc * balanceDst).sqrt();
     }
 
     function _getDodoInfo(address srcToken, address dstToken) internal view returns (uint256 rate, uint256 balanceSrc, uint256 balanceDst) {

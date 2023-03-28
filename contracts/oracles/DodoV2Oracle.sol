@@ -5,6 +5,7 @@ pragma abicoder v1;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IDodo.sol";
 import "../interfaces/IDodoFactories.sol";
@@ -28,7 +29,7 @@ contract DodoV2Oracle is IOracle {
             for (uint256 i = 0; i < machines.length; i++) {
                 IDVM dvm = IDVM(machines[i]);
                 (uint256 r, uint256 b0, uint256 b1) = _getDodoInfo(dvm, isSrcBase);
-                uint256 w = b0 * b1;
+                uint256 w = (b0 * b1).sqrt();
                 rate += r * w;
                 weight += w;
             }
@@ -45,12 +46,7 @@ contract DodoV2Oracle is IOracle {
                     if (b1 == 0 || bc1 == 0) {
                         continue;
                     }
-                    if (bc0 > bc1) {
-                        b0 = b0 * bc1 / bc0;
-                    } else {
-                        b1 = b1 * bc0 / bc1;
-                    }
-                    uint256 w = b0 * b1;
+                    uint256 w = Math.min(b0 * bc0, b1 * bc1).sqrt();
                     rate += r0 * r1 * w / 1e18;
                     weight += w;
                 }
@@ -59,7 +55,6 @@ contract DodoV2Oracle is IOracle {
 
         if(weight > 0) {
             unchecked { rate /= weight; }
-            weight = weight.sqrt();
         }
     }
 
