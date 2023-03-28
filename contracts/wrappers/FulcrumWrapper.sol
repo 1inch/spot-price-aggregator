@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
-pragma abicoder v1;
+pragma solidity 0.8.19;
 
 import "../interfaces/ILoanToken.sol";
 import "../interfaces/IBzxProtocol.sol";
 import "../interfaces/IWrapper.sol";
-
 
 contract FulcrumWrapper is IWrapper {
     IBzxProtocol private constant _BZX_PROTOCOL = IBzxProtocol(0xD8Ee69652E4e4838f2531732a46d1f7F584F0b7f);

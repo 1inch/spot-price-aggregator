@@ -14,7 +14,7 @@ const { networks, etherscan } = require('./hardhat.networks');
 
 module.exports = {
     solidity: {
-        version: '0.8.15',
+        version: '0.8.19',
         settings: {
             optimizer: {
                 enabled: true,

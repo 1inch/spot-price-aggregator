@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
-pragma abicoder v1;
-
+pragma solidity 0.8.19;
 
 interface ILoanToken {
     function tokenPrice() external view returns (uint256 price);

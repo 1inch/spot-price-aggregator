@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
-pragma abicoder v1;
+pragma solidity 0.8.19;
 
 import "./OracleBase.sol";
 import "../interfaces/IUniswapV2Pair.sol";
-
 
 interface IKlaySwapFactory {
     function tokenToPool(IERC20 tokenA, IERC20 tokenB) external view returns(address pool);
