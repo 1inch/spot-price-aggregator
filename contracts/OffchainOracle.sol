@@ -5,13 +5,16 @@ pragma abicoder v1;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "./interfaces/IOracle.sol";
 import "./interfaces/IWrapper.sol";
 import "./MultiWrapper.sol";
+import "./libraries/Sqrt.sol";
 
 contract OffchainOracle is Ownable {
     using SafeMath for uint256;
+    using Sqrt for uint256;
     using EnumerableSet for EnumerableSet.AddressSet;
 
     enum OracleType { WETH, ETH, WETH_ETH }
@@ -21,6 +24,11 @@ contract OffchainOracle is Ownable {
     event ConnectorAdded(IERC20 connector);
     event ConnectorRemoved(IERC20 connector);
     event MultiWrapperUpdated(MultiWrapper multiWrapper);
+
+    struct OraclePrice {
+        uint256 rate;
+        uint256 weight;
+    }
 
     EnumerableSet.AddressSet private _wethOracles;
     EnumerableSet.AddressSet private _ethOracles;
@@ -154,16 +162,18 @@ contract OffchainOracle is Ownable {
     function getRate(
         IERC20 srcToken,
         IERC20 dstToken,
-        bool useWrappers
+        bool useWrappers,
+        uint256 filter
     ) external view returns (uint256 weightedRate) {
-        return getRateWithCustomConnectors(srcToken, dstToken, useWrappers, new IERC20[](0));
+        return getRateWithCustomConnectors(srcToken, dstToken, useWrappers, new IERC20[](0), filter);
     }
 
     function getRateWithCustomConnectors(
         IERC20 srcToken,
         IERC20 dstToken,
         bool useWrappers,
-        IERC20[] memory customConnectors
+        IERC20[] memory customConnectors,
+        uint256 filter
     ) public view returns (uint256 weightedRate) {
         require(srcToken != dstToken, "Tokens should not be the same");
         uint256 totalWeight;
@@ -171,6 +181,18 @@ contract OffchainOracle is Ownable {
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useWrappers);
         (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = _getWrappedTokens(dstToken, useWrappers);
         IERC20[][2] memory allConnectors = _getAllConnectors(customConnectors);
+
+        uint256 oracleIndex;
+        uint256 maxOracleWeight;
+
+        uint256 maxArrLength = wrappedSrcTokens.length * wrappedDstTokens.length * (allConnectors[0].length + allConnectors[1].length) * allOracles.length;
+        OraclePrice[] memory oraclePrices;
+        // Memory allocation in assembly to avoid array zeroing
+        assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
+            oraclePrices := mload(0x40)
+            mstore(0x40, add(oraclePrices, mul(maxArrLength, 0x40)))
+            mstore(oraclePrices, maxArrLength)
+        }
 
         unchecked {
             for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
@@ -185,14 +207,31 @@ contract OffchainOracle is Ownable {
                                 continue;
                             }
                             for (uint256 i = 0; i < allOracles.length; i++) {
-                                (uint256 rate, uint256 weight) = _getRateImpl(allOracles[i], wrappedSrcTokens[k1], srcRates[k1], wrappedDstTokens[k2], dstRates[k2], allConnectors[k3][j]);
-                                weightedRate += rate;
-                                totalWeight += weight;
+                                (OraclePrice memory oraclePrice) = _getRateImpl(allOracles[i], wrappedSrcTokens[k1], srcRates[k1], wrappedDstTokens[k2], dstRates[k2], allConnectors[k3][j]);
+                                if (oraclePrice.weight > 0) {
+                                    oraclePrices[oracleIndex] = oraclePrice;
+                                    oracleIndex++;
+                                    if (oraclePrice.weight > maxOracleWeight) {
+                                        maxOracleWeight = oraclePrice.weight;
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
+            assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
+                mstore(oraclePrices, oracleIndex)
+            }
+
+            for (uint256 i = 0; i < oraclePrices.length; i++) {
+                if (oraclePrices[i].weight < maxOracleWeight / filter) {
+                    continue;
+                }
+                weightedRate += (oraclePrices[i].rate * oraclePrices[i].weight);
+                totalWeight += oraclePrices[i].weight;
+            }
+
             if (totalWeight > 0) {
                 weightedRate = weightedRate / totalWeight;
             }
@@ -200,16 +239,28 @@ contract OffchainOracle is Ownable {
     }
 
     /// @dev Same as `getRate` but checks against `ETH` and `WETH` only
-    function getRateToEth(IERC20 srcToken, bool useSrcWrappers) external view returns (uint256 weightedRate) {
-        return getRateToEthWithCustomConnectors(srcToken, useSrcWrappers, new IERC20[](0));
+    function getRateToEth(IERC20 srcToken, bool useSrcWrappers, uint256 filter) external view returns (uint256 weightedRate) {
+        return getRateToEthWithCustomConnectors(srcToken, useSrcWrappers, new IERC20[](0), filter);
     }
 
-    function getRateToEthWithCustomConnectors(IERC20 srcToken, bool useSrcWrappers, IERC20[] memory customConnectors) public view returns (uint256 weightedRate) {
+    function getRateToEthWithCustomConnectors(IERC20 srcToken, bool useSrcWrappers, IERC20[] memory customConnectors, uint256 filter) public view returns (uint256 weightedRate) {
         uint256 totalWeight;
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useSrcWrappers);
         IERC20[2] memory wrappedDstTokens = [_BASE, _wBase];
         bytes32[][2] memory wrappedOracles = [_ethOracles._inner._values, _wethOracles._inner._values];
         IERC20[][2] memory allConnectors = _getAllConnectors(customConnectors);
+
+        uint256 oracleIndex;
+        uint256 maxOracleWeight;
+
+        uint256 maxArrLength = _getMaxArrayLength(wrappedSrcTokens.length, 2, wrappedOracles, allConnectors);
+        OraclePrice[] memory oraclePrices;
+        // Memory allocation in assembly to avoid array zeroing
+        assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
+            oraclePrices := mload(0x40)
+            mstore(0x40, add(oraclePrices, mul(maxArrLength, 0x40)))
+            mstore(oraclePrices, maxArrLength)
+        }
 
         unchecked {
             for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
@@ -224,15 +275,31 @@ contract OffchainOracle is Ownable {
                                 continue;
                             }
                             for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
-                                IOracle oracle = IOracle(address(uint160(uint256(wrappedOracles[k2][i]))));
-                                (uint256 rate, uint256 weight) = _getRateImpl(oracle, wrappedSrcTokens[k1], srcRates[k1], wrappedDstTokens[k2], 1e18, allConnectors[k3][j]);
-                                weightedRate += rate;
-                                totalWeight += weight;
+                                (OraclePrice memory oraclePrice) = _getRateImpl(IOracle(address(uint160(uint256(wrappedOracles[k2][i])))), wrappedSrcTokens[k1], srcRates[k1], wrappedDstTokens[k2], 1e18, allConnectors[k3][j]);
+                                if (oraclePrice.weight > 0) {
+                                    oraclePrices[oracleIndex] = oraclePrice;
+                                    oracleIndex++;
+                                    if (oraclePrice.weight > maxOracleWeight) {
+                                        maxOracleWeight = oraclePrice.weight;
+                                    }
+                                }
                             }
                         }
                     }
                 }
             }
+            assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
+                mstore(oraclePrices, oracleIndex)
+            }
+
+            for (uint256 i = 0; i < oracleIndex; i++) {
+                if (oraclePrices[i].weight < maxOracleWeight / filter) {
+                    continue;
+                }
+                weightedRate += (oraclePrices[i].rate * oraclePrices[i].weight);
+                totalWeight += oraclePrices[i].weight;
+            }
+
             if (totalWeight > 0) {
                 weightedRate = weightedRate / totalWeight;
             }
@@ -253,19 +320,23 @@ contract OffchainOracle is Ownable {
     function _getAllConnectors(IERC20[] memory customConnectors) internal view returns (IERC20[][2] memory allConnectors) {
         IERC20[] memory connectorsZero;
         bytes32[] memory rawConnectors = _connectors._inner._values;
-        /// @solidity memory-safe-assembly
-        assembly {  // solhint-disable-line no-inline-assembly
+        assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
             connectorsZero := rawConnectors
         }
         allConnectors[0] = connectorsZero;
         allConnectors[1] = customConnectors;
     }
 
-    function _getRateImpl(IOracle oracle, IERC20 srcToken, uint256 srcTokenRate, IERC20 dstToken, uint256 dstTokenRate, IERC20 connector) private view returns (uint256 rate, uint256 weight) {
-        try oracle.getRate(srcToken, dstToken, connector) returns (uint256 rate_, uint256 weight_) {
-            rate_ = rate_ * srcTokenRate * dstTokenRate / 1e36;
-            rate += rate_ * weight_;
-            weight += weight_;
+    function _getRateImpl(IOracle oracle, IERC20 srcToken, uint256 srcTokenRate, IERC20 dstToken, uint256 dstTokenRate, IERC20 connector) private view returns (OraclePrice memory oraclePrice) {
+        try oracle.getRate(srcToken, dstToken, connector) returns (uint256 rate, uint256 weight) {
+            oraclePrice = OraclePrice(rate * srcTokenRate * dstTokenRate / 1e36, weight);
         } catch {}  // solhint-disable-line no-empty-blocks
+    }
+
+    function _getMaxArrayLength(uint256 wrappedSrcTokensLength, uint256 wrappedDstTokensLength, bytes32[][2] memory wrappedOracles, IERC20[][2] memory allConnectors) private pure returns (uint256 length) {
+        for (uint256 k2 = 0; k2 < wrappedDstTokensLength; k2++) {
+            length += wrappedOracles[k2].length;
+        }
+        length = length * wrappedSrcTokensLength * wrappedDstTokensLength * (allConnectors[0].length + allConnectors[1].length);
     }
 }

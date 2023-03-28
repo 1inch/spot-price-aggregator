@@ -20,6 +20,7 @@ module.exports = {
                 enabled: true,
                 runs: 1000000,
             },
+            viaIR: true,
         },
     },
     etherscan,

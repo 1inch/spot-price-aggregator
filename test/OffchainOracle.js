@@ -9,6 +9,8 @@ const ADAIV2 = '0x028171bCA77440897B824Ca71D1c56caC55b68A3';
 
 describe('OffchainOracle', function () {
     before(async function () {
+        this.filter = 10;
+
         const UniswapV2LikeOracle = await ethers.getContractFactory('UniswapV2LikeOracle');
         const UniswapOracle = await ethers.getContractFactory('UniswapOracle');
         const MooniswapOracle = await ethers.getContractFactory('MooniswapOracle');
@@ -81,52 +83,52 @@ describe('OffchainOracle', function () {
         });
 
         it('weth -> dai', async function () {
-            const rate = await this.offchainOracle.getRate(tokens.WETH, tokens.DAI, true);
+            const rate = await this.offchainOracle.getRate(tokens.WETH, tokens.DAI, true, this.filter);
             expect(rate).to.gt(ether('1000'));
         });
 
         it('eth -> dai', async function () {
-            const rate = await this.offchainOracle.getRate(tokens.ETH, tokens.DAI, true);
+            const rate = await this.offchainOracle.getRate(tokens.ETH, tokens.DAI, true, this.filter);
             expect(rate).to.gt(ether('1000'));
         });
 
         it('usdc -> dai', async function () {
-            const rate = await this.offchainOracle.getRate(tokens.USDC, tokens.DAI, true);
+            const rate = await this.offchainOracle.getRate(tokens.USDC, tokens.DAI, true, this.filter);
             expect(rate).to.gt(ether('980000000000'));
         });
 
         it('dai -> adai', async function () {
-            const rate = await this.offchainOracle.getRate(tokens.DAI, ADAIV2, true);
+            const rate = await this.offchainOracle.getRate(tokens.DAI, ADAIV2, true, this.filter);
             expect(rate).to.equal(ether('1'));
         });
 
         it('getRate(dai -> link)_GasCheck', async function () {
             const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address,
-                this.expensiveOffachinOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, true]));
-            assertRoughlyEquals(result.gasUsed, '806039', 3);
+                this.expensiveOffachinOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, true, this.filter]));
+            assertRoughlyEquals(result.gasUsed, '864444', 3);
         });
 
         it('getRateToEth(dai)_ShouldHaveCorrectRate', async function () {
-            const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.WETH, true);
-            const actualRate = await this.offchainOracle.getRateToEth(tokens.DAI, true);
+            const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.WETH, true, this.filter);
+            const actualRate = await this.offchainOracle.getRateToEth(tokens.DAI, true, this.filter);
             assertRoughlyEquals(expectedRate, actualRate, 3);
         });
 
         it('getRateToEth(dai)_GasCheck', async function () {
             const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address,
-                this.expensiveOffachinOracle.interface.encodeFunctionData('getRateToEth', [tokens.DAI, true]));
-            assertRoughlyEquals(result.gasUsed, '1336358', 3);
+                this.expensiveOffachinOracle.interface.encodeFunctionData('getRateToEth', [tokens.DAI, true, this.filter]));
+            assertRoughlyEquals(result.gasUsed, '1447539', 3);
         });
 
         it('getRateDirect(dai -> link)_ShouldHaveCorrectRate', async function () {
-            const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.LINK, true);
-            const actualRate = await this.offchainOracle.getRate(tokens.DAI, tokens.LINK, false);
+            const expectedRate = await this.offchainOracle.getRate(tokens.DAI, tokens.LINK, true, this.filter);
+            const actualRate = await this.offchainOracle.getRate(tokens.DAI, tokens.LINK, false, this.filter);
             assertRoughlyEquals(expectedRate, actualRate, 3);
         });
 
         it('getRateDirect(dai -> link)_GasCheck', async function () {
             const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address,
-                this.expensiveOffachinOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, false]));
+                this.expensiveOffachinOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, false, this.filter]));
             assertRoughlyEquals(result.gasUsed, '382698', 2);
         });
     });
@@ -169,29 +171,29 @@ describe('OffchainOracle', function () {
         });
 
         it('weth -> dai', async function () {
-            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.WETH, tokens.DAI, true, this.connectors);
-            const rate = await this.offchainOracle.getRate(tokens.WETH, tokens.DAI, true);
+            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.WETH, tokens.DAI, true, this.connectors, this.filter);
+            const rate = await this.offchainOracle.getRate(tokens.WETH, tokens.DAI, true, this.filter);
             expect(rateWithCustomConnector).to.gt(ether('1000'));
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });
 
         it('eth -> dai', async function () {
-            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.ETH, tokens.DAI, true, this.connectors);
-            const rate = await this.offchainOracle.getRate(tokens.ETH, tokens.DAI, true);
+            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.ETH, tokens.DAI, true, this.connectors, this.filter);
+            const rate = await this.offchainOracle.getRate(tokens.ETH, tokens.DAI, true, this.filter);
             expect(rateWithCustomConnector).to.gt(ether('1000'));
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });
 
         it('usdc -> dai', async function () {
-            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.USDC, tokens.DAI, true, this.connectors);
-            const rate = await this.offchainOracle.getRate(tokens.USDC, tokens.DAI, true);
+            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.USDC, tokens.DAI, true, this.connectors, this.filter);
+            const rate = await this.offchainOracle.getRate(tokens.USDC, tokens.DAI, true, this.filter);
             expect(rateWithCustomConnector).to.gt(ether('980000000000'));
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });
 
         it('dai -> adai', async function () {
-            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.DAI, ADAIV2, true, this.connectors);
-            const rate = await this.offchainOracle.getRate(tokens.DAI, ADAIV2, true);
+            const rateWithCustomConnector = await this.offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.DAI, ADAIV2, true, this.connectors, this.filter);
+            const rate = await this.offchainOracle.getRate(tokens.DAI, ADAIV2, true, this.filter);
             expect(rateWithCustomConnector).to.equal(ether('1'));
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });

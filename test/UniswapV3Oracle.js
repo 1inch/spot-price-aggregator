@@ -64,6 +64,8 @@ describe('UniswapV3Oracle', function () {
 
 describe('UniswapV3Oracle doesn\'t ruin rates', function () {
     before(async function () {
+        this.filter = 10;
+
         const UniswapV2LikeOracle = await ethers.getContractFactory('UniswapV2LikeOracle');
         const UniswapV3Oracle = await ethers.getContractFactory('UniswapV3Oracle');
         const UniswapOracle = await ethers.getContractFactory('UniswapOracle');
@@ -166,10 +168,10 @@ describe('UniswapV3Oracle doesn\'t ruin rates', function () {
     });
 
     async function testRate (self, srcToken, dstToken) {
-        const expectedRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true);
-        const actualRate = await self.deployOffchainOracle.getRate(srcToken, dstToken, true);
-        const expectedReverseRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true);
-        const actualReverseRate = await self.deployOffchainOracle.getRate(srcToken, dstToken, true);
+        const expectedRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true, self.filter);
+        const actualRate = await self.deployOffchainOracle.getRate(srcToken, dstToken, true, self.filter);
+        const expectedReverseRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true, self.filter);
+        const actualReverseRate = await self.deployOffchainOracle.getRate(srcToken, dstToken, true, self.filter);
         assertRoughlyEquals(actualRate.toString(), expectedRate.toString(), 2);
         assertRoughlyEquals(actualReverseRate.toString(), expectedReverseRate.toString(), 2);
     }
