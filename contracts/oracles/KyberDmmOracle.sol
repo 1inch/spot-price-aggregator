@@ -61,7 +61,6 @@ contract KyberDmmOracle is IOracle {
 
         if (weight > 0) {
             unchecked { rate /= weight; }
-            weight = weight.sqrt();
         }
     }
 

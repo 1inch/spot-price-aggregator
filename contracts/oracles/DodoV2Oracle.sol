@@ -29,7 +29,7 @@ contract DodoV2Oracle is IOracle {
             for (uint256 i = 0; i < machines.length; i++) {
                 IDVM dvm = IDVM(machines[i]);
                 (uint256 r, uint256 b0, uint256 b1) = _getDodoInfo(dvm, isSrcBase);
-                uint256 w = b0 * b1;
+                uint256 w = (b0 * b1).sqrt();
                 rate += r * w;
                 weight += w;
             }
@@ -55,7 +55,6 @@ contract DodoV2Oracle is IOracle {
 
         if(weight > 0) {
             unchecked { rate /= weight; }
-            weight = weight.sqrt();
         }
     }
 
