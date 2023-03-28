@@ -27,7 +27,7 @@ contract DodoOracle is IOracle {
         uint256 balanceDst;
         if (connector == _NONE) {
             (rate, balanceSrc, balanceDst) = _getDodoInfo(address(srcToken), address(dstToken));
-            weight = balanceSrc * balanceDst;
+            weight = (balanceSrc * balanceDst).sqrt();
         } else {
             uint256 balanceConnector0;
             uint256 balanceConnector1;
@@ -35,10 +35,9 @@ contract DodoOracle is IOracle {
             uint256 rateConnectorDst;
             (rateSrcConnector, balanceSrc, balanceConnector0) = _getDodoInfo(address(srcToken), address(connector));
             (rateConnectorDst, balanceConnector1, balanceDst) = _getDodoInfo(address(connector), address(dstToken));
-            weight = Math.min(balanceSrc * balanceConnector0, balanceDst * balanceConnector0);
+            weight = Math.min(balanceSrc * balanceConnector0, balanceDst * balanceConnector1).sqrt();
             rate = rateSrcConnector * rateConnectorDst / 1e18;
         }
-        weight = weight.sqrt();
     }
 
     function _getDodoInfo(address srcToken, address dstToken) internal view returns (uint256 rate, uint256 balanceSrc, uint256 balanceDst) {

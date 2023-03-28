@@ -46,7 +46,7 @@ contract DodoV2Oracle is IOracle {
                     if (b1 == 0 || bc1 == 0) {
                         continue;
                     }
-                    uint256 w = Math.min(b0 * bc0, b1 * bc1);
+                    uint256 w = Math.min(b0 * bc0, b1 * bc1).sqrt();
                     rate += r0 * r1 * w / 1e18;
                     weight += w;
                 }
