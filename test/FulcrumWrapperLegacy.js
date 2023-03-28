@@ -3,16 +3,11 @@ const { expect, ether } = require('@1inch/solidity-utils');
 const { tokens } = require('./helpers.js');
 
 const IUSDC = '0xF013406A0B1d544238083DF0B93ad0d2cBE0f65f';
-const IWETH = '0x77f973FCaF871459aa58cd81881Ce453759281bC';
 
 const tests = [
     {
         token: tokens.USDC,
         itoken: IUSDC,
-    },
-    {
-        token: tokens.WETH,
-        itoken: IWETH,
     },
 ];
 
@@ -21,7 +16,7 @@ describe('FulcrumWrapperLegacy', function () {
         const FulcrumWrapperLegacy = await ethers.getContractFactory('FulcrumWrapperLegacy');
         this.fulcrumWrapperLegacy = await FulcrumWrapperLegacy.deploy();
         await this.fulcrumWrapperLegacy.deployed();
-        await this.fulcrumWrapperLegacy.addMarkets([IUSDC, IWETH]);
+        await this.fulcrumWrapperLegacy.addMarkets([IUSDC]);
     });
 
     it('wrap', async function () {

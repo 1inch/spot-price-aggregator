@@ -35,16 +35,16 @@ describe('SynthetixOracle', function () {
 
     it('should revert on connector usage', async function () {
         await expect(
-            testRate(this, [tokens.sAAVE, tokens.AAVE], [tokens.ETH, tokens.WETH], tokens.USDC),
+            testRate(this, [tokens.sBTC, tokens.WBTC], [tokens.ETH, tokens.WETH], tokens.USDC),
         ).to.be.revertedWith('SO: connector should be None');
     });
 
-    it('AAVE -> ETH', async function () {
-        await testRate(this, [tokens.sAAVE, tokens.AAVE], [tokens.ETH, tokens.WETH], tokens.NONE);
+    it('BTC -> ETH', async function () {
+        await testRate(this, [tokens.sBTC, tokens.WBTC], [tokens.ETH, tokens.WETH], tokens.NONE);
     });
 
-    it('ETH -> AAVE', async function () {
-        await testRate(this, [tokens.ETH, tokens.WETH], [tokens.sAAVE, tokens.AAVE], tokens.NONE);
+    it('ETH -> BTC', async function () {
+        await testRate(this, [tokens.ETH, tokens.WETH], [tokens.sBTC, tokens.WBTC], tokens.NONE);
     });
 
     it('USDC -> ETH', async function () {
