@@ -1,3 +1,6 @@
+require('@matterlabs/hardhat-zksync-deploy');
+require('@matterlabs/hardhat-zksync-solc');
+require('@matterlabs/hardhat-zksync-verify');
 require('@nomiclabs/hardhat-ethers');
 require('@nomiclabs/hardhat-etherscan');
 require('@nomicfoundation/hardhat-chai-matchers');
@@ -28,5 +31,10 @@ module.exports = {
     },
     mocha: {
         timeout: 90000,
+    },
+    zksolc: {
+        version: '1.3.7',
+        compilerSource: 'binary',
+        settings: {},
     },
 };

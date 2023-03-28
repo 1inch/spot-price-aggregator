@@ -11,6 +11,9 @@
         "@openzeppelin/contracts": "4.8.0"
     },
     "devDependencies": {
+        "@matterlabs/hardhat-zksync-deploy": "0.6.3",
+        "@matterlabs/hardhat-zksync-solc": "0.3.14",
+        "@matterlabs/hardhat-zksync-verify": "0.1.4",
         "@1inch/solidity-utils": "2.2.2",
         "@nomicfoundation/hardhat-chai-matchers": "1.0.4",
         "@nomiclabs/hardhat-ethers": "2.2.1",
@@ -29,7 +32,8 @@
         "hardhat-gas-reporter": "1.0.9",
         "rimraf": "3.0.2",
         "solhint": "3.3.7",
-        "solidity-coverage": "0.8.2"
+        "solidity-coverage": "0.8.2",
+        "zksync-web3": "0.14.3"
     },
     "scripts": {
         "clean": "rimraf artifacts cache coverage",

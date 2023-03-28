@@ -4,8 +4,8 @@ coverage.json
 build
 artifacts
 cache
-artifacts-ovm
-cache-ovm
+artifacts-zk
+cache-zk
 .env
 .idea
 solcInputs
