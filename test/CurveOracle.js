@@ -37,7 +37,7 @@ describe('CurveOracle', function () {
 
 describe('CurveOracle doesn\'t ruin rates', function () {
     before(async function () {
-        this.filter = 10;
+        this.tresholdFilter = 10;
 
         const CurveOracle = await ethers.getContractFactory('CurveOracle');
         const UniswapOracle = await ethers.getContractFactory('UniswapOracle');
@@ -136,10 +136,10 @@ describe('CurveOracle doesn\'t ruin rates', function () {
     });
 
     async function testRate (self, srcToken, dstToken) {
-        const expectedRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true, self.filter);
-        const actualRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true, self.filter);
-        const expectedReverseRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true, self.filter);
-        const actualReverseRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true, self.filter);
+        const expectedRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true, self.tresholdFilter);
+        const actualRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true, self.tresholdFilter);
+        const expectedReverseRate = await self.oldOffchainOracle.getRate(srcToken, dstToken, true, self.tresholdFilter);
+        const actualReverseRate = await self.newOffchainOracle.getRate(srcToken, dstToken, true, self.tresholdFilter);
         assertRoughlyEqualValues(actualRate.toString(), expectedRate.toString(), '0.05');
         assertRoughlyEqualValues(actualReverseRate.toString(), expectedReverseRate.toString(), '0.05');
     }

@@ -64,6 +64,11 @@ contract OffchainOracle is Ownable {
         }
     }
 
+    /**
+    * @notice Returns all registered oracles along with their corresponding oracle types.
+    * @return allOracles An array of all registered oracles
+    * @return oracleTypes An array of the corresponding types for each oracle
+    */
     function oracles() public view returns (IOracle[] memory allOracles, OracleType[] memory oracleTypes) {
         unchecked {
             IOracle[] memory oraclesBuffer = new IOracle[](_wethOracles._inner._values.length + _ethOracles._inner._values.length);
@@ -102,6 +107,10 @@ contract OffchainOracle is Ownable {
         }
     }
 
+    /**
+    * @notice Returns an array of all registered connectors.
+    * @return allConnectors An array of all registered connectors
+    */
     function connectors() external view returns (IERC20[] memory allConnectors) {
         unchecked {
             allConnectors = new IERC20[](_connectors.length());
@@ -111,11 +120,20 @@ contract OffchainOracle is Ownable {
         }
     }
 
+    /**
+    * @notice Sets the MultiWrapper contract address.
+    * @param _multiWrapper The address of the MultiWrapper contract
+    */
     function setMultiWrapper(MultiWrapper _multiWrapper) external onlyOwner {
         multiWrapper = _multiWrapper;
         emit MultiWrapperUpdated(_multiWrapper);
     }
 
+    /**
+    * @notice Adds a new oracle to the registry with the given oracle type.
+    * @param oracle The address of the new oracle to add
+    * @param oracleKind The type of the new oracle
+    */
     function addOracle(IOracle oracle, OracleType oracleKind) external onlyOwner {
         if (oracleKind == OracleType.WETH) {
             require(_wethOracles.add(address(oracle)), "Oracle already added");
@@ -130,6 +148,11 @@ contract OffchainOracle is Ownable {
         emit OracleAdded(oracle, oracleKind);
     }
 
+    /**
+    * @notice Removes an oracle from the registry with the given oracle type.
+    * @param oracle The address of the oracle to remove
+    * @param oracleKind The type of the oracle to remove
+    */
     function removeOracle(IOracle oracle, OracleType oracleKind) external onlyOwner {
         if (oracleKind == OracleType.WETH) {
             require(_wethOracles.remove(address(oracle)), "Unknown oracle");
@@ -144,36 +167,62 @@ contract OffchainOracle is Ownable {
         emit OracleRemoved(oracle, oracleKind);
     }
 
+    /**
+    * @notice Adds a new connector to the registry.
+    * @param connector The address of the new connector to add
+    */
     function addConnector(IERC20 connector) external onlyOwner {
         require(_connectors.add(address(connector)), "Connector already added");
         emit ConnectorAdded(connector);
     }
 
+    /**
+    * @notice Removes a connector from the registry.
+    * @param connector The address of the connector to remove
+    */
     function removeConnector(IERC20 connector) external onlyOwner {
         require(_connectors.remove(address(connector)), "Unknown connector");
         emit ConnectorRemoved(connector);
     }
 
-    /*
-        WARNING!
-        Usage of the dex oracle on chain is highly discouraged!
-        getRate function can be easily manipulated inside transaction!
+    /**
+    * WARNING!
+    *    Usage of the dex oracle on chain is highly discouraged!
+    *    getRate function can be easily manipulated inside transaction!
+    * @notice Returns the weighted rate between two tokens using default connectors, with the option to filter out rates below a certain threshold.
+    * @param srcToken The source token
+    * @param dstToken The destination token
+    * @param useWrappers Boolean flag to use or not use token wrappers
+    * @param tresholdFilter The threshold percentage (from 0 to 100) used to filter out rates below the threshold
+    * @return weightedRate weighted rate between the two tokens
     */
     function getRate(
         IERC20 srcToken,
         IERC20 dstToken,
         bool useWrappers,
-        uint256 filter
+        uint256 tresholdFilter
     ) external view returns (uint256 weightedRate) {
-        return getRateWithCustomConnectors(srcToken, dstToken, useWrappers, new IERC20[](0), filter);
+        return getRateWithCustomConnectors(srcToken, dstToken, useWrappers, new IERC20[](0), tresholdFilter);
     }
 
+    /**
+    * WARNING!
+    *    Usage of the dex oracle on chain is highly discouraged!
+    *    getRate function can be easily manipulated inside transaction!
+    * @notice Returns the weighted rate between two tokens using custom connectors, with the option to filter out rates below a certain threshold.
+    * @param srcToken The source token
+    * @param dstToken The destination token
+    * @param useWrappers Boolean flag to use or not use token wrappers
+    * @param customConnectors An array of custom connectors to use
+    * @param tresholdFilter The threshold percentage (from 0 to 100) used to filter out rates below the threshold
+    * @return weightedRate The weighted rate between the two tokens
+    */
     function getRateWithCustomConnectors(
         IERC20 srcToken,
         IERC20 dstToken,
         bool useWrappers,
         IERC20[] memory customConnectors,
-        uint256 filter
+        uint256 tresholdFilter
     ) public view returns (uint256 weightedRate) {
         require(srcToken != dstToken, "Tokens should not be the same");
         uint256 totalWeight;
@@ -225,7 +274,7 @@ contract OffchainOracle is Ownable {
             }
 
             for (uint256 i = 0; i < oraclePrices.length; i++) {
-                if (oraclePrices[i].weight < maxOracleWeight / filter) {
+                if (oraclePrices[i].weight < maxOracleWeight * tresholdFilter / 100) {
                     continue;
                 }
                 weightedRate += (oraclePrices[i].rate * oraclePrices[i].weight);
@@ -238,12 +287,23 @@ contract OffchainOracle is Ownable {
         }
     }
 
-    /// @dev Same as `getRate` but checks against `ETH` and `WETH` only
-    function getRateToEth(IERC20 srcToken, bool useSrcWrappers, uint256 filter) external view returns (uint256 weightedRate) {
-        return getRateToEthWithCustomConnectors(srcToken, useSrcWrappers, new IERC20[](0), filter);
+    /**
+    * WARNING!
+    *    Usage of the dex oracle on chain is highly discouraged!
+    *    getRate function can be easily manipulated inside transaction!
+    * @notice The same as `getRate` but checks against `ETH` and `WETH` only
+    */
+    function getRateToEth(IERC20 srcToken, bool useSrcWrappers, uint256 tresholdFilter) external view returns (uint256 weightedRate) {
+        return getRateToEthWithCustomConnectors(srcToken, useSrcWrappers, new IERC20[](0), tresholdFilter);
     }
 
-    function getRateToEthWithCustomConnectors(IERC20 srcToken, bool useSrcWrappers, IERC20[] memory customConnectors, uint256 filter) public view returns (uint256 weightedRate) {
+    /**
+    * WARNING!
+    *    Usage of the dex oracle on chain is highly discouraged!
+    *    getRate function can be easily manipulated inside transaction!
+    * @notice The same as `getRateWithCustomConnectors` but checks against `ETH` and `WETH` only
+    */
+    function getRateToEthWithCustomConnectors(IERC20 srcToken, bool useSrcWrappers, IERC20[] memory customConnectors, uint256 tresholdFilter) public view returns (uint256 weightedRate) {
         uint256 totalWeight;
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useSrcWrappers);
         IERC20[2] memory wrappedDstTokens = [_BASE, _wBase];
@@ -293,7 +353,7 @@ contract OffchainOracle is Ownable {
             }
 
             for (uint256 i = 0; i < oracleIndex; i++) {
-                if (oraclePrices[i].weight < maxOracleWeight / filter) {
+                if (oraclePrices[i].weight < maxOracleWeight * tresholdFilter / 100) {
                     continue;
                 }
                 weightedRate += (oraclePrices[i].rate * oraclePrices[i].weight);
