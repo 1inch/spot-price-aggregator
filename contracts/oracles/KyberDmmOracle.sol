@@ -50,7 +50,7 @@ contract KyberDmmOracle is IOracle {
                         (uint256 bc1, uint256 b1) = _getBalances(connector, dstToken, pools1[j]);
 
                         uint256 w = Math.min(b0.mul(bc0), b1.mul(bc1)).sqrt();
-                        rate = rate.add(b1.mul(bc0).mul(1e18).div(bc1).div(b0));
+                        rate = rate.add(b1.mul(bc0).mul(1e18).div(bc1).div(b0).mul(w));
                         weight = weight.add(w);
                     }
                 }
