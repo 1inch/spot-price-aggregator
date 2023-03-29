@@ -1,4 +1,3 @@
-const { ethers } = require('hardhat');
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { tokens, assertRoughlyEquals, deployContract } = require('./helpers.js');
 
@@ -8,12 +7,8 @@ const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 
 describe('UniswapV3Oracle', function () {
     async function initContracts () {
-        const UniswapV2LikeOracle = await ethers.getContractFactory('UniswapV2LikeOracle');
-        const UniswapV3Oracle = await ethers.getContractFactory('UniswapV3Oracle');
-        const uniswapV2LikeOracle = await UniswapV2LikeOracle.deploy(uniswapV2Factory, initcodeHashV2);
-        await uniswapV2LikeOracle.deployed();
-        const uniswapV3Oracle = await UniswapV3Oracle.deploy();
-        await uniswapV3Oracle.deployed();
+        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2Factory, initcodeHashV2]);
+        const uniswapV3Oracle = await deployContract('UniswapV3Oracle');
         return { uniswapV2LikeOracle, uniswapV3Oracle };
     }
 
@@ -78,9 +73,6 @@ describe('UniswapV3Oracle doesn\'t ruin rates', function () {
     async function initContracts () {
         const tresholdFilter = 10;
 
-        const MultiWrapper = await ethers.getContractFactory('MultiWrapper');
-        const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
-
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2Factory, initcodeHashV2]);
         const uniswapV3Oracle = await deployContract('UniswapV3Oracle');
         const uniswapOracle = await deployContract('UniswapOracle', ['0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95']);
@@ -91,14 +83,13 @@ describe('UniswapV3Oracle doesn\'t ruin rates', function () {
         const aaveWrapperV2 = await deployContract('AaveWrapperV2', ['0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9']);
         await aaveWrapperV1.addMarkets([tokens.DAI]);
         await aaveWrapperV2.addMarkets([tokens.DAI]);
-        const multiWrapper = await MultiWrapper.deploy([
+        const multiWrapper = await deployContract('MultiWrapper', [[
             wethWrapper.address,
             aaveWrapperV1.address,
             aaveWrapperV2.address,
-        ]);
-        await multiWrapper.deployed();
+        ]]);
 
-        const oldOffchainOracle = await OffchainOracle.deploy(
+        const oldOffchainOracle = await deployContract('OffchainOracle', [
             multiWrapper.address,
             [
                 uniswapV2LikeOracle.address,
@@ -118,10 +109,9 @@ describe('UniswapV3Oracle doesn\'t ruin rates', function () {
                 tokens.DAI,
             ],
             tokens.WETH,
-        );
-        await oldOffchainOracle.deployed();
+        ]);
 
-        const deployOffchainOracle = await OffchainOracle.deploy(
+        const deployOffchainOracle = await deployContract('OffchainOracle', [
             multiWrapper.address,
             [
                 uniswapV2LikeOracle.address,
@@ -143,8 +133,7 @@ describe('UniswapV3Oracle doesn\'t ruin rates', function () {
                 tokens.DAI,
             ],
             tokens.WETH,
-        );
-        await deployOffchainOracle.deployed();
+        ]);
         return { tresholdFilter, oldOffchainOracle, deployOffchainOracle };
     }
 

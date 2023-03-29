@@ -1,4 +1,3 @@
-const { ethers } = require('hardhat');
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { tokens, assertRoughlyEqualValues, deployContract } = require('./helpers.js');
 
@@ -40,9 +39,6 @@ describe('CurveOracle doesn\'t ruin rates', function () {
     async function initContracts () {
         const tresholdFilter = 10;
 
-        const MultiWrapper = await ethers.getContractFactory('MultiWrapper');
-        const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
-
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2Factory, initcodeHash]);
         const curveOracle = await deployContract('CurveOracle', [curveRegistry]);
         const uniswapOracle = await deployContract('UniswapOracle', ['0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95']);
@@ -52,14 +48,13 @@ describe('CurveOracle doesn\'t ruin rates', function () {
         const aaveWrapperV2 = await deployContract('AaveWrapperV2', ['0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9']);
         await aaveWrapperV1.addMarkets([tokens.DAI]);
         await aaveWrapperV2.addMarkets([tokens.DAI]);
-        const multiWrapper = await MultiWrapper.deploy([
+        const multiWrapper = await deployContract('MultiWrapper', [[
             wethWrapper.address,
             aaveWrapperV1.address,
             aaveWrapperV2.address,
-        ]);
-        await multiWrapper.deployed();
+        ]]);
 
-        const oldOffchainOracle = await OffchainOracle.deploy(
+        const oldOffchainOracle = await deployContract('OffchainOracle', [
             multiWrapper.address,
             [
                 uniswapV2LikeOracle.address,
@@ -79,10 +74,9 @@ describe('CurveOracle doesn\'t ruin rates', function () {
                 tokens.DAI,
             ],
             tokens.WETH,
-        );
-        await oldOffchainOracle.deployed();
+        ]);
 
-        const newOffchainOracle = await OffchainOracle.deploy(
+        const newOffchainOracle = await deployContract('OffchainOracle', [
             multiWrapper.address,
             [
                 uniswapV2LikeOracle.address,
@@ -103,8 +97,8 @@ describe('CurveOracle doesn\'t ruin rates', function () {
                 tokens.DAI,
             ],
             tokens.WETH,
-        );
-        await newOffchainOracle.deployed();
+        ]);
+
         return { oldOffchainOracle, newOffchainOracle, tresholdFilter };
     }
 

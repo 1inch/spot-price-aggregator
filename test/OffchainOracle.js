@@ -1,5 +1,4 @@
 const hre = require('hardhat');
-const { ethers } = hre;
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether, assertRoughlyEqualValues } = require('@1inch/solidity-utils');
 const { tokens, assertRoughlyEquals, deployContract } = require('./helpers.js');
@@ -13,8 +12,6 @@ describe('OffchainOracle', function () {
     async function initContracts () {
         const tresholdFilter = 10;
 
-        const MultiWrapper = await ethers.getContractFactory('MultiWrapper');
-
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2Factory, initcodeHash]);
         const uniswapOracle = await deployContract('UniswapOracle', ['0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95']);
         const mooniswapOracle = await deployContract('MooniswapOracle', [oneInchLP1]);
@@ -23,12 +20,11 @@ describe('OffchainOracle', function () {
         const aaveWrapperV2 = await deployContract('AaveWrapperV2', ['0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9']);
         await aaveWrapperV1.addMarkets([tokens.DAI]);
         await aaveWrapperV2.addMarkets([tokens.DAI]);
-        const multiWrapper = await MultiWrapper.deploy([
+        const multiWrapper = await deployContract('MultiWrapper', [[
             wethWrapper.address,
             aaveWrapperV1.address,
             aaveWrapperV2.address,
-        ]);
-        await multiWrapper.deployed();
+        ]]);
 
         return {
             tresholdFilter,
@@ -43,8 +39,7 @@ describe('OffchainOracle', function () {
         async function initContractsAndOffchainOracle () {
             const { tresholdFilter, uniswapV2LikeOracle, uniswapOracle, mooniswapOracle, multiWrapper } = await initContracts();
 
-            const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
-            const offchainOracle = await OffchainOracle.deploy(
+            const offchainOracle = await deployContract('OffchainOracle', [
                 multiWrapper.address,
                 [
                     uniswapV2LikeOracle.address,
@@ -59,9 +54,9 @@ describe('OffchainOracle', function () {
                     tokens.USDC,
                 ],
                 tokens.WETH,
-            );
-            await offchainOracle.deployed();
-            const expensiveOffachinOracle = await OffchainOracle.deploy(
+            ]);
+
+            const expensiveOffachinOracle = await deployContract('OffchainOracle', [
                 multiWrapper.address,
                 [
                     uniswapV2LikeOracle.address,
@@ -73,8 +68,8 @@ describe('OffchainOracle', function () {
                     ...Object.values(tokens).slice(0, 10),
                 ],
                 tokens.WETH,
-            );
-            await expensiveOffachinOracle.deployed();
+            ]);
+
             const gasEstimator = await deployContract('GasEstimator');
             return { tresholdFilter, offchainOracle, expensiveOffachinOracle, gasEstimator };
         }
@@ -157,8 +152,7 @@ describe('OffchainOracle', function () {
                 tokens.WETH,
                 tokens.USDC,
             ];
-            const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
-            const offchainOracle = await OffchainOracle.deploy(
+            const offchainOracle = await deployContract('OffchainOracle', [
                 multiWrapper.address,
                 [
                     uniswapV2LikeOracle.address,
@@ -170,9 +164,9 @@ describe('OffchainOracle', function () {
                     ...connectors,
                 ],
                 tokens.WETH,
-            );
-            await offchainOracle.deployed();
-            const offchainOracleWithoutConnectors = await OffchainOracle.deploy(
+            ]);
+
+            const offchainOracleWithoutConnectors = await deployContract('OffchainOracle', [
                 multiWrapper.address,
                 [
                     uniswapV2LikeOracle.address,
@@ -183,8 +177,8 @@ describe('OffchainOracle', function () {
                     tokens.NONE,
                 ],
                 tokens.WETH,
-            );
-            await offchainOracleWithoutConnectors.deployed();
+            ]);
+
             return { tresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors };
         }
 
