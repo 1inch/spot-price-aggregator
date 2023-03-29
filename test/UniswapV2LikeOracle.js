@@ -1,6 +1,6 @@
-const { ethers } = require('hardhat');
+const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether } = require('@1inch/solidity-utils');
-const { tokens } = require('./helpers.js');
+const { tokens, deployContract } = require('./helpers.js');
 
 const uniswapV2 = {
     factory: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
@@ -12,31 +12,33 @@ const shibaswap = {
 };
 
 describe('UniswapV2LikeOracle', function () {
-    before(async function () {
-        const UniswapV2LikeOracle = await ethers.getContractFactory('UniswapV2LikeOracle');
-        this.uniswapV2LikeOracle = await UniswapV2LikeOracle.deploy(uniswapV2.factory, uniswapV2.initcodeHash);
-        await this.uniswapV2LikeOracle.deployed();
-        this.shibaswapOracle = await UniswapV2LikeOracle.deploy(shibaswap.factory, shibaswap.initcodeHash);
-        await this.shibaswapOracle.deployed();
-    });
+    async function initContracts () {
+        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2.factory, uniswapV2.initcodeHash]);
+        const shibaswapOracle = await deployContract('UniswapV2LikeOracle', [shibaswap.factory, shibaswap.initcodeHash]);
+        return { uniswapV2LikeOracle, shibaswapOracle };
+    }
 
     it('uniswapV2 weth -> dai', async function () {
-        const rate = await this.uniswapV2LikeOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE);
+        const { uniswapV2LikeOracle } = await loadFixture(initContracts);
+        const rate = await uniswapV2LikeOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE);
         expect(rate.rate).to.gt(ether('1000'));
     });
 
     it('uniswapV2 weth -> usdc -> dai', async function () {
-        const rate = await this.uniswapV2LikeOracle.getRate(tokens.WETH, tokens.DAI, tokens.USDC);
+        const { uniswapV2LikeOracle } = await loadFixture(initContracts);
+        const rate = await uniswapV2LikeOracle.getRate(tokens.WETH, tokens.DAI, tokens.USDC);
         expect(rate.rate).to.gt(ether('1000'));
     });
 
     it('shibaswap weth -> dai', async function () {
-        const rate = await this.shibaswapOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE);
+        const { shibaswapOracle } = await loadFixture(initContracts);
+        const rate = await shibaswapOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE);
         expect(rate.rate).to.gt(ether('1000'));
     });
 
     it('shibaswap weth -> usdc -> dai', async function () {
-        const rate = await this.shibaswapOracle.getRate(tokens.WETH, tokens.DAI, tokens.USDC);
+        const { shibaswapOracle } = await loadFixture(initContracts);
+        const rate = await shibaswapOracle.getRate(tokens.WETH, tokens.DAI, tokens.USDC);
         expect(rate.rate).to.gt(ether('1000'));
     });
 });
