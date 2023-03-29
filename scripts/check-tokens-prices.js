@@ -20,7 +20,7 @@ async function main () {
     const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
     const offchainOracleInDeployments = require(`../deployments/${networkName}/OffchainOracle.json`);
     const deployedOffchainOracle = OffchainOracle.attach(offchainOracleInDeployments.address);
-    const isDeployedOracleWithFilter = offchainOracleInDeployments.devdoc.methods['getRateToEthWithThreshold(address,bool,uint256)'] ? true : false;
+    const isDeployedOracleWithFilter = !!offchainOracleInDeployments.devdoc.methods['getRateToEthWithThreshold(address,bool,uint256)'];
 
     const weth = offchainOracleInDeployments.args[4];
     const connectors = await deployedOffchainOracle.connectors();
