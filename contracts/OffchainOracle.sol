@@ -242,7 +242,7 @@ contract OffchainOracle is Ownable {
         uint256 thresholdFilter
     ) public view returns (uint256 weightedRate) {
         require(srcToken != dstToken, "Tokens should not be the same");
-        require(thresholdFilter < 100, "Threshold should be less than 100");
+        require(thresholdFilter < 100, "Threshold is too big");
         (IOracle[] memory allOracles, ) = oracles();
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useWrappers);
         (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = _getWrappedTokens(dstToken, useWrappers);
@@ -333,7 +333,7 @@ contract OffchainOracle is Ownable {
     * @notice The same as `getRateWithCustomConnectors` but checks against `ETH` and `WETH` only
     */
     function getRateToEthWithCustomConnectors(IERC20 srcToken, bool useSrcWrappers, IERC20[] memory customConnectors, uint256 thresholdFilter) public view returns (uint256 weightedRate) {
-        require(thresholdFilter < 100, "Threshold should be less than 100");
+        require(thresholdFilter < 100, "Threshold is too big");
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useSrcWrappers);
         IERC20[2] memory wrappedDstTokens = [_BASE, _wBase];
         bytes32[][2] memory wrappedOracles = [_ethOracles._inner._values, _wethOracles._inner._values];
