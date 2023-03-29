@@ -118,10 +118,10 @@ describe('CurveOracle doesn\'t ruin rates', function () {
     });
 
     async function testRate (srcToken, dstToken, oldOffchainOracle, newOffchainOracle, tresholdFilter) {
-        const expectedRate = await oldOffchainOracle.getRate(srcToken, dstToken, true, tresholdFilter);
-        const actualRate = await newOffchainOracle.getRate(srcToken, dstToken, true, tresholdFilter);
-        const expectedReverseRate = await oldOffchainOracle.getRate(srcToken, dstToken, true, tresholdFilter);
-        const actualReverseRate = await newOffchainOracle.getRate(srcToken, dstToken, true, tresholdFilter);
+        const expectedRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, tresholdFilter);
+        const actualRate = await newOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, tresholdFilter);
+        const expectedReverseRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, tresholdFilter);
+        const actualReverseRate = await newOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, tresholdFilter);
         assertRoughlyEqualValues(actualRate.toString(), expectedRate.toString(), '0.05');
         assertRoughlyEqualValues(actualReverseRate.toString(), expectedReverseRate.toString(), '0.05');
     }

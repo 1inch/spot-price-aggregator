@@ -192,10 +192,28 @@ contract OffchainOracle is Ownable {
     * @param srcToken The source token
     * @param dstToken The destination token
     * @param useWrappers Boolean flag to use or not use token wrappers
-    * @param thresholdFilter The threshold percentage (from 0 to 100) used to filter out rates below the threshold
     * @return weightedRate weighted rate between the two tokens
     */
     function getRate(
+        IERC20 srcToken,
+        IERC20 dstToken,
+        bool useWrappers
+    ) external view returns (uint256 weightedRate) {
+        return getRateWithCustomConnectors(srcToken, dstToken, useWrappers, new IERC20[](0), 0);
+    }
+
+    /**
+    * WARNING!
+    *    Usage of the dex oracle on chain is highly discouraged!
+    *    getRate function can be easily manipulated inside transaction!
+    * @notice Returns the weighted rate between two tokens using default connectors, with the option to filter out rates below a certain threshold.
+    * @param srcToken The source token
+    * @param dstToken The destination token
+    * @param useWrappers Boolean flag to use or not use token wrappers
+    * @param thresholdFilter The threshold percentage (from 0 to 100) used to filter out rates below the threshold
+    * @return weightedRate weighted rate between the two tokens
+    */
+    function getRateWithThreshold(
         IERC20 srcToken,
         IERC20 dstToken,
         bool useWrappers,
@@ -292,7 +310,17 @@ contract OffchainOracle is Ownable {
     *    getRate function can be easily manipulated inside transaction!
     * @notice The same as `getRate` but checks against `ETH` and `WETH` only
     */
-    function getRateToEth(IERC20 srcToken, bool useSrcWrappers, uint256 thresholdFilter) external view returns (uint256 weightedRate) {
+    function getRateToEth(IERC20 srcToken, bool useSrcWrappers) external view returns (uint256 weightedRate) {
+        return getRateToEthWithCustomConnectors(srcToken, useSrcWrappers, new IERC20[](0), 0);
+    }
+
+    /**
+    * WARNING!
+    *    Usage of the dex oracle on chain is highly discouraged!
+    *    getRate function can be easily manipulated inside transaction!
+    * @notice The same as `getRate` but checks against `ETH` and `WETH` only
+    */
+    function getRateToEthWithThreshold(IERC20 srcToken, bool useSrcWrappers, uint256 thresholdFilter) external view returns (uint256 weightedRate) {
         return getRateToEthWithCustomConnectors(srcToken, useSrcWrappers, new IERC20[](0), thresholdFilter);
     }
 

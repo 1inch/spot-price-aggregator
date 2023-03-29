@@ -76,25 +76,25 @@ describe('OffchainOracle', function () {
 
         it('weth -> dai', async function () {
             const { tresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
-            const rate = await offchainOracle.getRate(tokens.WETH, tokens.DAI, true, tresholdFilter);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.WETH, tokens.DAI, true, tresholdFilter);
             expect(rate).to.gt(ether('1000'));
         });
 
         it('eth -> dai', async function () {
             const { tresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
-            const rate = await offchainOracle.getRate(tokens.ETH, tokens.DAI, true, tresholdFilter);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.ETH, tokens.DAI, true, tresholdFilter);
             expect(rate).to.gt(ether('1000'));
         });
 
         it('usdc -> dai', async function () {
             const { tresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
-            const rate = await offchainOracle.getRate(tokens.USDC, tokens.DAI, true, tresholdFilter);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.USDC, tokens.DAI, true, tresholdFilter);
             expect(rate).to.gt(ether('980000000000'));
         });
 
         it('dai -> adai', async function () {
             const { tresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
-            const rate = await offchainOracle.getRate(tokens.DAI, ADAIV2, true, tresholdFilter);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.DAI, ADAIV2, true, tresholdFilter);
             expect(rate).to.equal(ether('1'));
         });
 
@@ -110,8 +110,8 @@ describe('OffchainOracle', function () {
 
         it('getRateToEth(dai)_ShouldHaveCorrectRate', async function () {
             const { tresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
-            const expectedRate = await offchainOracle.getRate(tokens.DAI, tokens.WETH, true, tresholdFilter);
-            const actualRate = await offchainOracle.getRateToEth(tokens.DAI, true, tresholdFilter);
+            const expectedRate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.WETH, true, tresholdFilter);
+            const actualRate = await offchainOracle.getRateToEthWithThreshold(tokens.DAI, true, tresholdFilter);
             assertRoughlyEquals(expectedRate, actualRate, 3);
         });
 
@@ -127,8 +127,8 @@ describe('OffchainOracle', function () {
 
         it('getRateDirect(dai -> link)_ShouldHaveCorrectRate', async function () {
             const { tresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
-            const expectedRate = await offchainOracle.getRate(tokens.DAI, tokens.LINK, true, tresholdFilter);
-            const actualRate = await offchainOracle.getRate(tokens.DAI, tokens.LINK, false, tresholdFilter);
+            const expectedRate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.LINK, true, tresholdFilter);
+            const actualRate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.LINK, false, tresholdFilter);
             assertRoughlyEquals(expectedRate, actualRate, 3);
         });
 
@@ -185,7 +185,7 @@ describe('OffchainOracle', function () {
         it('weth -> dai', async function () {
             const { tresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors } = await loadFixture(initContractsAndOffchainOracle);
             const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.WETH, tokens.DAI, true, connectors, tresholdFilter);
-            const rate = await offchainOracle.getRate(tokens.WETH, tokens.DAI, true, tresholdFilter);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.WETH, tokens.DAI, true, tresholdFilter);
             expect(rateWithCustomConnector).to.gt(ether('1000'));
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });
@@ -193,7 +193,7 @@ describe('OffchainOracle', function () {
         it('eth -> dai', async function () {
             const { tresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors } = await loadFixture(initContractsAndOffchainOracle);
             const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.ETH, tokens.DAI, true, connectors, tresholdFilter);
-            const rate = await offchainOracle.getRate(tokens.ETH, tokens.DAI, true, tresholdFilter);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.ETH, tokens.DAI, true, tresholdFilter);
             expect(rateWithCustomConnector).to.gt(ether('1000'));
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });
@@ -201,7 +201,7 @@ describe('OffchainOracle', function () {
         it('usdc -> dai', async function () {
             const { tresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors } = await loadFixture(initContractsAndOffchainOracle);
             const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.USDC, tokens.DAI, true, connectors, tresholdFilter);
-            const rate = await offchainOracle.getRate(tokens.USDC, tokens.DAI, true, tresholdFilter);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.USDC, tokens.DAI, true, tresholdFilter);
             expect(rateWithCustomConnector).to.gt(ether('980000000000'));
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });
@@ -209,7 +209,7 @@ describe('OffchainOracle', function () {
         it('dai -> adai', async function () {
             const { tresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors } = await loadFixture(initContractsAndOffchainOracle);
             const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.DAI, ADAIV2, true, connectors, tresholdFilter);
-            const rate = await offchainOracle.getRate(tokens.DAI, ADAIV2, true, tresholdFilter);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.DAI, ADAIV2, true, tresholdFilter);
             expect(rateWithCustomConnector).to.equal(ether('1'));
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });

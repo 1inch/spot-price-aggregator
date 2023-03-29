@@ -49,7 +49,7 @@ describe.skip('ProdTest', async function () {
 
     it('zks -> eth', async function () {
         const { tresholdFilter, offchainOracle } = await loadFixture(initContracts);
-        const rate = await offchainOracle.getRate(tokens.WETH, '0x793786e2dd4Cc492ed366a94B88a3Ff9ba5E7546', tresholdFilter);
+        const rate = await offchainOracle.getRateWithThreshold(tokens.WETH, '0x793786e2dd4Cc492ed366a94B88a3Ff9ba5E7546', tresholdFilter);
         console.log(rate.toString());
         expect(rate).to.lt(ether('0.001'));
     });
