@@ -339,7 +339,7 @@ contract OffchainOracle is Ownable {
         bytes32[][2] memory wrappedOracles = [_ethOracles._inner._values, _wethOracles._inner._values];
         IERC20[][2] memory allConnectors = _getAllConnectors(customConnectors);
 
-        uint256 maxArrLength = _getMaxArrayLength(wrappedSrcTokens.length, 2, wrappedOracles, allConnectors);
+        uint256 maxArrLength = wrappedSrcTokens.length * wrappedDstTokens.length * (allConnectors[0].length + allConnectors[1].length) * (wrappedOracles[0].length + wrappedOracles[1].length);
         OraclePrice[] memory oraclePrices;
         // Memory allocation in assembly to avoid array zeroing
         assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
@@ -422,12 +422,5 @@ contract OffchainOracle is Ownable {
         try oracle.getRate(srcToken, dstToken, connector) returns (uint256 rate, uint256 weight) {
             oraclePrice = OraclePrice(rate * srcTokenRate * dstTokenRate / 1e36, weight);
         } catch {}  // solhint-disable-line no-empty-blocks
-    }
-
-    function _getMaxArrayLength(uint256 wrappedSrcTokensLength, uint256 wrappedDstTokensLength, bytes32[][2] memory wrappedOracles, IERC20[][2] memory allConnectors) private pure returns (uint256 length) {
-        for (uint256 k2 = 0; k2 < wrappedDstTokensLength; k2++) {
-            length += wrappedOracles[k2].length;
-        }
-        length = length * wrappedSrcTokensLength * wrappedDstTokensLength * (allConnectors[0].length + allConnectors[1].length);
     }
 }
