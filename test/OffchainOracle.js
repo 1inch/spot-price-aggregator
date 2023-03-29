@@ -103,7 +103,7 @@ describe('OffchainOracle', function () {
             const { tresholdFilter, expensiveOffachinOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
             const result = await gasEstimator.gasCost(
                 expensiveOffachinOracle.address,
-                expensiveOffachinOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, true, tresholdFilter])
+                expensiveOffachinOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, true, tresholdFilter]),
             );
             assertRoughlyEquals(result.gasUsed, '864444', 3);
         });
@@ -120,7 +120,7 @@ describe('OffchainOracle', function () {
             const { tresholdFilter, expensiveOffachinOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
             const result = await gasEstimator.gasCost(
                 expensiveOffachinOracle.address,
-                expensiveOffachinOracle.interface.encodeFunctionData('getRateToEth', [tokens.DAI, true, tresholdFilter])
+                expensiveOffachinOracle.interface.encodeFunctionData('getRateToEth', [tokens.DAI, true, tresholdFilter]),
             );
             assertRoughlyEquals(result.gasUsed, '1447539', 3);
         });
@@ -137,7 +137,7 @@ describe('OffchainOracle', function () {
             const { tresholdFilter, expensiveOffachinOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
             const result = await gasEstimator.gasCost(
                 expensiveOffachinOracle.address,
-                expensiveOffachinOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, false, tresholdFilter])
+                expensiveOffachinOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, false, tresholdFilter]),
             );
             assertRoughlyEquals(result.gasUsed, '382698', 2);
         });
