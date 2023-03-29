@@ -28,14 +28,14 @@ describe('SynthetixOracle', function () {
         const incorrectSREN = '0x4287dac1cC7434991119Eba7413189A66fFE65cF';
         await expect(
             synthetixOracle.callStatic.getRate(incorrectSREN, tokens.sKRW, tokens.NONE),
-        ).to.be.revertedWith('SO: unregistered token');
+        ).to.be.revertedWithCustomError(synthetixOracle, 'UnregisteredToken');
     });
 
     it('should revert on connector usage', async function () {
         const { synthetixOracle, uniswapV3Oracle } = await loadFixture(initContracts);
         await expect(
             testRate([tokens.sBTC, tokens.WBTC], [tokens.ETH, tokens.WETH], tokens.USDC, synthetixOracle, uniswapV3Oracle),
-        ).to.be.revertedWith('SO: connector should be None');
+        ).to.be.revertedWithCustomError(synthetixOracle, 'ConnectorShouldBeNone');
     });
 
     it('BTC -> ETH', async function () {

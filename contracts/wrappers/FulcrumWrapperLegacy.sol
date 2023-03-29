@@ -38,7 +38,7 @@ contract FulcrumWrapperLegacy is IWrapper, Ownable {
         } else if (iToken != IERC20(address(0))) {
             return (iToken, ILoanToken(address(iToken)).tokenPrice());
         } else {
-            revert("Unsupported token");
+            revert NotSupportedToken("FulcrumWrapperLegacy");
         }
     }
 }

@@ -61,7 +61,7 @@ contract DodoV2Oracle is IOracle {
         machines = DVMFactory.getDODOPool(srcToken, dstToken);
         isSrcBase = (machines.length != 0);
         if (!isSrcBase) machines = DVMFactory.getDODOPool(dstToken, srcToken);
-        require(machines.length != 0, "DOV2: machines not found");
+        if(machines.length == 0) revert PoolNotFound("DodoV2Oracle");
     }
 
     function _getDodoInfo(IDVM dvm, bool isSrcBase) internal view returns (uint256 rate, uint256 balanceSrc, uint256 balanceDst) {

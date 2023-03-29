@@ -22,7 +22,7 @@ contract CompoundLikeWrapper is IWrapper {
         unchecked {
             for (uint256 i = 0; i < markets.length; i++) {
                 (bool isListed, , ) = _comptroller.markets(markets[i]);
-                require(isListed, "Market is not listed");
+                if(!isListed) revert NotAddedMarket("CompoundLikeWrapper");
                 IERC20 underlying = markets[i].underlying();
                 cTokenToToken[markets[i]] = underlying;
                 tokenTocToken[underlying] = markets[i];
@@ -34,7 +34,7 @@ contract CompoundLikeWrapper is IWrapper {
         unchecked {
             for (uint256 i = 0; i < markets.length; i++) {
                 (bool isListed, , ) = _comptroller.markets(markets[i]);
-                require(!isListed, "Market is listed");
+                if(isListed) revert NotRemovedMarket("CompoundLikeWrapper");
                 IERC20 underlying = markets[i].underlying();
                 delete cTokenToToken[markets[i]];
                 delete tokenTocToken[underlying];
@@ -55,7 +55,7 @@ contract CompoundLikeWrapper is IWrapper {
         } else if (cToken != IERC20(address(0))) {
             return (cToken, 1e36 / ICToken(address(cToken)).exchangeRateStored());
         } else {
-            revert("Unsupported token");
+            revert NotSupportedToken("CompoundLikeWrapper");
         }
     }
 }

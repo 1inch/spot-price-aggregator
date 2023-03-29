@@ -10,6 +10,9 @@ import "../interfaces/ISynthetixAddressResolver.sol";
 import "../interfaces/IOracle.sol";
 
 contract SynthetixOracle is IOracle {
+    error UnregisteredToken(string oracle);
+    error InvalidRate(string oracle);
+
     ISynthetixProxy public immutable proxy;
     IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
@@ -27,7 +30,7 @@ contract SynthetixOracle is IOracle {
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
-        require(connector == _NONE, "SO: connector should be None");
+        if(connector != _NONE) revert ConnectorShouldBeNone("SynthetixOracle");
         ISynthetixAddressResolver resolver = ISynthetixAddressResolver(proxy.target());
         ISynthetixExchangeRates exchangeRates = ISynthetixExchangeRates(resolver.getAddress(_EXCHANGE_RATES_KEY));
 
@@ -50,7 +53,7 @@ contract SynthetixOracle is IOracle {
                 proxyKey := or(_PROXY_KEY, shr(40, mload(add(symbol, 32))))
             }
         }
-        require(resolver.getAddress(proxyKey) == token, "SO: unregistered token");
+        if(resolver.getAddress(proxyKey) != token) revert UnregisteredToken("SynthetixOracle");
 
         bytes32 key;
         assembly  ("memory-safe") { // solhint-disable-line no-inline-assembly
@@ -58,7 +61,7 @@ contract SynthetixOracle is IOracle {
         }
 
         (uint256 answer, bool isInvalid) = exchangeRates.rateAndInvalid(key);
-        require(!isInvalid, "SO: rate is invalid");
+        if(isInvalid) revert InvalidRate("SynthetixOracle");
 
         return answer;
     }

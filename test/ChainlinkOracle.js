@@ -48,6 +48,6 @@ describe('ChainlinkOracle', function () {
         const { chainlinkOracle } = await loadFixture(initContracts);
         await expect(
             chainlinkOracle.getRate(tokens.DAI, tokens.DAI, tokens.USDT),
-        ).to.be.revertedWith('CO: connector should be None');
+        ).to.be.revertedWithCustomError(chainlinkOracle, 'ConnectorShouldBeNone');
     });
 });

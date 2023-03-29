@@ -14,7 +14,7 @@ describe('DodoV2Oracle', function () {
         const { dodoV2Oracle } = await loadFixture(initContracts);
         await expect(
             dodoV2Oracle.getRate(tokens.USDT, tokens['1INCH'], tokens.NONE),
-        ).to.be.revertedWith('DOV2: machines not found');
+        ).to.be.revertedWithCustomError(dodoV2Oracle, 'PoolNotFound');
     });
 
     it('WETH -> USDC', async function () {
