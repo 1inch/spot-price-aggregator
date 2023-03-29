@@ -65,8 +65,8 @@ async function main () {
         } catch {}
 
         clearAndPrint(`Progress: ${i} / ${tokenlist.length}`);
-        const currentImplPrice = await offchainOracle.getRateToEth(token.address, true, tresholdFilter);
-        const deployedOraclePrice = await deployedOffchainOracle.getRateToEth(token.address, true, tresholdFilter);
+        const currentImplPrice = await offchainOracle.getRateToEthWithThreshold(token.address, true, tresholdFilter);
+        const deployedOraclePrice = await deployedOffchainOracle.getRateToEthWithThreshold(token.address, true, tresholdFilter);
 
         const currentImplPriceUsd = parseFloat(usdPrice(currentImplPrice / 10 ** (18 - tokenDecimals))).toFixed(2);
         const deployedOraclePriceUsd = parseFloat(usdPrice(deployedOraclePrice / 10 ** (18 - tokenDecimals))).toFixed(2);
