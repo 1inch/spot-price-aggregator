@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
-pragma abicoder v1;
+pragma solidity 0.8.19;
 
 import "../interfaces/IWrapper.sol";
-
 
 contract BaseCoinWrapper is IWrapper {
     IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);

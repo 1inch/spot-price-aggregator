@@ -1,10 +1,8 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
-pragma abicoder v1;
+pragma solidity 0.8.19;
 
 import "./ICToken.sol";
-
 
 interface IComptroller {
     function getAllMarkets() external view returns (ICToken[] memory);

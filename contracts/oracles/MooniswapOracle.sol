@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
-pragma abicoder v1;
+pragma solidity 0.8.19;
 
 import "../interfaces/IMooniswapFactory.sol";
 import "./OracleBase.sol";
-
 
 contract MooniswapOracle is OracleBase {
     IMooniswapFactory public immutable factory;

@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
-pragma abicoder v1;
+pragma solidity 0.8.19;
 
 import "../interfaces/ILendingPoolV1.sol";
 import "../interfaces/IWrapper.sol";
-
 
 contract AaveWrapperV1 is IWrapper {
     IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);

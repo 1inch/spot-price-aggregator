@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
-pragma abicoder v1;
+pragma solidity 0.8.19;
 
 import "./OracleBase.sol";
 import "../interfaces/IUniswapV2Pair.sol";
-
 
 contract UniswapV2LikeOracle is OracleBase {
     address public immutable factory;

@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
-pragma abicoder v1;
+pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
@@ -47,14 +46,14 @@ contract SynthetixOracle is IOracle {
         } else if (_memcmp(bytes(symbol), _SUSD)) {
             proxyKey = _SUSD_PROXY_KEY;
         } else {
-            assembly { // solhint-disable-line no-inline-assembly
+            assembly  ("memory-safe") { // solhint-disable-line no-inline-assembly
                 proxyKey := or(_PROXY_KEY, shr(40, mload(add(symbol, 32))))
             }
         }
         require(resolver.getAddress(proxyKey) == token, "SO: unregistered token");
 
         bytes32 key;
-        assembly { // solhint-disable-line no-inline-assembly
+        assembly  ("memory-safe") { // solhint-disable-line no-inline-assembly
             key := mload(add(symbol, 32))
         }
 

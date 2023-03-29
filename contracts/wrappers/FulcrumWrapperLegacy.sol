@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
-pragma abicoder v1;
+pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "../interfaces/ILoanToken.sol";
 import "../interfaces/IWrapper.sol";
-
 
 contract FulcrumWrapperLegacy is IWrapper, Ownable {
     mapping(IERC20 => IERC20) public iTokenToToken;

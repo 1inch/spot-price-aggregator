@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
+pragma solidity 0.8.19;
 
 import "../interfaces/ILendingPoolV2.sol";
 import "../interfaces/IWrapper.sol";
-
 
 contract AaveWrapperV2 is IWrapper {
     // solhint-disable-next-line var-name-mixedcase

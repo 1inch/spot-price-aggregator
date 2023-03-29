@@ -1,6 +1,6 @@
-const { ethers } = require('hardhat');
+const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether } = require('@1inch/solidity-utils');
-const { tokens } = require('./helpers.js');
+const { tokens, deployContract } = require('./helpers.js');
 
 const IUSDC = '0xF013406A0B1d544238083DF0B93ad0d2cBE0f65f';
 
@@ -12,24 +12,25 @@ const tests = [
 ];
 
 describe('FulcrumWrapperLegacy', function () {
-    before(async function () {
-        const FulcrumWrapperLegacy = await ethers.getContractFactory('FulcrumWrapperLegacy');
-        this.fulcrumWrapperLegacy = await FulcrumWrapperLegacy.deploy();
-        await this.fulcrumWrapperLegacy.deployed();
-        await this.fulcrumWrapperLegacy.addMarkets([IUSDC]);
-    });
+    async function initContracts () {
+        const fulcrumWrapperLegacy = await deployContract('FulcrumWrapperLegacy');
+        await fulcrumWrapperLegacy.addMarkets([IUSDC]);
+        return { fulcrumWrapperLegacy };
+    }
 
     it('wrap', async function () {
+        const { fulcrumWrapperLegacy } = await loadFixture(initContracts);
         for (const test of tests) {
-            const response = await this.fulcrumWrapperLegacy.wrap(test.token);
+            const response = await fulcrumWrapperLegacy.wrap(test.token);
             expect(response.rate).to.gt(ether('1'));
             expect(response.wrappedToken).to.equal(test.itoken);
         }
     });
 
     it('unwrap', async function () {
+        const { fulcrumWrapperLegacy } = await loadFixture(initContracts);
         for (const test of tests) {
-            const response = await this.fulcrumWrapperLegacy.wrap(test.itoken);
+            const response = await fulcrumWrapperLegacy.wrap(test.itoken);
             expect(response.rate).to.lt(ether('1'));
             expect(response.wrappedToken).to.equal(test.token);
         }

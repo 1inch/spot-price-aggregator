@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.15;
-pragma abicoder v1;
+pragma solidity 0.8.19;
 
 import "../interfaces/IComptroller.sol";
 import "../interfaces/IWrapper.sol";
-
 
 contract CompoundLikeWrapper is IWrapper {
     IComptroller private immutable _comptroller;
