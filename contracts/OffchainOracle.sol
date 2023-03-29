@@ -192,16 +192,16 @@ contract OffchainOracle is Ownable {
     * @param srcToken The source token
     * @param dstToken The destination token
     * @param useWrappers Boolean flag to use or not use token wrappers
-    * @param tresholdFilter The threshold percentage (from 0 to 100) used to filter out rates below the threshold
+    * @param thresholdFilter The threshold percentage (from 0 to 100) used to filter out rates below the threshold
     * @return weightedRate weighted rate between the two tokens
     */
     function getRate(
         IERC20 srcToken,
         IERC20 dstToken,
         bool useWrappers,
-        uint256 tresholdFilter
+        uint256 thresholdFilter
     ) external view returns (uint256 weightedRate) {
-        return getRateWithCustomConnectors(srcToken, dstToken, useWrappers, new IERC20[](0), tresholdFilter);
+        return getRateWithCustomConnectors(srcToken, dstToken, useWrappers, new IERC20[](0), thresholdFilter);
     }
 
     /**
@@ -213,7 +213,7 @@ contract OffchainOracle is Ownable {
     * @param dstToken The destination token
     * @param useWrappers Boolean flag to use or not use token wrappers
     * @param customConnectors An array of custom connectors to use
-    * @param tresholdFilter The threshold percentage (from 0 to 100) used to filter out rates below the threshold
+    * @param thresholdFilter The threshold percentage (from 0 to 100) used to filter out rates below the threshold
     * @return weightedRate The weighted rate between the two tokens
     */
     function getRateWithCustomConnectors(
@@ -221,7 +221,7 @@ contract OffchainOracle is Ownable {
         IERC20 dstToken,
         bool useWrappers,
         IERC20[] memory customConnectors,
-        uint256 tresholdFilter
+        uint256 thresholdFilter
     ) public view returns (uint256 weightedRate) {
         require(srcToken != dstToken, "Tokens should not be the same");
         uint256 totalWeight;
@@ -273,7 +273,7 @@ contract OffchainOracle is Ownable {
             }
 
             for (uint256 i = 0; i < oraclePrices.length; i++) {
-                if (oraclePrices[i].weight < maxOracleWeight * tresholdFilter / 100) {
+                if (oraclePrices[i].weight < maxOracleWeight * thresholdFilter / 100) {
                     continue;
                 }
                 weightedRate += (oraclePrices[i].rate * oraclePrices[i].weight);
@@ -292,8 +292,8 @@ contract OffchainOracle is Ownable {
     *    getRate function can be easily manipulated inside transaction!
     * @notice The same as `getRate` but checks against `ETH` and `WETH` only
     */
-    function getRateToEth(IERC20 srcToken, bool useSrcWrappers, uint256 tresholdFilter) external view returns (uint256 weightedRate) {
-        return getRateToEthWithCustomConnectors(srcToken, useSrcWrappers, new IERC20[](0), tresholdFilter);
+    function getRateToEth(IERC20 srcToken, bool useSrcWrappers, uint256 thresholdFilter) external view returns (uint256 weightedRate) {
+        return getRateToEthWithCustomConnectors(srcToken, useSrcWrappers, new IERC20[](0), thresholdFilter);
     }
 
     /**
@@ -302,7 +302,7 @@ contract OffchainOracle is Ownable {
     *    getRate function can be easily manipulated inside transaction!
     * @notice The same as `getRateWithCustomConnectors` but checks against `ETH` and `WETH` only
     */
-    function getRateToEthWithCustomConnectors(IERC20 srcToken, bool useSrcWrappers, IERC20[] memory customConnectors, uint256 tresholdFilter) public view returns (uint256 weightedRate) {
+    function getRateToEthWithCustomConnectors(IERC20 srcToken, bool useSrcWrappers, IERC20[] memory customConnectors, uint256 thresholdFilter) public view returns (uint256 weightedRate) {
         uint256 totalWeight;
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useSrcWrappers);
         IERC20[2] memory wrappedDstTokens = [_BASE, _wBase];
@@ -352,7 +352,7 @@ contract OffchainOracle is Ownable {
             }
 
             for (uint256 i = 0; i < oracleIndex; i++) {
-                if (oraclePrices[i].weight < maxOracleWeight * tresholdFilter / 100) {
+                if (oraclePrices[i].weight < maxOracleWeight * thresholdFilter / 100) {
                     continue;
                 }
                 weightedRate += (oraclePrices[i].rate * oraclePrices[i].weight);
