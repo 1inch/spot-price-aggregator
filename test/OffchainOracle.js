@@ -56,7 +56,7 @@ describe('OffchainOracle', function () {
                 tokens.WETH,
             ]);
 
-            const expensiveOffachinOracle = await deployContract('OffchainOracle', [
+            const expensiveOffchainOracle = await deployContract('OffchainOracle', [
                 multiWrapper.address,
                 [
                     uniswapV2LikeOracle.address,
@@ -71,7 +71,7 @@ describe('OffchainOracle', function () {
             ]);
 
             const gasEstimator = await deployContract('GasEstimator');
-            return { tresholdFilter, offchainOracle, expensiveOffachinOracle, gasEstimator };
+            return { tresholdFilter, offchainOracle, expensiveOffchainOracle, gasEstimator };
         }
 
         it('weth -> dai', async function () {
@@ -100,10 +100,10 @@ describe('OffchainOracle', function () {
 
         it('getRate(dai -> link)', async function () {
             if (hre.__SOLIDITY_COVERAGE_RUNNING) { this.skip(); }
-            const { tresholdFilter, expensiveOffachinOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
+            const { tresholdFilter, expensiveOffchainOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
             const result = await gasEstimator.gasCost(
-                expensiveOffachinOracle.address,
-                expensiveOffachinOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, true, tresholdFilter]),
+                expensiveOffchainOracle.address,
+                expensiveOffchainOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, true, tresholdFilter]),
             );
             assertRoughlyEquals(result.gasUsed, '864444', 3);
         });
@@ -117,10 +117,10 @@ describe('OffchainOracle', function () {
 
         it('getRateToEth(dai)', async function () {
             if (hre.__SOLIDITY_COVERAGE_RUNNING) { this.skip(); }
-            const { tresholdFilter, expensiveOffachinOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
+            const { tresholdFilter, expensiveOffchainOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
             const result = await gasEstimator.gasCost(
-                expensiveOffachinOracle.address,
-                expensiveOffachinOracle.interface.encodeFunctionData('getRateToEth', [tokens.DAI, true, tresholdFilter]),
+                expensiveOffchainOracle.address,
+                expensiveOffchainOracle.interface.encodeFunctionData('getRateToEth', [tokens.DAI, true, tresholdFilter]),
             );
             assertRoughlyEquals(result.gasUsed, '1447539', 3);
         });
@@ -134,10 +134,10 @@ describe('OffchainOracle', function () {
 
         it('getRateDirect(dai -> link)', async function () {
             if (hre.__SOLIDITY_COVERAGE_RUNNING) { this.skip(); }
-            const { tresholdFilter, expensiveOffachinOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
+            const { tresholdFilter, expensiveOffchainOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
             const result = await gasEstimator.gasCost(
-                expensiveOffachinOracle.address,
-                expensiveOffachinOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, false, tresholdFilter]),
+                expensiveOffchainOracle.address,
+                expensiveOffchainOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, false, tresholdFilter]),
             );
             assertRoughlyEquals(result.gasUsed, '382698', 2);
         });
