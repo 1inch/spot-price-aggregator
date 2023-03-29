@@ -1,4 +1,5 @@
 const { ethers } = require('hardhat');
+const hre = require('hardhat');
 const { expect, ether, assertRoughlyEqualValues } = require('@1inch/solidity-utils');
 const { tokens, assertRoughlyEquals } = require('./helpers.js');
 
@@ -102,7 +103,8 @@ describe('OffchainOracle', function () {
             expect(rate).to.equal(ether('1'));
         });
 
-        it('getRate(dai -> link)_GasCheck', async function () {
+        it('getRate(dai -> link)', async function () {
+            if (hre.__SOLIDITY_COVERAGE_RUNNING) { this.skip(); }
             const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address,
                 this.expensiveOffachinOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, true, this.tresholdFilter]));
             assertRoughlyEquals(result.gasUsed, '864444', 3);
@@ -114,7 +116,8 @@ describe('OffchainOracle', function () {
             assertRoughlyEquals(expectedRate, actualRate, 3);
         });
 
-        it('getRateToEth(dai)_GasCheck', async function () {
+        it('getRateToEth(dai)', async function () {
+            if (hre.__SOLIDITY_COVERAGE_RUNNING) { this.skip(); }
             const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address,
                 this.expensiveOffachinOracle.interface.encodeFunctionData('getRateToEth', [tokens.DAI, true, this.tresholdFilter]));
             assertRoughlyEquals(result.gasUsed, '1447539', 3);
@@ -126,7 +129,8 @@ describe('OffchainOracle', function () {
             assertRoughlyEquals(expectedRate, actualRate, 3);
         });
 
-        it('getRateDirect(dai -> link)_GasCheck', async function () {
+        it('getRateDirect(dai -> link)', async function () {
+            if (hre.__SOLIDITY_COVERAGE_RUNNING) { this.skip(); }
             const result = await this.gasEstimator.gasCost(this.expensiveOffachinOracle.address,
                 this.expensiveOffachinOracle.interface.encodeFunctionData('getRate', [tokens.DAI, tokens.LINK, false, this.tresholdFilter]));
             assertRoughlyEquals(result.gasUsed, '382698', 2);

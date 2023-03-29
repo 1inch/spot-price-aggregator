@@ -24,8 +24,4 @@ module.exports = {
                 "jml[jl] VcTOcl jml",
         },
     },
-    mocha: {
-        grep: "_GasCheck",
-        invert: true,
-    },
 }
