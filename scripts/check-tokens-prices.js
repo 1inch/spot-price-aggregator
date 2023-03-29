@@ -10,7 +10,7 @@ async function main () {
     const networkName = process.env.SCRIPT_NETWORK_NAME || 'mainnet';
     const skipOracles = (process.env.SCRIPT_SKIP_ORACLES || '').split(',');
     const addOracles = (process.env.SCRIPT_ADD_ORACLES || '').split('|');
-    const tresholdFilter = 10;
+    const thresholdFilter = 10;
 
     let tokenlist = require(tokenlistPath);
     if (!Array.isArray(tokenlist)) {
@@ -65,8 +65,8 @@ async function main () {
         } catch {}
 
         clearAndPrint(`Progress: ${i} / ${tokenlist.length}`);
-        const currentImplPrice = await offchainOracle.getRateToEthWithThreshold(token.address, true, tresholdFilter);
-        const deployedOraclePrice = await deployedOffchainOracle.getRateToEthWithThreshold(token.address, true, tresholdFilter);
+        const currentImplPrice = await offchainOracle.getRateToEthWithThreshold(token.address, true, thresholdFilter);
+        const deployedOraclePrice = await deployedOffchainOracle.getRateToEthWithThreshold(token.address, true, thresholdFilter);
 
         const currentImplPriceUsd = parseFloat(usdPrice(currentImplPrice / 10 ** (18 - tokenDecimals))).toFixed(2);
         const deployedOraclePriceUsd = parseFloat(usdPrice(deployedOraclePrice / 10 ** (18 - tokenDecimals))).toFixed(2);

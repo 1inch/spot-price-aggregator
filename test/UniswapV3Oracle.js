@@ -71,7 +71,7 @@ describe('UniswapV3Oracle', function () {
 
 describe('UniswapV3Oracle doesn\'t ruin rates', function () {
     async function initContracts () {
-        const tresholdFilter = 10;
+        const thresholdFilter = 10;
 
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2Factory, initcodeHashV2]);
         const uniswapV3Oracle = await deployContract('UniswapV3Oracle');
@@ -134,34 +134,34 @@ describe('UniswapV3Oracle doesn\'t ruin rates', function () {
             ],
             tokens.WETH,
         ]);
-        return { tresholdFilter, oldOffchainOracle, deployOffchainOracle };
+        return { thresholdFilter, oldOffchainOracle, deployOffchainOracle };
     }
 
     it('ETH DAI', async function () {
-        const { tresholdFilter, oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
-        await testRate(tokens.ETH, tokens.DAI, tresholdFilter, oldOffchainOracle, deployOffchainOracle);
+        const { thresholdFilter, oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
+        await testRate(tokens.ETH, tokens.DAI, thresholdFilter, oldOffchainOracle, deployOffchainOracle);
     });
 
     it('WETH DAI', async function () {
-        const { tresholdFilter, oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
-        await testRate(tokens.WETH, tokens.DAI, tresholdFilter, oldOffchainOracle, deployOffchainOracle);
+        const { thresholdFilter, oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
+        await testRate(tokens.WETH, tokens.DAI, thresholdFilter, oldOffchainOracle, deployOffchainOracle);
     });
 
     it('USDC DAI', async function () {
-        const { tresholdFilter, oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
-        await testRate(tokens.USDC, tokens.DAI, tresholdFilter, oldOffchainOracle, deployOffchainOracle);
+        const { thresholdFilter, oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
+        await testRate(tokens.USDC, tokens.DAI, thresholdFilter, oldOffchainOracle, deployOffchainOracle);
     });
 
     it('USDC WETH', async function () {
-        const { tresholdFilter, oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
-        await testRate(tokens.USDC, tokens.WETH, tresholdFilter, oldOffchainOracle, deployOffchainOracle);
+        const { thresholdFilter, oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
+        await testRate(tokens.USDC, tokens.WETH, thresholdFilter, oldOffchainOracle, deployOffchainOracle);
     });
 
-    async function testRate (srcToken, dstToken, tresholdFilter, oldOffchainOracle, deployOffchainOracle) {
-        const expectedRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, tresholdFilter);
-        const actualRate = await deployOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, tresholdFilter);
-        const expectedReverseRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, tresholdFilter);
-        const actualReverseRate = await deployOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, tresholdFilter);
+    async function testRate (srcToken, dstToken, thresholdFilter, oldOffchainOracle, deployOffchainOracle) {
+        const expectedRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
+        const actualRate = await deployOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
+        const expectedReverseRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
+        const actualReverseRate = await deployOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
         assertRoughlyEquals(actualRate.toString(), expectedRate.toString(), 2);
         assertRoughlyEquals(actualReverseRate.toString(), expectedReverseRate.toString(), 2);
     }

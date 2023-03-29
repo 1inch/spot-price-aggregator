@@ -37,7 +37,7 @@ describe('CurveOracle', function () {
 
 describe('CurveOracle doesn\'t ruin rates', function () {
     async function initContracts () {
-        const tresholdFilter = 10;
+        const thresholdFilter = 10;
 
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2Factory, initcodeHash]);
         const curveOracle = await deployContract('CurveOracle', [curveRegistry]);
@@ -99,29 +99,29 @@ describe('CurveOracle doesn\'t ruin rates', function () {
             tokens.WETH,
         ]);
 
-        return { oldOffchainOracle, newOffchainOracle, tresholdFilter };
+        return { oldOffchainOracle, newOffchainOracle, thresholdFilter };
     }
 
     it('WBTC WETH', async function () {
-        const { oldOffchainOracle, newOffchainOracle, tresholdFilter } = await loadFixture(initContracts);
-        await testRate(tokens.WBTC, tokens.WETH, oldOffchainOracle, newOffchainOracle, tresholdFilter);
+        const { oldOffchainOracle, newOffchainOracle, thresholdFilter } = await loadFixture(initContracts);
+        await testRate(tokens.WBTC, tokens.WETH, oldOffchainOracle, newOffchainOracle, thresholdFilter);
     });
 
     it('WETH WBTC', async function () {
-        const { oldOffchainOracle, newOffchainOracle, tresholdFilter } = await loadFixture(initContracts);
-        await testRate(tokens.WETH, tokens.WBTC, oldOffchainOracle, newOffchainOracle, tresholdFilter);
+        const { oldOffchainOracle, newOffchainOracle, thresholdFilter } = await loadFixture(initContracts);
+        await testRate(tokens.WETH, tokens.WBTC, oldOffchainOracle, newOffchainOracle, thresholdFilter);
     });
 
     it('WBTC USDT', async function () {
-        const { oldOffchainOracle, newOffchainOracle, tresholdFilter } = await loadFixture(initContracts);
-        await testRate(tokens.WBTC, tokens.USDT, oldOffchainOracle, newOffchainOracle, tresholdFilter);
+        const { oldOffchainOracle, newOffchainOracle, thresholdFilter } = await loadFixture(initContracts);
+        await testRate(tokens.WBTC, tokens.USDT, oldOffchainOracle, newOffchainOracle, thresholdFilter);
     });
 
-    async function testRate (srcToken, dstToken, oldOffchainOracle, newOffchainOracle, tresholdFilter) {
-        const expectedRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, tresholdFilter);
-        const actualRate = await newOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, tresholdFilter);
-        const expectedReverseRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, tresholdFilter);
-        const actualReverseRate = await newOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, tresholdFilter);
+    async function testRate (srcToken, dstToken, oldOffchainOracle, newOffchainOracle, thresholdFilter) {
+        const expectedRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
+        const actualRate = await newOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
+        const expectedReverseRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
+        const actualReverseRate = await newOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
         assertRoughlyEqualValues(actualRate.toString(), expectedRate.toString(), '0.05');
         assertRoughlyEqualValues(actualReverseRate.toString(), expectedReverseRate.toString(), '0.05');
     }

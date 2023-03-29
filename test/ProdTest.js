@@ -16,7 +16,7 @@ const multiWrapper = '0x931e32b6d112f7be74b16f7fbc77d491b30fe18c';
 
 describe.skip('ProdTest', async function () {
     async function initContracts () {
-        const tresholdFilter = 10;
+        const thresholdFilter = 10;
 
         // const CompoundLikeWrapper = await ethers.getContractFactory('CompoundLikeWrapper');
         // this.compoundWrapper = await CompoundLikeWrapper.deploy();
@@ -44,12 +44,12 @@ describe.skip('ProdTest', async function () {
             ],
         );
         await offchainOracle.deployed();
-        return { tresholdFilter, offchainOracle };
+        return { thresholdFilter, offchainOracle };
     }
 
     it('zks -> eth', async function () {
-        const { tresholdFilter, offchainOracle } = await loadFixture(initContracts);
-        const rate = await offchainOracle.getRateWithThreshold(tokens.WETH, '0x793786e2dd4Cc492ed366a94B88a3Ff9ba5E7546', tresholdFilter);
+        const { thresholdFilter, offchainOracle } = await loadFixture(initContracts);
+        const rate = await offchainOracle.getRateWithThreshold(tokens.WETH, '0x793786e2dd4Cc492ed366a94B88a3Ff9ba5E7546', thresholdFilter);
         console.log(rate.toString());
         expect(rate).to.lt(ether('0.001'));
     });

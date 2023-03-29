@@ -10,7 +10,7 @@ const ADAIV2 = '0x028171bCA77440897B824Ca71D1c56caC55b68A3';
 
 describe('OffchainOracle', function () {
     async function initContracts () {
-        const tresholdFilter = 10;
+        const thresholdFilter = 10;
 
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2Factory, initcodeHash]);
         const uniswapOracle = await deployContract('UniswapOracle', ['0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95']);
@@ -27,7 +27,7 @@ describe('OffchainOracle', function () {
         ]]);
 
         return {
-            tresholdFilter,
+            thresholdFilter,
             uniswapV2LikeOracle,
             uniswapOracle,
             mooniswapOracle,
@@ -37,7 +37,7 @@ describe('OffchainOracle', function () {
 
     describe('built-in connectors', function () {
         async function initContractsAndOffchainOracle () {
-            const { tresholdFilter, uniswapV2LikeOracle, uniswapOracle, mooniswapOracle, multiWrapper } = await initContracts();
+            const { thresholdFilter, uniswapV2LikeOracle, uniswapOracle, mooniswapOracle, multiWrapper } = await initContracts();
 
             const offchainOracle = await deployContract('OffchainOracle', [
                 multiWrapper.address,
@@ -71,73 +71,73 @@ describe('OffchainOracle', function () {
             ]);
 
             const gasEstimator = await deployContract('GasEstimator');
-            return { tresholdFilter, offchainOracle, expensiveOffchainOracle, gasEstimator };
+            return { thresholdFilter, offchainOracle, expensiveOffchainOracle, gasEstimator };
         }
 
         it('weth -> dai', async function () {
-            const { tresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
-            const rate = await offchainOracle.getRateWithThreshold(tokens.WETH, tokens.DAI, true, tresholdFilter);
+            const { thresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.WETH, tokens.DAI, true, thresholdFilter);
             expect(rate).to.gt(ether('1000'));
         });
 
         it('eth -> dai', async function () {
-            const { tresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
-            const rate = await offchainOracle.getRateWithThreshold(tokens.ETH, tokens.DAI, true, tresholdFilter);
+            const { thresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.ETH, tokens.DAI, true, thresholdFilter);
             expect(rate).to.gt(ether('1000'));
         });
 
         it('usdc -> dai', async function () {
-            const { tresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
-            const rate = await offchainOracle.getRateWithThreshold(tokens.USDC, tokens.DAI, true, tresholdFilter);
+            const { thresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.USDC, tokens.DAI, true, thresholdFilter);
             expect(rate).to.gt(ether('980000000000'));
         });
 
         it('dai -> adai', async function () {
-            const { tresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
-            const rate = await offchainOracle.getRateWithThreshold(tokens.DAI, ADAIV2, true, tresholdFilter);
+            const { thresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.DAI, ADAIV2, true, thresholdFilter);
             expect(rate).to.equal(ether('1'));
         });
 
         it('getRate(dai -> link)', async function () {
             if (hre.__SOLIDITY_COVERAGE_RUNNING) { this.skip(); }
-            const { tresholdFilter, expensiveOffchainOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
+            const { thresholdFilter, expensiveOffchainOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
             const result = await gasEstimator.gasCost(
                 expensiveOffchainOracle.address,
-                expensiveOffchainOracle.interface.encodeFunctionData('getRateWithThreshold', [tokens.DAI, tokens.LINK, true, tresholdFilter]),
+                expensiveOffchainOracle.interface.encodeFunctionData('getRateWithThreshold', [tokens.DAI, tokens.LINK, true, thresholdFilter]),
             );
             assertRoughlyEquals(result.gasUsed, '864444', 3);
         });
 
         it('getRateToEth(dai)_ShouldHaveCorrectRate', async function () {
-            const { tresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
-            const expectedRate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.WETH, true, tresholdFilter);
-            const actualRate = await offchainOracle.getRateToEthWithThreshold(tokens.DAI, true, tresholdFilter);
+            const { thresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
+            const expectedRate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.WETH, true, thresholdFilter);
+            const actualRate = await offchainOracle.getRateToEthWithThreshold(tokens.DAI, true, thresholdFilter);
             assertRoughlyEquals(expectedRate, actualRate, 3);
         });
 
         it('getRateToEth(dai)', async function () {
             if (hre.__SOLIDITY_COVERAGE_RUNNING) { this.skip(); }
-            const { tresholdFilter, expensiveOffchainOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
+            const { thresholdFilter, expensiveOffchainOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
             const result = await gasEstimator.gasCost(
                 expensiveOffchainOracle.address,
-                expensiveOffchainOracle.interface.encodeFunctionData('getRateToEthWithThreshold', [tokens.DAI, true, tresholdFilter]),
+                expensiveOffchainOracle.interface.encodeFunctionData('getRateToEthWithThreshold', [tokens.DAI, true, thresholdFilter]),
             );
             assertRoughlyEquals(result.gasUsed, '1447539', 3);
         });
 
         it('getRateDirect(dai -> link)_ShouldHaveCorrectRate', async function () {
-            const { tresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
-            const expectedRate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.LINK, true, tresholdFilter);
-            const actualRate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.LINK, false, tresholdFilter);
+            const { thresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
+            const expectedRate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.LINK, true, thresholdFilter);
+            const actualRate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.LINK, false, thresholdFilter);
             assertRoughlyEquals(expectedRate, actualRate, 3);
         });
 
         it('getRateDirect(dai -> link)', async function () {
             if (hre.__SOLIDITY_COVERAGE_RUNNING) { this.skip(); }
-            const { tresholdFilter, expensiveOffchainOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
+            const { thresholdFilter, expensiveOffchainOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
             const result = await gasEstimator.gasCost(
                 expensiveOffchainOracle.address,
-                expensiveOffchainOracle.interface.encodeFunctionData('getRateWithThreshold', [tokens.DAI, tokens.LINK, false, tresholdFilter]),
+                expensiveOffchainOracle.interface.encodeFunctionData('getRateWithThreshold', [tokens.DAI, tokens.LINK, false, thresholdFilter]),
             );
             assertRoughlyEquals(result.gasUsed, '382698', 2);
         });
@@ -145,7 +145,7 @@ describe('OffchainOracle', function () {
 
     describe('customConnectors', function () {
         async function initContractsAndOffchainOracle () {
-            const { tresholdFilter, uniswapV2LikeOracle, uniswapOracle, multiWrapper } = await initContracts();
+            const { thresholdFilter, uniswapV2LikeOracle, uniswapOracle, multiWrapper } = await initContracts();
 
             const connectors = [
                 tokens.ETH,
@@ -179,37 +179,37 @@ describe('OffchainOracle', function () {
                 tokens.WETH,
             ]);
 
-            return { tresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors };
+            return { thresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors };
         }
 
         it('weth -> dai', async function () {
-            const { tresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors } = await loadFixture(initContractsAndOffchainOracle);
-            const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.WETH, tokens.DAI, true, connectors, tresholdFilter);
-            const rate = await offchainOracle.getRateWithThreshold(tokens.WETH, tokens.DAI, true, tresholdFilter);
+            const { thresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors } = await loadFixture(initContractsAndOffchainOracle);
+            const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.WETH, tokens.DAI, true, connectors, thresholdFilter);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.WETH, tokens.DAI, true, thresholdFilter);
             expect(rateWithCustomConnector).to.gt(ether('1000'));
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });
 
         it('eth -> dai', async function () {
-            const { tresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors } = await loadFixture(initContractsAndOffchainOracle);
-            const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.ETH, tokens.DAI, true, connectors, tresholdFilter);
-            const rate = await offchainOracle.getRateWithThreshold(tokens.ETH, tokens.DAI, true, tresholdFilter);
+            const { thresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors } = await loadFixture(initContractsAndOffchainOracle);
+            const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.ETH, tokens.DAI, true, connectors, thresholdFilter);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.ETH, tokens.DAI, true, thresholdFilter);
             expect(rateWithCustomConnector).to.gt(ether('1000'));
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });
 
         it('usdc -> dai', async function () {
-            const { tresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors } = await loadFixture(initContractsAndOffchainOracle);
-            const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.USDC, tokens.DAI, true, connectors, tresholdFilter);
-            const rate = await offchainOracle.getRateWithThreshold(tokens.USDC, tokens.DAI, true, tresholdFilter);
+            const { thresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors } = await loadFixture(initContractsAndOffchainOracle);
+            const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.USDC, tokens.DAI, true, connectors, thresholdFilter);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.USDC, tokens.DAI, true, thresholdFilter);
             expect(rateWithCustomConnector).to.gt(ether('980000000000'));
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });
 
         it('dai -> adai', async function () {
-            const { tresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors } = await loadFixture(initContractsAndOffchainOracle);
-            const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.DAI, ADAIV2, true, connectors, tresholdFilter);
-            const rate = await offchainOracle.getRateWithThreshold(tokens.DAI, ADAIV2, true, tresholdFilter);
+            const { thresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors } = await loadFixture(initContractsAndOffchainOracle);
+            const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.DAI, ADAIV2, true, connectors, thresholdFilter);
+            const rate = await offchainOracle.getRateWithThreshold(tokens.DAI, ADAIV2, true, thresholdFilter);
             expect(rateWithCustomConnector).to.equal(ether('1'));
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });
