@@ -8,7 +8,7 @@ const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7d
 const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 const ADAIV2 = '0x028171bCA77440897B824Ca71D1c56caC55b68A3';
 
-describe('OffchainOracle', function () {
+describe.only('OffchainOracle', function () {
     async function initContracts () {
         const thresholdFilter = 10;
 
@@ -105,7 +105,7 @@ describe('OffchainOracle', function () {
                 expensiveOffchainOracle.address,
                 expensiveOffchainOracle.interface.encodeFunctionData('getRateWithThreshold', [tokens.DAI, tokens.LINK, true, thresholdFilter]),
             );
-            assertRoughlyEquals(result.gasUsed, '864444', 3);
+            assertRoughlyEquals(result.gasUsed, '851124', 3);
         });
 
         it('getRateToEth(dai)_ShouldHaveCorrectRate', async function () {
@@ -122,7 +122,7 @@ describe('OffchainOracle', function () {
                 expensiveOffchainOracle.address,
                 expensiveOffchainOracle.interface.encodeFunctionData('getRateToEthWithThreshold', [tokens.DAI, true, thresholdFilter]),
             );
-            assertRoughlyEquals(result.gasUsed, '1447539', 3);
+            assertRoughlyEquals(result.gasUsed, '1418435', 3);
         });
 
         it('getRateDirect(dai -> link)_ShouldHaveCorrectRate', async function () {

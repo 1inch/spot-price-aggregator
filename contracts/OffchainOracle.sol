@@ -242,23 +242,23 @@ contract OffchainOracle is Ownable {
         uint256 thresholdFilter
     ) public view returns (uint256 weightedRate) {
         require(srcToken != dstToken, "Tokens should not be the same");
-        uint256 totalWeight;
+        require(thresholdFilter < 100, "Threshold should be less than 100");
         (IOracle[] memory allOracles, ) = oracles();
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useWrappers);
         (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = _getWrappedTokens(dstToken, useWrappers);
         IERC20[][2] memory allConnectors = _getAllConnectors(customConnectors);
-
-        uint256 oracleIndex;
-        uint256 maxOracleWeight;
 
         uint256 maxArrLength = wrappedSrcTokens.length * wrappedDstTokens.length * (allConnectors[0].length + allConnectors[1].length) * allOracles.length;
         OraclePrice[] memory oraclePrices;
         // Memory allocation in assembly to avoid array zeroing
         assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
             oraclePrices := mload(0x40)
-            mstore(0x40, add(oraclePrices, mul(maxArrLength, 0x40)))
+            mstore(0x40, add(oraclePrices, add(0x20, mul(maxArrLength, 0x40))))
             mstore(oraclePrices, maxArrLength)
         }
+
+        uint256 oracleIndex;
+        uint256 maxOracleWeight;
 
         unchecked {
             for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
@@ -267,13 +267,13 @@ contract OffchainOracle is Ownable {
                         return srcRates[k1].mul(dstRates[k2]).div(1e18);
                     }
                     for (uint256 k3 = 0; k3 < 2; k3++) {
-                        // IERC20[] memory connectors_ = allConnectors[k3];
                         for (uint256 j = 0; j < allConnectors[k3].length; j++) {
-                            if (allConnectors[k3][j] == wrappedSrcTokens[k1] || allConnectors[k3][j] == wrappedDstTokens[k2]) {
+                            IERC20 connector = allConnectors[k3][j];
+                            if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
                                 continue;
                             }
                             for (uint256 i = 0; i < allOracles.length; i++) {
-                                (OraclePrice memory oraclePrice) = _getRateImpl(allOracles[i], wrappedSrcTokens[k1], srcRates[k1], wrappedDstTokens[k2], dstRates[k2], allConnectors[k3][j]);
+                                (OraclePrice memory oraclePrice) = _getRateImpl(allOracles[i], wrappedSrcTokens[k1], srcRates[k1], wrappedDstTokens[k2], dstRates[k2], connector);
                                 if (oraclePrice.weight > 0) {
                                     oraclePrices[oracleIndex] = oraclePrice;
                                     oracleIndex++;
@@ -290,8 +290,10 @@ contract OffchainOracle is Ownable {
                 mstore(oraclePrices, oracleIndex)
             }
 
+            uint256 totalWeight;
+
             for (uint256 i = 0; i < oraclePrices.length; i++) {
-                if (oraclePrices[i].weight < maxOracleWeight * thresholdFilter / 100) {
+                if (oraclePrices[i].weight * 100 < maxOracleWeight * thresholdFilter) {
                     continue;
                 }
                 weightedRate += (oraclePrices[i].rate * oraclePrices[i].weight);
@@ -331,14 +333,11 @@ contract OffchainOracle is Ownable {
     * @notice The same as `getRateWithCustomConnectors` but checks against `ETH` and `WETH` only
     */
     function getRateToEthWithCustomConnectors(IERC20 srcToken, bool useSrcWrappers, IERC20[] memory customConnectors, uint256 thresholdFilter) public view returns (uint256 weightedRate) {
-        uint256 totalWeight;
+        require(thresholdFilter < 100, "Threshold should be less than 100");
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useSrcWrappers);
         IERC20[2] memory wrappedDstTokens = [_BASE, _wBase];
         bytes32[][2] memory wrappedOracles = [_ethOracles._inner._values, _wethOracles._inner._values];
         IERC20[][2] memory allConnectors = _getAllConnectors(customConnectors);
-
-        uint256 oracleIndex;
-        uint256 maxOracleWeight;
 
         uint256 maxArrLength = _getMaxArrayLength(wrappedSrcTokens.length, 2, wrappedOracles, allConnectors);
         OraclePrice[] memory oraclePrices;
@@ -349,6 +348,9 @@ contract OffchainOracle is Ownable {
             mstore(oraclePrices, maxArrLength)
         }
 
+        uint256 oracleIndex;
+        uint256 maxOracleWeight;
+
         unchecked {
             for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
                 for (uint256 k2 = 0; k2 < wrappedDstTokens.length; k2++) {
@@ -357,12 +359,12 @@ contract OffchainOracle is Ownable {
                     }
                     for (uint256 k3 = 0; k3 < 2; k3++) {
                         for (uint256 j = 0; j < allConnectors[k3].length; j++) {
-                            // IERC20 connector = allConnectors[k3][j];
-                            if (allConnectors[k3][j] == wrappedSrcTokens[k1] || allConnectors[k3][j] == wrappedDstTokens[k2]) {
+                            IERC20 connector = allConnectors[k3][j];
+                            if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
                                 continue;
                             }
                             for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
-                                (OraclePrice memory oraclePrice) = _getRateImpl(IOracle(address(uint160(uint256(wrappedOracles[k2][i])))), wrappedSrcTokens[k1], srcRates[k1], wrappedDstTokens[k2], 1e18, allConnectors[k3][j]);
+                                (OraclePrice memory oraclePrice) = _getRateImpl(IOracle(address(uint160(uint256(wrappedOracles[k2][i])))), wrappedSrcTokens[k1], srcRates[k1], wrappedDstTokens[k2], 1e18, connector);
                                 if (oraclePrice.weight > 0) {
                                     oraclePrices[oracleIndex] = oraclePrice;
                                     oracleIndex++;
@@ -378,6 +380,8 @@ contract OffchainOracle is Ownable {
             assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
                 mstore(oraclePrices, oracleIndex)
             }
+
+            uint256 totalWeight;
 
             for (uint256 i = 0; i < oracleIndex; i++) {
                 if (oraclePrices[i].weight < maxOracleWeight * thresholdFilter / 100) {
