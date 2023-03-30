@@ -21,11 +21,11 @@ contract YVaultWrapper is IWrapper {
                     uint8 decimals = ERC20(address(wrappedToken)).decimals();
                     rate = _rate * (10 ** 18) / (10 ** decimals);
                 } catch {
-                    revert NotSupportedToken("YVaultWrapper");
+                    revert NotSupportedToken();
                 }
             }
         } catch {
-            revert NotSupportedToken("YVaultWrapper");
+            revert NotSupportedToken();
         }
     }
 }

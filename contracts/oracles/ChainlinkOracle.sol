@@ -23,7 +23,7 @@ contract ChainlinkOracle is IOracle {
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
-        if(connector != _NONE) revert ConnectorShouldBeNone("ChainlinkOracle");
+        if(connector != _NONE) revert ConnectorShouldBeNone();
         (uint256 srcAnswer, uint8 srcDecimals) = srcToken != _ETH ? _getRate(srcToken) : (1e18, 18);
         (uint256 dstAnswer, uint8 dstDecimals) = dstToken != _ETH ? _getRate(dstToken) : (1e18, 18);
         rate = srcAnswer * 1e18 / dstAnswer;
@@ -33,7 +33,7 @@ contract ChainlinkOracle is IOracle {
     function _getRate(IERC20 token) private view returns (uint256 rate, uint8 decimals) {
         (, int256 answer, , uint256 srcUpdatedAt, ) = chainlink.latestRoundData(token, _QUOTE);
         unchecked {
-            if(block.timestamp >= srcUpdatedAt + _RATE_TTL) revert RateTooOld("ChainlinkOracle");
+            if(block.timestamp >= srcUpdatedAt + _RATE_TTL) revert RateTooOld();
         }
         rate = answer.toUint256();
         decimals = ERC20(address(token)).decimals();

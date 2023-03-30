@@ -17,7 +17,7 @@ contract AaveWrapperV1 is IWrapper {
         unchecked {
             for (uint256 i = 0; i < tokens.length; i++) {
                 (,,,,,,,,,,, IERC20 aToken,) = _LENDING_POOL.getReserveData(address(tokens[i]));
-                if(aToken == IERC20(address(0))) revert NotAddedMarket("AaveWrapperV1");
+                if(aToken == IERC20(address(0))) revert NotAddedMarket();
                 aTokenToToken[aToken] = tokens[i];
                 tokenToaToken[tokens[i]] = aToken;
             }
@@ -28,7 +28,7 @@ contract AaveWrapperV1 is IWrapper {
         unchecked {
             for (uint256 i = 0; i < tokens.length; i++) {
                 (,,,,,,,,,,, IERC20 aToken,) = _LENDING_POOL.getReserveData(address(tokens[i]));
-                if(aToken != IERC20(address(0))) revert NotRemovedMarket("AaveWrapperV1");
+                if(aToken != IERC20(address(0))) revert NotRemovedMarket();
                 delete aTokenToToken[aToken];
                 delete tokenToaToken[tokens[i]];
             }
@@ -44,7 +44,7 @@ contract AaveWrapperV1 is IWrapper {
         } else if (aToken != IERC20(address(0))) {
             return (aToken, 1e18);
         } else {
-            revert NotSupportedToken("AaveWrapperV1");
+            revert NotSupportedToken();
         }
     }
 }

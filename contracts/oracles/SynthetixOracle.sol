@@ -30,7 +30,7 @@ contract SynthetixOracle is IOracle {
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
-        if(connector != _NONE) revert ConnectorShouldBeNone("SynthetixOracle");
+        if(connector != _NONE) revert ConnectorShouldBeNone();
         ISynthetixAddressResolver resolver = ISynthetixAddressResolver(proxy.target());
         ISynthetixExchangeRates exchangeRates = ISynthetixExchangeRates(resolver.getAddress(_EXCHANGE_RATES_KEY));
 
@@ -53,7 +53,7 @@ contract SynthetixOracle is IOracle {
                 proxyKey := or(_PROXY_KEY, shr(40, mload(add(symbol, 32))))
             }
         }
-        if(resolver.getAddress(proxyKey) != token) revert UnregisteredToken("SynthetixOracle");
+        if(resolver.getAddress(proxyKey) != token) revert UnregisteredToken();
 
         bytes32 key;
         assembly  ("memory-safe") { // solhint-disable-line no-inline-assembly
@@ -61,7 +61,7 @@ contract SynthetixOracle is IOracle {
         }
 
         (uint256 answer, bool isInvalid) = exchangeRates.rateAndInvalid(key);
-        if(isInvalid) revert InvalidRate("SynthetixOracle");
+        if(isInvalid) revert InvalidRate();
 
         return answer;
     }

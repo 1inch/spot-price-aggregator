@@ -43,7 +43,7 @@ contract DodoOracle is IOracle {
         IDodo dodo = IDodo(dodoZoo.getDODO(srcToken, dstToken));
         bool isSrcBase = (dodo != _ZERO_DODO);
         if (!isSrcBase) dodo = IDodo(dodoZoo.getDODO(dstToken, srcToken));
-        if(dodo == _ZERO_DODO) revert PoolNotFound("DodoOracle");
+        if(dodo == _ZERO_DODO) revert PoolNotFound();
 
         uint256 price = dodo.getMidPrice();
         rate = isSrcBase ? price : 1e36 / price;

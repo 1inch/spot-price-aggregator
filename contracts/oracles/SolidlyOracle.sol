@@ -21,7 +21,7 @@ contract SolidlyOracle is IOracle {
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
-        if(connector != _NONE) revert ConnectorShouldBeNone("SolidlyOracle");
+        if(connector != _NONE) revert ConnectorShouldBeNone();
         for (uint256 i = 1; i < 2; i++) {
             (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, i == 0 ? true : false);
             uint256 w = (b0 * b1).sqrt();
