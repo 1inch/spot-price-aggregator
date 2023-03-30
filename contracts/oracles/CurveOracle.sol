@@ -22,7 +22,7 @@ contract CurveOracle is IOracle {
     }
 
     function getRate(IERC20 _srcToken, IERC20 _dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
-        require(connector == _NONE, "connector should be NONE");
+        if(connector != _NONE) revert ConnectorShouldBeNone();
 
         address srcToken = address(_srcToken);
         address dstToken = address(_dstToken);

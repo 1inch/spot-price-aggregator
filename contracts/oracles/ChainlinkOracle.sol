@@ -10,6 +10,8 @@ import "../interfaces/IOracle.sol";
 contract ChainlinkOracle is IOracle {
     using SafeCast for int256;
 
+    error RateTooOld();
+
     IChainlink public immutable chainlink;
     address private constant _QUOTE = address(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
     IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
@@ -21,7 +23,7 @@ contract ChainlinkOracle is IOracle {
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
-        require(connector == _NONE, "CO: connector should be None");
+        if(connector != _NONE) revert ConnectorShouldBeNone();
         (uint256 srcAnswer, uint8 srcDecimals) = srcToken != _ETH ? _getRate(srcToken) : (1e18, 18);
         (uint256 dstAnswer, uint8 dstDecimals) = dstToken != _ETH ? _getRate(dstToken) : (1e18, 18);
         rate = srcAnswer * 1e18 / dstAnswer;
@@ -31,7 +33,7 @@ contract ChainlinkOracle is IOracle {
     function _getRate(IERC20 token) private view returns (uint256 rate, uint8 decimals) {
         (, int256 answer, , uint256 srcUpdatedAt, ) = chainlink.latestRoundData(token, _QUOTE);
         unchecked {
-            require(block.timestamp < srcUpdatedAt + _RATE_TTL, "CO: rate too old");
+            if(block.timestamp >= srcUpdatedAt + _RATE_TTL) revert RateTooOld();
         }
         rate = answer.toUint256();
         decimals = ERC20(address(token)).decimals();

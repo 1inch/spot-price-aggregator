@@ -16,6 +16,15 @@ contract OffchainOracle is Ownable {
     using Sqrt for uint256;
     using EnumerableSet for EnumerableSet.AddressSet;
 
+    error ArraysLengthMismatch();
+    error OracleAlreadyAdded();
+    error ConnectorAlreadyAdded();
+    error InvalidOracleTokenKind();
+    error UnknownOracle();
+    error UnknownConnector();
+    error SameTokens();
+    error TooBigThreshold();
+
     enum OracleType { WETH, ETH, WETH_ETH }
 
     event OracleAdded(IOracle oracle, OracleType oracleType);
@@ -39,24 +48,24 @@ contract OffchainOracle is Ownable {
 
     constructor(MultiWrapper _multiWrapper, IOracle[] memory existingOracles, OracleType[] memory oracleTypes, IERC20[] memory existingConnectors, IERC20 wBase) {
         unchecked {
-            require(existingOracles.length == oracleTypes.length, "Arrays length mismatch");
+            if(existingOracles.length != oracleTypes.length) revert ArraysLengthMismatch();
             multiWrapper = _multiWrapper;
             emit MultiWrapperUpdated(_multiWrapper);
             for (uint256 i = 0; i < existingOracles.length; i++) {
                 if (oracleTypes[i] == OracleType.WETH) {
-                    require(_wethOracles.add(address(existingOracles[i])), "Oracle already added");
+                    if(!_wethOracles.add(address(existingOracles[i]))) revert OracleAlreadyAdded();
                 } else if (oracleTypes[i] == OracleType.ETH) {
-                    require(_ethOracles.add(address(existingOracles[i])), "Oracle already added");
+                    if(!_ethOracles.add(address(existingOracles[i]))) revert OracleAlreadyAdded();
                 } else if (oracleTypes[i] == OracleType.WETH_ETH) {
-                    require(_wethOracles.add(address(existingOracles[i])), "Oracle already added");
-                    require(_ethOracles.add(address(existingOracles[i])), "Oracle already added");
+                    if(!_wethOracles.add(address(existingOracles[i]))) revert OracleAlreadyAdded();
+                    if(!_ethOracles.add(address(existingOracles[i]))) revert OracleAlreadyAdded();
                 } else {
-                    revert("Invalid OracleTokenKind");
+                    revert InvalidOracleTokenKind();
                 }
                 emit OracleAdded(existingOracles[i], oracleTypes[i]);
             }
             for (uint256 i = 0; i < existingConnectors.length; i++) {
-                require(_connectors.add(address(existingConnectors[i])), "Connector already added");
+                if(!_connectors.add(address(existingConnectors[i]))) revert ConnectorAlreadyAdded();
                 emit ConnectorAdded(existingConnectors[i]);
             }
             _wBase = wBase;
@@ -135,14 +144,14 @@ contract OffchainOracle is Ownable {
     */
     function addOracle(IOracle oracle, OracleType oracleKind) external onlyOwner {
         if (oracleKind == OracleType.WETH) {
-            require(_wethOracles.add(address(oracle)), "Oracle already added");
+            if(!_wethOracles.add(address(oracle))) revert OracleAlreadyAdded();
         } else if (oracleKind == OracleType.ETH) {
-            require(_ethOracles.add(address(oracle)), "Oracle already added");
+            if(!_ethOracles.add(address(oracle))) revert OracleAlreadyAdded();
         } else if (oracleKind == OracleType.WETH_ETH) {
-            require(_wethOracles.add(address(oracle)), "Oracle already added");
-            require(_ethOracles.add(address(oracle)), "Oracle already added");
+            if(!_wethOracles.add(address(oracle))) revert OracleAlreadyAdded();
+            if(!_ethOracles.add(address(oracle))) revert OracleAlreadyAdded();
         } else {
-            revert("Invalid OracleTokenKind");
+            revert InvalidOracleTokenKind();
         }
         emit OracleAdded(oracle, oracleKind);
     }
@@ -154,14 +163,14 @@ contract OffchainOracle is Ownable {
     */
     function removeOracle(IOracle oracle, OracleType oracleKind) external onlyOwner {
         if (oracleKind == OracleType.WETH) {
-            require(_wethOracles.remove(address(oracle)), "Unknown oracle");
+            if(!_wethOracles.remove(address(oracle))) revert UnknownOracle();
         } else if (oracleKind == OracleType.ETH) {
-            require(_ethOracles.remove(address(oracle)), "Unknown oracle");
+            if(!_ethOracles.remove(address(oracle))) revert UnknownOracle();
         } else if (oracleKind == OracleType.WETH_ETH) {
-            require(_wethOracles.remove(address(oracle)), "Unknown oracle");
-            require(_ethOracles.remove(address(oracle)), "Unknown oracle");
+            if(!_wethOracles.remove(address(oracle))) revert UnknownOracle();
+            if(!_ethOracles.remove(address(oracle))) revert UnknownOracle();
         } else {
-            revert("Invalid OracleTokenKind");
+            revert InvalidOracleTokenKind();
         }
         emit OracleRemoved(oracle, oracleKind);
     }
@@ -171,7 +180,7 @@ contract OffchainOracle is Ownable {
     * @param connector The address of the new connector to add
     */
     function addConnector(IERC20 connector) external onlyOwner {
-        require(_connectors.add(address(connector)), "Connector already added");
+        if(!_connectors.add(address(connector))) revert ConnectorAlreadyAdded();
         emit ConnectorAdded(connector);
     }
 
@@ -180,7 +189,7 @@ contract OffchainOracle is Ownable {
     * @param connector The address of the connector to remove
     */
     function removeConnector(IERC20 connector) external onlyOwner {
-        require(_connectors.remove(address(connector)), "Unknown connector");
+        if(!_connectors.remove(address(connector))) revert UnknownConnector();
         emit ConnectorRemoved(connector);
     }
 
@@ -241,8 +250,8 @@ contract OffchainOracle is Ownable {
         IERC20[] memory customConnectors,
         uint256 thresholdFilter
     ) public view returns (uint256 weightedRate) {
-        require(srcToken != dstToken, "Tokens should not be the same");
-        require(thresholdFilter < 100, "Threshold is too big");
+        if(srcToken == dstToken) revert SameTokens();
+        if(thresholdFilter >= 100) revert TooBigThreshold();
         (IOracle[] memory allOracles, ) = oracles();
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useWrappers);
         (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = _getWrappedTokens(dstToken, useWrappers);
@@ -333,7 +342,7 @@ contract OffchainOracle is Ownable {
     * @notice The same as `getRateWithCustomConnectors` but checks against `ETH` and `WETH` only
     */
     function getRateToEthWithCustomConnectors(IERC20 srcToken, bool useSrcWrappers, IERC20[] memory customConnectors, uint256 thresholdFilter) public view returns (uint256 weightedRate) {
-        require(thresholdFilter < 100, "Threshold is too big");
+        if(thresholdFilter >= 100) revert TooBigThreshold();
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useSrcWrappers);
         IERC20[2] memory wrappedDstTokens = [_BASE, _wBase];
         bytes32[][2] memory wrappedOracles = [_ethOracles._inner._values, _wethOracles._inner._values];

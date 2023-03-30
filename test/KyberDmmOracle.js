@@ -13,14 +13,14 @@ describe('KyberDmmOracle', function () {
         const { kyberDmmOracle } = await loadFixture(initContracts);
         await expect(
             kyberDmmOracle.callStatic.getRate(tokens.USDT, tokens.EEE, tokens.NONE),
-        ).to.be.revertedWith('KO: no pools');
+        ).to.be.revertedWithCustomError(kyberDmmOracle, 'PoolNotFound');
     });
 
     it('should revert with amount of pools with connector error', async function () {
         const { kyberDmmOracle } = await loadFixture(initContracts);
         await expect(
             kyberDmmOracle.callStatic.getRate(tokens.USDT, tokens.WETH, tokens.MKR),
-        ).to.be.revertedWith('KO: no pools with connector');
+        ).to.be.revertedWithCustomError(kyberDmmOracle, 'PoolWithConnectorNotFound');
     });
 
     it('USDC -> USDT', async function () {

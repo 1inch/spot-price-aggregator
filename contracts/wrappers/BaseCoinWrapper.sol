@@ -18,7 +18,7 @@ contract BaseCoinWrapper is IWrapper {
         } else if (token == _wBase) {
             return (_BASE, 1e18);
         } else {
-            revert("Unsupported token");
+            revert NotSupportedToken();
         }
     }
 }

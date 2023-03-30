@@ -15,7 +15,7 @@ describe('DodoOracle', function () {
         const { dodoOracle } = await loadFixture(initContracts);
         await expect(
             dodoOracle.getRate(tokens.USDT, tokens['1INCH'], tokens.NONE),
-        ).to.be.revertedWith('DO: Dodo not found');
+        ).to.be.revertedWithCustomError(dodoOracle, 'PoolNotFound');
     });
 
     it('WETH -> USDC', async function () {

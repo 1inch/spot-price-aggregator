@@ -11,6 +11,9 @@ contract MultiWrapper is Ownable {
     using SafeMath for uint256;
     using EnumerableSet for EnumerableSet.AddressSet;
 
+    error WrapperAlreadyAdded();
+    error UnknownWrapper();
+
     event WrapperAdded(IWrapper connector);
     event WrapperRemoved(IWrapper connector);
 
@@ -19,7 +22,7 @@ contract MultiWrapper is Ownable {
     constructor(IWrapper[] memory existingWrappers) {
         unchecked {
             for (uint256 i = 0; i < existingWrappers.length; i++) {
-                require(_wrappers.add(address(existingWrappers[i])), "Wrapper already added");
+                if(!_wrappers.add(address(existingWrappers[i]))) revert WrapperAlreadyAdded();
                 emit WrapperAdded(existingWrappers[i]);
             }
         }
@@ -35,12 +38,12 @@ contract MultiWrapper is Ownable {
     }
 
     function addWrapper(IWrapper wrapper) external onlyOwner {
-        require(_wrappers.add(address(wrapper)), "Wrapper already added");
+        if(!_wrappers.add(address(wrapper))) revert WrapperAlreadyAdded();
         emit WrapperAdded(wrapper);
     }
 
     function removeWrapper(IWrapper wrapper) external onlyOwner {
-        require(_wrappers.remove(address(wrapper)), "Unknown wrapper");
+        if(!_wrappers.remove(address(wrapper))) revert UnknownWrapper();
         emit WrapperRemoved(wrapper);
     }
 

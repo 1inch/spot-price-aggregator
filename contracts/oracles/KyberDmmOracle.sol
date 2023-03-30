@@ -27,7 +27,7 @@ contract KyberDmmOracle is IOracle {
             if (connector == _NONE) {
                 address[] memory pools = factory.getPools(srcToken, dstToken);
 
-                require(pools.length > 0, "KO: no pools");
+                if(pools.length == 0) revert PoolNotFound();
 
                 for (uint256 i = 0; i < pools.length; i++) {
                     (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, pools[i]);
@@ -40,7 +40,7 @@ contract KyberDmmOracle is IOracle {
                 address[] memory pools0 = factory.getPools(srcToken, connector);
                 address[] memory pools1 = factory.getPools(connector, dstToken);
 
-                require(pools0.length > 0 && pools1.length > 0, "KO: no pools with connector");
+                if(pools0.length == 0 || pools1.length == 0) revert PoolWithConnectorNotFound();
 
                 for (uint256 i = 0; i < pools0.length; i++) {
                     for (uint256 j = 0; j < pools1.length; j++) {
