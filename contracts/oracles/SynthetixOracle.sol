@@ -10,8 +10,8 @@ import "../interfaces/ISynthetixAddressResolver.sol";
 import "../interfaces/IOracle.sol";
 
 contract SynthetixOracle is IOracle {
-    error UnregisteredToken(string oracle);
-    error InvalidRate(string oracle);
+    error UnregisteredToken();
+    error InvalidRate();
 
     ISynthetixProxy public immutable proxy;
     IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);

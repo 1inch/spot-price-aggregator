@@ -10,7 +10,7 @@ import "../interfaces/IOracle.sol";
 contract ChainlinkOracle is IOracle {
     using SafeCast for int256;
 
-    error RateTooOld(string oracle);
+    error RateTooOld();
 
     IChainlink public immutable chainlink;
     address private constant _QUOTE = address(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);

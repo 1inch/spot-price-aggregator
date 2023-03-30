@@ -6,7 +6,7 @@ import "../interfaces/IUniswapFactory.sol";
 import "./OracleBase.sol";
 
 contract UniswapOracle is OracleBase {
-    error UnsupportedTokens(string oracle);
+    error UnsupportedTokens();
 
     IUniswapFactory private immutable _UNISWAP_FACTORY;  // solhint-disable-line var-name-mixedcase
     IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
