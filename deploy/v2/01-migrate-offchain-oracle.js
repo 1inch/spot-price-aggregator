@@ -41,6 +41,30 @@ const OraclesToUpdate = {
             contract: 'UniswapV3Oracle',
         },
     },
+    aurora: {
+        '0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Trisolaris',
+        },
+        '0x9488795C688d0AAe98F2056467C13a051C954657': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'WannaSwap',
+        },
+        '0xE9bb60e96c40F35CdC4e84db85Ac0BFad63120ba': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'NearPAD',
+        },
+        '0x929d800861d4da158A8FEdeAE119cF219658a617': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'AuroraSwap',
+        },
+        '0x04098C93b15E5Cbb5A49651f20218C85F202Cd27': {
+            contract: 'DodoOracle',
+        },
+        '0x41674e58F339fE1caB03CA8DF095D46B998E6125': {
+            contract: 'DodoV2Oracle',
+        },
+    },
 };
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
@@ -48,7 +72,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log(`running ${networkName} deploy script`);
     const chainId = await getChainId();
     console.log('network id ', chainId);
-    if (chainId.toString() !== hre.config.networks[networkName].chainId) {
+    if (chainId !== hre.config.networks[networkName].chainId.toString()) {
         console.log(`network chain id: ${hre.config.networks[networkName].chainId}, your chain id ${chainId}`);
         console.log('skipping wrong chain id deployment');
         return;
@@ -71,32 +95,43 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         }
 
         const contractName = OraclesToUpdate[networkName][oracles.allOracles[i]].contract;
+        const exchangeName = OraclesToUpdate[networkName][oracles.allOracles[i]].exchangeName;
         let oracle;
+        let isNoDeployments = false;
         let params = [];
-        switch (contractName) {
-        case 'UniswapV2LikeOracle':
-            oracle = await attachContract(contractName, oracles.allOracles[i]);
-            params = [await oracle.factory(), await oracle.initcodeHash()];
-            break;
-        case 'MooniswapOracle':
-        case 'KyberDmmOracle':
-            oracle = await attachContract(contractName, oracles.allOracles[i]);
-            params = [await oracle.factory()];
-            break;
-        case 'UniswapOracle':
-            params = OraclesToUpdate[networkName][oracles.allOracles[i]].params;
-            break;
-        case 'UniswapV3Oracle':
-            break;
+        try {
+            params = (await deployments.get(`${contractName}${!exchangeName ? '' : '_' + exchangeName}`)).args;
+        } catch {
+            isNoDeployments = true;
         }
 
-        const exchangeName = OraclesToUpdate[networkName][oracles.allOracles[i]].exchangeName;
+        if (isNoDeployments) {
+            switch (contractName) {
+            case 'UniswapV2LikeOracle':
+                oracle = await attachContract(contractName, oracles.allOracles[i]);
+                params = [await oracle.factory(), await oracle.initcodeHash()];
+                break;
+            case 'MooniswapOracle':
+            case 'KyberDmmOracle':
+                oracle = await attachContract(contractName, oracles.allOracles[i]);
+                params = [await oracle.factory()];
+                break;
+            case 'UniswapOracle':
+                params = OraclesToUpdate[networkName][oracles.allOracles[i]].params;
+                break;
+            case 'UniswapV3Oracle':
+                break;
+            }
+        }
+
         const updatedOracle = await idempotentDeploy(
             contractName,
             params,
             deployments,
             deployer,
             `${contractName}${!exchangeName ? '' : '_' + exchangeName}`,
+            false,
+            !!OraclesToUpdate[networkName][oracles.allOracles[i]].skipDeploy,
         );
         existingOracles.push(updatedOracle.address);
         oracleTypes.push(oracles.oracleTypes[i]);
