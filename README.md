@@ -162,12 +162,35 @@ Prev oracle version (legacy) - [0x735247fb0a604c0adC6cab38ACE16D0DbA31295F](http
 
 ### Avax
 
-#### Oracle [0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9](https://snowtrace.io/address/0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9)
+#### Oracle [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://snowtrace.io/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
 
-#### Supported DEXes
+<details><summary>Supported DEXes</summary>
 
-* Trader Joe
-* Pangolin Exchange
+   * Joe - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://snowtrace.io/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
+   * Pangolin - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://snowtrace.io/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
+   * SushiSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://snowtrace.io/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+
+</details>
+
+<details><summary>Supported wrappers</summary>
+
+   * WAVAX - [0x046605839c01C54921f4aA1AAa245E88227707D8](https://snowtrace.io/address/0x046605839c01C54921f4aA1AAa245E88227707D8)
+   * AaveV2 - [0x8Aa57827C3D147E39F1058517939461538D9C56A](https://snowtrace.io/address/0x8Aa57827C3D147E39F1058517939461538D9C56A)
+   
+</details>
+
+<details><summary>Supported connectors</summary>
+
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://arbiscan.io/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * WAVAX - [0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7](https://snowtrace.io/address/0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7)
+   * WETH.e - [0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB](https://snowtrace.io/address/0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB)
+   * USDT.e - [0xc7198437980c041c805A1EDcbA50c1Ce5db95118](https://snowtrace.io/address/0xc7198437980c041c805A1EDcbA50c1Ce5db95118)
+   * WBTC.e - [0x50b7545627a5162F82A992c33b87aDc75187B218](https://snowtrace.io/address/0x50b7545627a5162F82A992c33b87aDc75187B218)
+   * USDC.e - [0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664](https://snowtrace.io/address/0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664)
+
+</details>
+
+Prev oracle version (legacy) - [0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9](https://snowtrace.io/address/0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9)
 
 ### xDai
 
