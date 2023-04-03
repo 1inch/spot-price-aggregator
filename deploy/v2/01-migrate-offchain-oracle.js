@@ -5,6 +5,96 @@ const {
 } = require('../utils.js');
 
 const OraclesToUpdate = {
+    arbitrum: {
+        '0xCCf6b19bc2419E776b6ee030044811dA846686fb': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'SushiSwap',
+        },
+        '0x73F0a6927A3c04E679074e70DFb9105F453e799D': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'DXswap',
+        },
+        '0x4dFa40FDAA7694676899f8887A45603922609AF4': {
+            contract: 'UniswapV3Oracle',
+        }
+    },
+    aurora: {
+        '0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Trisolaris',
+        },
+        '0x9488795C688d0AAe98F2056467C13a051C954657': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'WannaSwap',
+        },
+        '0xE9bb60e96c40F35CdC4e84db85Ac0BFad63120ba': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'NearPAD',
+        },
+        '0x929d800861d4da158A8FEdeAE119cF219658a617': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'AuroraSwap',
+        },
+        '0x04098C93b15E5Cbb5A49651f20218C85F202Cd27': {
+            contract: 'DodoOracle',
+        },
+        '0x41674e58F339fE1caB03CA8DF095D46B998E6125': {
+            contract: 'DodoV2Oracle',
+        },
+    },
+    avax: {
+        '0x015f78275ef05C40A98C4c6ea75b5d6b1f7388dc': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Joe',
+        },
+        '0xA8bFB77136451D408732298392e9c37b2C54a5AA': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Pangolin',
+        },
+        '0x9632e2b35F901E372939d59C3509747C641F7693': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'SushiSwap',
+        },
+    },
+    bsc: {
+        '0xE295aD71242373C37C5FdA7B57F26f9eA1088AFe': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Pancake',
+        },
+        '0xA0446D8804611944F1B527eCD37d7dcbE442caba': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Demax',
+        },
+        '0x0F85A912448279111694F4Ba4F85dC641c54b594': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Thugswap',
+        },
+        '0x3bC8E986E3fdE34D52E239145b64A7b8e7B6808C' : {
+            contract: 'Mooniswap',
+        },
+        '0x635ab4815EA7C3D02F42a1B9ac1f97a23644f16D': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'BakerySwap',
+        },
+        '0x498BD1730DB90Ca7282AD6Feb45afBA8FF7c68a3': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'BSCswap',
+        },
+        '0x30c14fAcBf36DC93c2eA4D579851F1D14Faa2d46': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Pancake',
+        },
+        '0x2eeA44E40930b1984F42078E836c659A12301E40': {
+            contract: 'KyberDmmOracle',
+        },
+        '0x9bb040C4b0a26e60bE9AD2221a2C59d735655AeC': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'ApeSwap',
+        },
+    },
+    fantom: {
+        // ...
+    },
     mainnet: {
         '0x8dc76c16e90351C1574a3Eea5c5797C475eA7292': {
             contract: 'UniswapV2LikeOracle',
@@ -39,30 +129,6 @@ const OraclesToUpdate = {
     optimistic: {
         '0x8266c553f269b2eEb2370539193bCD0Eff8cC2De': {
             contract: 'UniswapV3Oracle',
-        },
-    },
-    aurora: {
-        '0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001': {
-            contract: 'UniswapV2LikeOracle',
-            exchangeName: 'Trisolaris',
-        },
-        '0x9488795C688d0AAe98F2056467C13a051C954657': {
-            contract: 'UniswapV2LikeOracle',
-            exchangeName: 'WannaSwap',
-        },
-        '0xE9bb60e96c40F35CdC4e84db85Ac0BFad63120ba': {
-            contract: 'UniswapV2LikeOracle',
-            exchangeName: 'NearPAD',
-        },
-        '0x929d800861d4da158A8FEdeAE119cF219658a617': {
-            contract: 'UniswapV2LikeOracle',
-            exchangeName: 'AuroraSwap',
-        },
-        '0x04098C93b15E5Cbb5A49651f20218C85F202Cd27': {
-            contract: 'DodoOracle',
-        },
-        '0x41674e58F339fE1caB03CA8DF095D46B998E6125': {
-            contract: 'DodoV2Oracle',
         },
     },
 };
@@ -102,7 +168,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         try {
             params = (await deployments.get(`${contractName}${!exchangeName ? '' : '_' + exchangeName}`)).args;
         } catch {
-            isNoDeployments = true;
+            if (OraclesToUpdate[networkName][oracles.allOracles[i]].params) {
+                params = OraclesToUpdate[networkName][oracles.allOracles[i]].params;
+            } else {
+                isNoDeployments = true;
+            }
         }
 
         if (isNoDeployments) {

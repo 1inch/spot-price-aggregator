@@ -135,13 +135,30 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Arbitrum
 
-#### Oracle [0x735247fb0a604c0adC6cab38ACE16D0DbA31295F](https://arbiscan.io/address/0x735247fb0a604c0adc6cab38ace16d0dba31295f)
+#### Oracle [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://arbiscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
 
-#### Supported DEXes
+<details><summary>Supported DEXes</summary>
 
-* Uniswap V3
-* Sushiswap
-* Swapr
+   * DXswap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://arbiscan.io/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
+   * SushiSwap - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://arbiscan.io/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
+   * UniswapV3 - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://arbiscan.io/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+
+</details>
+
+<details><summary>Supported wrappers</summary>
+
+   * WETH - [0x0F85A912448279111694F4Ba4F85dC641c54b594](https://arbiscan.io/address/0x0F85A912448279111694F4Ba4F85dC641c54b594)
+   
+</details>
+
+<details><summary>Supported connectors</summary>
+
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://arbiscan.io/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * WETH - [0x82aF49447D8a07e3bd95BD0d56f35241523fBab1](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
+
+</details>
+
+Prev oracle version (legacy) - [0x735247fb0a604c0adC6cab38ACE16D0DbA31295F](https://arbiscan.io/address/0x735247fb0a604c0adC6cab38ACE16D0DbA31295F)
 
 ### Avax
 
