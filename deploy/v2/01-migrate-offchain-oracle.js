@@ -93,7 +93,22 @@ const OraclesToUpdate = {
         },
     },
     fantom: {
-        // ...
+        '0xf3bC581Bc632AA0FA60F6C5f051078f77899cb71': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Solidex',
+        },
+        '0xcC59695F08EBC601EE78Dd5c5362593eDeD6292d': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'SpiritSwap',
+        },
+        '0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Spooky',
+        },
+        '0x142DB045195CEcaBe415161e1dF1CF0337A4d02E': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'SushiSwap',
+        },
     },
     mainnet: {
         '0x8dc76c16e90351C1574a3Eea5c5797C475eA7292': {

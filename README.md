@@ -205,14 +205,34 @@ Prev oracle version (legacy) - [0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9](http
 
 ### Fantom
 
-#### Oracle [0xE8E598A1041b6fDB13999D275a202847D9b654ca](https://ftmscan.com/address/0xE8E598A1041b6fDB13999D275a202847D9b654ca)
+#### Oracle [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://ftmscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
 
-#### Supported DEXes
+<details><summary>Supported DEXes</summary>
 
-* SpookySwap
-* Solidex
-* SpiritSwap
-* Sushiswap
+   * Solidex - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://ftmscan.com/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
+   * SpiritSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://ftmscan.com/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+   * Spooky - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://ftmscan.com/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
+   * SushiSwap - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://ftmscan.com/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+
+</details>
+
+<details><summary>Supported wrappers</summary>
+
+   * WFTM - [0x046605839c01C54921f4aA1AAa245E88227707D8](https://ftmscan.com/address/0x046605839c01C54921f4aA1AAa245E88227707D8)
+   * AaveV2 - [0xa0c978c28AB8aEfc95bF58e68A05ce6B9dEAc5A9](https://ftmscan.com/address/0xa0c978c28AB8aEfc95bF58e68A05ce6B9dEAc5A9)
+   * Scream - [0x7d18d5Ba1FA30Da1AD757c57eb643564CA02922D](https://ftmscan.com/address/0x7d18d5Ba1FA30Da1AD757c57eb643564CA02922D)
+   
+</details>
+
+<details><summary>Supported connectors</summary>
+
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://ftmscan.com/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * WFTM - [0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83](https://ftmscan.com/address/0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83)
+
+</details>
+
+Prev oracle version (legacy) - [0xE8E598A1041b6fDB13999D275a202847D9b654ca](https://ftmscan.com/address/0xE8E598A1041b6fDB13999D275a202847D9b654ca)
+
 
 ### Aurora
 
