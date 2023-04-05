@@ -110,6 +110,15 @@ const OraclesToUpdate = {
             exchangeName: 'SushiSwap',
         },
     },
+    klaytn: {
+        '0x735247fb0a604c0adC6cab38ACE16D0DbA31295F': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'ClaimSwap',
+        },
+        '0x26271DFdDBD250014F87F0F302C099d5a798BaB1': {
+            contract: 'KlaySwapOracle',
+        },
+    },
     mainnet: {
         '0x8dc76c16e90351C1574a3Eea5c5797C475eA7292': {
             contract: 'UniswapV2LikeOracle',
@@ -139,6 +148,27 @@ const OraclesToUpdate = {
         '0x826802A868fc07356b502951B5B3C1Cd7Cf6B5E6': {
             contract: 'UniswapOracle',
             params: ['0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95'],
+        },
+    },
+    matic: {
+        '0xE295aD71242373C37C5FdA7B57F26f9eA1088AFe': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'QuickSwap',
+        },
+        '0x4dFa40FDAA7694676899f8887A45603922609AF4': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'ComethSwap',
+        },
+        '0x73F0a6927A3c04E679074e70DFb9105F453e799D': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'SushiSwap',
+        },
+        '0xD41B24bbA51fAc0E4827b6F94C0D6DDeB183cD64': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'DFYN',
+        },
+        '0x8e8e48829A49A63Af9E6733D52BDb15ecBB65934': {
+            contract: 'UniswapV3Oracle',
         },
     },
     optimistic: {

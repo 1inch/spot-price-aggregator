@@ -84,24 +84,34 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Polygon
 
-#### Oracle [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](https://explorer-mainnet.maticvigil.com/address/0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9/transactions)
+#### Oracle [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://polygonscan.com/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
 
-#### Supported DEXes
+<details><summary>Supported DEXes</summary>
 
-* QuickSwap
-* ComethSwap
-* SushiSwap
-* Dfyn
+   * QuickSwap - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://polygonscan.com/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
+   * ComethSwap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://polygonscan.com/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
+   * DFYN - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://polygonscan.com/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+   * SushiSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://polygonscan.com/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+   * UniswapV3 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://polygonscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
 
-#### Supported wrappers
+</details>
 
-* AAVE
-* WMATIC
+<details><summary>Supported wrappers</summary>
 
-#### Supported connectors
+   * WMATIC - [0xA0446D8804611944F1B527eCD37d7dcbE442caba](https://polygonscan.com/address/0xA0446D8804611944F1B527eCD37d7dcbE442caba)
+   * AaveV2 - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](https://polygonscan.com/address/0x138CE40d675F9a23E4D6127A8600308Cf7A93381)
+   
+</details>
 
-* MATIC
-* WMATIC
+<details><summary>Supported connectors</summary>
+
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://polygonscan.com/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * WMATIC - [0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270](https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270)
+   * USDC - [0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174](https://polygonscan.com/address/0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174)
+
+</details>
+
+Prev oracle version (legacy) - [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](https://polygonscan.com/address/0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9)
 
 ### Kovan
 
