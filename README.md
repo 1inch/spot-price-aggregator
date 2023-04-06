@@ -328,6 +328,34 @@ Prev oracle version (legacy) - [0xE8E598A1041b6fDB13999D275a202847D9b654ca](http
 
 Prev oracle version (legacy) - [0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795](https://aurorascan.dev/address/0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795)
 
+### Klaytn
+
+#### Oracle [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://scope.klaytn.com/account/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+
+<details><summary>Supported DEXes</summary>
+
+   * KlaySwap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://scope.klaytn.com/account/0x750c1b699552cAf908D67F5cCFd20A261305328c)
+   * ClaimSwap - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://scope.klaytn.com/account/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
+
+</details>
+
+<details><summary>Supported wrappers</summary>
+
+   * WKLAY - [0xD9Cc0A957cAC93135596f98c20Fbaca8Bf515909](https://scope.klaytn.com/account/0xD9Cc0A957cAC93135596f98c20Fbaca8Bf515909)
+   * Klap - [0x4dFa40FDAA7694676899f8887A45603922609AF4](https://scope.klaytn.com/account/0x4dFa40FDAA7694676899f8887A45603922609AF4)
+
+</details>
+
+<details><summary>Supported connectors</summary>
+
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://scope.klaytn.com/account/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * KLAY - [0x0000000000000000000000000000000000000000](https://scope.klaytn.com/account/0x0000000000000000000000000000000000000000)
+   * WKLAY - [0xe4f05A66Ec68B54A58B17c22107b02e0232cC817](https://scope.klaytn.com/account/0xe4f05A66Ec68B54A58B17c22107b02e0232cC817)
+
+</details>
+
+Prev oracle version (legacy) - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](https://scope.klaytn.com/account/0x138CE40d675F9a23E4D6127A8600308Cf7A93381)
+
 ## Examples
 
 * [Single token-to-ETH price usage](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/single-price.js)
