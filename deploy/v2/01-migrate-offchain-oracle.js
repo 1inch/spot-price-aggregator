@@ -59,7 +59,7 @@ const OraclesToUpdate = {
     bsc: {
         '0xE295aD71242373C37C5FdA7B57F26f9eA1088AFe': {
             contract: 'UniswapV2LikeOracle',
-            exchangeName: 'Pancake',
+            exchangeName: 'Pancake_1',
         },
         '0xA0446D8804611944F1B527eCD37d7dcbE442caba': {
             contract: 'UniswapV2LikeOracle',
@@ -70,7 +70,7 @@ const OraclesToUpdate = {
             exchangeName: 'Thugswap',
         },
         '0x3bC8E986E3fdE34D52E239145b64A7b8e7B6808C' : {
-            contract: 'Mooniswap',
+            contract: 'MooniswapOracle',
         },
         '0x635ab4815EA7C3D02F42a1B9ac1f97a23644f16D': {
             contract: 'UniswapV2LikeOracle',
@@ -82,7 +82,7 @@ const OraclesToUpdate = {
         },
         '0x30c14fAcBf36DC93c2eA4D579851F1D14Faa2d46': {
             contract: 'UniswapV2LikeOracle',
-            exchangeName: 'Pancake',
+            exchangeName: 'Pancake_2',
         },
         '0x2eeA44E40930b1984F42078E836c659A12301E40': {
             contract: 'KyberDmmOracle',

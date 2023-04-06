@@ -56,31 +56,43 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Binance Smart Chain
 
-#### Oracle [0xfbD61B037C325b959c0F6A7e69D8f37770C2c550](https://bscscan.com/address/0xfbD61B037C325b959c0F6A7e69D8f37770C2c550)
+#### Oracle [0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001](https://bscscan.com/address/0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001)
 
-#### Supported DEXes
+<details><summary>Supported DEXes</summary>
 
-* 1inch Liquidity Protocol V1.1
-* Pancakeswap
-* Streetswap
-* Bakeryswap
-* Julswap
-* Demaxswap
+   * ApeSwap - [0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F](https://bscscan.com/address/0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F)
+   * BakerySwap - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://bscscan.com/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
+   * BSCswap - [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://bscscan.com/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
+   * Demax - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://bscscan.com/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+   * KyberDmm - [0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F](https://bscscan.com/address/0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F)
+   * Mooniswap - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://bscscan.com/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+   * Pancake 1 - [0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef](https://bscscan.com/address/0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef)
+   * Pancake 2 - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://bscscan.com/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+   * Thugswap - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://bscscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
+   
+</details>
 
-#### Supported wrappers
+<details><summary>Supported wrappers</summary>
 
-* Venus
-* WBNB
+   * Venus - [0x11DEE30E710B8d4a8630392781Cc3c0046365d4c](https://bscscan.com/address/0x11DEE30E710B8d4a8630392781Cc3c0046365d4c)
+   * WBNB - [0x54431918cec22932fcf97e54769f4e00f646690f](https://bscscan.com/address/0x54431918cec22932fcf97e54769f4e00f646690f)
+   
+</details>
 
-#### Supported connectors
+<details><summary>Supported connectors</summary>
 
-* BNB
-* WBNB
-* ETH
-* DAI
-* USDC
-* USDT
-* BUSD
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://bscscan.com/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * WBNB - [0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c](https://bscscan.com/address/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c)
+   * DAI - [0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3](https://bscscan.com/address/0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3)
+   * ETH - [0x2170Ed0880ac9A755fd29B2688956BD959F933F8](https://bscscan.com/address/0x2170Ed0880ac9A755fd29B2688956BD959F933F8)
+   * USDC - [0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d](https://bscscan.com/address/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d)
+   * BSC-USD - [0x55d398326f99059fF775485246999027B3197955](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
+   * BUSD - [0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56](https://bscscan.com/address/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56)
+   * 1INCH - [0x111111111117dC0aa78b770fA6A738034120C302](https://bscscan.com/address/0x111111111117dC0aa78b770fA6A738034120C302)
+
+</details>
+
+Prev oracle version (legacy) - [0xfbD61B037C325b959c0F6A7e69D8f37770C2c550](https://bscscan.com/address/0xfbD61B037C325b959c0F6A7e69D8f37770C2c550)
 
 ### Polygon
 
