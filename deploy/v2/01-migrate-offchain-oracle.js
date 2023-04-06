@@ -175,6 +175,13 @@ const OraclesToUpdate = {
         '0x8266c553f269b2eEb2370539193bCD0Eff8cC2De': {
             contract: 'UniswapV3Oracle',
         },
+        '0xD7936052D1e096d48C81Ef3918F9Fd6384108480': {
+            contract: 'SolidlyOracle',
+            exchangeName: 'Velodrome',
+        },
+        '0x0F85A912448279111694F4Ba4F85dC641c54b594': {
+            contract: 'SynthetixOracle',
+        },
     },
 };
 
@@ -223,6 +230,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         if (isNoDeployments) {
             switch (contractName) {
             case 'UniswapV2LikeOracle':
+            case 'SolidlyOracle':
                 oracle = await attachContract(contractName, oracles.allOracles[i]);
                 params = [await oracle.factory(), await oracle.initcodeHash()];
                 break;
