@@ -113,25 +113,41 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 Prev oracle version (legacy) - [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](https://polygonscan.com/address/0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9)
 
-### Kovan
+### Kovan [deprecated]
 
 #### Oracle [0x29BC86Ad68bB3BD3d54841a8522e0020C1882C22](https://kovan.etherscan.io/address/0x29BC86Ad68bB3BD3d54841a8522e0020C1882C22)
 
-#### Supported DEXes
+<details><summary>Supported DEXes</summary>
 
-* 1inch Liquidity Protocol V1.1
-* Uniswap V2
-* Uniswap V1
+   * 1inch Liquidity Protocol V1.1 - [0xb707d89D29c189421163515c59E42147371D6857](https://kovan.etherscan.io/address/0xb707d89D29c189421163515c59E42147371D6857)
+   * UniswapV2 - [0x57da811a9EF9b79DbC2EA6f6dc39368a8Da1Cf07](https://kovan.etherscan.io/address/0x57da811a9EF9b79DbC2EA6f6dc39368a8Da1Cf07)
+   * UniswapV1 - [0x11431a89893025D2a48dCA4EddC396f8C8117187](https://kovan.etherscan.io/address/0x11431a89893025D2a48dCA4EddC396f8C8117187)
 
-#### Supported wrappers
+</details>
 
-* Venus
-* WETH
+<details><summary>Supported wrappers</summary>
 
-#### Supported connectors
+   * Venus
+   * WETH - [0x93131EFeE501d5721737C32576238F619548edda](https://kovan.etherscan.io/address/0x93131EFeE501d5721737C32576238F619548edda)
 
-* ETH
-* WETH
+</details>
+
+<details><summary>Supported connectors</summary>
+
+   * ETH
+   * WETH - [0xd0A1E359811322d97991E03f863a0C30C2cF029C](https://arbiscan.io/address/0xd0A1E359811322d97991E03f863a0C30C2cF029C)
+
+</details>
+
+### Kovan-Optimism [deprecated]
+
+#### Oracle [0xfcA5cc20A00D8acf04D0C1793C94D01D3ab07D48](https://kovan-optimistic.etherscan.io/address/0xfcA5cc20A00D8acf04D0C1793C94D01D3ab07D48)
+
+<details><summary>Supported DEXes</summary>
+
+   * UniswapV3 - [0x25Ea4bA2E0011B201D06662170d5115fa57F5787](https://kovan-optimistic.etherscan.io/address/0x25Ea4bA2E0011B201D06662170d5115fa57F5787)
+
+</details>
 
 ### Optimism
 
