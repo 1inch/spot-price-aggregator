@@ -183,6 +183,24 @@ const OraclesToUpdate = {
             contract: 'SynthetixOracle',
         },
     },
+    xdai: {
+        '0x9632e2b35F901E372939d59C3509747C641F7693': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Honeyswap',
+        },
+        '0xA8bFB77136451D408732298392e9c37b2C54a5AA': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Levinswap',
+        },
+        '0x3e55Bb9383186d978Db33BB796FAcBfcb2C491A1': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'SushiSwap',
+        },
+        '0x015f78275ef05C40A98C4c6ea75b5d6b1f7388dc': {
+            contract: 'UniswapV2LikeOracle',
+            exchangeName: 'Swapr',
+        },
+    },
 };
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
