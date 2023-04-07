@@ -16,7 +16,7 @@ const OraclesToUpdate = {
         },
         '0x4dFa40FDAA7694676899f8887A45603922609AF4': {
             contract: 'UniswapV3Oracle',
-        }
+        },
     },
     aurora: {
         '0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001': {
@@ -69,7 +69,7 @@ const OraclesToUpdate = {
             contract: 'UniswapV2LikeOracle',
             exchangeName: 'Thugswap',
         },
-        '0x3bC8E986E3fdE34D52E239145b64A7b8e7B6808C' : {
+        '0x3bC8E986E3fdE34D52E239145b64A7b8e7B6808C': {
             contract: 'MooniswapOracle',
         },
         '0x635ab4815EA7C3D02F42a1B9ac1f97a23644f16D': {
