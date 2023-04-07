@@ -388,6 +388,33 @@ Prev oracle version (legacy) - [0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795](http
 
 Prev oracle version (legacy) - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](https://scope.klaytn.com/account/0x138CE40d675F9a23E4D6127A8600308Cf7A93381)
 
+### zkSync
+
+#### Oracle [0x8bB456E6F39CB67D79A805e01976D8284EeCde77](https://explorer.zksync.io/address/0x8bB456E6F39CB67D79A805e01976D8284EeCde77)
+
+<details><summary>Supported DEXes</summary>
+
+   * Solidly - [0x9F075cC2dF3308b25138dA10a3AE27FcE2230874](https://explorer.zksync.io/address/0x9F075cC2dF3308b25138dA10a3AE27FcE2230874)
+
+</details>
+
+<details><summary>Supported wrappers</summary>
+
+   * WETH - [0xeAC320c7e4967A89c1bec6bABCBD3b2a5FC3D6DF](https://explorer.zksync.io/address/0xeAC320c7e4967A89c1bec6bABCBD3b2a5FC3D6DF)
+
+</details>
+
+<details><summary>Supported connectors</summary>
+
+   * ETH - [0x0000000000000000000000000000000000000000](https://explorer.zksync.io/address/0x0000000000000000000000000000000000000000)
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://explorer.zksync.io/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * WETH - [0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91](https://explorer.zksync.io/address/0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91)
+   * USDC - [0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4](https://explorer.zksync.io/address/0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4)
+
+</details>
+
+Prev oracle version (legacy) - [0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C](https://explorer.zksync.io/address/0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C)
+
 ## Examples
 
 * [Single token-to-ETH price usage](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/single-price.js)
