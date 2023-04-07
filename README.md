@@ -22,37 +22,47 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Ethereum Mainnet
 
-#### Oracle [0x07D91f5fb9Bf7798734C3f606dB065549F6893bb](https://etherscan.io/address/0x07D91f5fb9Bf7798734C3f606dB065549F6893bb)
+#### Oracle [0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56](https://etherscan.io/address/0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56)
 
-#### Supported DEXes
+<details><summary>Supported DEXes</summary>
 
-* 1inch Liquidity Protocol V1.1
-* Uniswap V1
-* Uniswap V2
-* Sushiswap
-* Equalizer.fi
-* Uniswap V3
-* Synthetix
-* Chainlink
-* Shibaswap
+   * Chainlink - [0x31B81f9D03EEe1c11Ff6c44D481e3e0451409Efe](https://etherscan.io/address/0x31B81f9D03EEe1c11Ff6c44D481e3e0451409Efe)
+   * KyberDMM - [0x82b6B75F5fEabbfD370D45daCEFae3D5c06099DA](https://etherscan.io/address/0x82b6B75F5fEabbfD370D45daCEFae3D5c06099DA)
+   * Mooniswap - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://etherscan.io/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
+   * Synthetix - [0x4d4872339DEF367B1BA1D53955d8586B9F0BE63D](https://etherscan.io/address/0x4d4872339DEF367B1BA1D53955d8586B9F0BE63D)
+   * Uniswap - [0x7bdc6954e1c7869B4147A320d589689F628E9921](https://etherscan.io/address/0x7bdc6954e1c7869B4147A320d589689F628E9921)
+   * Equalizer - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://etherscan.io/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790)
+   * ShibaSwap - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://etherscan.io/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
+   * SushiSwap - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://etherscan.io/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
+   * UniswapV2 - [0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e](https://etherscan.io/address/0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e)
+   * UniswapV3 - [0xD4eFb5998DFBDFB791182fb610D0061136E9DB50](https://etherscan.io/address/0xD4eFb5998DFBDFB791182fb610D0061136E9DB50)
+   
+</details>
 
-#### Supported wrappers
+<details><summary>Supported wrappers</summary>
 
-* Aave V1 +
-* Aave V2 +
-* Compound +
-* WETH +
-* Yvault
+   * WETH - [0xCD9797E66c41F80B9D91B201d2F10E1bD7A268FD](https://etherscan.io/address/0xCD9797E66c41F80B9D91B201d2F10E1bD7A268FD)
+   * AaveV1 - [0x8C00a411Fe8983525F82CFCe34fe4B092d9E525d](https://etherscan.io/address/0x8C00a411Fe8983525F82CFCe34fe4B092d9E525d)
+   * AaveV2 - [0x06cC74503B6d1eB6D4d6Bc402f48fC07b804105f](https://etherscan.io/address/0x06cC74503B6d1eB6D4d6Bc402f48fC07b804105f)
+   * Compound - [0x7C327E1Ee66d4cF7F4053387241351FDc95A0c04](https://etherscan.io/address/0x7C327E1Ee66d4cF7F4053387241351FDc95A0c04)
+   * YVault - [0x9FF110f132d988bfa9bC6a21851Da1aF3aC6EaF8](https://etherscan.io/address/0x9FF110f132d988bfa9bC6a21851Da1aF3aC6EaF8)
+   
+</details>
 
-#### Supported connectors
+<details><summary>Supported connectors</summary>
 
-* ETH
-* WETH
-* DAI
-* USDC
-* USDT
-* WBTC
-* 1INCH
+   * ETH - [0x0000000000000000000000000000000000000000](https://etherscan.io/address/0x0000000000000000000000000000000000000000)
+   * WETH - [0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2](https://etherscan.io/address/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2)
+   * USDC - [0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48](https://etherscan.io/address/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48)
+   * DAI - [0x6B175474E89094C44Da98b954EedeAC495271d0F](https://etherscan.io/address/0x6B175474E89094C44Da98b954EedeAC495271d0F)
+   * USDT - [0xdAC17F958D2ee523a2206206994597C13D831ec7](https://etherscan.io/address/0xdAC17F958D2ee523a2206206994597C13D831ec7)
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://etherscan.io/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * 1INCH - [0x111111111117dC0aa78b770fA6A738034120C302](https://etherscan.io/address/0x111111111117dC0aa78b770fA6A738034120C302)
+   * WBTC - [0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599](https://etherscan.io/address/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599)
+
+</details>
+
+Prev oracle version (legacy) - [0x07D91f5fb9Bf7798734C3f606dB065549F6893bb](https://etherscan.io/address/0x07D91f5fb9Bf7798734C3f606dB065549F6893bb)
 
 ### Binance Smart Chain
 
