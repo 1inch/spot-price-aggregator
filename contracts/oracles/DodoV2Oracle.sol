@@ -15,11 +15,11 @@ import "../libraries/Sqrt.sol";
 contract DodoV2Oracle is IOracle {
     using Sqrt for uint256;
 
-    IDVMFactory public immutable DVMFactory;
+    IDVMFactory public immutable factory; // DVMFactory
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 
     constructor(IDVMFactory _DVMFactory) {
-        DVMFactory = _DVMFactory;
+        factory = _DVMFactory;
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
@@ -58,9 +58,9 @@ contract DodoV2Oracle is IOracle {
     }
 
     function _getMachines(address srcToken, address dstToken) internal view returns (address[] memory machines, bool isSrcBase) {
-        machines = DVMFactory.getDODOPool(srcToken, dstToken);
+        machines = factory.getDODOPool(srcToken, dstToken);
         isSrcBase = (machines.length != 0);
-        if (!isSrcBase) machines = DVMFactory.getDODOPool(dstToken, srcToken);
+        if (!isSrcBase) machines = factory.getDODOPool(dstToken, srcToken);
         if(machines.length == 0) revert PoolNotFound();
     }
 

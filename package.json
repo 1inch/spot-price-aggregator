@@ -37,7 +37,7 @@
         "zksync-web3": "0.14.3"
     },
     "scripts": {
-        "clean": "rimraf artifacts cache coverage",
+        "clean": "rimraf artifacts cache coverage artifacts-zk cache-zk",
         "deploy": "hardhat deploy --network",
         "docify": "npx solidity-utils-docify",
         "coverage": "hardhat coverage",
