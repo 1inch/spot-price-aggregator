@@ -35,7 +35,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * ShibaSwap - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://etherscan.io/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
    * SushiSwap - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://etherscan.io/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
    * UniswapV2 - [0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e](https://etherscan.io/address/0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e)
-   * UniswapV3 - [0xD4eFb5998DFBDFB791182fb610D0061136E9DB50](https://etherscan.io/address/0xD4eFb5998DFBDFB791182fb610D0061136E9DB50)
+   * UniswapV3 - [0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9](https://etherscan.io/address/0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9)
    
 </details>
 
@@ -104,7 +104,7 @@ Prev oracle version (legacy) - [0x07D91f5fb9Bf7798734C3f606dB065549F6893bb](http
 
 Prev oracle version (legacy) - [0xfbD61B037C325b959c0F6A7e69D8f37770C2c550](https://bscscan.com/address/0xfbD61B037C325b959c0F6A7e69D8f37770C2c550)
 
-### Polygon
+### Polygon (Matic)
 
 #### Oracle [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://polygonscan.com/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
 
@@ -114,7 +114,7 @@ Prev oracle version (legacy) - [0xfbD61B037C325b959c0F6A7e69D8f37770C2c550](http
    * ComethSwap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://polygonscan.com/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
    * DFYN - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://polygonscan.com/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
    * SushiSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://polygonscan.com/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
-   * UniswapV3 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://polygonscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
+   * UniswapV3 - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://polygonscan.com/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
 
 </details>
 
@@ -157,7 +157,7 @@ Prev oracle version (legacy) - [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](http
 <details><summary>Supported connectors</summary>
 
    * ETH
-   * WETH - [0xd0A1E359811322d97991E03f863a0C30C2cF029C](https://arbiscan.io/address/0xd0A1E359811322d97991E03f863a0C30C2cF029C)
+   * WETH - [0xd0A1E359811322d97991E03f863a0C30C2cF029C](https://kovan.etherscan.io/address/0xd0A1E359811322d97991E03f863a0C30C2cF029C)
 
 </details>
 
@@ -177,7 +177,7 @@ Prev oracle version (legacy) - [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](http
 
 <details><summary>Supported DEXes</summary>
 
-   * UniswapV3 - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://optimistic.etherscan.io/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
+   * UniswapV3 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://optimistic.etherscan.io/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
    * Velodrome Finance - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://optimistic.etherscan.io/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
    * Synthetix - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://optimistic.etherscan.io/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
 
@@ -211,7 +211,7 @@ Prev oracle version (legacy) - [0x11DEE30E710B8d4a8630392781Cc3c0046365d4c](http
 
    * DXswap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://arbiscan.io/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
    * SushiSwap - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://arbiscan.io/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
-   * UniswapV3 - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://arbiscan.io/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+   * UniswapV3 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://arbiscan.io/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
 
 </details>
 
