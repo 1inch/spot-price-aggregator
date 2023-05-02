@@ -264,32 +264,32 @@ Prev oracle version (legacy) - [0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9](http
 
 ### xDai
 
-#### Oracle [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://blockscout.com/xdai/mainnet/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
+#### Oracle [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://gnosisscan.io/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
 
 <details><summary>Supported DEXes</summary>
 
-   * Honeyswap - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://blockscout.com/xdai/mainnet/address/0x142DB045195CEcaBe415161e1dF1CF0337A4d02E)
-   * Levinswap - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://blockscout.com/xdai/mainnet/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
-   * Swapr - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://blockscout.com/xdai/mainnet/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
-   * Sushiswap - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://blockscout.com/xdai/mainnet/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+   * Honeyswap - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://gnosisscan.io/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
+   * Levinswap - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://gnosisscan.io/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
+   * Swapr - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://gnosisscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+   * Sushiswap - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://gnosisscan.io/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
    
 </details>
 
 <details><summary>Supported wrappers</summary>
 
-   * WXDAI - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://blockscout.com/xdai/mainnet/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
+   * WXDAI - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://gnosisscan.io/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
    
 </details>
 
 <details><summary>Supported connectors</summary>
 
-   * XDAI - [0x0000000000000000000000000000000000000000](https://blockscout.com/xdai/mainnet/address/0x0000000000000000000000000000000000000000)
-   * WXDAI - [0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d](https://blockscout.com/xdai/mainnet/address/0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d)
-   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://blockscout.com/xdai/mainnet/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
-   * WETH - [0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1](https://blockscout.com/xdai/mainnet/address/0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1)
-   * HNY - [0x71850b7E9Ee3f13Ab46d67167341E4bDc905Eef9](https://blockscout.com/xdai/mainnet/address/0x71850b7E9Ee3f13Ab46d67167341E4bDc905Eef9)
-   * USDC - [0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83](https://blockscout.com/xdai/mainnet/address/0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83)
-   * USDT - [0x4ECaBa5870353805a9F068101A40E0f32ed605C6](https://blockscout.com/xdai/mainnet/address/0x4ECaBa5870353805a9F068101A40E0f32ed605C6)
+   * XDAI - [0x0000000000000000000000000000000000000000](https://gnosisscan.io/address/0x0000000000000000000000000000000000000000)
+   * WXDAI - [0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d](https://gnosisscan.io/address/0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d)
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://gnosisscan.io/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * WETH - [0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1](https://gnosisscan.io/address/0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1)
+   * HNY - [0x71850b7E9Ee3f13Ab46d67167341E4bDc905Eef9](https://gnosisscan.io/address/0x71850b7E9Ee3f13Ab46d67167341E4bDc905Eef9)
+   * USDC - [0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83](https://gnosisscan.io/address/0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83)
+   * USDT - [0x4ECaBa5870353805a9F068101A40E0f32ed605C6](https://gnosisscan.io/address/0x4ECaBa5870353805a9F068101A40E0f32ed605C6)
 
 </details>
 
