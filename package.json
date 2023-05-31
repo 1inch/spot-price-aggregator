@@ -21,7 +21,7 @@
         "@nomiclabs/hardhat-etherscan": "3.1.7",
         "chai": "4.3.7",
         "chai-bn": "0.3.1",
-        "dotenv": "16.0.3",
+        "dotenv-cli": "^7.2.1",
         "eslint": "8.37.0",
         "eslint-config-standard": "17.0.0",
         "eslint-plugin-import": "2.27.5",
@@ -37,7 +37,7 @@
         "zksync-web3": "0.14.3"
     },
     "scripts": {
-        "clean": "rimraf artifacts cache coverage artifacts-zk cache-zk",
+        "clean": "rimraf artifacts cache coverage artifacts-zk cache-zk deployments/hardhat",
         "deploy": "hardhat deploy --network",
         "docify": "npx solidity-utils-docify",
         "coverage": "hardhat coverage",
@@ -49,7 +49,7 @@
         "lint:fix": "yarn lint:js:fix && yarn lint:sol:fix",
         "test": "hardhat test --parallel",
         "test:ci": "hardhat test",
-        "scripts:check-token": "hardhat run scripts/check-token.js",
+        "scripts:check-token": "mkdir -p deployments/hardhat && cp -R deployments/$(dotenv -e .env -- printenv SCRIPT_NETWORK_NAME)/* deployments/hardhat/ && echo 31337 > deployments/hardhat/.chainId && hardhat run scripts/check-token.js && rm -rf deployments/hardhat",
         "scripts:check-tokens-prices": "hardhat run scripts/check-tokens-prices.js"
     }
 }
