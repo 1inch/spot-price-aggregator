@@ -3,7 +3,6 @@ const {
     idempotentDeploy,
     getContract,
 } = require('../utils.js');
-const { tokens } = require('../../test/helpers.js');
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const PARAMS = {
