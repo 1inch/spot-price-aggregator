@@ -6,6 +6,7 @@ require('@nomiclabs/hardhat-etherscan');
 require('@nomicfoundation/hardhat-chai-matchers');
 require('hardhat-deploy');
 require('hardhat-gas-reporter');
+require('hardhat-tracer');
 require('solidity-coverage');
 
 require('dotenv').config();
@@ -32,6 +33,9 @@ module.exports = {
     },
     mocha: {
         timeout: 90000,
+    },
+    tracer: {
+        enableAllOpcodes: true,
     },
     zksolc: {
         version: '1.3.7',
