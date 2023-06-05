@@ -390,17 +390,18 @@ Prev oracle version (legacy) - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](http
 
 ### zkSync
 
-#### Oracle [0x8bB456E6F39CB67D79A805e01976D8284EeCde77](https://explorer.zksync.io/address/0x8bB456E6F39CB67D79A805e01976D8284EeCde77)
+#### Oracle [0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd](https://explorer.zksync.io/address/0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd)
 
 <details><summary>Supported DEXes</summary>
 
-   * Solidly - [0x9F075cC2dF3308b25138dA10a3AE27FcE2230874](https://explorer.zksync.io/address/0x9F075cC2dF3308b25138dA10a3AE27FcE2230874)
+   * Solidly - [0x535f5B303DA43c5B83FDe10DE3D79b734B5117C3](https://explorer.zksync.io/address/0x535f5B303DA43c5B83FDe10DE3D79b734B5117C3)
+   * Syncswap - [0xdD8263F21D4DDB533C5F3B2059493b431cAEAB8d](https://explorer.zksync.io/address/0xdD8263F21D4DDB533C5F3B2059493b431cAEAB8d)
 
 </details>
 
 <details><summary>Supported wrappers</summary>
 
-   * WETH - [0xeAC320c7e4967A89c1bec6bABCBD3b2a5FC3D6DF](https://explorer.zksync.io/address/0xeAC320c7e4967A89c1bec6bABCBD3b2a5FC3D6DF)
+   * WETH - [0x2D9E7B597b53D98C60A0904DEE7d838042Db9A25](https://explorer.zksync.io/address/0x2D9E7B597b53D98C60A0904DEE7d838042Db9A25)
 
 </details>
 
