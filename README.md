@@ -36,6 +36,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * SushiSwap - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://etherscan.io/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
    * UniswapV2 - [0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e](https://etherscan.io/address/0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e)
    * UniswapV3 - [0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9](https://etherscan.io/address/0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9)
+   * Curve - [0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e](https://etherscan.io/address/0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e)
    
 </details>
 
