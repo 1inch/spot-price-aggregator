@@ -1,11 +1,7 @@
 const { getChainId } = require('hardhat');
-const { toBN } = require('@1inch/solidity-utils');
+const { deployAndGetContract, toBN } = require('@1inch/solidity-utils');
 const { tokens } = require('../../test/helpers.js');
-const {
-    idempotentDeploy,
-    idempotentDeployGetContract,
-    addAaveTokens,
-} = require('../utils.js');
+const { addAaveTokens } = require('../utils.js');
 
 const WAVAX = '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7';
 const AAVE_LENDING_POOL = '0x4F01AeD16D97E3aB5ab2B501154DC9bb0F1A5A2C';
@@ -59,9 +55,24 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
 
-    const wavaxWrapper = await idempotentDeploy('BaseCoinWrapper', [WAVAX], deployments, deployer);
-    const multiWrapper = await idempotentDeployGetContract('MultiWrapper', [[wavaxWrapper.address]], deployments, deployer);
-    const aaveWrapperV2 = await idempotentDeployGetContract('AaveWrapperV2', [AAVE_LENDING_POOL], deployments, deployer);
+    const wavaxWrapper = await deployAndGetContract({
+        contractName: 'BaseCoinWrapper',
+        constructorArgs: [WAVAX],
+        deployments,
+        deployer,
+    });
+    const multiWrapper = await deployAndGetContract({
+        contractName: 'MultiWrapper',
+        constructorArgs: [[wavaxWrapper.address]],
+        deployments,
+        deployer,
+    });
+    const aaveWrapperV2 = await deployAndGetContract({
+        contractName: 'AaveWrapperV2',
+        constructorArgs: [AAVE_LENDING_POOL],
+        deployments,
+        deployer,
+    });
     await addAaveTokens(aaveWrapperV2, AAWE_WRAPPER_TOKENS);
 
     const existingWrappers = await multiWrapper.wrappers();
@@ -70,25 +81,25 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         await (await multiWrapper.addWrapper(aaveWrapperV2.address)).wait();
     }
 
-    const joeOracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.Joe.factory, ORACLES.Joe.initHash],
+    const joeOracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Joe.factory, ORACLES.Joe.initHash],
         deployments,
         deployer,
-        'UniswapV2LikeOracle_Joe',
-    );
+        deploymentName: 'UniswapV2LikeOracle_Joe',
+    });
 
-    const pangolinOracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.Pangolin.factory, ORACLES.Pangolin.initHash],
+    const pangolinOracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Pangolin.factory, ORACLES.Pangolin.initHash],
         deployments,
         deployer,
-        'UniswapV2LikeOracle_Pangolin',
-    );
+        deploymentName: 'UniswapV2LikeOracle_Pangolin',
+    });
 
-    const offchainOracle = await idempotentDeployGetContract(
-        'OffchainOracle',
-        [
+    const offchainOracle = await deployAndGetContract({
+        contractName: 'OffchainOracle',
+        constructorArgs: [
             multiWrapper.address,
             [
                 joeOracle.address,
@@ -103,17 +114,17 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         ],
         deployments,
         deployer,
-    );
+    });
 
     // --- upd1
 
-    const sushiOracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.Sushi.factory, ORACLES.Sushi.initHash],
+    const sushiOracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Sushi.factory, ORACLES.Sushi.initHash],
         deployments,
         deployer,
-        'UniswapV2LikeOracle_Sushi',
-    );
+        deploymentName: 'UniswapV2LikeOracle_Sushi',
+    });
 
     const existingOracles = await offchainOracle.oracles();
     if (!existingOracles.allOracles.includes(sushiOracle.address)) {

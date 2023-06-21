@@ -1,9 +1,5 @@
 const { getChainId } = require('hardhat');
-const { toBN } = require('@1inch/solidity-utils');
-const {
-    idempotentDeploy,
-    idempotentDeployGetContract,
-} = require('../utils.js');
+const { deployAndGetContract, toBN } = require('@1inch/solidity-utils');
 
 const ORACLES = {
     Klay: {
@@ -23,8 +19,18 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
 
-    const klaySwap = await idempotentDeploy('KlaySwapOracle', [ORACLES.Klay.factory, ORACLES.Klay.storage], deployments, deployer);
-    const offchainOracle = await idempotentDeployGetContract('OffchainOracle', [], deployments, deployer);
+    const klaySwap = await deployAndGetContract({
+        contractName: 'KlaySwapOracle',
+        constructorArgs: [ORACLES.Klay.factory, ORACLES.Klay.storage],
+        deployments,
+        deployer,
+    });
+    const offchainOracle = await deployAndGetContract({
+        contractName: 'OffchainOracle',
+        constructorArgs: [],
+        deployments,
+        deployer,
+    });
     await offchainOracle.addOracle(klaySwap.address, (toBN('0')).toString());
 };
 

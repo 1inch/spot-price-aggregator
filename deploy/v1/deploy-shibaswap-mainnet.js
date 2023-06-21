@@ -1,8 +1,6 @@
 const { getChainId } = require('hardhat');
-const {
-    idempotentDeploy,
-    getContract,
-} = require('../utils.js');
+const { deployAndGetContract } = require('@1inch/solidity-utils');
+const { getContract } = require('../utils.js');
 
 const SHIBA_FACTORY = '0x115934131916c8b277dd010ee02de363c09d037c';
 const SHIBA_HASH = '0x65d1a3b1e46c6e4f1be1ad5f99ef14dc488ae0549dc97db9b30afe2241ce1c7a';
@@ -19,13 +17,13 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
 
-    const shibaOracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [SHIBA_FACTORY, SHIBA_HASH],
+    const shibaOracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [SHIBA_FACTORY, SHIBA_HASH],
         deployments,
         deployer,
-        'UniswapV2LikeOracle_Shibaswap',
-    );
+        deploymentName: 'UniswapV2LikeOracle_Shibaswap',
+    });
 
     const offchainOracle = await getContract('OffchainOracle', deployments);
 

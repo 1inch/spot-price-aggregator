@@ -1,9 +1,6 @@
 const { getChainId } = require('hardhat');
-const { toBN } = require('@1inch/solidity-utils');
+const { deployAndGetContract, toBN } = require('@1inch/solidity-utils');
 const { tokens } = require('../../test/helpers.js');
-const {
-    idempotentDeploy,
-} = require('../utils.js');
 
 const WETH = '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1';
 
@@ -33,46 +30,46 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
 
-    const wethWrapper = await idempotentDeploy(
-        'BaseCoinWrapper',
-        [WETH],
+    const wethWrapper = await deployAndGetContract({
+        contractName: 'BaseCoinWrapper',
+        constructorArgs: [WETH],
         deployments,
         deployer,
-    );
+    });
 
-    const multiWrapper = await idempotentDeploy(
-        'MultiWrapper',
-        [[wethWrapper.address]],
+    const multiWrapper = await deployAndGetContract({
+        contractName: 'MultiWrapper',
+        constructorArgs: [[wethWrapper.address]],
         deployments,
         deployer,
-    );
+    });
 
-    const uniswapV3Oracle = await idempotentDeploy(
-        'UniswapV3Oracle',
-        [ORACLES.UniV3.initHash],
+    const uniswapV3Oracle = await deployAndGetContract({
+        contractName: 'UniswapV3Oracle',
+        constructorArgs: [ORACLES.UniV3.initHash],
         deployments,
         deployer,
-    );
+    });
 
-    const swaprOracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.Swapr.factory, ORACLES.Swapr.initHash],
+    const swaprOracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Swapr.factory, ORACLES.Swapr.initHash],
         deployments,
         deployer,
-        'UniswapV2LikeOracle',
-    );
+        deploymentName: 'UniswapV2LikeOracle',
+    });
 
-    const sushiOracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.Sushi.factory, ORACLES.Sushi.initHash],
+    const sushiOracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Sushi.factory, ORACLES.Sushi.initHash],
         deployments,
         deployer,
-        'UniswapV2LikeOracle',
-    );
+        deploymentName: 'UniswapV2LikeOracle',
+    });
 
-    await idempotentDeploy(
-        'OffchainOracle',
-        [
+    await deployAndGetContract({
+        contractName: 'OffchainOracle',
+        constructorArgs: [
             multiWrapper,
             [
                 sushiOracle.address,
@@ -89,7 +86,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         ],
         deployments,
         deployer,
-    );
+    });
 };
 
 module.exports.skip = async () => true;

@@ -1,8 +1,6 @@
 const hre = require('hardhat');
+const { deployAndGetContract } = require('@1inch/solidity-utils');
 const { ethers, getChainId } = hre;
-const {
-    idempotentDeploy,
-} = require('../utils.js');
 
 const OraclesToUpdate = {
     arbitrum: {
@@ -265,22 +263,21 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             }
         }
 
-        const updatedOracle = await idempotentDeploy(
+        const updatedOracle = await deployAndGetContract({
             contractName,
-            params,
+            constructorArgs: params,
             deployments,
             deployer,
-            `${contractName}${!exchangeName ? '' : '_' + exchangeName}`,
-            false,
-            !!OraclesToUpdate[networkName][oracles.allOracles[i]].skipDeploy,
-        );
+            deploymentName: `${contractName}${!exchangeName ? '' : '_' + exchangeName}`,
+            skipIfAlreadyDeployed: !!OraclesToUpdate[networkName][oracles.allOracles[i]].skipDeploy,
+        });
         existingOracles.push(updatedOracle.address);
         oracleTypes.push(oracles.oracleTypes[i]);
     }
 
-    await idempotentDeploy(
-        'OffchainOracle',
-        [
+    await deployAndGetContract({
+        contractName: 'OffchainOracle',
+        constructorArgs: [
             await offchainOracle.multiWrapper(),
             existingOracles,
             oracleTypes,
@@ -289,10 +286,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         ],
         deployments,
         deployer,
-        'OffchainOracle',
-        false,
-        false,
-    );
+        deploymentName: 'OffchainOracle',
+        skipIfAlreadyDeployed: false,
+    });
 };
 
 async function attachContract (contractName, address) {

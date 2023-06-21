@@ -1,9 +1,6 @@
 const { getChainId } = require('hardhat');
-const { toBN } = require('@1inch/solidity-utils');
+const { deployAndGetContract, toBN } = require('@1inch/solidity-utils');
 const { tokens } = require('../../test/helpers.js');
-const {
-    idempotentDeploy,
-} = require('../utils.js');
 
 const oracles = {
     quickswapOracle: '0xE295aD71242373C37C5FdA7B57F26f9eA1088AFe',
@@ -25,9 +22,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
 
-    await idempotentDeploy(
-        'OffchainOracle',
-        [
+    await deployAndGetContract({
+        contractName: 'OffchainOracle',
+        constructorArgs: [
             multiWrapper,
             [
                 oracles.quickswapOracle,
@@ -44,9 +41,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         ],
         deployments,
         deployer,
-        'OffchainOracle',
-        true, // skipVerify
-    );
+        deploymentName: 'OffchainOracle',
+        skipVerify: true,
+    });
 };
 
 module.exports.skip = async () => true;

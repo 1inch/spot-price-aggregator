@@ -1,8 +1,6 @@
 const { getChainId } = require('hardhat');
-const {
-    idempotentDeploy,
-    getContract,
-} = require('../utils.js');
+const { deployAndGetContract } = require('@1inch/solidity-utils');
+const { getContract } = require('../utils.js');
 
 const ORACLES = {
     pancakeswapV2: {
@@ -17,12 +15,12 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
 
-    const pancakeV2Oracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.pancakeswapV2.factory, ORACLES.pancakeswapV2.initHash],
+    const pancakeV2Oracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.pancakeswapV2.factory, ORACLES.pancakeswapV2.initHash],
         deployments,
         deployer,
-    );
+    });
 
     const offchainOracle = await getContract('OffchainOracle', deployments);
 

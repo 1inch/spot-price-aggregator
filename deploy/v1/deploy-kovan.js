@@ -1,7 +1,5 @@
 const { getChainId } = require('hardhat');
-const {
-    idempotentDeploy,
-} = require('../utils.js');
+const { deployAndGetContract } = require('@1inch/solidity-utils');
 
 const INCH_LP_FACTORY_ADDR = '0x2Be171963835b6d21202b62EEE54c67910680129';
 const UNISWAP_V2_FACTORY = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
@@ -15,45 +13,55 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
 
-    const mooniswapOracle = await idempotentDeploy(
-        'MooniswapOracle',
-        [INCH_LP_FACTORY_ADDR],
-    );
-
-    const uniswapV2Oracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [UNISWAP_V2_FACTORY, UNISWAP_V2_HASH],
+    const mooniswapOracle = await deployAndGetContract({
+        contractName: 'MooniswapOracle',
+        constructorArgs: [INCH_LP_FACTORY_ADDR],
         deployments,
         deployer,
-    );
+    });
 
-    const uniswapV1Oracle = await idempotentDeploy(
-        'UniswapOracle',
-        [UNISWAP_V1_FACTORY],
+    const uniswapV2Oracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [UNISWAP_V2_FACTORY, UNISWAP_V2_HASH],
         deployments,
         deployer,
-    );
+    });
 
-    const wethWrapper = await idempotentDeploy(
-        'BaseCoinWrapper',
-        [WETH],
+    const uniswapV1Oracle = await deployAndGetContract({
+        contractName: 'UniswapOracle',
+        constructorArgs: [UNISWAP_V1_FACTORY],
         deployments,
         deployer,
-    );
+    });
 
-    const multiWrapper = await idempotentDeploy(
-        'MultiWrapper',
-        [[wethWrapper.address]],
+    const wethWrapper = await deployAndGetContract({
+        contractName: 'BaseCoinWrapper',
+        constructorArgs: [WETH],
         deployments,
         deployer,
-    );
+    });
 
-    await idempotentDeploy(
-        'OffchainOracle',
-        [multiWrapper.address, [mooniswapOracle.address, uniswapV2Oracle.address, uniswapV1Oracle.address], []],
+    const multiWrapper = await deployAndGetContract({
+        contractName: 'MultiWrapper',
+        constructorArgs: [[wethWrapper.address]],
         deployments,
         deployer,
-    );
+    });
+
+    await deployAndGetContract({
+        contractName: 'OffchainOracle',
+        constructorArgs: [
+            multiWrapper.address,
+            [
+                mooniswapOracle.address,
+                uniswapV2Oracle.address,
+                uniswapV1Oracle.address,
+            ],
+            [],
+        ],
+        deployments,
+        deployer,
+    });
 };
 
 module.exports.skip = async () => true;

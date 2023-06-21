@@ -1,8 +1,6 @@
 const { getChainId, ethers } = require('hardhat');
-const {
-    idempotentDeploy,
-    getContract,
-} = require('../utils.js');
+const { deployAndGetContract } = require('@1inch/solidity-utils');
+const { getContract } = require('../utils.js');
 
 const ORACLES = {
     Cometh: {
@@ -37,27 +35,27 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const multiWrapper = await getContract('MultiWrapper', deployments);
     const offchainOracle = await getContract('OffchainOracle', deployments);
 
-    const cometh = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.Cometh.factory, ORACLES.Cometh.initHash],
+    const cometh = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Cometh.factory, ORACLES.Cometh.initHash],
         deployments,
         deployer,
-    );
+    });
 
-    const sushi = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.Sushi.factory, ORACLES.Sushi.initHash],
+    const sushi = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Sushi.factory, ORACLES.Sushi.initHash],
         deployments,
         deployer,
-    );
+    });
 
     const AaveWrapperV2 = await ethers.getContractFactory('AaveWrapperV2');
-    const aaveDeployment = await idempotentDeploy(
-        'AaveWrapperV2',
-        [ORACLES.Aave.letdingPool],
+    const aaveDeployment = await deployAndGetContract({
+        contractName: 'AaveWrapperV2',
+        constructorArgs: [ORACLES.Aave.letdingPool],
         deployments,
         deployer,
-    );
+    });
     const aave = AaveWrapperV2.attach(aaveDeployment.address);
 
     await (await offchainOracle.addOracle(cometh.address, '0')).wait();

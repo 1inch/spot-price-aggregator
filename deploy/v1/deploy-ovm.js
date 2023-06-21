@@ -1,7 +1,5 @@
 const { getChainId } = require('hardhat');
-const {
-    idempotentDeploy,
-} = require('../utils.js');
+const { deployAndGetContract } = require('@1inch/solidity-utils');
 
 const WETH = '0x4200000000000000000000000000000000000006';
 const NONE = '0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF';
@@ -14,32 +12,32 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const skipVerify = true;
 
-    const multiWrapper = await idempotentDeploy(
-        'MultiWrapper',
-        [[]],
+    const multiWrapper = await deployAndGetContract({
+        contractName: 'MultiWrapper',
+        constructorArgs: [[]],
         deployments,
         deployer,
-        'MultiWrapper',
+        deploymentName: 'MultiWrapper',
         skipVerify,
-    );
+    });
 
-    const uniswapV3Oracle = await idempotentDeploy(
-        'UniswapV3Oracle',
-        [],
+    const uniswapV3Oracle = await deployAndGetContract({
+        contractName: 'UniswapV3Oracle',
+        constructorArgs: [],
         deployments,
         deployer,
-        'UniswapV3Oracle',
+        deploymentName: 'UniswapV3Oracle',
         skipVerify,
-    );
+    });
 
-    await idempotentDeploy(
-        'OffchainOracle',
-        [multiWrapper.address, [uniswapV3Oracle.address], ['0'], [NONE, WETH], WETH],
+    await deployAndGetContract({
+        contractName: 'OffchainOracle',
+        constructorArgs: [multiWrapper.address, [uniswapV3Oracle.address], ['0'], [NONE, WETH], WETH],
         deployments,
         deployer,
-        'OffchainOracle',
+        deploymentName: 'OffchainOracle',
         skipVerify,
-    );
+    });
 };
 
 module.exports.skip = async () => true;

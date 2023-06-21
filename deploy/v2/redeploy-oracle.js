@@ -1,8 +1,6 @@
 const { getChainId } = require('hardhat');
-const {
-    idempotentDeploy,
-    getContract,
-} = require('../utils.js');
+const { deployAndGetContract } = require('@1inch/solidity-utils');
+const { getContract } = require('../utils.js');
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const PARAMS = {
@@ -22,15 +20,14 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const oracles = await offchainOracle.oracles();
     const customOracleType = oracles.oracleTypes[oracles.allOracles.indexOf(oldCustomOracle.address)];
 
-    const customOracle = await idempotentDeploy(
-        PARAMS.contractName,
-        PARAMS.args,
+    const customOracle = await deployAndGetContract({
+        contractName: PARAMS.contractName,
+        constructorArgs: PARAMS.args,
         deployments,
         deployer,
-        PARAMS.deploymentName,
-        false,
-        false,
-    );
+        deploymentName: PARAMS.deploymentName,
+        skipIfAlreadyDeployed: false,
+    });
     await offchainOracle.removeOracle(oldCustomOracle.address, customOracleType);
     await offchainOracle.addOracle(customOracle.address, customOracleType);
 };
