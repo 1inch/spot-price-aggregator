@@ -1,8 +1,6 @@
 const { getChainId } = require('hardhat');
-const {
-    idempotentDeploy,
-    getContract,
-} = require('../utils.js');
+const { deployAndGetContract } = require('@1inch/solidity-utils');
+const { getContract } = require('../utils.js');
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running dodo aurora deploy script');
@@ -15,18 +13,18 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
 
-    const dodo = await idempotentDeploy(
-        'DodoOracle',
-        ['0xf50BDc9E90B7a1c138cb7935071b85c417C4cb8e'],
+    const dodo = await deployAndGetContract({
+        contractName: 'DodoOracle',
+        constructorArgs: ['0xf50BDc9E90B7a1c138cb7935071b85c417C4cb8e'],
         deployments,
         deployer,
-    );
-    const dodoV2 = await idempotentDeploy(
-        'DodoV2Oracle',
-        ['0x5515363c0412AdD5c72d3E302fE1bD7dCBCF93Fe'],
+    });
+    const dodoV2 = await deployAndGetContract({
+        contractName: 'DodoV2Oracle',
+        constructorArgs: ['0x5515363c0412AdD5c72d3E302fE1bD7dCBCF93Fe'],
         deployments,
         deployer,
-    );
+    });
 
     const offchainOracle = await getContract('OffchainOracle', deployments);
 

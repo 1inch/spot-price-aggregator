@@ -1,9 +1,6 @@
 const { getChainId } = require('hardhat');
-const {
-    idempotentDeploy,
-    getContract,
-} = require('../utils.js');
-const { toBN } = require('@1inch/solidity-utils');
+const { getContract } = require('../utils.js');
+const { deployAndGetContract, toBN } = require('@1inch/solidity-utils');
 const { assertRoughlyEqualValues } = require('../../test/helpers.js');
 
 const ORACLES = {
@@ -76,7 +73,13 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     await getPrices(offchainOracle, 'without Solidly oracle');
 
     // Deploy and add solidly oracle
-    const solidly = await idempotentDeploy('SolidlyOracle', [ORACLES.Solidly.factory, ORACLES.Solidly.initHash], deployments, deployer, 'SolidlyOracle');
+    const solidly = await deployAndGetContract({
+        contractName: 'SolidlyOracle',
+        constructorArgs: [ORACLES.Solidly.factory, ORACLES.Solidly.initHash],
+        deployments,
+        deployer,
+        deploymentName: 'SolidlyOracle',
+    });
     console.log('SolidlyOracle address: ', solidly.address);
 
     await offchainOracle.addOracle(solidly.address, (toBN('0')).toString());

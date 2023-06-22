@@ -1,11 +1,7 @@
 const { getChainId } = require('hardhat');
-const { toBN } = require('@1inch/solidity-utils');
+const { deployAndGetContract, toBN } = require('@1inch/solidity-utils');
 const { tokens } = require('../../test/helpers.js');
-const {
-    idempotentDeploy,
-    idempotentDeployGetContract,
-    deployCompoundTokenWrapper,
-} = require('../utils.js');
+const { deployCompoundTokenWrapper } = require('../utils.js');
 
 const cETHbastion = '0x4E8fE8fd314cFC09BDb0942c5adCC37431abDCD0';
 const auETHaurigami = '0xca9511B610bA5fc7E311FDeF9cE16050eE4449E9';
@@ -60,29 +56,58 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
 
-    const baseCoinWrapper = await idempotentDeploy('BaseCoinWrapper', [WETH], deployments, deployer);
+    const baseCoinWrapper = await deployAndGetContract({
+        contractName: 'BaseCoinWrapper',
+        constructorArgs: [WETH],
+        deployments,
+        deployer,
+    });
     const bastionWrapper = await deployCompoundTokenWrapper(WRAPPERS.compound.bastion, cETHbastion, deployments, deployer);
     const aurigamiWrapper = await deployCompoundTokenWrapper(WRAPPERS.compound.aurigami, auETHaurigami, deployments, deployer);
 
-    const multiWrapper = await idempotentDeployGetContract(
-        'MultiWrapper',
-        [[
+    const multiWrapper = await deployAndGetContract({
+        contractName: 'MultiWrapper',
+        constructorArgs: [[
             baseCoinWrapper.address,
             bastionWrapper.address,
             aurigamiWrapper.address,
         ]],
         deployments,
         deployer,
-    );
+    });
 
-    const trisolaris = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.Trisolaris.factory, ORACLES.Trisolaris.initHash], deployments, deployer, 'UniswapV2LikeOracle_Trisolaris');
-    const wannaSwap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.WannaSwap.factory, ORACLES.WannaSwap.initHash], deployments, deployer, 'UniswapV2LikeOracle_WannaSwap');
-    const nearPAD = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.NearPAD.factory, ORACLES.NearPAD.initHash], deployments, deployer, 'UniswapV2LikeOracle_NearPAD');
-    const auroraSwap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.AuroraSwap.factory, ORACLES.AuroraSwap.initHash], deployments, deployer, 'UniswapV2LikeOracle_AuroraSwap');
+    const trisolaris = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Trisolaris.factory, ORACLES.Trisolaris.initHash],
+        deployments,
+        deployer,
+        deploymentName: 'UniswapV2LikeOracle_Trisolaris',
+    });
+    const wannaSwap = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.WannaSwap.factory, ORACLES.WannaSwap.initHash],
+        deployments,
+        deployer,
+        deploymentName: 'UniswapV2LikeOracle_WannaSwap',
+    });
+    const nearPAD = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.NearPAD.factory, ORACLES.NearPAD.initHash],
+        deployments,
+        deployer,
+        deploymentName: 'UniswapV2LikeOracle_NearPAD',
+    });
+    const auroraSwap = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.AuroraSwap.factory, ORACLES.AuroraSwap.initHash],
+        deployments,
+        deployer,
+        deploymentName: 'UniswapV2LikeOracle_AuroraSwap',
+    });
 
-    await idempotentDeploy(
-        'OffchainOracle',
-        [
+    await deployAndGetContract({
+        contractName: 'OffchainOracle',
+        constructorArgs: [
             multiWrapper.address,
             [
                 trisolaris.address,
@@ -101,7 +126,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         ],
         deployments,
         deployer,
-    );
+    });
 };
 
 module.exports.skip = async () => true;

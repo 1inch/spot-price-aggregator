@@ -1,7 +1,5 @@
 const { getChainId } = require('hardhat');
-const {
-    idempotentDeploy,
-} = require('../utils.js');
+const { deployAndGetContract } = require('@1inch/solidity-utils');
 
 const QUICKSWAP_V2_FACTORY = '0x5757371414417b8C6CAad45bAeF941aBc7d3Ab32';
 const QUICKSWAP_V2_HASH = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
@@ -15,41 +13,41 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const skipVerify = true;
 
-    const uniswapV2Oracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [QUICKSWAP_V2_FACTORY, QUICKSWAP_V2_HASH],
+    const uniswapV2Oracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [QUICKSWAP_V2_FACTORY, QUICKSWAP_V2_HASH],
         deployments,
         deployer,
-        'UniswapV2LikeOracle',
+        deploymentName: 'UniswapV2LikeOracle',
         skipVerify,
-    );
+    });
 
-    const wethWrapper = await idempotentDeploy(
-        'BaseCoinWrapper',
-        [WMATIC],
+    const wethWrapper = await deployAndGetContract({
+        contractName: 'BaseCoinWrapper',
+        constructorArgs: [WMATIC],
         deployments,
         deployer,
-        'BaseCoinWrapper',
+        deploymentName: 'BaseCoinWrapper',
         skipVerify,
-    );
+    });
 
-    const multiWrapper = await idempotentDeploy(
-        'MultiWrapper',
-        [[wethWrapper.address]],
+    const multiWrapper = await deployAndGetContract({
+        contractName: 'MultiWrapper',
+        constructorArgs: [[wethWrapper.address]],
         deployments,
         deployer,
-        'MultiWrapper',
+        deploymentName: 'MultiWrapper',
         skipVerify,
-    );
+    });
 
-    await idempotentDeploy(
-        'OffchainOracle',
-        [multiWrapper.address, [uniswapV2Oracle.address], []],
+    await deployAndGetContract({
+        contractName: 'OffchainOracle',
+        constructorArgs: [multiWrapper.address, [uniswapV2Oracle.address], []],
         deployments,
         deployer,
-        'OffchainOracle',
+        deploymentName: 'OffchainOracle',
         skipVerify,
-    );
+    });
 };
 
 module.exports.skip = async () => true;

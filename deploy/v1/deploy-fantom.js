@@ -1,8 +1,6 @@
 const { getChainId } = require('hardhat');
-const { toBN } = require('@1inch/solidity-utils');
+const { deployAndGetContract, toBN } = require('@1inch/solidity-utils');
 const {
-    idempotentDeploy,
-    idempotentDeployGetContract,
     deployCompoundTokenWrapper,
     addAaveTokens,
 } = require('../utils.js');
@@ -72,26 +70,60 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const screamWrapper = await deployCompoundTokenWrapper(WRAPPERS.compound.scream, SCREAM, deployments, deployer, 'CompoundLikeWrapper');
 
-    const baseCoinWrapper = await idempotentDeploy('BaseCoinWrapper', [AAWE_WRAPPER_TOKENS.wFTM], deployments, deployer);
-    const geistWrapper = await idempotentDeployGetContract('AaveWrapperV2', [WRAPPERS.aave.geist], deployments, deployer);
+    const baseCoinWrapper = await deployAndGetContract({
+        contractName: 'BaseCoinWrapper',
+        constructorArgs: [AAWE_WRAPPER_TOKENS.wFTM],
+        deployments,
+        deployer,
+    });
+    const geistWrapper = await deployAndGetContract({
+        contractName: 'AaveWrapperV2',
+        constructorArgs: [WRAPPERS.aave.geist],
+        deployments,
+        deployer,
+    });
 
     await addAaveTokens(geistWrapper, AAWE_WRAPPER_TOKENS);
 
-    const multiWrapper = await idempotentDeployGetContract(
-        'MultiWrapper',
-        [[
+    const multiWrapper = await deployAndGetContract({
+        contractName: 'MultiWrapper',
+        constructorArgs: [[
             baseCoinWrapper.address,
             geistWrapper.address,
             screamWrapper.address,
         ]],
         deployments,
         deployer,
-    );
+    });
 
-    const spookSywap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.SpookySwap.factory, ORACLES.SpookySwap.initHash], deployments, deployer, 'UniswapV2LikeOracle_Spooky');
-    const solidex = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.Solidex.factory, ORACLES.Solidex.initHash], deployments, deployer, 'UniswapV2LikeOracle_Solidex');
-    const spiritSwap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.SpiritSwap.factory, ORACLES.SpiritSwap.initHash], deployments, deployer, 'UniswapV2LikeOracle_SpiritSwap');
-    const sushiSwap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.SushiSwap.factory, ORACLES.SushiSwap.initHash], deployments, deployer, 'UniswapV2LikeOracle_SushiSwap');
+    const spookSywap = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.SpookySwap.factory, ORACLES.SpookySwap.initHash],
+        deployments,
+        deployer,
+        deploymentName: 'UniswapV2LikeOracle_Spooky',
+    });
+    const solidex = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Solidex.factory, ORACLES.Solidex.initHash],
+        deployments,
+        deployer,
+        deploymentName: 'UniswapV2LikeOracle_Solidex',
+    });
+    const spiritSwap = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.SpiritSwap.factory, ORACLES.SpiritSwap.initHash],
+        deployments,
+        deployer,
+        deploymentName: 'UniswapV2LikeOracle_SpiritSwap',
+    });
+    const sushiSwap = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.SushiSwap.factory, ORACLES.SushiSwap.initHash],
+        deployments,
+        deployer,
+        deploymentName: 'UniswapV2LikeOracle_SushiSwap',
+    });
 
     const args = [
         multiWrapper.address,
@@ -110,7 +142,12 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         CONNECTORS,
         AAWE_WRAPPER_TOKENS.wFTM,
     ];
-    const offchainOracle = await idempotentDeployGetContract('OffchainOracle', args);
+    const offchainOracle = await deployAndGetContract({
+        contractName: 'OffchainOracle',
+        constructorArgs: args,
+        deployments,
+        deployer,
+    });
     console.log('All oracles:', await offchainOracle.oracles());
     console.log('All connectors:', await offchainOracle.connectors());
 };

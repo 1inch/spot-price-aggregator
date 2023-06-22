@@ -1,9 +1,6 @@
 const { getChainId } = require('hardhat');
-const {
-    idempotentDeploy,
-    getContract,
-} = require('../utils.js');
-const { toBN } = require('@1inch/solidity-utils');
+const { getContract } = require('../utils.js');
+const { deployAndGetContract, toBN } = require('@1inch/solidity-utils');
 const { assertRoughlyEqualValues } = require('../../test/helpers.js');
 
 const ORACLES = {
@@ -76,7 +73,13 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     await getPrices(offchainOracle, 'without VelodromeFinance oracle');
 
     // Deploy and add Velodrome-Finance oracle
-    const velodromeFinance = await idempotentDeploy('SolidlyOracle', [ORACLES.VelodromeFinance.factory, ORACLES.VelodromeFinance.initHash], deployments, deployer, 'VelodromeFinanceOracle');
+    const velodromeFinance = await deployAndGetContract({
+        contractName: 'SolidlyOracle',
+        constructorArgs: [ORACLES.VelodromeFinance.factory, ORACLES.VelodromeFinance.initHash],
+        deployments,
+        deployer,
+        deploymentName: 'VelodromeFinanceOracle',
+    });
     console.log('VelodromeFinanceOracle address: ', velodromeFinance.address);
 
     await offchainOracle.addOracle(velodromeFinance.address, (toBN('0')).toString());

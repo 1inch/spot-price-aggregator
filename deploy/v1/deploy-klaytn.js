@@ -1,10 +1,6 @@
 const { getChainId } = require('hardhat');
 const { tokens } = require('../../test/helpers.js');
-const { toBN } = require('@1inch/solidity-utils');
-const {
-    idempotentDeploy,
-    idempotentDeployGetContract,
-} = require('../utils.js');
+const { deployAndGetContract, toBN } = require('@1inch/solidity-utils');
 
 const WKLAY = '0xe4f05a66ec68b54a58b17c22107b02e0232cc817';
 
@@ -43,24 +39,41 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
 
-    const baseCoinWrapper = await idempotentDeploy('BaseCoinWrapper', [WKLAY], deployments, deployer);
-    const klapWrapper = await idempotentDeployGetContract('AaveWrapperV2', [KLAP], 'AaveWrapperV2_Klap', deployments, deployer);
+    const baseCoinWrapper = await deployAndGetContract({
+        contractName: 'BaseCoinWrapper',
+        constructorArgs: [WKLAY],
+        deployments,
+        deployer,
+    });
+    const klapWrapper = await deployAndGetContract({
+        contractName: 'AaveWrapperV2',
+        constructorArgs: [KLAP],
+        deployments,
+        deployer,
+        deploymentName: 'AaveWrapperV2_Klap',
+    });
     await (await klapWrapper.addMarkets(KLAP_TOKENS)).wait();
-    const multiWrapper = await idempotentDeploy(
-        'MultiWrapper',
-        [[
+    const multiWrapper = await deployAndGetContract({
+        contractName: 'MultiWrapper',
+        constructorArgs: [[
             baseCoinWrapper.address,
             klapWrapper.address,
         ]],
         deployments,
         deployer,
-    );
+    });
 
-    const claimSwap = await idempotentDeploy('UniswapV2LikeOracle', [ORACLES.ClaimSwap.factory, ORACLES.ClaimSwap.initHash], deployments, deployer, 'UniswapV2LikeOracle_ClaimSwap');
+    const claimSwap = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.ClaimSwap.factory, ORACLES.ClaimSwap.initHash],
+        deployments,
+        deployer,
+        deploymentName: 'UniswapV2LikeOracle_ClaimSwap',
+    });
 
-    await idempotentDeploy(
-        'OffchainOracle',
-        [
+    await deployAndGetContract({
+        contractName: 'OffchainOracle',
+        constructorArgs: [
             multiWrapper.address,
             [
                 claimSwap.address,
@@ -73,7 +86,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         ],
         deployments,
         deployer,
-    );
+    });
 };
 
 module.exports.skip = async () => true;

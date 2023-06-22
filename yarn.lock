@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@1inch/solidity-utils@2.2.27":
-  version "2.2.27"
-  resolved "https://registry.yarnpkg.com/@1inch/solidity-utils/-/solidity-utils-2.2.27.tgz#28a131304788674042dae002e817b2cd9346f232"
-  integrity sha512-rybgnA5Bd1+XRrAdIK3sNWWIMXZ5tWl4Ds4IwZVCzAXMLvxdXnJyb6zm//uuko9cRH63aDjct5Mzf+ggg36AJg==
+"@1inch/solidity-utils@2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@1inch/solidity-utils/-/solidity-utils-2.3.0.tgz#5a3507419ec8b2fe801ccbe2281b4e2b9c39da83"
+  integrity sha512-UIV8Ip0R4S0hZc2VoPKxLShnN+kchWhNw1XhE48b/QS7msJNBdtaPDDTb+e7mgOVg9qf0gvHE6fFkzRRR67LQg==
   dependencies:
     "@metamask/eth-sig-util" "5.0.2"
     "@nomicfoundation/hardhat-network-helpers" "1.0.8"

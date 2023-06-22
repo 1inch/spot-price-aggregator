@@ -1,8 +1,6 @@
 const { getChainId } = require('hardhat');
-const {
-    idempotentDeploy,
-    getContract,
-} = require('../utils.js');
+const { deployAndGetContract } = require('@1inch/solidity-utils');
+const { getContract } = require('../utils.js');
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running kyber-dmm deploy script');
@@ -10,12 +8,12 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
 
-    const kyberDmmOracle = await idempotentDeploy(
-        'KyberDmmOracle',
-        ['0x833e4083b7ae46cea85695c4f7ed25cdad8886de'],
+    const kyberDmmOracle = await deployAndGetContract({
+        contractName: 'KyberDmmOracle',
+        constructorArgs: ['0x833e4083b7ae46cea85695c4f7ed25cdad8886de'],
         deployments,
         deployer,
-    );
+    });
 
     const offchainOracle = await getContract('OffchainOracle', deployments);
 

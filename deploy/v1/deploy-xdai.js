@@ -1,9 +1,6 @@
 const { getChainId } = require('hardhat');
-const { toBN } = require('@1inch/solidity-utils');
+const { deployAndGetContract, toBN } = require('@1inch/solidity-utils');
 const { tokens } = require('../../test/helpers.js');
-const {
-    idempotentDeploy,
-} = require('../utils.js');
 
 const WXDAI = '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d';
 
@@ -36,54 +33,54 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const skipVerify = true;
 
-    const baseCoinWrapper = await idempotentDeploy(
-        'BaseCoinWrapper',
-        [WXDAI],
+    const baseCoinWrapper = await deployAndGetContract({
+        contractName: 'BaseCoinWrapper',
+        constructorArgs: [WXDAI],
         deployments,
         deployer,
-        'BaseCoinWrapper',
+        deploymentName: 'BaseCoinWrapper',
         skipVerify,
-    );
+    });
 
-    const multiWrapper = await idempotentDeploy(
-        'MultiWrapper',
-        [[baseCoinWrapper.address]],
+    const multiWrapper = await deployAndGetContract({
+        contractName: 'MultiWrapper',
+        constructorArgs: [[baseCoinWrapper.address]],
         deployments,
         deployer,
-        'MultiWrapper',
+        deploymentName: 'MultiWrapper',
         skipVerify,
-    );
+    });
 
-    const honeyswapOracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.Honey.factory, ORACLES.Honey.initHash],
+    const honeyswapOracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Honey.factory, ORACLES.Honey.initHash],
         deployments,
         deployer,
-        'UniswapV2LikeOracle_Honeyswap',
+        deploymentName: 'UniswapV2LikeOracle_Honeyswap',
         skipVerify,
-    );
+    });
 
-    const levinswapOracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.Levin.factory, ORACLES.Levin.initHash],
+    const levinswapOracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Levin.factory, ORACLES.Levin.initHash],
         deployments,
         deployer,
-        'UniswapV2LikeOracle_Levinswap',
+        deploymentName: 'UniswapV2LikeOracle_Levinswap',
         skipVerify,
-    );
+    });
 
-    const swaprOracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.Swapr.factory, ORACLES.Swapr.initHash],
+    const swaprOracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Swapr.factory, ORACLES.Swapr.initHash],
         deployments,
         deployer,
-        'UniswapV2LikeOracle_Swapr',
+        deploymentName: 'UniswapV2LikeOracle_Swapr',
         skipVerify,
-    );
+    });
 
-    await idempotentDeploy(
-        'OffchainOracle',
-        [
+    await deployAndGetContract({
+        contractName: 'OffchainOracle',
+        constructorArgs: [
             multiWrapper.address,
             [
                 honeyswapOracle.address,
@@ -100,9 +97,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         ],
         deployments,
         deployer,
-        'OffchainOracle',
+        deploymentName: 'OffchainOracle',
         skipVerify,
-    );
+    });
 };
 
 module.exports.skip = async () => true;

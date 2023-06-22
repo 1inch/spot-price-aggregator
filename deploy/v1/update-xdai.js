@@ -1,9 +1,6 @@
 const { getChainId } = require('hardhat');
-
-const {
-    idempotentDeploy,
-    getContract,
-} = require('../utils.js');
+const { deployAndGetContract } = require('@1inch/solidity-utils');
+const { getContract } = require('../utils.js');
 
 const WETH = '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1';
 const HONEY = '0x71850b7E9Ee3f13Ab46d67167341E4bDc905Eef9';
@@ -43,23 +40,21 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     await (await offchainOracle.removeOracle((await deployments.get('UniswapV2LikeOracle_Honeyswap')).address, '0')).wait();
 
-    const honeyswapOracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.Honey.factory, ORACLES.Honey.initHash],
+    const honeyswapOracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Honey.factory, ORACLES.Honey.initHash],
         deployments,
         deployer,
-        'UniswapV2LikeOracle_Honeyswap',
-        false, // skipVerify
-    );
+        deploymentName: 'UniswapV2LikeOracle_Honeyswap',
+    });
 
-    const sushiswapOracle = await idempotentDeploy(
-        'UniswapV2LikeOracle',
-        [ORACLES.Sushi.factory, ORACLES.Sushi.initHash],
+    const sushiswapOracle = await deployAndGetContract({
+        contractName: 'UniswapV2LikeOracle',
+        constructorArgs: [ORACLES.Sushi.factory, ORACLES.Sushi.initHash],
         deployments,
         deployer,
-        'UniswapV2LikeOracle_Sushiswap',
-        false, // skipVerify
-    );
+        deploymentName: 'UniswapV2LikeOracle_Sushiswap',
+    });
 
     await (await offchainOracle.addOracle(honeyswapOracle.address, '0')).wait();
     await (await offchainOracle.addOracle(sushiswapOracle.address, '0')).wait();

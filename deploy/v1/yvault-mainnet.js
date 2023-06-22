@@ -1,8 +1,6 @@
 const { getChainId } = require('hardhat');
-const {
-    idempotentDeploy,
-    getContract,
-} = require('../utils.js');
+const { deployAndGetContract } = require('@1inch/solidity-utils');
+const { getContract } = require('../utils.js');
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running yvault deploy script');
@@ -12,12 +10,12 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const multiWrapper = await getContract('MultiWrapper', deployments);
 
-    const yvaultWrapper = await idempotentDeploy(
-        'YVaultWrapper',
-        [],
+    const yvaultWrapper = await deployAndGetContract({
+        contractName: 'YVaultWrapper',
+        constructorArgs: [],
         deployments,
         deployer,
-    );
+    });
 
     await (await multiWrapper.addWrapper(yvaultWrapper.address)).wait();
 };
