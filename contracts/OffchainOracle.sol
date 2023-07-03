@@ -12,6 +12,7 @@ import "./MultiWrapper.sol";
 import "./libraries/Sqrt.sol";
 
 contract OffchainOracle is Ownable {
+    using Math for uint256;
     using SafeMath for uint256;
     using Sqrt for uint256;
     using EnumerableSet for EnumerableSet.AddressSet;
@@ -300,14 +301,14 @@ contract OffchainOracle is Ownable {
             }
 
             uint256 totalWeight;
-
+            bool successAdd;
             for (uint256 i = 0; i < oraclePrices.length; i++) {
                 if (oraclePrices[i].weight * 100 < maxOracleWeight * thresholdFilter) {
                     continue;
                 }
-                uint256 weightedRateForIndex = _mulOrZeroIfOverflow(oraclePrices[i].rate, oraclePrices[i].weight);
-                weightedRate = _addValueOrZeroIfOverflow(weightedRate, weightedRateForIndex);
-                if (weightedRateForIndex != 0) {
+                (bool successMul, uint256 weightedRateForIndex) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
+                (successAdd, weightedRate) = _tryAddOrIgnore(weightedRate, weightedRateForIndex);
+                if (successMul && successAdd) {
                     totalWeight += oraclePrices[i].weight;
                 }
             }
@@ -394,14 +395,14 @@ contract OffchainOracle is Ownable {
             }
 
             uint256 totalWeight;
-
+            bool successAdd;
             for (uint256 i = 0; i < oracleIndex; i++) {
                 if (oraclePrices[i].weight < maxOracleWeight * thresholdFilter / 100) {
                     continue;
                 }
-                uint256 weightedRateForIndex = _mulOrZeroIfOverflow(oraclePrices[i].rate, oraclePrices[i].weight);
-                weightedRate = _addValueOrZeroIfOverflow(weightedRate, weightedRateForIndex);
-                if (weightedRateForIndex != 0) {
+                (bool successMul, uint256 weightedRateForIndex) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
+                (successAdd, weightedRate) = _tryAddOrIgnore(weightedRate, weightedRateForIndex);
+                if (successMul && successAdd) {
                     totalWeight += oraclePrices[i].weight;
                 }
             }
@@ -443,17 +444,16 @@ contract OffchainOracle is Ownable {
             */
             uint256 result;
             unchecked {
-                uint256 preResult = _mulOrZeroIfOverflow(rate, srcTokenRate);
-                if (preResult == 0) {
+                (bool success, uint256 preResult) = rate.tryMul(srcTokenRate);
+                if (!success) {
                     return OraclePrice(0, 0);
                 }
 
-                uint256 maxRate = Math.max(preResult, dstTokenRate);
                 result = preResult * dstTokenRate;
-                if (result < maxRate) {
+                if (result / preResult != dstTokenRate) {
                     preResult /= 1e18;
-                    result = _mulOrZeroIfOverflow(preResult, dstTokenRate);
-                    if (result == 0) {
+                    (success, result) = preResult.tryMul(dstTokenRate);
+                    if (!success) {
                         return OraclePrice(0, 0);
                     }
                     result /= 1e18;
@@ -465,23 +465,11 @@ contract OffchainOracle is Ownable {
         } catch {}  // solhint-disable-line no-empty-blocks
     }
 
-    function _mulOrZeroIfOverflow(uint256 a, uint256 b) private pure returns (uint256 result) {
+    function _tryAddOrIgnore(uint256 value, uint256 addValue) private pure returns (bool success, uint256 result) {
         unchecked {
-            uint256 max = Math.max(a, b);
-            result = a * b;
-            if (result < max) {
-                result = 0;
-            }
-        }
-    }
-
-    function _addValueOrZeroIfOverflow(uint256 value, uint256 addValue) private pure returns (uint256 result) {
-        unchecked {
-            uint256 max = Math.max(value, addValue);
             result = value + addValue;
-            if (result < max) {
-                result = value;
-            }
+            if (result < value) return (false, value);
+            return (true, result);
         }
     }
 }
