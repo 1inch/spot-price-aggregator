@@ -444,16 +444,16 @@ contract OffchainOracle is Ownable {
             */
             uint256 result;
             unchecked {
-                (bool success, uint256 preResult) = rate.tryMul(srcTokenRate);
-                if (!success) {
+                (,uint256 preResult) = rate.tryMul(srcTokenRate);
+                if (preResult == 0) {
                     return OraclePrice(0, 0);
                 }
 
                 result = preResult * dstTokenRate;
                 if (result / preResult != dstTokenRate) {
                     preResult /= 1e18;
-                    (success, result) = preResult.tryMul(dstTokenRate);
-                    if (!success) {
+                    (,result) = preResult.tryMul(dstTokenRate);
+                    if (result == 0) {
                         return OraclePrice(0, 0);
                     }
                     result /= 1e18;
