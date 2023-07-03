@@ -214,4 +214,25 @@ describe('OffchainOracle', function () {
             assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
         });
     });
+
+    describe('Some features', function () {
+        it('should not failed with overflow шт _getRateImpl method', async function () {
+            const { multiWrapper } = await initContracts();
+
+            const simpleOracleMock = await deployContract('SimpleOracleMock', ['608424427628800532964876503129856304465282478', '2']);
+            const offchainOracle = await deployContract('OffchainOracle', [
+                multiWrapper.address,
+                [
+                    simpleOracleMock.address,
+                ],
+                ['0'],
+                [
+                    tokens.NONE,
+                ],
+                tokens.WETH,
+            ]);
+
+            expect(await offchainOracle.getRateToEth(tokens.DAI, true)).not.to.be.reverted;
+        });
+    });
 });
