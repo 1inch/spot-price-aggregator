@@ -305,8 +305,11 @@ contract OffchainOracle is Ownable {
                 if (oraclePrices[i].weight * 100 < maxOracleWeight * thresholdFilter) {
                     continue;
                 }
-                weightedRate += (oraclePrices[i].rate * oraclePrices[i].weight);
-                totalWeight += oraclePrices[i].weight;
+                uint256 weightedRateForIndex = _mulOrZeroIfOverflow(oraclePrices[i].rate, oraclePrices[i].weight);
+                weightedRate = _addValueOrZeroIfOverflow(weightedRate, weightedRateForIndex);
+                if (weightedRateForIndex != 0) {
+                    totalWeight += oraclePrices[i].weight;
+                }
             }
 
             if (totalWeight > 0) {
@@ -396,8 +399,11 @@ contract OffchainOracle is Ownable {
                 if (oraclePrices[i].weight < maxOracleWeight * thresholdFilter / 100) {
                     continue;
                 }
-                weightedRate += (oraclePrices[i].rate * oraclePrices[i].weight);
-                totalWeight += oraclePrices[i].weight;
+                uint256 weightedRateForIndex = _mulOrZeroIfOverflow(oraclePrices[i].rate, oraclePrices[i].weight);
+                weightedRate = _addValueOrZeroIfOverflow(weightedRate, weightedRateForIndex);
+                if (weightedRateForIndex != 0) {
+                    totalWeight += oraclePrices[i].weight;
+                }
             }
 
             if (totalWeight > 0) {
@@ -429,7 +435,53 @@ contract OffchainOracle is Ownable {
 
     function _getRateImpl(IOracle oracle, IERC20 srcToken, uint256 srcTokenRate, IERC20 dstToken, uint256 dstTokenRate, IERC20 connector) private view returns (OraclePrice memory oraclePrice) {
         try oracle.getRate(srcToken, dstToken, connector) returns (uint256 rate, uint256 weight) {
-            oraclePrice = OraclePrice(rate * srcTokenRate * dstTokenRate / 1e36, weight);
+            /**
+            * oraclePrice = OraclePrice(rate * srcTokenRate * dstTokenRate / 1e36, weight);
+            *
+            * This unchecked block of code handles potential overflow issues when calculating the value of `oraclePrice`.
+            * Overflows are usually associated with questionable tokens. In case of an overflow, the result is set to 0 to ignore and discard such pools.
+            */
+            uint256 result;
+            unchecked {
+                uint256 preResult = _mulOrZeroIfOverflow(rate, srcTokenRate);
+                if (preResult == 0) {
+                    return OraclePrice(0, 0);
+                }
+
+                uint256 maxRate = Math.max(preResult, dstTokenRate);
+                result = preResult * dstTokenRate;
+                if (result < maxRate) {
+                    preResult /= 1e18;
+                    result = _mulOrZeroIfOverflow(preResult, dstTokenRate);
+                    if (result == 0) {
+                        return OraclePrice(0, 0);
+                    }
+                    result /= 1e18;
+                } else {
+                    result /= 1e36;
+                }
+            }
+            oraclePrice = OraclePrice(result, weight);
         } catch {}  // solhint-disable-line no-empty-blocks
+    }
+
+    function _mulOrZeroIfOverflow(uint256 a, uint256 b) private pure returns (uint256 result) {
+        unchecked {
+            uint256 max = Math.max(a, b);
+            result = a * b;
+            if (result < max) {
+                result = 0;
+            }
+        }
+    }
+
+    function _addValueOrZeroIfOverflow(uint256 value, uint256 addValue) private pure returns (uint256 result) {
+        unchecked {
+            uint256 max = Math.max(value, addValue);
+            result = value + addValue;
+            if (result < max) {
+                result = value;
+            }
+        }
     }
 }
