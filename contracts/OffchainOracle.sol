@@ -301,15 +301,14 @@ contract OffchainOracle is Ownable {
             }
 
             uint256 totalWeight;
-            bool successAdd;
             for (uint256 i = 0; i < oraclePrices.length; i++) {
                 if (oraclePrices[i].weight * 100 < maxOracleWeight * thresholdFilter) {
                     continue;
                 }
-                (bool successMul, uint256 weightedRateForIndex) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
-                (successAdd, weightedRate) = _tryAddOrIgnore(weightedRate, weightedRateForIndex);
-                if (successMul && successAdd) {
-                    totalWeight += oraclePrices[i].weight;
+                (bool ok, uint256 weightedRate_i) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
+                if (ok) {
+                    (ok, weightedRate) = _tryAdd(weightedRate, weightedRate_i);
+                    if (ok) totalWeight += oraclePrices[i].weight;
                 }
             }
 
@@ -395,15 +394,14 @@ contract OffchainOracle is Ownable {
             }
 
             uint256 totalWeight;
-            bool successAdd;
             for (uint256 i = 0; i < oracleIndex; i++) {
                 if (oraclePrices[i].weight < maxOracleWeight * thresholdFilter / 100) {
                     continue;
                 }
-                (bool successMul, uint256 weightedRateForIndex) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
-                (successAdd, weightedRate) = _tryAddOrIgnore(weightedRate, weightedRateForIndex);
-                if (successMul && successAdd) {
-                    totalWeight += oraclePrices[i].weight;
+                (bool ok, uint256 weightedRate_i) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
+                if (ok) {
+                    (ok, weightedRate) = _tryAdd(weightedRate, weightedRate_i);
+                    if (ok) totalWeight += oraclePrices[i].weight;
                 }
             }
 
@@ -465,9 +463,9 @@ contract OffchainOracle is Ownable {
         } catch {}  // solhint-disable-line no-empty-blocks
     }
 
-    function _tryAddOrIgnore(uint256 value, uint256 addValue) private pure returns (bool success, uint256 result) {
+    function _tryAdd(uint256 value, uint256 addition) private pure returns (bool, uint256) {
         unchecked {
-            result = value + addValue;
+            uint256 result = value + addition;
             if (result < value) return (false, value);
             return (true, result);
         }
