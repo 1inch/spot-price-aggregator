@@ -434,32 +434,8 @@ contract OffchainOracle is Ownable {
 
     function _getRateImpl(IOracle oracle, IERC20 srcToken, uint256 srcTokenRate, IERC20 dstToken, uint256 dstTokenRate, IERC20 connector) private view returns (OraclePrice memory oraclePrice) {
         try oracle.getRate(srcToken, dstToken, connector) returns (uint256 rate, uint256 weight) {
-            /**
-            * oraclePrice = OraclePrice(rate * srcTokenRate * dstTokenRate / 1e36, weight);
-            *
-            * This unchecked block of code handles potential overflow issues when calculating the value of `oraclePrice`.
-            * Overflows are usually associated with questionable tokens. In case of an overflow, the result is set to 0 to ignore and discard such pools.
-            */
-            uint256 result;
-            unchecked {
-                (,uint256 preResult) = rate.tryMul(srcTokenRate);
-                if (preResult == 0) {
-                    return OraclePrice(0, 0);
-                }
-
-                result = preResult * dstTokenRate;
-                if (result / preResult != dstTokenRate) {
-                    preResult /= 1e18;
-                    (,result) = preResult.tryMul(dstTokenRate);
-                    if (result == 0) {
-                        return OraclePrice(0, 0);
-                    }
-                    result /= 1e18;
-                } else {
-                    result /= 1e36;
-                }
-            }
-            oraclePrice = OraclePrice(result, weight);
+            uint256 result = _scaledMul([srcTokenRate, rate, dstTokenRate], 1e18);
+            oraclePrice = OraclePrice(result, result == 0 ? weight : 0);
         } catch {}  // solhint-disable-line no-empty-blocks
     }
 
@@ -469,5 +445,46 @@ contract OffchainOracle is Ownable {
             if (result < value) return (false, value);
             return (true, result);
         }
+    }
+
+    function _scaledMul(uint256[3] memory m, uint256 scale) private pure returns (uint256) {
+        if (m[0] == 0 || m[1] == 0 || m[2] == 0) return 0;
+
+        if (m[0] > m[1]) (m[0], m[1]) = (m[1], m[0]);
+        if (m[0] > m[2]) (m[0], m[2]) = (m[2], m[0]);
+        if (m[1] > m[2]) (m[1], m[2]) = (m[2], m[1]);
+        bool scaleApplied;
+
+        unchecked {
+            uint256 r = m[0] * m[1];
+            if (r / m[0] != m[1]) {
+                if (!_validatateMulDiv(m[0], m[1], scale)) return 0;
+                r = m[0].mulDiv(m[1], scale);
+                scaleApplied = true;
+            }
+            uint256 r2 = r * m[2];
+            if (r2 / r != m[2]) {
+                if (!_validatateMulDiv(r, m[2], scaleApplied ? scale : scale * scale)) return 0;
+                r2 = r.mulDiv(m[2], scaleApplied ? scale : scale * scale);
+            } else {
+                r2 /= scaleApplied ? scale : scale * scale;
+            }
+            return r2;
+        }
+    }
+
+    /// @dev mulDiv validation is required as we do not want our methods to revert
+    function _validatateMulDiv(uint256 x, uint256 y, uint256 denominator) private pure returns (bool) {
+        uint256 prod0; // Least significant 256 bits of the product
+        uint256 prod1; // Most significant 256 bits of the product
+        // solhint-disable-next-line no-inline-assembly
+        assembly ("memory-safe") {
+            let mm := mulmod(x, y, not(0))
+            prod0 := mul(x, y)
+            prod1 := sub(sub(mm, prod0), lt(mm, prod0))
+        }
+
+        // Make sure the result is less than 2^256
+        return denominator > prod1;
     }
 }
