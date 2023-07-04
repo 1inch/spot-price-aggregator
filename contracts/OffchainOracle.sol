@@ -305,9 +305,9 @@ contract OffchainOracle is Ownable {
                 if (oraclePrices[i].weight * 100 < maxOracleWeight * thresholdFilter) {
                     continue;
                 }
-                (bool ok, uint256 weightedRate_i) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
+                (bool ok, uint256 weightedRateI) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
                 if (ok) {
-                    (ok, weightedRate) = _tryAdd(weightedRate, weightedRate_i);
+                    (ok, weightedRate) = _tryAdd(weightedRate, weightedRateI);
                     if (ok) totalWeight += oraclePrices[i].weight;
                 }
             }
@@ -398,9 +398,9 @@ contract OffchainOracle is Ownable {
                 if (oraclePrices[i].weight < maxOracleWeight * thresholdFilter / 100) {
                     continue;
                 }
-                (bool ok, uint256 weightedRate_i) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
+                (bool ok, uint256 weightedRateI) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
                 if (ok) {
-                    (ok, weightedRate) = _tryAdd(weightedRate, weightedRate_i);
+                    (ok, weightedRate) = _tryAdd(weightedRate, weightedRateI);
                     if (ok) totalWeight += oraclePrices[i].weight;
                 }
             }
