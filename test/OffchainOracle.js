@@ -216,7 +216,7 @@ describe('OffchainOracle', function () {
     });
 
     describe('Some features', function () {
-        it('should not failed with overflow шт _getRateImpl method', async function () {
+        it('should work when overflow happens in _getRateImpl method', async function () {
             const { multiWrapper } = await initContracts();
 
             const simpleOracleMock = await deployContract('SimpleOracleMock', ['608424427628800532964876503129856304465282478', '2']);
