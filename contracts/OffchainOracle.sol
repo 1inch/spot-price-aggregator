@@ -435,7 +435,7 @@ contract OffchainOracle is Ownable {
     function _getRateImpl(IOracle oracle, IERC20 srcToken, uint256 srcTokenRate, IERC20 dstToken, uint256 dstTokenRate, IERC20 connector) private view returns (OraclePrice memory oraclePrice) {
         try oracle.getRate(srcToken, dstToken, connector) returns (uint256 rate, uint256 weight) {
             uint256 result = _scaledMul([srcTokenRate, rate, dstTokenRate], 1e18);
-            oraclePrice = OraclePrice(result, result == 0 ? weight : 0);
+            oraclePrice = OraclePrice(result, result != 0 ? weight : 0);
         } catch {}  // solhint-disable-line no-empty-blocks
     }
 
