@@ -1,14 +1,20 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { tokens, assertRoughlyEquals, deployContract } = require('./helpers.js');
 
-const uniswapV2Factory = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
-const initcodeHashV2 = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
+const uniswapV2 = {
+    factory: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
+    initcodeHash: '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f',
+};
+const uniswapV3 = {
+    factory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
+    initcodeHash: '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54',
+};
 const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 
 describe('UniswapV3Oracle', function () {
     async function initContracts () {
-        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2Factory, initcodeHashV2]);
-        const uniswapV3Oracle = await deployContract('UniswapV3Oracle');
+        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2.factory, uniswapV2.initcodeHash]);
+        const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [uniswapV3.factory, uniswapV3.initcodeHash]);
         return { uniswapV2LikeOracle, uniswapV3Oracle };
     }
 
@@ -73,8 +79,8 @@ describe('UniswapV3Oracle doesn\'t ruin rates', function () {
     async function initContracts () {
         const thresholdFilter = 10;
 
-        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2Factory, initcodeHashV2]);
-        const uniswapV3Oracle = await deployContract('UniswapV3Oracle');
+        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2.factory, uniswapV2.initcodeHash]);
+        const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [uniswapV3.factory, uniswapV3.initcodeHash]);
         const uniswapOracle = await deployContract('UniswapOracle', ['0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95']);
         const mooniswapOracle = await deployContract('MooniswapOracle', [oneInchLP1]);
 
