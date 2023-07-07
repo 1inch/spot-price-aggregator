@@ -21,15 +21,17 @@ contract UniswapV3LikeOracle is IOracle {
 
     address public immutable factory;
     bytes32 public immutable initcodeHash;
+    uint24[_SUPPORTED_FEES_COUNT] public fees;
 
-    constructor(address _factory, bytes32 _initcodeHash) {
+    constructor(address _factory, bytes32 _initcodeHash, uint24[] memory _fees) {
         factory = _factory;
         initcodeHash = _initcodeHash;
+        for (uint256 i = 0; i < _SUPPORTED_FEES_COUNT; i++) {
+            fees[i] = _fees[i];
+        }
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
-        uint24[_SUPPORTED_FEES_COUNT] memory fees = [uint24(100), 500, 3000, 10000];
-
         unchecked {
             if (connector == _NONE) {
                 for (uint256 i = 0; i < _SUPPORTED_FEES_COUNT; i++) {
@@ -72,7 +74,7 @@ contract UniswapV3LikeOracle is IOracle {
         if (liquidity == 0) {
             return (0, 0);
         }
-        (uint256 sqrtPriceX96, int24 tick,,,,,) = IUniswapV3Pool(pool).slot0();
+        (uint256 sqrtPriceX96, int24 tick) = IUniswapV3Pool(pool).slot0();
         int24 tickSpacing = IUniswapV3Pool(pool).tickSpacing();
         tick = tick / tickSpacing * tickSpacing;
         int256 liquidityShiftsLeft = int256(liquidity);
