@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect } = require('@1inch/solidity-utils');
-const { tokens, assertRoughlyEqualValues, deployContract } = require('./helpers.js');
+const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { tokens } = require('./helpers.js');
 
 const uniswapV3 = {
     factory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
@@ -19,6 +19,7 @@ describe('ChainlinkOracle', function () {
         const { chainlinkOracle, uniswapV3Oracle } = await loadFixture(initContracts);
         const actual = await chainlinkOracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE);
         const expected = await uniswapV3Oracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE);
+
         assertRoughlyEqualValues(expected.rate.toString(), actual.rate.toString(), 0.05);
     });
 

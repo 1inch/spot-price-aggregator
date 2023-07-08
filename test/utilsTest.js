@@ -1,5 +1,5 @@
 const { expect } = require('chai');
-const { assertRoughlyEqualValues } = require('./helpers.js');
+const { assertRoughlyEqualValues } = require('@1inch/solidity-utils');
 
 describe('UtilsTest', function () {
     it('100 ~= 100 (0.01)', async function () {

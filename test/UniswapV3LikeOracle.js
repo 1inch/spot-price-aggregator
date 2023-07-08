@@ -1,5 +1,7 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { tokens, assertRoughlyEquals, deployContract } = require('./helpers.js');
+const { deployContract } = require('@1inch/solidity-utils');
+const { tokens, assertRoughlyEquals } = require('./helpers.js');
+
 
 const uniswapV2 = {
     factory: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',

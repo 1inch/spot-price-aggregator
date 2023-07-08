@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect, ether } = require('@1inch/solidity-utils');
-const { tokens, deployContract } = require('./helpers.js');
+const { expect, ether, deployContract } = require('@1inch/solidity-utils');
+const { tokens } = require('./helpers.js');
 
 const mooniswapFactory = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
 

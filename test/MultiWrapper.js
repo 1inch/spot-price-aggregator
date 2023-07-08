@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect, ether } = require('@1inch/solidity-utils');
-const { tokens, deployContract } = require('./helpers.js');
+const { expect, ether, deployContract } = require('@1inch/solidity-utils');
+const { tokens } = require('./helpers.js');
 
 const aETHV1 = '0x3a3A65aAb0dd2A17E3F1947bA16138cd37d08c04';
 const aWETHV2 = '0x030bA81f1c18d280636F32af80b9AAd02Cf0854e';

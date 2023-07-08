@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect } = require('@1inch/solidity-utils');
-const { tokens, assertRoughlyEqualValues, deployContract } = require('./helpers.js');
+const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { tokens } = require('./helpers.js');
 
 const dodoZoo = '0x3A97247DF274a17C59A3bd12735ea3FcDFb49950';
 const uniswapV3 = {

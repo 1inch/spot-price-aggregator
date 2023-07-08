@@ -1,4 +1,3 @@
-const { ethers } = require('hardhat');
 const { expect } = require('@1inch/solidity-utils');
 
 const tokens = {
@@ -41,33 +40,7 @@ function assertRoughlyEquals (x, y, significantDigits) {
     }
 }
 
-function assertRoughlyEqualValues (expected, actual, relativeDiff) {
-    const expectedBN = BigInt(expected);
-    const actualBN = BigInt(actual);
-
-    let multiplerNumerator = relativeDiff;
-    let multiplerDenominator = 1n;
-    while (!Number.isInteger(multiplerNumerator)) {
-        multiplerDenominator *= 10n;
-        multiplerNumerator *= 10;
-    }
-    const diff = expectedBN > actualBN ? expectedBN - actualBN : actualBN - expectedBN;
-    const treshold = expectedBN * BigInt(multiplerNumerator) / multiplerDenominator;
-    if (diff > treshold) {
-        expect(actualBN).to.equal(expectedBN, `${actualBN} != ${expectedBN} with ${relativeDiff} precision`);
-    }
-}
-
-async function deployContract (contractName, contractParams = []) {
-    const Contract = await ethers.getContractFactory(contractName);
-    const contract = await Contract.deploy(...contractParams);
-    await contract.deployed();
-    return contract;
-}
-
 module.exports = {
     tokens,
     assertRoughlyEquals,
-    assertRoughlyEqualValues,
-    deployContract,
 };

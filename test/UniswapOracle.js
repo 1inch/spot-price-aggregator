@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect, ether } = require('@1inch/solidity-utils');
-const { tokens, deployContract } = require('./helpers.js');
+const { expect, ether, deployContract } = require('@1inch/solidity-utils');
+const { tokens } = require('./helpers.js');
 
 describe('UniswapOracle', function () {
     async function initContracts () {

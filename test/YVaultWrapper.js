@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect, ether } = require('@1inch/solidity-utils');
-const { tokens, deployContract } = require('./helpers.js');
+const { expect, ether, deployContract } = require('@1inch/solidity-utils');
+const { tokens } = require('./helpers.js');
 
 const YLINKV1 = '0x29E240CFD7946BA20895a7a02eDb25C210f9f324';
 const ALINK = '0xA64BD6C70Cb9051F6A9ba1F163Fdc07E0DfB5F84';
