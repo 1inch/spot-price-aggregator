@@ -1,7 +1,7 @@
 const hre = require('hardhat');
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
-const { tokens, assertRoughlyEquals  } = require('./helpers.js');
+const { tokens } = require('./helpers.js');
 
 const uniswapV2Factory = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
@@ -105,14 +105,14 @@ describe('OffchainOracle', function () {
                 expensiveOffchainOracle.address,
                 expensiveOffchainOracle.interface.encodeFunctionData('getRateWithThreshold', [tokens.DAI, tokens.LINK, true, thresholdFilter]),
             );
-            assertRoughlyEquals(result.gasUsed, '851124', 3);
+            assertRoughlyEqualValues(result.gasUsed, '851124', 1e-2);
         });
 
         it('getRateToEth(dai)_ShouldHaveCorrectRate', async function () {
             const { thresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
             const expectedRate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.WETH, true, thresholdFilter);
             const actualRate = await offchainOracle.getRateToEthWithThreshold(tokens.DAI, true, thresholdFilter);
-            assertRoughlyEquals(expectedRate, actualRate, 3);
+            assertRoughlyEqualValues(expectedRate, actualRate, 1e-2);
         });
 
         it('getRateToEth(dai)', async function () {
@@ -122,14 +122,14 @@ describe('OffchainOracle', function () {
                 expensiveOffchainOracle.address,
                 expensiveOffchainOracle.interface.encodeFunctionData('getRateToEthWithThreshold', [tokens.DAI, true, thresholdFilter]),
             );
-            assertRoughlyEquals(result.gasUsed, '1418435', 3);
+            assertRoughlyEqualValues(result.gasUsed, '1418435', 1e-2);
         });
 
         it('getRateDirect(dai -> link)_ShouldHaveCorrectRate', async function () {
             const { thresholdFilter, offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
             const expectedRate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.LINK, true, thresholdFilter);
             const actualRate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.LINK, false, thresholdFilter);
-            assertRoughlyEquals(expectedRate, actualRate, 3);
+            assertRoughlyEqualValues(expectedRate, actualRate, 1e-2);
         });
 
         it('getRateDirect(dai -> link)', async function () {
@@ -139,7 +139,7 @@ describe('OffchainOracle', function () {
                 expensiveOffchainOracle.address,
                 expensiveOffchainOracle.interface.encodeFunctionData('getRateWithThreshold', [tokens.DAI, tokens.LINK, false, thresholdFilter]),
             );
-            assertRoughlyEquals(result.gasUsed, '382698', 2);
+            assertRoughlyEqualValues(result.gasUsed, '382698', 1e-1);
         });
     });
 

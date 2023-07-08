@@ -1,7 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { deployContract } = require('@1inch/solidity-utils');
-const { tokens, assertRoughlyEquals } = require('./helpers.js');
-
+const { deployContract, assertRoughlyEqualValues } = require('@1inch/solidity-utils');
+const { tokens } = require('./helpers.js');
 
 const uniswapV2 = {
     factory: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
@@ -114,7 +113,7 @@ describe('UniswapV3LikeOracle', function () {
     async function testRate (srcToken, dstToken, connector, uniswapV2LikeOracle, uniswapV3LikeOracle) {
         const v2Result = await uniswapV2LikeOracle.getRate(srcToken, dstToken, connector);
         const v3Result = await uniswapV3LikeOracle.getRate(srcToken, dstToken, connector);
-        assertRoughlyEquals(v3Result.rate.toString(), v2Result.rate.toString(), 2);
+        assertRoughlyEqualValues(v3Result.rate.toString(), v2Result.rate.toString(), 0.05);
     }
 });
 
@@ -211,7 +210,7 @@ describe('UniswapV3LikeOracle doesn\'t ruin rates', function () {
         const actualRate = await deployOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
         const expectedReverseRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
         const actualReverseRate = await deployOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
-        assertRoughlyEquals(actualRate.toString(), expectedRate.toString(), 2);
-        assertRoughlyEquals(actualReverseRate.toString(), expectedReverseRate.toString(), 2);
+        assertRoughlyEqualValues(actualRate.toString(), expectedRate.toString(), 0.05);
+        assertRoughlyEqualValues(actualReverseRate.toString(), expectedReverseRate.toString(), 0.05);
     }
 });

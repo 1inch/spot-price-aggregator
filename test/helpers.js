@@ -1,5 +1,3 @@
-const { expect } = require('@1inch/solidity-utils');
-
 const tokens = {
     DAI: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
     WETH: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
@@ -26,21 +24,6 @@ const tokens = {
     XRA: '0x7025bab2ec90410de37f488d1298204cd4d6b29d',
 };
 
-function assertRoughlyEquals (x, y, significantDigits) {
-    const xBN = BigInt(x);
-    const yBN = BigInt(y);
-    let valid;
-    if (xBN > yBN) {
-        valid = (xBN - yBN) * (10n ** BigInt(significantDigits - 1)) < yBN;
-    } else {
-        valid = (yBN - xBN) * (10n ** BigInt(significantDigits - 1)) < xBN;
-    }
-    if (!valid) {
-        expect(x).to.equal(y, `${x} != ${y} with at least ${significantDigits} significant digits`);
-    }
-}
-
 module.exports = {
     tokens,
-    assertRoughlyEquals,
 };
