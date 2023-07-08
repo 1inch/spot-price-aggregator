@@ -1,10 +1,10 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether, deployContract } = require('@1inch/solidity-utils');
-const { tokens } = require('./helpers.js');
+const { tokens, deployParams: { Uniswap } } = require('./helpers.js');
 
 describe('UniswapOracle', function () {
     async function initContracts () {
-        const uniswapOracle = await deployContract('UniswapOracle', ['0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95']);
+        const uniswapOracle = await deployContract('UniswapOracle', [Uniswap.factory]);
         return { uniswapOracle };
     }
 

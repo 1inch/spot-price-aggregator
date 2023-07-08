@@ -1,16 +1,11 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { tokens } = require('./helpers.js');
 const { assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
-
-const uniswapV2Factory = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
-const initcodeHash = '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f';
-const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
-const curveRegistry = '0x0000000022D53366457F9d5E68Ec105046FC4383';
+const { tokens, deployParams: { AaveWrapperV2, Curve, Uniswap, UniswapV2 } } = require('./helpers.js');
 
 describe('CurveOracle', function () {
     async function initContracts () {
-        const curveOracle = await deployContract('CurveOracle', [curveRegistry]);
-        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2Factory, initcodeHash]);
+        const curveOracle = await deployContract('CurveOracle', [Curve.provider]);
+        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
         return { curveOracle, uniswapV2LikeOracle };
     }
 
@@ -40,13 +35,13 @@ describe('CurveOracle doesn\'t ruin rates', function () {
     async function initContracts () {
         const thresholdFilter = 10;
 
-        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2Factory, initcodeHash]);
-        const curveOracle = await deployContract('CurveOracle', [curveRegistry]);
-        const uniswapOracle = await deployContract('UniswapOracle', ['0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95']);
-        const mooniswapOracle = await deployContract('MooniswapOracle', [oneInchLP1]);
+        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
+        const curveOracle = await deployContract('CurveOracle', [Curve.provider]);
+        const uniswapOracle = await deployContract('UniswapOracle', [Uniswap.factory]);
+        const mooniswapOracle = await deployContract('MooniswapOracle', [tokens.oneInchLP1]);
         const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.WETH]);
         const aaveWrapperV1 = await deployContract('AaveWrapperV1');
-        const aaveWrapperV2 = await deployContract('AaveWrapperV2', ['0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9']);
+        const aaveWrapperV2 = await deployContract('AaveWrapperV2', [AaveWrapperV2.lendingPool]);
         await aaveWrapperV1.addMarkets([tokens.DAI]);
         await aaveWrapperV2.addMarkets([tokens.DAI]);
         const multiWrapper = await deployContract('MultiWrapper', [[

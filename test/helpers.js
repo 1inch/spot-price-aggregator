@@ -22,8 +22,72 @@ const tokens = {
     sUSD: '0x57Ab1ec28D129707052df4dF418D58a2D46d5f51',
     SNX: '0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F',
     XRA: '0x7025bab2ec90410de37f488d1298204cd4d6b29d',
+    aDAIV1: '0xfC1E690f61EFd961294b3e1Ce3313fBD8aa4f85d',
+    aDAIV2: '0x028171bCA77440897B824Ca71D1c56caC55b68A3',
+    aETHV1: '0x3a3A65aAb0dd2A17E3F1947bA16138cd37d08c04',
+    aWETHV2: '0x030bA81f1c18d280636F32af80b9AAd02Cf0854e',
+    cDAI: '0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643',
+    cETH: '0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5',
+    iETH: '0xB983E01458529665007fF7E0CDdeCDB74B967Eb6',
+    iDAI: '0x6b093998D36f2C7F0cc359441FBB24CC629D5FF0',
+    iUSDC: '0xF013406A0B1d544238083DF0B93ad0d2cBE0f65f',
+    oneInchLP1: '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643',
+    yaLINK: '0x29E240CFD7946BA20895a7a02eDb25C210f9f324',
+    aLINK: '0xA64BD6C70Cb9051F6A9ba1F163Fdc07E0DfB5F84',
+    yvWETH: '0xa258C4606Ca8206D8aA700cE2143D7db854D168c',
+    yvWBTC: '0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E',
+};
+
+const deployParams = {
+    AaveWrapperV2: {
+        lendingPool: '0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9',
+    },
+    UniswapV3: {
+        factory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
+        initcodeHash: '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54',
+        fees: [100, 500, 3000, 10000],
+    },
+    Chainlink: '0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf',
+    CompoundWrapper: {
+        comptroller: '0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B',
+    },
+    UniswapV2: {
+        factory: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
+        initcodeHash: '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f',
+    },
+    Curve: {
+        provider: '0x0000000022D53366457F9d5E68Ec105046FC4383',
+    },
+    Dodo: {
+        dodoZoo: '0x3A97247DF274a17C59A3bd12735ea3FcDFb49950',
+    },
+    DodoV2: {
+        factory: '0x72d220cE168C4f361dD4deE5D826a01AD8598f6C',
+    },
+    KyberDmm: {
+        factory: '0x833e4083b7ae46cea85695c4f7ed25cdad8886de',
+    },
+    Mooniswap: {
+        factory: '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643',
+    },
+    Uniswap: {
+        factory: '0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95',
+    },
+    Synthetix: {
+        proxy: '0x4E3b31eB0E5CB73641EE1E65E7dCEFe520bA3ef2',
+    },
+    ShibaSwap: {
+        factory: '0x115934131916c8b277dd010ee02de363c09d037c',
+        initcodeHash: '0x65d1a3b1e46c6e4f1be1ad5f99ef14dc488ae0549dc97db9b30afe2241ce1c7a',
+    },
+    PancakeV3: {
+        factory: '0x41ff9AA7e16B8B1a8a8dc4f0eFacd93D02d071c9', // poolDeployer
+        initcodeHash: '0x6ce8eb472fa82df5469c6ab6d485f17c3ad13c8cd7af59b3d4a8026c5ce0f7e2',
+        fees: [100, 500, 2500, 10000],
+    },
 };
 
 module.exports = {
     tokens,
+    deployParams,
 };

@@ -2,19 +2,17 @@ const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether, deployContract } = require('@1inch/solidity-utils');
 const { tokens } = require('./helpers.js');
 
-const IUSDC = '0xF013406A0B1d544238083DF0B93ad0d2cBE0f65f';
-
 const tests = [
     {
         token: tokens.USDC,
-        itoken: IUSDC,
+        itoken: tokens.iUSDC,
     },
 ];
 
 describe('FulcrumWrapperLegacy', function () {
     async function initContracts () {
         const fulcrumWrapperLegacy = await deployContract('FulcrumWrapperLegacy');
-        await fulcrumWrapperLegacy.addMarkets([IUSDC]);
+        await fulcrumWrapperLegacy.addMarkets([tokens.iUSDC]);
         return { fulcrumWrapperLegacy };
     }
 

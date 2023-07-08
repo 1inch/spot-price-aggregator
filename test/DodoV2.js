@@ -1,12 +1,10 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether, deployContract } = require('@1inch/solidity-utils');
-const { tokens } = require('./helpers.js');
-
-const dvmFactory = '0x72d220cE168C4f361dD4deE5D826a01AD8598f6C';
+const { tokens, deployParams: { DodoV2 } } = require('./helpers.js');
 
 describe('DodoV2Oracle', function () {
     async function initContracts () {
-        const dodoV2Oracle = await deployContract('DodoV2Oracle', [dvmFactory]);
+        const dodoV2Oracle = await deployContract('DodoV2Oracle', [DodoV2.factory]);
         return { dodoV2Oracle };
     }
 
