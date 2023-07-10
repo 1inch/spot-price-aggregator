@@ -23,12 +23,10 @@ contract UniswapV3LikeOracle is IOracle {
     bytes32 public immutable initcodeHash;
     uint24[_SUPPORTED_FEES_COUNT] public fees;
 
-    constructor(address _factory, bytes32 _initcodeHash, uint24[] memory _fees) {
+    constructor(address _factory, bytes32 _initcodeHash, uint24[_SUPPORTED_FEES_COUNT] memory _fees) {
         factory = _factory;
         initcodeHash = _initcodeHash;
-        for (uint256 i = 0; i < _SUPPORTED_FEES_COUNT; i++) {
-            fees[i] = _fees[i];
-        }
+        fees = _fees;
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
