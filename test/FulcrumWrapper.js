@@ -1,18 +1,15 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect, ether } = require('@1inch/solidity-utils');
-const { tokens, deployContract } = require('./helpers.js');
-
-const IDAI = '0x6b093998D36f2C7F0cc359441FBB24CC629D5FF0';
-const IWETH = '0xB983E01458529665007fF7E0CDdeCDB74B967Eb6';
+const { expect, ether, deployContract } = require('@1inch/solidity-utils');
+const { tokens } = require('./helpers.js');
 
 const tests = [
     {
         token: tokens.DAI,
-        itoken: IDAI,
+        itoken: tokens.iDAI,
     },
     {
         token: tokens.WETH,
-        itoken: IWETH,
+        itoken: tokens.iETH,
     },
 ];
 

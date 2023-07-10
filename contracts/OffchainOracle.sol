@@ -12,6 +12,7 @@ import "./MultiWrapper.sol";
 import "./libraries/Sqrt.sol";
 
 contract OffchainOracle is Ownable {
+    using Math for uint256;
     using SafeMath for uint256;
     using Sqrt for uint256;
     using EnumerableSet for EnumerableSet.AddressSet;
@@ -300,13 +301,15 @@ contract OffchainOracle is Ownable {
             }
 
             uint256 totalWeight;
-
             for (uint256 i = 0; i < oraclePrices.length; i++) {
                 if (oraclePrices[i].weight * 100 < maxOracleWeight * thresholdFilter) {
                     continue;
                 }
-                weightedRate += (oraclePrices[i].rate * oraclePrices[i].weight);
-                totalWeight += oraclePrices[i].weight;
+                (bool ok, uint256 weightedRateI) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
+                if (ok) {
+                    (ok, weightedRate) = _tryAdd(weightedRate, weightedRateI);
+                    if (ok) totalWeight += oraclePrices[i].weight;
+                }
             }
 
             if (totalWeight > 0) {
@@ -391,13 +394,15 @@ contract OffchainOracle is Ownable {
             }
 
             uint256 totalWeight;
-
             for (uint256 i = 0; i < oracleIndex; i++) {
                 if (oraclePrices[i].weight < maxOracleWeight * thresholdFilter / 100) {
                     continue;
                 }
-                weightedRate += (oraclePrices[i].rate * oraclePrices[i].weight);
-                totalWeight += oraclePrices[i].weight;
+                (bool ok, uint256 weightedRateI) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
+                if (ok) {
+                    (ok, weightedRate) = _tryAdd(weightedRate, weightedRateI);
+                    if (ok) totalWeight += oraclePrices[i].weight;
+                }
             }
 
             if (totalWeight > 0) {
@@ -429,7 +434,57 @@ contract OffchainOracle is Ownable {
 
     function _getRateImpl(IOracle oracle, IERC20 srcToken, uint256 srcTokenRate, IERC20 dstToken, uint256 dstTokenRate, IERC20 connector) private view returns (OraclePrice memory oraclePrice) {
         try oracle.getRate(srcToken, dstToken, connector) returns (uint256 rate, uint256 weight) {
-            oraclePrice = OraclePrice(rate * srcTokenRate * dstTokenRate / 1e36, weight);
+            uint256 result = _scaledMul([srcTokenRate, rate, dstTokenRate], 1e18);
+            oraclePrice = OraclePrice(result, result == 0 ? 0 : weight);
         } catch {}  // solhint-disable-line no-empty-blocks
+    }
+
+    function _tryAdd(uint256 value, uint256 addition) private pure returns (bool, uint256) {
+        unchecked {
+            uint256 result = value + addition;
+            if (result < value) return (false, value);
+            return (true, result);
+        }
+    }
+
+    function _scaledMul(uint256[3] memory m, uint256 scale) private pure returns (uint256) {
+        if (m[0] == 0 || m[1] == 0 || m[2] == 0) return 0;
+
+        if (m[0] > m[1]) (m[0], m[1]) = (m[1], m[0]);
+        if (m[0] > m[2]) (m[0], m[2]) = (m[2], m[0]);
+        if (m[1] > m[2]) (m[1], m[2]) = (m[2], m[1]);
+        bool scaleApplied;
+
+        unchecked {
+            uint256 r = m[0] * m[1];
+            if (r / m[0] != m[1]) {
+                if (!_validatateMulDiv(m[0], m[1], scale)) return 0;
+                r = m[0].mulDiv(m[1], scale);
+                scaleApplied = true;
+            }
+            uint256 r2 = r * m[2];
+            if (r2 / r != m[2]) {
+                if (!_validatateMulDiv(r, m[2], scaleApplied ? scale : scale * scale)) return 0;
+                r2 = r.mulDiv(m[2], scaleApplied ? scale : scale * scale);
+            } else {
+                r2 /= scaleApplied ? scale : scale * scale;
+            }
+            return r2;
+        }
+    }
+
+    /// @dev mulDiv validation is required as we do not want our methods to revert
+    function _validatateMulDiv(uint256 x, uint256 y, uint256 denominator) private pure returns (bool) {
+        uint256 prod0; // Least significant 256 bits of the product
+        uint256 prod1; // Most significant 256 bits of the product
+        // solhint-disable-next-line no-inline-assembly
+        assembly ("memory-safe") {
+            let mm := mulmod(x, y, not(0))
+            prod0 := mul(x, y)
+            prod1 := sub(sub(mm, prod0), lt(mm, prod0))
+        }
+
+        // Make sure the result is less than 2^256
+        return denominator > prod1;
     }
 }

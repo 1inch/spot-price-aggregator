@@ -1,13 +1,11 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect } = require('@1inch/solidity-utils');
-const { tokens, assertRoughlyEqualValues, deployContract } = require('./helpers.js');
-
-const dodoZoo = '0x3A97247DF274a17C59A3bd12735ea3FcDFb49950';
+const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { tokens, deployParams: { Dodo, UniswapV3 } } = require('./helpers.js');
 
 describe('DodoOracle', function () {
     async function initContracts () {
-        const dodoOracle = await deployContract('DodoOracle', [dodoZoo]);
-        const uniswapV3Oracle = await deployContract('UniswapV3Oracle');
+        const dodoOracle = await deployContract('DodoOracle', [Dodo.dodoZoo]);
+        const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
         return { dodoOracle, uniswapV3Oracle };
     }
 

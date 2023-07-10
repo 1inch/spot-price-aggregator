@@ -1,11 +1,11 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect } = require('@1inch/solidity-utils');
-const { tokens, assertRoughlyEqualValues, deployContract } = require('./helpers.js');
+const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { tokens, deployParams: { KyberDmm, UniswapV3 } } = require('./helpers.js');
 
 describe('KyberDmmOracle', function () {
     async function initContracts () {
-        const kyberDmmOracle = await deployContract('KyberDmmOracle', ['0x833e4083b7ae46cea85695c4f7ed25cdad8886de']);
-        const uniswapV3Oracle = await deployContract('UniswapV3Oracle');
+        const kyberDmmOracle = await deployContract('KyberDmmOracle', [KyberDmm.factory]);
+        const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
         return { kyberDmmOracle, uniswapV3Oracle };
     }
 

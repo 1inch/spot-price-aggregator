@@ -1,7 +1,7 @@
 const { ethers } = require('hardhat');
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect } = require('@1inch/solidity-utils');
-const { tokens, assertRoughlyEqualValues, deployContract } = require('./helpers.js');
+const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { tokens, deployParams: { Synthetix, UniswapV3 } } = require('./helpers.js');
 
 describe('SynthetixOracle', function () {
     function symbolToBytes (symbol) {
@@ -18,8 +18,8 @@ describe('SynthetixOracle', function () {
     });
 
     async function initContracts () {
-        const synthetixOracle = await deployContract('SynthetixOracle', ['0x4E3b31eB0E5CB73641EE1E65E7dCEFe520bA3ef2']);
-        const uniswapV3Oracle = await deployContract('UniswapV3Oracle');
+        const synthetixOracle = await deployContract('SynthetixOracle', [Synthetix.proxy]);
+        const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
         return { synthetixOracle, uniswapV3Oracle };
     }
 

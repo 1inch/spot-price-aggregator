@@ -1,11 +1,11 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect } = require('@1inch/solidity-utils');
-const { tokens, assertRoughlyEqualValues, deployContract } = require('./helpers.js');
+const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { tokens, deployParams: { Chainlink, UniswapV3 } } = require('./helpers.js');
 
 describe('ChainlinkOracle', function () {
     async function initContracts () {
-        const chainlinkOracle = await deployContract('ChainlinkOracle', ['0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf']);
-        const uniswapV3Oracle = await deployContract('UniswapV3Oracle');
+        const chainlinkOracle = await deployContract('ChainlinkOracle', [Chainlink]);
+        const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
         return { chainlinkOracle, uniswapV3Oracle };
     }
 
@@ -13,6 +13,7 @@ describe('ChainlinkOracle', function () {
         const { chainlinkOracle, uniswapV3Oracle } = await loadFixture(initContracts);
         const actual = await chainlinkOracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE);
         const expected = await uniswapV3Oracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE);
+
         assertRoughlyEqualValues(expected.rate.toString(), actual.rate.toString(), 0.05);
     });
 
