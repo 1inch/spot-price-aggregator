@@ -1,4 +1,5 @@
-const { getChainId, ethers } = require('hardhat');
+const hre = require('hardhat');
+const { getChainId, ethers } = hre;
 const { getContract } = require('../utils.js');
 const { contracts } = require('../../test/helpers.js');
 
@@ -13,20 +14,29 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const wBase = (await deployments.get('OffchainOracle')).args[4];
     const oracles = await oldOffchainOracle.oracles();
-
-    const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
-    const deployDataStaging = OffchainOracle.getDeployTransaction(
+    const constructorArgs = [
         await oldOffchainOracle.multiWrapper(),
         oracles.allOracles,
         oracles.oracleTypes,
         await oldOffchainOracle.connectors(),
         wBase,
+    ];
+
+    const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
+    const deployDataStaging = OffchainOracle.getDeployTransaction(
+        ...constructorArgs,
     ).data;
 
     const txnStaging = await create3Deployer.deploy(SALT_PROD, deployDataStaging);
     await txnStaging.wait();
 
-    console.log(`OffchainOracle deployed to: ${await create3Deployer.addressOf(SALT_PROD)}`);
+    const offchainOracleAddress = await create3Deployer.addressOf(SALT_PROD);
+    console.log(`OffchainOracle deployed to: ${offchainOracleAddress}`);
+
+    await hre.run('verify:verify', {
+        address: offchainOracleAddress,
+        constructorArguments: constructorArgs,
+    });
 };
 
 module.exports.skip = async () => true;
