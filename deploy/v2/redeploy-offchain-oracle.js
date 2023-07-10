@@ -23,12 +23,12 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     ];
 
     const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
-    const deployDataStaging = OffchainOracle.getDeployTransaction(
+    const deployData = OffchainOracle.getDeployTransaction(
         ...constructorArgs,
     ).data;
 
-    const txnStaging = await create3Deployer.deploy(SALT_PROD, deployDataStaging);
-    await txnStaging.wait();
+    const txn = await create3Deployer.deploy(SALT_PROD, deployData);
+    await txn.wait();
 
     const offchainOracleAddress = await create3Deployer.addressOf(SALT_PROD);
     console.log(`OffchainOracle deployed to: ${offchainOracleAddress}`);
