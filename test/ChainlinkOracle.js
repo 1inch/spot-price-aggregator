@@ -2,10 +2,16 @@ const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect } = require('@1inch/solidity-utils');
 const { tokens, assertRoughlyEqualValues, deployContract } = require('./helpers.js');
 
+const uniswapV3 = {
+    factory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
+    initcodeHash: '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54',
+    fees: [100, 500, 3000, 10000],
+};
+
 describe('ChainlinkOracle', function () {
     async function initContracts () {
         const chainlinkOracle = await deployContract('ChainlinkOracle', ['0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf']);
-        const uniswapV3Oracle = await deployContract('UniswapV3Oracle');
+        const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [uniswapV3.factory, uniswapV3.initcodeHash, uniswapV3.fees]);
         return { chainlinkOracle, uniswapV3Oracle };
     }
 

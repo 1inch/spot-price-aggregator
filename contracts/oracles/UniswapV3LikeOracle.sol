@@ -10,20 +10,26 @@ import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV3Pool.sol";
 import "../libraries/Sqrt.sol";
 
-contract UniswapV3Oracle is IOracle {
+contract UniswapV3LikeOracle is IOracle {
     using Address for address;
     using SafeMath for uint256;
     using Sqrt for uint256;
 
-    bytes32 public constant POOL_INIT_CODE_HASH = 0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54;
-    address public constant FACTORY = 0x1F98431c8aD98523631AE4a59f267346ea31F984;
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
     uint256 private constant _SUPPORTED_FEES_COUNT = 4;
     int24 private constant _TICK_STEPS = 2;
 
-    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
-        uint24[_SUPPORTED_FEES_COUNT] memory fees = [uint24(100), 500, 3000, 10000];
+    address public immutable factory;
+    bytes32 public immutable initcodeHash;
+    uint24[_SUPPORTED_FEES_COUNT] public fees;
 
+    constructor(address _factory, bytes32 _initcodeHash, uint24[_SUPPORTED_FEES_COUNT] memory _fees) {
+        factory = _factory;
+        initcodeHash = _initcodeHash;
+        fees = _fees;
+    }
+
+    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
         unchecked {
             if (connector == _NONE) {
                 for (uint256 i = 0; i < _SUPPORTED_FEES_COUNT; i++) {
@@ -66,7 +72,7 @@ contract UniswapV3Oracle is IOracle {
         if (liquidity == 0) {
             return (0, 0);
         }
-        (uint256 sqrtPriceX96, int24 tick,,,,,) = IUniswapV3Pool(pool).slot0();
+        (uint256 sqrtPriceX96, int24 tick) = IUniswapV3Pool(pool).slot0();
         int24 tickSpacing = IUniswapV3Pool(pool).tickSpacing();
         tick = tick / tickSpacing * tickSpacing;
         int256 liquidityShiftsLeft = int256(liquidity);
@@ -92,14 +98,14 @@ contract UniswapV3Oracle is IOracle {
         }
     }
 
-    function _getPool(address token0, address token1, uint24 fee) private pure returns (address) {
+    function _getPool(address token0, address token1, uint24 fee) private view returns (address) {
         return address(uint160(uint256(
                 keccak256(
                     abi.encodePacked(
                         hex'ff',
-                        FACTORY,
+                        factory,
                         keccak256(abi.encode(token0, token1, fee)),
-                        POOL_INIT_CODE_HASH
+                        initcodeHash
                     )
                 )
             )));
