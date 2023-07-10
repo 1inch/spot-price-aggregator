@@ -1,27 +1,12 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { tokens, assertRoughlyEquals, deployContract } = require('./helpers.js');
-
-const uniswapV2 = {
-    factory: '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f',
-    initcodeHash: '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f',
-};
-const uniswapV3 = {
-    factory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
-    initcodeHash: '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54',
-    fees: [100, 500, 3000, 10000],
-};
-const pancakeV3 = {
-    factory: '0x41ff9AA7e16B8B1a8a8dc4f0eFacd93D02d071c9', // poolDeployer
-    initcodeHash: '0x6ce8eb472fa82df5469c6ab6d485f17c3ad13c8cd7af59b3d4a8026c5ce0f7e2',
-    fees: [100, 500, 2500, 10000],
-};
-const oneInchLP1 = '0xbAF9A5d4b0052359326A6CDAb54BABAa3a3A9643';
+const { deployContract, assertRoughlyEqualValues } = require('@1inch/solidity-utils');
+const { tokens, deployParams: { AaveWrapperV2, PancakeV3, Uniswap, UniswapV2, UniswapV3 } } = require('./helpers.js');
 
 describe('UniswapV3LikeOracle', function () {
     async function initContracts () {
-        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2.factory, uniswapV2.initcodeHash]);
-        const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [uniswapV3.factory, uniswapV3.initcodeHash, uniswapV3.fees]);
-        const pancakeV3Oracle = await deployContract('UniswapV3LikeOracle', [pancakeV3.factory, pancakeV3.initcodeHash, pancakeV3.fees]);
+        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
+        const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
+        const pancakeV3Oracle = await deployContract('UniswapV3LikeOracle', [PancakeV3.factory, PancakeV3.initcodeHash, PancakeV3.fees]);
         return { uniswapV2LikeOracle, uniswapV3Oracle, pancakeV3Oracle };
     }
 
@@ -112,7 +97,7 @@ describe('UniswapV3LikeOracle', function () {
     async function testRate (srcToken, dstToken, connector, uniswapV2LikeOracle, uniswapV3LikeOracle) {
         const v2Result = await uniswapV2LikeOracle.getRate(srcToken, dstToken, connector);
         const v3Result = await uniswapV3LikeOracle.getRate(srcToken, dstToken, connector);
-        assertRoughlyEquals(v3Result.rate.toString(), v2Result.rate.toString(), 2);
+        assertRoughlyEqualValues(v3Result.rate.toString(), v2Result.rate.toString(), 0.05);
     }
 });
 
@@ -120,14 +105,14 @@ describe('UniswapV3LikeOracle doesn\'t ruin rates', function () {
     async function initContracts () {
         const thresholdFilter = 10;
 
-        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [uniswapV2.factory, uniswapV2.initcodeHash]);
-        const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [uniswapV3.factory, uniswapV3.initcodeHash, uniswapV3.fees]);
-        const uniswapOracle = await deployContract('UniswapOracle', ['0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95']);
-        const mooniswapOracle = await deployContract('MooniswapOracle', [oneInchLP1]);
+        const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
+        const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
+        const uniswapOracle = await deployContract('UniswapOracle', [Uniswap.factory]);
+        const mooniswapOracle = await deployContract('MooniswapOracle', [tokens.oneInchLP1]);
 
         const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.WETH]);
         const aaveWrapperV1 = await deployContract('AaveWrapperV1');
-        const aaveWrapperV2 = await deployContract('AaveWrapperV2', ['0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9']);
+        const aaveWrapperV2 = await deployContract('AaveWrapperV2', [AaveWrapperV2.lendingPool]);
         await aaveWrapperV1.addMarkets([tokens.DAI]);
         await aaveWrapperV2.addMarkets([tokens.DAI]);
         const multiWrapper = await deployContract('MultiWrapper', [[
@@ -209,7 +194,7 @@ describe('UniswapV3LikeOracle doesn\'t ruin rates', function () {
         const actualRate = await deployOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
         const expectedReverseRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
         const actualReverseRate = await deployOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
-        assertRoughlyEquals(actualRate.toString(), expectedRate.toString(), 2);
-        assertRoughlyEquals(actualReverseRate.toString(), expectedReverseRate.toString(), 2);
+        assertRoughlyEqualValues(actualRate.toString(), expectedRate.toString(), 0.05);
+        assertRoughlyEqualValues(actualReverseRate.toString(), expectedReverseRate.toString(), 0.05);
     }
 });
