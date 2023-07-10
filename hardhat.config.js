@@ -38,6 +38,11 @@ module.exports = {
     tracer: {
         enableAllOpcodes: true,
     },
+    dependencyCompiler: {
+        paths: [
+            '@1inch/solidity-utils/contracts/interfaces/ICreate3Deployer.sol',
+        ],
+    },
     zksolc: {
         version: '1.3.7',
         compilerSource: 'binary',

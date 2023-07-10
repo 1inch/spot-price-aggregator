@@ -27,6 +27,10 @@ const tokens = {
     XRA: '0x7025bab2ec90410de37f488d1298204cd4d6b29d',
 };
 
+const contracts = {
+    create3Deployer: '0x65B3Db8bAeF0215A1F9B14c506D2a3078b2C84AE',
+};
+
 function assertRoughlyEquals (x, y, significantDigits) {
     const xBN = BigInt(x);
     const yBN = BigInt(y);
@@ -67,6 +71,7 @@ async function deployContract (contractName, contractParams = []) {
 
 module.exports = {
     tokens,
+    contracts,
     assertRoughlyEquals,
     assertRoughlyEqualValues,
     deployContract,
