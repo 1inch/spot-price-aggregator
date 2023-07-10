@@ -5,6 +5,7 @@ require('@nomiclabs/hardhat-ethers');
 require('@nomiclabs/hardhat-etherscan');
 require('@nomicfoundation/hardhat-chai-matchers');
 require('hardhat-deploy');
+require('hardhat-dependency-compiler');
 require('hardhat-gas-reporter');
 require('hardhat-tracer');
 require('solidity-coverage');
