@@ -391,7 +391,7 @@ Prev oracle version (legacy) - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](http
 
 ### zkSync
 
-#### Oracle [0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd](https://explorer.zksync.io/address/0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd)
+#### Oracle [0xC762d56614D3411eC6fABD56cb075D904b801613](https://explorer.zksync.io/address/0xC762d56614D3411eC6fABD56cb075D904b801613)
 
 <details><summary>Supported DEXes</summary>
 
@@ -415,7 +415,12 @@ Prev oracle version (legacy) - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](http
 
 </details>
 
-Prev oracle version (legacy) - [0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C](https://explorer.zksync.io/address/0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C)
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * [0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd](https://explorer.zksync.io/address/0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd)
+   * [0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C](https://explorer.zksync.io/address/0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C)
+
+</details>
 
 ## Examples
 
