@@ -37,6 +37,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * UniswapV2 - [0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e](https://etherscan.io/address/0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e)
    * UniswapV3 - [0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9](https://etherscan.io/address/0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9)
    * Curve - [0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e](https://etherscan.io/address/0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e)
+   * Pancake 3 - [0xA57eE57aa7af7c43265A8376c3d54543Cc78C089](https://etherscan.io/address/0xA57eE57aa7af7c43265A8376c3d54543Cc78C089)
    
 </details>
 
@@ -79,6 +80,7 @@ Prev oracle version (legacy) - [0x07D91f5fb9Bf7798734C3f606dB065549F6893bb](http
    * Mooniswap - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://bscscan.com/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
    * Pancake 1 - [0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef](https://bscscan.com/address/0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef)
    * Pancake 2 - [0x9488795C688d0AAe98F2056467C13a051C954657](https://bscscan.com/address/0x9488795C688d0AAe98F2056467C13a051C954657)
+   * Pancake 3 - [0x04098C93b15E5Cbb5A49651f20218C85F202Cd27](https://bscscan.com/address/0x04098C93b15E5Cbb5A49651f20218C85F202Cd27)
    * Thugswap - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://bscscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
    
 </details>
