@@ -9,6 +9,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running deploy script');
     console.log('network id ', await getChainId());
 
+    const { deployer } = await getNamedAccounts();
+
     const create3Deployer = await ethers.getContractAt('ICreate3Deployer', contracts.create3Deployer);
     const oldOffchainOracle = await getContract('OffchainOracle', deployments);
 
@@ -20,6 +22,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         oracles.oracleTypes,
         await oldOffchainOracle.connectors(),
         wBase,
+        deployer,
     ];
 
     const OffchainOracle = await ethers.getContractFactory('OffchainOracle');

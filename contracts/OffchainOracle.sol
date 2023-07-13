@@ -47,7 +47,7 @@ contract OffchainOracle is Ownable {
     IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private immutable _wBase;
 
-    constructor(MultiWrapper _multiWrapper, IOracle[] memory existingOracles, OracleType[] memory oracleTypes, IERC20[] memory existingConnectors, IERC20 wBase) {
+    constructor(MultiWrapper _multiWrapper, IOracle[] memory existingOracles, OracleType[] memory oracleTypes, IERC20[] memory existingConnectors, IERC20 wBase, address owner) {
         unchecked {
             if(existingOracles.length != oracleTypes.length) revert ArraysLengthMismatch();
             multiWrapper = _multiWrapper;
@@ -71,6 +71,7 @@ contract OffchainOracle is Ownable {
             }
             _wBase = wBase;
         }
+        transferOwnership(owner);
     }
 
     /**

@@ -21,10 +21,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             oracles.oracleTypes,
             await oldOffchainOracle.connectors(),
             wBase,
+            deployer,
         ],
         deployments,
         deployer,
-        deploymentName: 'OffchainOracle',
         skipIfAlreadyDeployed: false,
     });
 };
