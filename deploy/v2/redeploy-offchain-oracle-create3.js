@@ -10,11 +10,12 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('network id ', await getChainId());
 
     const { deployer } = await getNamedAccounts();
+    const OffchainOracleDeploymentData = await deployments.get('OffchainOracle');
 
     const create3Deployer = await ethers.getContractAt('ICreate3Deployer', contracts.create3Deployer);
     const oldOffchainOracle = await getContract('OffchainOracle', deployments);
 
-    const wBase = (await deployments.get('OffchainOracle')).args[4];
+    const wBase = OffchainOracleDeploymentData.args[4];
     const oracles = await oldOffchainOracle.oracles();
     const constructorArgs = [
         await oldOffchainOracle.multiWrapper(),
@@ -31,7 +32,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     ).data;
 
     const txn = await create3Deployer.deploy(SALT_PROD, deployData);
-    await txn.wait();
+    const receipt = await txn.wait();
 
     const offchainOracleAddress = await create3Deployer.addressOf(SALT_PROD);
     console.log(`OffchainOracle deployed to: ${offchainOracleAddress}`);
@@ -40,6 +41,12 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         address: offchainOracleAddress,
         constructorArguments: constructorArgs,
     });
+
+    OffchainOracleDeploymentData.address = offchainOracleAddress;
+    OffchainOracleDeploymentData.transactionHash = receipt.transactionHash;
+    OffchainOracleDeploymentData.receipt = receipt;
+    OffchainOracleDeploymentData.args = constructorArgs;
+    await deployments.save('OffchainOracle', OffchainOracleDeploymentData);
 };
 
 module.exports.skip = async () => true;
