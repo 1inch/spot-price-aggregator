@@ -1,4 +1,5 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
+const { ethers } = require('hardhat');
 const { assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
 const { tokens, deployParams: { AaveWrapperV2, Curve, Uniswap, UniswapV2 } } = require('./helpers.js');
 
@@ -34,6 +35,7 @@ describe('CurveOracle', function () {
 describe('CurveOracle doesn\'t ruin rates', function () {
     async function initContracts () {
         const thresholdFilter = 10;
+        const deployer = await ethers.getSigner();
 
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
         const curveOracle = await deployContract('CurveOracle', [Curve.provider]);
@@ -70,6 +72,7 @@ describe('CurveOracle doesn\'t ruin rates', function () {
                 tokens.DAI,
             ],
             tokens.WETH,
+            deployer.address,
         ]);
 
         const newOffchainOracle = await deployContract('OffchainOracle', [
@@ -93,6 +96,7 @@ describe('CurveOracle doesn\'t ruin rates', function () {
                 tokens.DAI,
             ],
             tokens.WETH,
+            deployer.address,
         ]);
 
         return { oldOffchainOracle, newOffchainOracle, thresholdFilter };

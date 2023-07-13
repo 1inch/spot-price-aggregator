@@ -1,4 +1,5 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
+const { ethers } = require('hardhat');
 const { deployContract, assertRoughlyEqualValues } = require('@1inch/solidity-utils');
 const { tokens, deployParams: { AaveWrapperV2, PancakeV3, Uniswap, UniswapV2, UniswapV3 } } = require('./helpers.js');
 
@@ -104,6 +105,7 @@ describe('UniswapV3LikeOracle', function () {
 describe('UniswapV3LikeOracle doesn\'t ruin rates', function () {
     async function initContracts () {
         const thresholdFilter = 10;
+        const deployer = await ethers.getSigner();
 
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
         const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
@@ -141,6 +143,7 @@ describe('UniswapV3LikeOracle doesn\'t ruin rates', function () {
                 tokens.DAI,
             ],
             tokens.WETH,
+            deployer.address,
         ]);
 
         const deployOffchainOracle = await deployContract('OffchainOracle', [
@@ -165,6 +168,7 @@ describe('UniswapV3LikeOracle doesn\'t ruin rates', function () {
                 tokens.DAI,
             ],
             tokens.WETH,
+            deployer.address,
         ]);
         return { thresholdFilter, oldOffchainOracle, deployOffchainOracle };
     }
