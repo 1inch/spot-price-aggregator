@@ -71,7 +71,7 @@ contract OffchainOracle is Ownable {
             }
             _wBase = wBase;
         }
-        transferOwnership(owner);
+        if (owner != msg.sender) transferOwnership(owner);
     }
 
     /**
