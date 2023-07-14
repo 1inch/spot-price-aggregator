@@ -10,7 +10,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         oracleType: '0',
     };
 
-    console.log('running syncswap deploy script');
+    console.log('running deploy script');
     console.log('network id ', await getChainId());
 
     const { deployer } = await getNamedAccounts();

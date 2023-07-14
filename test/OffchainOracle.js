@@ -1,4 +1,5 @@
 const hre = require('hardhat');
+const { ethers } = hre;
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
 const { tokens, deployParams: { AaveWrapperV2, Uniswap, UniswapV2 } } = require('./helpers.js');
@@ -6,6 +7,7 @@ const { tokens, deployParams: { AaveWrapperV2, Uniswap, UniswapV2 } } = require(
 describe('OffchainOracle', function () {
     async function initContracts () {
         const thresholdFilter = 10;
+        const deployer = await ethers.getSigner();
 
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
         const uniswapOracle = await deployContract('UniswapOracle', [Uniswap.factory]);
@@ -27,12 +29,13 @@ describe('OffchainOracle', function () {
             uniswapOracle,
             mooniswapOracle,
             multiWrapper,
+            deployer,
         };
     }
 
     describe('built-in connectors', function () {
         async function initContractsAndOffchainOracle () {
-            const { thresholdFilter, uniswapV2LikeOracle, uniswapOracle, mooniswapOracle, multiWrapper } = await initContracts();
+            const { thresholdFilter, uniswapV2LikeOracle, uniswapOracle, mooniswapOracle, multiWrapper, deployer } = await initContracts();
 
             const offchainOracle = await deployContract('OffchainOracle', [
                 multiWrapper.address,
@@ -49,6 +52,7 @@ describe('OffchainOracle', function () {
                     tokens.USDC,
                 ],
                 tokens.WETH,
+                deployer.address,
             ]);
 
             const expensiveOffchainOracle = await deployContract('OffchainOracle', [
@@ -63,6 +67,7 @@ describe('OffchainOracle', function () {
                     ...Object.values(tokens).slice(0, 10),
                 ],
                 tokens.WETH,
+                deployer.address,
             ]);
 
             const gasEstimator = await deployContract('GasEstimator');
@@ -140,7 +145,7 @@ describe('OffchainOracle', function () {
 
     describe('customConnectors', function () {
         async function initContractsAndOffchainOracle () {
-            const { thresholdFilter, uniswapV2LikeOracle, uniswapOracle, multiWrapper } = await initContracts();
+            const { thresholdFilter, uniswapV2LikeOracle, uniswapOracle, multiWrapper, deployer } = await initContracts();
 
             const connectors = [
                 tokens.ETH,
@@ -159,6 +164,7 @@ describe('OffchainOracle', function () {
                     ...connectors,
                 ],
                 tokens.WETH,
+                deployer.address,
             ]);
 
             const offchainOracleWithoutConnectors = await deployContract('OffchainOracle', [
@@ -172,6 +178,7 @@ describe('OffchainOracle', function () {
                     tokens.NONE,
                 ],
                 tokens.WETH,
+                deployer.address,
             ]);
 
             return { thresholdFilter, offchainOracle, offchainOracleWithoutConnectors, connectors };
@@ -212,7 +219,7 @@ describe('OffchainOracle', function () {
 
     describe('Some features', function () {
         it('should work when overflow happens in _getRateImpl method', async function () {
-            const { multiWrapper } = await initContracts();
+            const { multiWrapper, deployer } = await initContracts();
 
             const simpleOracleMock = await deployContract('SimpleOracleMock', ['608424427628800532964876503129856304465282478', '2']);
             const offchainOracle = await deployContract('OffchainOracle', [
@@ -225,6 +232,7 @@ describe('OffchainOracle', function () {
                     tokens.NONE,
                 ],
                 tokens.WETH,
+                deployer.address,
             ]);
 
             expect(await offchainOracle.getRateToEth(tokens.DAI, true)).not.to.be.reverted;

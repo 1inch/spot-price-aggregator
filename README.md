@@ -22,7 +22,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Ethereum Mainnet
 
-#### Oracle [0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56](https://etherscan.io/address/0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56)
+#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://etherscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 <details><summary>Supported DEXes</summary>
 
@@ -64,11 +64,16 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 </details>
 
-Prev oracle version (legacy) - [0x07D91f5fb9Bf7798734C3f606dB065549F6893bb](https://etherscan.io/address/0x07D91f5fb9Bf7798734C3f606dB065549F6893bb)
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * May-28-2021 - [0x07D91f5fb9Bf7798734C3f606dB065549F6893bb](https://etherscan.io/address/0x07D91f5fb9Bf7798734C3f606dB065549F6893bb)
+   * Apr-07-2023 - [0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56](https://etherscan.io/address/0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56)
+
+</details>
 
 ### Binance Smart Chain
 
-#### Oracle [0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001](https://bscscan.com/address/0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001)
+#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://bscscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 <details><summary>Supported DEXes</summary>
 
@@ -105,11 +110,16 @@ Prev oracle version (legacy) - [0x07D91f5fb9Bf7798734C3f606dB065549F6893bb](http
 
 </details>
 
-Prev oracle version (legacy) - [0xfbD61B037C325b959c0F6A7e69D8f37770C2c550](https://bscscan.com/address/0xfbD61B037C325b959c0F6A7e69D8f37770C2c550)
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * May-28-2021 - [0xfbD61B037C325b959c0F6A7e69D8f37770C2c550](https://bscscan.com/address/0xfbD61B037C325b959c0F6A7e69D8f37770C2c550)
+   * Apr-06-2023 - [0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001](https://bscscan.com/address/0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001)
+
+</details>
 
 ### Polygon (Matic)
 
-#### Oracle [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://polygonscan.com/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://polygonscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 <details><summary>Supported DEXes</summary>
 
@@ -136,47 +146,16 @@ Prev oracle version (legacy) - [0xfbD61B037C325b959c0F6A7e69D8f37770C2c550](http
 
 </details>
 
-Prev oracle version (legacy) - [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](https://polygonscan.com/address/0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9)
+<details><summary>Prev oracle versions (legacy)</summary>
 
-### Kovan [deprecated]
-
-#### Oracle [0x29BC86Ad68bB3BD3d54841a8522e0020C1882C22](https://kovan.etherscan.io/address/0x29BC86Ad68bB3BD3d54841a8522e0020C1882C22)
-
-<details><summary>Supported DEXes</summary>
-
-   * 1inch Liquidity Protocol V1.1 - [0xb707d89D29c189421163515c59E42147371D6857](https://kovan.etherscan.io/address/0xb707d89D29c189421163515c59E42147371D6857)
-   * UniswapV2 - [0x57da811a9EF9b79DbC2EA6f6dc39368a8Da1Cf07](https://kovan.etherscan.io/address/0x57da811a9EF9b79DbC2EA6f6dc39368a8Da1Cf07)
-   * UniswapV1 - [0x11431a89893025D2a48dCA4EddC396f8C8117187](https://kovan.etherscan.io/address/0x11431a89893025D2a48dCA4EddC396f8C8117187)
-
-</details>
-
-<details><summary>Supported wrappers</summary>
-
-   * Venus
-   * WETH - [0x93131EFeE501d5721737C32576238F619548edda](https://kovan.etherscan.io/address/0x93131EFeE501d5721737C32576238F619548edda)
-
-</details>
-
-<details><summary>Supported connectors</summary>
-
-   * ETH
-   * WETH - [0xd0A1E359811322d97991E03f863a0C30C2cF029C](https://kovan.etherscan.io/address/0xd0A1E359811322d97991E03f863a0C30C2cF029C)
-
-</details>
-
-### Kovan-Optimism [deprecated]
-
-#### Oracle [0xfcA5cc20A00D8acf04D0C1793C94D01D3ab07D48](https://kovan-optimistic.etherscan.io/address/0xfcA5cc20A00D8acf04D0C1793C94D01D3ab07D48)
-
-<details><summary>Supported DEXes</summary>
-
-   * UniswapV3 - [0x25Ea4bA2E0011B201D06662170d5115fa57F5787](https://kovan-optimistic.etherscan.io/address/0x25Ea4bA2E0011B201D06662170d5115fa57F5787)
+   * May-28-2021 - [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](https://polygonscan.com/address/0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9)
+   * Apr-05-2023 - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://polygonscan.com/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
 
 </details>
 
 ### Optimism
 
-#### Oracle [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://optimistic.etherscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://optimistic.etherscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 <details><summary>Supported DEXes</summary>
 
@@ -204,11 +183,16 @@ Prev oracle version (legacy) - [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](http
 
 </details>
 
-Prev oracle version (legacy) - [0x11DEE30E710B8d4a8630392781Cc3c0046365d4c](https://optimistic.etherscan.io/address/0x11DEE30E710B8d4a8630392781Cc3c0046365d4c)
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * May-28-2021 - [0x11DEE30E710B8d4a8630392781Cc3c0046365d4c](https://optimistic.etherscan.io/address/0x11DEE30E710B8d4a8630392781Cc3c0046365d4c)
+   * Apr-06-2023 - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://optimistic.etherscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+
+</details>
 
 ### Arbitrum
 
-#### Oracle [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://arbiscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://arbiscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 <details><summary>Supported DEXes</summary>
 
@@ -231,11 +215,16 @@ Prev oracle version (legacy) - [0x11DEE30E710B8d4a8630392781Cc3c0046365d4c](http
 
 </details>
 
-Prev oracle version (legacy) - [0x735247fb0a604c0adC6cab38ACE16D0DbA31295F](https://arbiscan.io/address/0x735247fb0a604c0adC6cab38ACE16D0DbA31295F)
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * Sep-14-2021 - [0x735247fb0a604c0adC6cab38ACE16D0DbA31295F](https://arbiscan.io/address/0x735247fb0a604c0adC6cab38ACE16D0DbA31295F)
+   * Apr-03-2023 - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://arbiscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+
+</details>
 
 ### Avax
 
-#### Oracle [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://snowtrace.io/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://snowtrace.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 <details><summary>Supported DEXes</summary>
 
@@ -263,11 +252,16 @@ Prev oracle version (legacy) - [0x735247fb0a604c0adC6cab38ACE16D0DbA31295F](http
 
 </details>
 
-Prev oracle version (legacy) - [0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9](https://snowtrace.io/address/0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9)
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * Dec-23-2021 - [0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9](https://snowtrace.io/address/0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9)
+   * Apr-03-2023 - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://snowtrace.io/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+
+</details>
 
 ### xDai
 
-#### Oracle [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://gnosisscan.io/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
+#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://gnosisscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 <details><summary>Supported DEXes</summary>
 
@@ -296,11 +290,16 @@ Prev oracle version (legacy) - [0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9](http
 
 </details>
 
-Prev oracle version (legacy) - [0x142DB045195CEcaBe415161e1dF1CF0337A4d02E](https://blockscout.com/xdai/mainnet/address/0x142DB045195CEcaBe415161e1dF1CF0337A4d02E)
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * Dec-23-2021 - [0x142DB045195CEcaBe415161e1dF1CF0337A4d02E](https://blockscout.com/xdai/mainnet/address/0x142DB045195CEcaBe415161e1dF1CF0337A4d02E)
+   * Apr-06-2023 - [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://gnosisscan.io/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
+
+</details>
 
 ### Fantom
 
-#### Oracle [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://ftmscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
+#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://ftmscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 <details><summary>Supported DEXes</summary>
 
@@ -326,12 +325,16 @@ Prev oracle version (legacy) - [0x142DB045195CEcaBe415161e1dF1CF0337A4d02E](http
 
 </details>
 
-Prev oracle version (legacy) - [0xE8E598A1041b6fDB13999D275a202847D9b654ca](https://ftmscan.com/address/0xE8E598A1041b6fDB13999D275a202847D9b654ca)
+<details><summary>Prev oracle versions (legacy)</summary>
 
+   * Mar-21-2022 - [0xE8E598A1041b6fDB13999D275a202847D9b654ca](https://ftmscan.com/address/0xE8E598A1041b6fDB13999D275a202847D9b654ca)
+   * Apr-04-2023 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://ftmscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
+
+</details>
 
 ### Aurora
 
-#### Oracle [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://aurorascan.dev/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
+#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://aurorascan.dev/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 <details><summary>Supported DEXes</summary>
 
@@ -361,11 +364,16 @@ Prev oracle version (legacy) - [0xE8E598A1041b6fDB13999D275a202847D9b654ca](http
 
 </details>
 
-Prev oracle version (legacy) - [0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795](https://aurorascan.dev/address/0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795)
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * May-26-2022 - [0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795](https://aurorascan.dev/address/0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795)
+   * Mar-31-2023 - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://aurorascan.dev/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
+
+</details>
 
 ### Klaytn
 
-#### Oracle [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://scope.klaytn.com/account/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://scope.klaytn.com/account/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 <details><summary>Supported DEXes</summary>
 
@@ -389,11 +397,16 @@ Prev oracle version (legacy) - [0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795](http
 
 </details>
 
-Prev oracle version (legacy) - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](https://scope.klaytn.com/account/0x138CE40d675F9a23E4D6127A8600308Cf7A93381)
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * Aug-02-2022 - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](https://scope.klaytn.com/account/0x138CE40d675F9a23E4D6127A8600308Cf7A93381)
+   * Apr-06-2023 - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://scope.klaytn.com/account/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+
+</details>
 
 ### zkSync
 
-#### Oracle [0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd](https://explorer.zksync.io/address/0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd)
+#### Oracle [0xC762d56614D3411eC6fABD56cb075D904b801613](https://explorer.zksync.io/address/0xC762d56614D3411eC6fABD56cb075D904b801613)
 
 <details><summary>Supported DEXes</summary>
 
@@ -417,7 +430,12 @@ Prev oracle version (legacy) - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](http
 
 </details>
 
-Prev oracle version (legacy) - [0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C](https://explorer.zksync.io/address/0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C)
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * Mar-28-2023 - [0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C](https://explorer.zksync.io/address/0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C)
+   * Jun-05-2023 - [0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd](https://explorer.zksync.io/address/0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd)
+
+</details>
 
 ## Examples
 

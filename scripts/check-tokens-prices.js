@@ -17,6 +17,7 @@ async function main () {
         tokenlist = Object.keys(tokenlist);
     }
 
+    const deployer = await ethers.getSigner();
     const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
     const offchainOracleInDeployments = require(`../deployments/${networkName}/OffchainOracle.json`);
     const deployedOffchainOracle = OffchainOracle.attach(offchainOracleInDeployments.address);
@@ -31,6 +32,7 @@ async function main () {
         [],
         connectors,
         weth,
+        deployer.address,
     );
     await offchainOracle.deployed();
 

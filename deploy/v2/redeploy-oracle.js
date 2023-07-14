@@ -9,7 +9,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         deploymentName: 'YOUR_DEPLOYMENT_NAME',
     };
 
-    console.log('running syncswap deploy script');
+    console.log('running deploy script');
     console.log('network id ', await getChainId());
 
     const { deployer } = await getNamedAccounts();

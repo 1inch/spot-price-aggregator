@@ -12,6 +12,7 @@ async function main () {
     const token = process.env.SCRIPT_TOKEN || '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
     const thresholdFilter = 10;
 
+    const deployer = await ethers.getSigner();
     const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
     const offchainOracleInDeployments = require(`../deployments/${networkName}/OffchainOracle.json`);
     const deployedOffchainOracle = OffchainOracle.attach(offchainOracleInDeployments.address);
@@ -26,6 +27,7 @@ async function main () {
         [],
         connectors,
         weth,
+        deployer.address,
     );
     await offchainOracle.deployed();
 

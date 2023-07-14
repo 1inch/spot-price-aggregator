@@ -38,6 +38,10 @@ const tokens = {
     yvWBTC: '0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E',
 };
 
+const contracts = {
+    create3Deployer: '0x65B3Db8bAeF0215A1F9B14c506D2a3078b2C84AE',
+};
+
 const deployParams = {
     AaveWrapperV2: {
         lendingPool: '0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9',
@@ -89,5 +93,6 @@ const deployParams = {
 
 module.exports = {
     tokens,
+    contracts,
     deployParams,
 };
