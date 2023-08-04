@@ -22,7 +22,7 @@ contract ChainlinkOracle is IOracle {
         chainlink = _chainlink;
     }
 
-    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
+    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 /*thresholdFilter*/) external view override returns (uint256 rate, uint256 weight) {
         if(connector != _NONE) revert ConnectorShouldBeNone();
         (uint256 srcAnswer, uint8 srcDecimals) = srcToken != _ETH ? _getRate(srcToken) : (1e18, 18);
         (uint256 dstAnswer, uint8 dstDecimals) = dstToken != _ETH ? _getRate(dstToken) : (1e18, 18);

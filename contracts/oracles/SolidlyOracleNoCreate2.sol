@@ -6,9 +6,11 @@ import "./OracleBase.sol";
 import "../interfaces/ISolidlyFactory.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV2Pair.sol";
+import "../libraries/OraclePrices.sol";
 import "../libraries/Sqrt.sol";
 
 contract SolidlyOracleNoCreate2 is IOracle {
+    using OraclePrices for OraclePrices.Data;
     using Sqrt for uint256;
 
     ISolidlyFactory public immutable factory;
@@ -19,18 +21,15 @@ contract SolidlyOracleNoCreate2 is IOracle {
         factory = _factory;
     }
 
-    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
+    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
         if(connector != _NONE) revert ConnectorShouldBeNone();
+        OraclePrices.Data memory ratesAndWeights = OraclePrices.init(2);
         for (uint256 i = 1; i < 2; i++) {
             (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, i == 0 ? true : false);
             uint256 w = (b0 * b1).sqrt();
-            rate = rate + b1 * 1e18 / b0 * w;
-            weight = weight + w;
+            ratesAndWeights.append(OraclePrices.OraclePrice(b1 * 1e18 / b0, w));
         }
-
-        if (weight > 0) {
-            unchecked { rate /= weight; }
-        }
+        (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
     }
 
     function _getBalances(IERC20 srcToken, IERC20 dstToken, bool stable) internal view returns (uint256 srcBalance, uint256 dstBalance) {

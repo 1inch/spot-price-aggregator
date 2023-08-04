@@ -5,23 +5,26 @@ pragma solidity 0.8.19;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "../interfaces/IOracle.sol";
+import "../interfaces/ICurveProvider.sol";
+import "../interfaces/ICurveRegistry.sol";
+import "../interfaces/ICurveSwap.sol";
+import "../libraries/OraclePrices.sol";
 import "../libraries/Sqrt.sol";
 
-import "../interfaces/ICurveRegistry.sol";
-import "../interfaces/ICurveProvider.sol";
-import "../interfaces/ICurveSwap.sol";
-
 contract CurveOracle is IOracle {
+    using OraclePrices for OraclePrices.Data;
     using Sqrt for uint256;
 
+    uint256 public immutable maxPools;
     ICurveProvider public immutable addressProvider;
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 
-    constructor(ICurveProvider _addressProvider) {
+    constructor(ICurveProvider _addressProvider, uint256 _maxPools) {
         addressProvider = _addressProvider;
+        maxPools = _maxPools;
     }
 
-    function getRate(IERC20 _srcToken, IERC20 _dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
+    function getRate(IERC20 _srcToken, IERC20 _dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
         if(connector != _NONE) revert ConnectorShouldBeNone();
 
         address srcToken = address(_srcToken);
@@ -30,7 +33,8 @@ contract CurveOracle is IOracle {
         ICurveRegistry registry = ICurveRegistry(addressProvider.get_address(0));
         address pool = registry.find_pool_for_coins(srcToken, dstToken, index);
 
-        while (pool != address(0)) {
+        OraclePrices.Data memory ratesAndWeights = OraclePrices.init(maxPools);
+        while (pool != address(0) && index < maxPools) {
             (int128 srcTokenIndex, int128 dstTokenIndex, bool isUnderlying) = registry.get_coin_indices(pool, srcToken, dstToken);
             uint256 b0;
             uint256 b1;
@@ -57,15 +61,9 @@ contract CurveOracle is IOracle {
                     b1 = ICurveSwapNew(pool).get_dy_underlying(uint128(srcTokenIndex), uint128(dstTokenIndex), b0);
                 }
             }
-
-            rate += b1 * 1e18 / b0 * w;
-            weight += w;
-
+            ratesAndWeights.append(OraclePrices.OraclePrice(b1 * 1e18 / b0, w));
             pool = registry.find_pool_for_coins(srcToken, dstToken, ++index);
         }
-
-        if (weight > 0) {
-            unchecked { rate /= weight; }
-        }
+        (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
     }
 }

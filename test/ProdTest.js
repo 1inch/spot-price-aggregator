@@ -1,7 +1,7 @@
 const { ethers } = require('hardhat');
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether } = require('@1inch/solidity-utils');
-const { tokens } = require('./helpers.js');
+const { tokens, defaultValues: { thresholdFilter } } = require('./helpers.js');
 
 const oracles = {
     mooniswapOracle: '0x1488a117641eD5D2D29AB3eD2397963FdEFEc25e',
@@ -16,8 +16,6 @@ const multiWrapper = '0x931e32b6d112f7be74b16f7fbc77d491b30fe18c';
 
 describe.skip('ProdTest', async function () {
     async function initContracts () {
-        const thresholdFilter = 10;
-
         // const CompoundLikeWrapper = await ethers.getContractFactory('CompoundLikeWrapper');
         // this.compoundWrapper = await CompoundLikeWrapper.deploy();
         // await this.compoundWrapper.deployed('0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B', CETH);
@@ -44,11 +42,11 @@ describe.skip('ProdTest', async function () {
             ],
         );
         await offchainOracle.deployed();
-        return { thresholdFilter, offchainOracle };
+        return { offchainOracle };
     }
 
     it('zks -> eth', async function () {
-        const { thresholdFilter, offchainOracle } = await loadFixture(initContracts);
+        const { offchainOracle } = await loadFixture(initContracts);
         const rate = await offchainOracle.getRateWithThreshold(tokens.WETH, '0x793786e2dd4Cc492ed366a94B88a3Ff9ba5E7546', thresholdFilter);
         console.log(rate.toString());
         expect(rate).to.lt(ether('0.001'));

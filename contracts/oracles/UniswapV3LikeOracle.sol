@@ -8,11 +8,13 @@ import "@openzeppelin/contracts/utils/math/Math.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV3Pool.sol";
+import "../libraries/OraclePrices.sol";
 import "../libraries/Sqrt.sol";
 
 contract UniswapV3LikeOracle is IOracle {
     using Address for address;
     using SafeMath for uint256;
+    using OraclePrices for OraclePrices.Data;
     using Sqrt for uint256;
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
@@ -29,15 +31,17 @@ contract UniswapV3LikeOracle is IOracle {
         fees = _fees;
     }
 
-    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
+    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external override view returns (uint256 rate, uint256 weight) {
+        OraclePrices.Data memory ratesAndWeights;
         unchecked {
             if (connector == _NONE) {
+                ratesAndWeights = OraclePrices.init(_SUPPORTED_FEES_COUNT);
                 for (uint256 i = 0; i < _SUPPORTED_FEES_COUNT; i++) {
                     (uint256 rate0, uint256 w) = _getRate(srcToken, dstToken, fees[i]);
-                    rate = rate.add(rate0.mul(w));
-                    weight = weight.add(w);
+                    ratesAndWeights.append(OraclePrices.OraclePrice(rate0, w));
                 }
             } else {
+                ratesAndWeights = OraclePrices.init(_SUPPORTED_FEES_COUNT**2);
                 for (uint256 i = 0; i < _SUPPORTED_FEES_COUNT; i++) {
                     for (uint256 j = 0; j < _SUPPORTED_FEES_COUNT; j++) {
                         (uint256 rate0, uint256 w0) = _getRate(srcToken, connector, fees[i]);
@@ -48,18 +52,13 @@ contract UniswapV3LikeOracle is IOracle {
                         if (w1 == 0) {
                             continue;
                         }
-
                         uint256 w = Math.min(w0, w1);
-                        rate = rate.add(rate0.mul(rate1).div(1e18).mul(w));
-                        weight = weight.add(w);
+                        ratesAndWeights.append(OraclePrices.OraclePrice(rate0 * rate1 / 1e18, w));
                     }
                 }
             }
         }
-
-        if (weight > 0) {
-            rate = rate / weight;
-        }
+        (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
     }
 
     function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint256 liquidity) {

@@ -3,19 +3,19 @@
 pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "./interfaces/IOracle.sol";
 import "./interfaces/IWrapper.sol";
 import "./MultiWrapper.sol";
+import "./libraries/OraclePrices.sol";
 import "./libraries/Sqrt.sol";
 
 contract OffchainOracle is Ownable {
     using Math for uint256;
-    using SafeMath for uint256;
     using Sqrt for uint256;
     using EnumerableSet for EnumerableSet.AddressSet;
+    using OraclePrices for OraclePrices.Data;
 
     error ArraysLengthMismatch();
     error OracleAlreadyAdded();
@@ -34,9 +34,14 @@ contract OffchainOracle is Ownable {
     event ConnectorRemoved(IERC20 connector);
     event MultiWrapperUpdated(MultiWrapper multiWrapper);
 
-    struct OraclePrice {
-        uint256 rate;
-        uint256 weight;
+    struct GetRateImplParams {
+        IOracle oracle;
+        IERC20 srcToken;
+        uint256 srcTokenRate;
+        IERC20 dstToken;
+        uint256 dstTokenRate;
+        IERC20 connector;
+        uint256 thresholdFilter;
     }
 
     EnumerableSet.AddressSet private _wethOracles;
@@ -260,22 +265,12 @@ contract OffchainOracle is Ownable {
         IERC20[][2] memory allConnectors = _getAllConnectors(customConnectors);
 
         uint256 maxArrLength = wrappedSrcTokens.length * wrappedDstTokens.length * (allConnectors[0].length + allConnectors[1].length) * allOracles.length;
-        OraclePrice[] memory oraclePrices;
-        // Memory allocation in assembly to avoid array zeroing
-        assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
-            oraclePrices := mload(0x40)
-            mstore(0x40, add(oraclePrices, add(0x20, mul(maxArrLength, 0x40))))
-            mstore(oraclePrices, maxArrLength)
-        }
-
-        uint256 oracleIndex;
-        uint256 maxOracleWeight;
-
+        OraclePrices.Data memory ratesAndWeights = OraclePrices.init(maxArrLength);
         unchecked {
             for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
                 for (uint256 k2 = 0; k2 < wrappedDstTokens.length; k2++) {
                     if (wrappedSrcTokens[k1] == wrappedDstTokens[k2]) {
-                        return srcRates[k1].mul(dstRates[k2]).div(1e18);
+                        return srcRates[k1] * dstRates[k2] / 1e18;
                     }
                     for (uint256 k3 = 0; k3 < 2; k3++) {
                         for (uint256 j = 0; j < allConnectors[k3].length; j++) {
@@ -284,38 +279,22 @@ contract OffchainOracle is Ownable {
                                 continue;
                             }
                             for (uint256 i = 0; i < allOracles.length; i++) {
-                                (OraclePrice memory oraclePrice) = _getRateImpl(allOracles[i], wrappedSrcTokens[k1], srcRates[k1], wrappedDstTokens[k2], dstRates[k2], connector);
-                                if (oraclePrice.weight > 0) {
-                                    oraclePrices[oracleIndex] = oraclePrice;
-                                    oracleIndex++;
-                                    if (oraclePrice.weight > maxOracleWeight) {
-                                        maxOracleWeight = oraclePrice.weight;
-                                    }
-                                }
+                                GetRateImplParams memory params = GetRateImplParams({
+                                    oracle: allOracles[i],
+                                    srcToken: wrappedSrcTokens[k1],
+                                    srcTokenRate: srcRates[k1],
+                                    dstToken: wrappedDstTokens[k2],
+                                    dstTokenRate: dstRates[k2],
+                                    connector: connector,
+                                    thresholdFilter: thresholdFilter
+                                });
+                                ratesAndWeights.append(_getRateImpl(params));
                             }
                         }
                     }
                 }
             }
-            assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
-                mstore(oraclePrices, oracleIndex)
-            }
-
-            uint256 totalWeight;
-            for (uint256 i = 0; i < oraclePrices.length; i++) {
-                if (oraclePrices[i].weight * 100 < maxOracleWeight * thresholdFilter) {
-                    continue;
-                }
-                (bool ok, uint256 weightedRateI) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
-                if (ok) {
-                    (ok, weightedRate) = _tryAdd(weightedRate, weightedRateI);
-                    if (ok) totalWeight += oraclePrices[i].weight;
-                }
-            }
-
-            if (totalWeight > 0) {
-                weightedRate = weightedRate / totalWeight;
-            }
+            (weightedRate,) = ratesAndWeights.getRateAndWeightWithSafeMath(thresholdFilter);
         }
     }
 
@@ -353,17 +332,7 @@ contract OffchainOracle is Ownable {
         IERC20[][2] memory allConnectors = _getAllConnectors(customConnectors);
 
         uint256 maxArrLength = wrappedSrcTokens.length * wrappedDstTokens.length * (allConnectors[0].length + allConnectors[1].length) * (wrappedOracles[0].length + wrappedOracles[1].length);
-        OraclePrice[] memory oraclePrices;
-        // Memory allocation in assembly to avoid array zeroing
-        assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
-            oraclePrices := mload(0x40)
-            mstore(0x40, add(oraclePrices, mul(maxArrLength, 0x40)))
-            mstore(oraclePrices, maxArrLength)
-        }
-
-        uint256 oracleIndex;
-        uint256 maxOracleWeight;
-
+        OraclePrices.Data memory ratesAndWeights = OraclePrices.init(maxArrLength);
         unchecked {
             for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
                 for (uint256 k2 = 0; k2 < wrappedDstTokens.length; k2++) {
@@ -377,38 +346,22 @@ contract OffchainOracle is Ownable {
                                 continue;
                             }
                             for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
-                                (OraclePrice memory oraclePrice) = _getRateImpl(IOracle(address(uint160(uint256(wrappedOracles[k2][i])))), wrappedSrcTokens[k1], srcRates[k1], wrappedDstTokens[k2], 1e18, connector);
-                                if (oraclePrice.weight > 0) {
-                                    oraclePrices[oracleIndex] = oraclePrice;
-                                    oracleIndex++;
-                                    if (oraclePrice.weight > maxOracleWeight) {
-                                        maxOracleWeight = oraclePrice.weight;
-                                    }
-                                }
+                                GetRateImplParams memory params = GetRateImplParams({
+                                    oracle: IOracle(address(uint160(uint256(wrappedOracles[k2][i])))),
+                                    srcToken: wrappedSrcTokens[k1],
+                                    srcTokenRate: srcRates[k1],
+                                    dstToken: wrappedDstTokens[k2],
+                                    dstTokenRate: 1e18,
+                                    connector: connector,
+                                    thresholdFilter: thresholdFilter
+                                });
+                                ratesAndWeights.append(_getRateImpl(params));
                             }
                         }
                     }
                 }
             }
-            assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
-                mstore(oraclePrices, oracleIndex)
-            }
-
-            uint256 totalWeight;
-            for (uint256 i = 0; i < oracleIndex; i++) {
-                if (oraclePrices[i].weight < maxOracleWeight * thresholdFilter / 100) {
-                    continue;
-                }
-                (bool ok, uint256 weightedRateI) = oraclePrices[i].rate.tryMul(oraclePrices[i].weight);
-                if (ok) {
-                    (ok, weightedRate) = _tryAdd(weightedRate, weightedRateI);
-                    if (ok) totalWeight += oraclePrices[i].weight;
-                }
-            }
-
-            if (totalWeight > 0) {
-                weightedRate = weightedRate / totalWeight;
-            }
+            (weightedRate,) = ratesAndWeights.getRateAndWeightWithSafeMath(thresholdFilter);
         }
     }
 
@@ -433,10 +386,10 @@ contract OffchainOracle is Ownable {
         allConnectors[1] = customConnectors;
     }
 
-    function _getRateImpl(IOracle oracle, IERC20 srcToken, uint256 srcTokenRate, IERC20 dstToken, uint256 dstTokenRate, IERC20 connector) private view returns (OraclePrice memory oraclePrice) {
-        try oracle.getRate(srcToken, dstToken, connector) returns (uint256 rate, uint256 weight) {
-            uint256 result = _scaledMul([srcTokenRate, rate, dstTokenRate], 1e18);
-            oraclePrice = OraclePrice(result, result == 0 ? 0 : weight);
+    function _getRateImpl(GetRateImplParams memory p) private view returns (OraclePrices.OraclePrice memory oraclePrice) {
+        try p.oracle.getRate(p.srcToken, p.dstToken, p.connector, p.thresholdFilter) returns (uint256 rate, uint256 weight) {
+            uint256 result = _scaledMul([p.srcTokenRate, rate, p.dstTokenRate], 1e18);
+            oraclePrice = OraclePrices.OraclePrice(result, result == 0 ? 0 : weight);
         } catch {}  // solhint-disable-line no-empty-blocks
     }
 

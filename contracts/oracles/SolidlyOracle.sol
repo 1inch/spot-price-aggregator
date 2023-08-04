@@ -5,9 +5,11 @@ pragma solidity 0.8.19;
 import "./OracleBase.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV2Pair.sol";
+import "../libraries/OraclePrices.sol";
 import "../libraries/Sqrt.sol";
 
 contract SolidlyOracle is IOracle {
+    using OraclePrices for OraclePrices.Data;
     using Sqrt for uint256;
 
     address public immutable factory;
@@ -20,18 +22,15 @@ contract SolidlyOracle is IOracle {
         initcodeHash = _initcodeHash;
     }
 
-    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
+    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
         if(connector != _NONE) revert ConnectorShouldBeNone();
+        OraclePrices.Data memory ratesAndWeights = OraclePrices.init(2);
         for (uint256 i = 1; i < 2; i++) {
             (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, i == 0 ? true : false);
             uint256 w = (b0 * b1).sqrt();
-            rate = rate + b1 * 1e18 / b0 * w;
-            weight = weight + w;
+            ratesAndWeights.append(OraclePrices.OraclePrice(b1 * 1e18 / b0, w));
         }
-
-        if (weight > 0) {
-            unchecked { rate /= weight; }
-        }
+        (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
     }
 
     // calculates the CREATE2 address for a pair without making any external calls

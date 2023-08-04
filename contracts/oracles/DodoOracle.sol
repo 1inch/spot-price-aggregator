@@ -21,7 +21,7 @@ contract DodoOracle is IOracle {
         factory = _dodoZoo;
     }
 
-    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
+    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 /*thresholdFilter*/) external view override returns (uint256 rate, uint256 weight) {
         uint256 balanceSrc;
         uint256 balanceDst;
         if (connector == _NONE) {
