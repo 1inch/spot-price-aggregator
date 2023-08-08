@@ -1,21 +1,25 @@
-const { getChainId } = require('hardhat');
-const { deployAndGetContract } = require('@1inch/solidity-utils');
+const hre = require('hardhat');
+const { getChainId, ethers } = hre;
 const { getContract } = require('../utils.js');
+const { deployOracle } = require('./simple-deploy-oracle.js');
+
+const SALT_INDEX = '0';
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    console.log('running deploy script');
+    const SALT_PROD = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('OffchainOracle') + SALT_INDEX);
+
+    console.log('running deploy script: use-create3/redeploy-offchain-oracle');
     console.log('network id ', await getChainId());
 
     const { deployer } = await getNamedAccounts();
-
+    const OffchainOracleDeploymentData = await deployments.get('OffchainOracle');
     const oldOffchainOracle = await getContract('OffchainOracle', deployments);
-
-    const wBase = (await deployments.get('OffchainOracle')).args[4];
+    const wBase = OffchainOracleDeploymentData.args[4];
     const oracles = await oldOffchainOracle.oracles();
 
-    await deployAndGetContract({
+    const PARAMS = {
         contractName: 'OffchainOracle',
-        constructorArgs: [
+        args: [
             await oldOffchainOracle.multiWrapper(),
             oracles.allOracles,
             oracles.oracleTypes,
@@ -23,10 +27,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
             wBase,
             deployer,
         ],
-        deployments,
-        deployer,
-        skipIfAlreadyDeployed: false,
-    });
+        deploymentName: 'OffchainOracle',
+    };
+
+    await deployOracle(PARAMS, SALT_PROD, deployments);
 };
 
 module.exports.skip = async () => true;
