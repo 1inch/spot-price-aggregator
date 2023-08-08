@@ -2,7 +2,7 @@ const hre = require('hardhat');
 const { getChainId, ethers } = hre;
 const { contracts } = require('../../../test/helpers.js');
 
-const SALT_INDEX = '0';
+const SALT_INDEX = '';
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const PARAMS = {

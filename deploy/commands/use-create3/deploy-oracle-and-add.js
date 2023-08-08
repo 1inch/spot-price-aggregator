@@ -3,7 +3,7 @@ const { getChainId, ethers } = hre;
 const { getContract } = require('../../utils.js');
 const { deployOracle } = require('./simple-deploy-oracle.js');
 
-const SALT_INDEX = '0';
+const SALT_INDEX = '';
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const PARAMS = {
