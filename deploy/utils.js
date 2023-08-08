@@ -48,5 +48,3 @@ module.exports = {
     deployCompoundTokenWrapper,
     getContract,
 };
-
-module.exports.skip = async () => true;

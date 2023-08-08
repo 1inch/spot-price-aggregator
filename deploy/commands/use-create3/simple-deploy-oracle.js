@@ -1,6 +1,6 @@
 const hre = require('hardhat');
 const { getChainId, ethers } = hre;
-const { contracts } = require('../../test/helpers.js');
+const { contracts } = require('../../../test/helpers.js');
 
 const SALT_INDEX = '0';
 
@@ -18,7 +18,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     await deployOracle(PARAMS, SALT_PROD, deployments);
 };
 
-export async function deployOracle (params, saltProd, deployments) {
+const deployOracle = async (params, saltProd, deployments) => {
     const create3Deployer = await ethers.getContractAt('ICreate3Deployer', contracts.create3Deployer);
     const CustomOracle = await ethers.getContractFactory(params.contractName);
     const deployData = CustomOracle.getDeployTransaction(
@@ -47,6 +47,7 @@ export async function deployOracle (params, saltProd, deployments) {
     CustomOracleDeploymentData.deployedBytecode = CustomOracleArtifact.deployedBytecode;
     await deployments.save(params.contractName, CustomOracleDeploymentData);
     return customOracleAddress;
-}
+};
 
+module.exports.deployOracle = deployOracle;
 module.exports.skip = async () => true;

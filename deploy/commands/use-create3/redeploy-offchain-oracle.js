@@ -1,6 +1,6 @@
 const hre = require('hardhat');
 const { getChainId, ethers } = hre;
-const { getContract } = require('../utils.js');
+const { getContract } = require('../../utils.js');
 const { deployOracle } = require('./simple-deploy-oracle.js');
 
 const SALT_INDEX = '0';

@@ -1,6 +1,6 @@
 const hre = require('hardhat');
 const { getChainId, ethers } = hre;
-const { getContract } = require('../utils.js');
+const { getContract } = require('../../utils.js');
 const { deployOracle } = require('./simple-deploy-oracle.js');
 
 const SALT_INDEX = '0';
@@ -10,21 +10,17 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         contractName: 'YOUR_CONTRACT_NAME',
         args: [],
         deploymentName: 'YOUR_DEPLOYMENT_NAME',
+        oracleType: '0',
     };
     const SALT_PROD = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(PARAMS.contractName) + SALT_INDEX);
 
-    console.log('running deploy script: use-create3/redeploy-oracle');
+    console.log('running deploy script: use-create3/deploy-oracle-and-add');
     console.log('network id ', await getChainId());
-
-    const offchainOracle = await getContract('OffchainOracle', deployments);
-    const oldCustomOracle = await getContract(PARAMS.contractName, deployments);
-    const oracles = await offchainOracle.oracles();
-    const customOracleType = oracles.oracleTypes[oracles.allOracles.indexOf(oldCustomOracle.address)];
 
     const customOracleAddress = await deployOracle(PARAMS, SALT_PROD, deployments);
 
-    await offchainOracle.removeOracle(oldCustomOracle.address, customOracleType);
-    await offchainOracle.addOracle(customOracleAddress, customOracleType);
+    const offchainOracle = await getContract('OffchainOracle', deployments);
+    await offchainOracle.addOracle(customOracleAddress, PARAMS.oracleType);
 };
 
 module.exports.skip = async () => true;
