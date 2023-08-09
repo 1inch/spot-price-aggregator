@@ -27,8 +27,10 @@ contract UniswapV3LikeOracle is IOracle {
         factory = _factory;
         initcodeHash = _initcodeHash;
         supportedFeesCount = _fees.length;
-        for (uint256 i = 0; i < supportedFeesCount - 1; i++) {
-            fees[i] = _fees[i];
+        unchecked {
+            for (uint256 i = 0; i < supportedFeesCount - 1; i++) {
+                fees[i] = _fees[i];
+            }
         }
     }
 
