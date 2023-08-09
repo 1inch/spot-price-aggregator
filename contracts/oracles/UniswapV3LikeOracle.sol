@@ -18,32 +18,37 @@ contract UniswapV3LikeOracle is IOracle {
     using Sqrt for uint256;
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
-    uint256 private constant _SUPPORTED_FEES_COUNT = 4;
     int24 private constant _TICK_STEPS = 2;
 
+    uint256 public immutable supportedFeesCount;
     address public immutable factory;
     bytes32 public immutable initcodeHash;
-    uint24[_SUPPORTED_FEES_COUNT] public fees;
+    uint24[10] public fees;
 
-    constructor(address _factory, bytes32 _initcodeHash, uint24[_SUPPORTED_FEES_COUNT] memory _fees) {
+    constructor(address _factory, bytes32 _initcodeHash, uint24[] memory _fees) {
         factory = _factory;
         initcodeHash = _initcodeHash;
-        fees = _fees;
+        supportedFeesCount = _fees.length;
+        unchecked {
+            for (uint256 i = 0; i < supportedFeesCount - 1; i++) {
+                fees[i] = _fees[i];
+            }
+        }
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external override view returns (uint256 rate, uint256 weight) {
         OraclePrices.Data memory ratesAndWeights;
         unchecked {
             if (connector == _NONE) {
-                ratesAndWeights = OraclePrices.init(_SUPPORTED_FEES_COUNT);
-                for (uint256 i = 0; i < _SUPPORTED_FEES_COUNT; i++) {
+                ratesAndWeights = OraclePrices.init(supportedFeesCount);
+                for (uint256 i = 0; i < supportedFeesCount; i++) {
                     (uint256 rate0, uint256 w) = _getRate(srcToken, dstToken, fees[i]);
                     ratesAndWeights.append(OraclePrices.OraclePrice(rate0, w));
                 }
             } else {
-                ratesAndWeights = OraclePrices.init(_SUPPORTED_FEES_COUNT**2);
-                for (uint256 i = 0; i < _SUPPORTED_FEES_COUNT; i++) {
-                    for (uint256 j = 0; j < _SUPPORTED_FEES_COUNT; j++) {
+                ratesAndWeights = OraclePrices.init(supportedFeesCount**2);
+                for (uint256 i = 0; i < supportedFeesCount; i++) {
+                    for (uint256 j = 0; j < supportedFeesCount; j++) {
                         (uint256 rate0, uint256 w0) = _getRate(srcToken, connector, fees[i]);
                         if (w0 == 0) {
                             continue;

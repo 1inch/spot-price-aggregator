@@ -1,15 +1,9 @@
-const hre = require('hardhat');
-const { ethers } = hre;
+const { ethers } = require('hardhat');
 const { constants, deployAndGetContract } = require('@1inch/solidity-utils');
 
 // not idemponent. Needs to be rewritten a bit if another run is required
 const _addCompoundTokens = async (compoundLikeWrapper, cTokens) => {
     await (await compoundLikeWrapper.addMarkets(cTokens)).wait();
-};
-
-const _getContract = async (contractName, contractAddress) => {
-    const contractFactory = await ethers.getContractFactory(contractName);
-    return contractFactory.attach(contractAddress);
 };
 
 const _zip = (a, b) => a.map((k, i) => [k, b[i]]);
@@ -24,10 +18,6 @@ async function addAaveTokens (aaveWrapperV2, AAWE_WRAPPER_TOKENS) {
         console.log('All tokens are already deployed');
     }
 }
-
-const getContract = async (contractName, deployments) => {
-    return _getContract(contractName, (await deployments.get(contractName)).address);
-};
 
 const deployCompoundTokenWrapper = async (contractInfo, tokenName, deployments, deployer, deploymentName = `CompoundLikeWrapper_${contractInfo.name}`) => {
     const comptroller = await ethers.getContractAt('IComptroller', contractInfo.address);
@@ -44,10 +34,17 @@ const deployCompoundTokenWrapper = async (contractInfo, tokenName, deployments, 
     return wrapper;
 };
 
+const _getContract = async (contractName, contractAddress) => {
+    const contractFactory = await ethers.getContractFactory(contractName);
+    return contractFactory.attach(contractAddress);
+};
+
+const getContract = async (contractName, deployments) => {
+    return _getContract(contractName, (await deployments.get(contractName)).address);
+};
+
 module.exports = {
     addAaveTokens,
     deployCompoundTokenWrapper,
     getContract,
 };
-
-module.exports.skip = async () => true;
