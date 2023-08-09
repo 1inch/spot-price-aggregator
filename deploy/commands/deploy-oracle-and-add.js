@@ -7,29 +7,23 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         contractName: 'YOUR_CONTRACT_NAME',
         args: [],
         deploymentName: 'YOUR_DEPLOYMENT_NAME',
+        oracleType: '0',
     };
 
-    console.log('running deploy script');
+    console.log('running deploy script: deploy-oracle-and-add');
     console.log('network id ', await getChainId());
 
     const { deployer } = await getNamedAccounts();
 
     const offchainOracle = await getContract('OffchainOracle', deployments);
-    const oldCustomOracle = await getContract(PARAMS.contractName, deployments);
-
-    const oracles = await offchainOracle.oracles();
-    const customOracleType = oracles.oracleTypes[oracles.allOracles.indexOf(oldCustomOracle.address)];
-
     const customOracle = await deployAndGetContract({
         contractName: PARAMS.contractName,
         constructorArgs: PARAMS.args,
         deployments,
         deployer,
         deploymentName: PARAMS.deploymentName,
-        skipIfAlreadyDeployed: false,
     });
-    await offchainOracle.removeOracle(oldCustomOracle.address, customOracleType);
-    await offchainOracle.addOracle(customOracle.address, customOracleType);
+    await offchainOracle.addOracle(customOracle.address, PARAMS.oracleType);
 };
 
 module.exports.skip = async () => true;

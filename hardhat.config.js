@@ -32,6 +32,9 @@ module.exports = {
             default: 0,
         },
     },
+    paths: {
+        deploy: 'deploy/commands',
+    },
     mocha: {
         timeout: 90000,
     },

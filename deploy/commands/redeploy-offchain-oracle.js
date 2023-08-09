@@ -3,7 +3,7 @@ const { deployAndGetContract } = require('@1inch/solidity-utils');
 const { getContract } = require('../utils.js');
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    console.log('running deploy script');
+    console.log('running deploy script: redeploy-offchain-oracle');
     console.log('network id ', await getChainId());
 
     const { deployer } = await getNamedAccounts();
