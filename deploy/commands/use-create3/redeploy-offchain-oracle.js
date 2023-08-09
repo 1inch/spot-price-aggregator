@@ -6,7 +6,7 @@ const { deployOracle } = require('./simple-deploy-oracle.js');
 const SALT_INDEX = '';
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
-    const SALT_PROD = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('OffchainOracle') + SALT_INDEX);
+    const SALT_PROD = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('OffchainOracle' + SALT_INDEX));
 
     console.log('running deploy script: use-create3/redeploy-offchain-oracle');
     console.log('network id ', await getChainId());

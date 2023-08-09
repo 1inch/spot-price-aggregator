@@ -437,6 +437,34 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 </details>
 
+### Base
+
+#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://basescan.org/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+
+<details><summary>Supported DEXes</summary>
+
+   * BaseSwap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://basescan.org/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
+   * RocketSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://basescan.org/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+   * SwapBased - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://basescan.org/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+   * DackieSwap - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://basescan.org/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
+   * SushiSwapV3 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://basescan.org/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
+   * UniswapV3 - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://basescan.org/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+   
+</details>
+
+<details><summary>Supported wrappers</summary>
+
+   * WETH - [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://basescan.org/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
+
+</details>
+
+<details><summary>Supported connectors</summary>
+
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://basescan.org/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * WETH - [0x4200000000000000000000000000000000000006](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+
+</details>
+
 ## Examples
 
 * [Single token-to-ETH price usage](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/single-price.js)
