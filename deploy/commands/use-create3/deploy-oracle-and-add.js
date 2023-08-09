@@ -12,7 +12,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         deploymentName: 'YOUR_DEPLOYMENT_NAME',
         oracleType: '0',
     };
-    const SALT_PROD = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(PARAMS.contractName) + SALT_INDEX);
+    const SALT_PROD = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(PARAMS.contractName + SALT_INDEX));
 
     console.log('running deploy script: use-create3/deploy-oracle-and-add');
     console.log('network id ', await getChainId());
