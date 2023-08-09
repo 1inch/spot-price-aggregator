@@ -9,7 +9,7 @@ import "./interfaces/IWrapper.sol";
 
 /**
  * @title MultiWrapper
- * @notice The MultiWrapper contract allows for the management of multiple wrappers that can be used to wrap tokens.
+ * @notice Сontract allows for the management of multiple `IWrapper` contracts that can be used to wrap tokens in OffchainOracle's calculations.
  * Wrappers are contracts that enable the conversion of tokens from one protocol to another.
  * The contract provides functions to add and remove wrappers, as well as get information about the wrapped tokens and their conversion rates.
  */
@@ -26,10 +26,9 @@ contract MultiWrapper is Ownable {
     EnumerableSet.AddressSet private _wrappers;
 
     /**
-     * @dev Initializes the MultiWrapper contract.
-     * @param existingWrappers An array of existing wrapper contracts to be added during initialization.
-     * @notice The constructor adds the existing wrappers to the contract and emits events for each added wrapper.
-     * If a wrapper is already added, it will throw a WrapperAlreadyAdded error and revert the transaction.
+     * @notice Adds the provided wrappers to the contract.
+     * @dev Initializes the MultiWrapper with an array of existing `IWrapper` contracts.
+     * @param existingWrappers Initial wrappers to be added.
      */
     constructor(IWrapper[] memory existingWrappers) {
         unchecked {
@@ -41,8 +40,8 @@ contract MultiWrapper is Ownable {
     }
 
     /**
-     * @dev Returns an array of all the wrappers currently added to the contract.
-     * @return allWrappers An array of IWrapper contracts representing all the wrappers.
+     * @notice Returns all wrappers currently added to the contract.
+     * @return allWrappers Array of wrapper contracts.
      */
     function wrappers() external view returns (IWrapper[] memory allWrappers) {
         allWrappers = new IWrapper[](_wrappers.length());
@@ -54,10 +53,8 @@ contract MultiWrapper is Ownable {
     }
 
     /**
-     * @dev Adds a new wrapper contract to the MultiWrapper.
-     * @param wrapper The address of the wrapper contract to be added.
-     * @notice Only the contract owner can add a new wrapper.
-     * If the wrapper is already added, it will throw a WrapperAlreadyAdded error and revert the transaction.
+     * @notice Adds a distinct wrapper contract that cannot be duplicated. Only the owner can add a wrapper.
+     * @param wrapper The address of the wrapper to be added.
      */
     function addWrapper(IWrapper wrapper) external onlyOwner {
         if (!_wrappers.add(address(wrapper))) revert WrapperAlreadyAdded();
@@ -65,10 +62,8 @@ contract MultiWrapper is Ownable {
     }
 
     /**
-     * @dev Removes a wrapper contract from the MultiWrapper.
-     * @param wrapper The address of the wrapper contract to be removed.
-     * @notice Only the contract owner can remove a wrapper.
-     * If the wrapper is not found, it will throw an UnknownWrapper error and revert the transaction.
+     * @notice Removes a specified wrapper contract. Only the owner can remove a wrapper.
+     * @param wrapper The address of the wrapper to be removed.
      */
     function removeWrapper(IWrapper wrapper) external onlyOwner {
         if (!_wrappers.remove(address(wrapper))) revert UnknownWrapper();
@@ -76,13 +71,11 @@ contract MultiWrapper is Ownable {
     }
 
     /**
-     * @dev Retrieves the wrapped tokens and their conversion rates for a given token.
-     * @param token The ERC20 token for which to retrieve the wrapped tokens and conversion rates.
-     * @return wrappedTokens An array of wrapped tokens that can be obtained by wrapping the input token.
-     * @return rates An array of conversion rates corresponding to the wrapped tokens.
-     * @notice This function iterates over the wrappers to determine the wrapped tokens and their conversion rates.
-     * It returns an array of wrapped tokens and an array of rates, including the input token and a rate of 1e18 for it.
-     * If a wrapper fails during the iteration, it will be skipped and the process will continue.
+     * @notice Retrieves the wrapped tokens and their conversion rates for a given token.
+     * @dev Iterates over the wrappers to determine the wrapped tokens and their conversion rates.
+     * @param token The token for which to retrieve the wrapped tokens and conversion rates.
+     * @return wrappedTokens Tokens obtainable by wrapping the input token, including the input token and a rate of 1e18 for it.
+     * @return rates Conversion rates for the wrapped tokens.
      */
     function getWrappedTokens(IERC20 token) external view returns (IERC20[] memory wrappedTokens, uint256[] memory rates) {
         unchecked {
