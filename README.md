@@ -410,7 +410,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported DEXes</summary>
 
-   * Solidly - [0x535f5B303DA43c5B83FDe10DE3D79b734B5117C3](https://explorer.zksync.io/address/0x535f5B303DA43c5B83FDe10DE3D79b734B5117C3)
+   * MuteSwitch - [0x535f5B303DA43c5B83FDe10DE3D79b734B5117C3](https://explorer.zksync.io/address/0x535f5B303DA43c5B83FDe10DE3D79b734B5117C3)
    * Syncswap - [0xdD8263F21D4DDB533C5F3B2059493b431cAEAB8d](https://explorer.zksync.io/address/0xdD8263F21D4DDB533C5F3B2059493b431cAEAB8d)
 
 </details>
