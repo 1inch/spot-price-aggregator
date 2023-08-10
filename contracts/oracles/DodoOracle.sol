@@ -8,10 +8,9 @@ import "@openzeppelin/contracts/utils/math/Math.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IDodo.sol";
 import "../interfaces/IDodoFactories.sol";
-import "../libraries/Sqrt.sol";
 
 contract DodoOracle is IOracle {
-    using Sqrt for uint256;
+    using Math for uint256;
 
     IDodoZoo public immutable factory; // dodoZoo
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);

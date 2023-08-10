@@ -9,13 +9,12 @@ import "../interfaces/IDodo.sol";
 import "../interfaces/IDodoFactories.sol";
 import "../interfaces/IOracle.sol";
 import "../libraries/OraclePrices.sol";
-import "../libraries/Sqrt.sol";
 
 // solhint-disable var-name-mixedcase
 
 contract DodoV2Oracle is IOracle {
     using OraclePrices for OraclePrices.Data;
-    using Sqrt for uint256;
+    using Math for uint256;
 
     IDVMFactory public immutable factory; // DVMFactory
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);

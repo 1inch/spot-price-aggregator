@@ -5,10 +5,9 @@ pragma solidity 0.8.19;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
 import "../interfaces/IOracle.sol";
-import "../libraries/Sqrt.sol";
 
 abstract contract OracleBase is IOracle {
-    using Sqrt for uint256;
+    using Math for uint256;
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 

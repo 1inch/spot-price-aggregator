@@ -9,13 +9,12 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV3Pool.sol";
 import "../libraries/OraclePrices.sol";
-import "../libraries/Sqrt.sol";
 
 contract UniswapV3LikeOracle is IOracle {
     using Address for address;
     using SafeMath for uint256;
     using OraclePrices for OraclePrices.Data;
-    using Sqrt for uint256;
+    using Math for uint256;
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
     int24 private constant _TICK_STEPS = 2;

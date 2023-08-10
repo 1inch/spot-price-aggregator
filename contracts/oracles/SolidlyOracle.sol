@@ -2,15 +2,15 @@
 
 pragma solidity 0.8.19;
 
+import "@openzeppelin/contracts/utils/math/Math.sol";
 import "./OracleBase.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV2Pair.sol";
 import "../libraries/OraclePrices.sol";
-import "../libraries/Sqrt.sol";
 
 contract SolidlyOracle is IOracle {
     using OraclePrices for OraclePrices.Data;
-    using Sqrt for uint256;
+    using Math for uint256;
 
     address public immutable factory;
     bytes32 public immutable initcodeHash;

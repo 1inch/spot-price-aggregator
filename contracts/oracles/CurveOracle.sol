@@ -4,16 +4,16 @@ pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/ICurveProvider.sol";
 import "../interfaces/ICurveRegistry.sol";
 import "../interfaces/ICurveSwap.sol";
 import "../libraries/OraclePrices.sol";
-import "../libraries/Sqrt.sol";
 
 contract CurveOracle is IOracle {
     using OraclePrices for OraclePrices.Data;
-    using Sqrt for uint256;
+    using Math for uint256;
 
     uint256 public immutable maxPools;
     ICurveProvider public immutable addressProvider;

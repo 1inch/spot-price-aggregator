@@ -9,11 +9,9 @@ import "./interfaces/IOracle.sol";
 import "./interfaces/IWrapper.sol";
 import "./MultiWrapper.sol";
 import "./libraries/OraclePrices.sol";
-import "./libraries/Sqrt.sol";
 
 contract OffchainOracle is Ownable {
     using Math for uint256;
-    using Sqrt for uint256;
     using EnumerableSet for EnumerableSet.AddressSet;
     using OraclePrices for OraclePrices.Data;
 

@@ -9,12 +9,11 @@ import "../interfaces/IOracle.sol";
 import "../interfaces/IKyberDmmFactory.sol";
 import "../interfaces/IKyberDmmPool.sol";
 import "../libraries/OraclePrices.sol";
-import "../libraries/Sqrt.sol";
 
 contract KyberDmmOracle is IOracle {
     using SafeMath for uint256;
     using OraclePrices for OraclePrices.Data;
-    using Sqrt for uint256;
+    using Math for uint256;
 
     IKyberDmmFactory public immutable factory;
 
