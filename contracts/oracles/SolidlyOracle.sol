@@ -25,12 +25,11 @@ contract SolidlyOracle is IOracle {
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
         if(connector != _NONE) revert ConnectorShouldBeNone();
         OraclePrices.Data memory ratesAndWeights = OraclePrices.init(2);
-        for (uint256 i = 1; i < 2; i++) {
-            (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, i == 0 ? true : false);
-            uint256 w = (b0 * b1).sqrt();
-            ratesAndWeights.append(OraclePrices.OraclePrice(b1 * 1e18 / b0, w));
-        }
-        (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
+        (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, true);
+        ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
+        (b0, b1) = _getBalances(srcToken, dstToken, false);
+        ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
+        return ratesAndWeights.getRateAndWeight(thresholdFilter);
     }
 
     // calculates the CREATE2 address for a pair without making any external calls

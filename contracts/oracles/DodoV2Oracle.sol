@@ -31,8 +31,7 @@ contract DodoV2Oracle is IOracle {
             for (uint256 i = 0; i < machines.length; i++) {
                 IDVM dvm = IDVM(machines[i]);
                 (uint256 r, uint256 b0, uint256 b1) = _getDodoInfo(dvm, isSrcBase);
-                uint256 w = (b0 * b1).sqrt();
-                ratesAndWeights.append(OraclePrices.OraclePrice(r, w));
+                ratesAndWeights.append(OraclePrices.OraclePrice(r, (b0 * b1).sqrt()));
             }
         } else {
             (address[] memory machines0, bool isSrcBase0) = _getMachines(address(srcToken), address(connector));
@@ -49,11 +48,11 @@ contract DodoV2Oracle is IOracle {
                         continue;
                     }
                     uint256 w = Math.min(b0 * bc0, b1 * bc1).sqrt();
-                    ratesAndWeights.append(OraclePrices.OraclePrice(r0 * r1 / 1e18, w));
+                    ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(r0, r1, 1e18), w));
                 }
             }
         }
-        (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
+        return ratesAndWeights.getRateAndWeight(thresholdFilter);
     }
 
     function _getMachines(address srcToken, address dstToken) internal view returns (address[] memory machines, bool isSrcBase) {

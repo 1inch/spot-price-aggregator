@@ -5,14 +5,12 @@ pragma solidity 0.8.19;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV3Pool.sol";
 import "../libraries/OraclePrices.sol";
 
 contract UniswapV3LikeOracle is IOracle {
     using Address for address;
-    using SafeMath for uint256;
     using OraclePrices for OraclePrices.Data;
     using Math for uint256;
 
@@ -56,13 +54,12 @@ contract UniswapV3LikeOracle is IOracle {
                         if (w1 == 0) {
                             continue;
                         }
-                        uint256 w = Math.min(w0, w1);
-                        ratesAndWeights.append(OraclePrices.OraclePrice(rate0 * rate1 / 1e18, w));
+                        ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(rate0, rate1, 1e18), Math.min(w0, w1)));
                     }
                 }
             }
         }
-        (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
+        return ratesAndWeights.getRateAndWeight(thresholdFilter);
     }
 
     function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint256 liquidity) {
@@ -80,18 +77,20 @@ contract UniswapV3LikeOracle is IOracle {
         tick = tick / tickSpacing * tickSpacing;
         int256 liquidityShiftsLeft = int256(liquidity);
         int256 liquidityShiftsRight = int256(liquidity);
-        for (int24 i = 0; i <= _TICK_STEPS; i++) {
-            (, int256 liquidityNet,,,,,,) = IUniswapV3Pool(pool).ticks(tick + i * tickSpacing);
-            liquidityShiftsRight += liquidityNet;
-            liquidity = Math.min(liquidity, uint256(liquidityShiftsRight));
-            if (liquidityShiftsRight == 0) {
-                return (0, 0);
-            }
-            (, liquidityNet,,,,,,) = IUniswapV3Pool(pool).ticks(tick - i * tickSpacing);
-            liquidityShiftsLeft -= liquidityNet;
-            liquidity = Math.min(liquidity, uint256(liquidityShiftsLeft));
-            if (liquidityShiftsLeft == 0) {
-                return (0, 0);
+        unchecked {
+            for (int24 i = 0; i <= _TICK_STEPS; i++) {
+                (, int256 liquidityNet,,,,,,) = IUniswapV3Pool(pool).ticks(tick + i * tickSpacing);
+                liquidityShiftsRight += liquidityNet;
+                liquidity = Math.min(liquidity, uint256(liquidityShiftsRight));
+                if (liquidityShiftsRight == 0) {
+                    return (0, 0);
+                }
+                (, liquidityNet,,,,,,) = IUniswapV3Pool(pool).ticks(tick - i * tickSpacing);
+                liquidityShiftsLeft -= liquidityNet;
+                liquidity = Math.min(liquidity, uint256(liquidityShiftsLeft));
+                if (liquidityShiftsLeft == 0) {
+                    return (0, 0);
+                }
             }
         }
         if (srcToken == token0) {

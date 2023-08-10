@@ -34,7 +34,7 @@ contract DodoOracle is IOracle {
             (rateSrcConnector, balanceSrc, balanceConnector0) = _getDodoInfo(address(srcToken), address(connector));
             (rateConnectorDst, balanceConnector1, balanceDst) = _getDodoInfo(address(connector), address(dstToken));
             weight = Math.min(balanceSrc * balanceConnector0, balanceDst * balanceConnector1).sqrt();
-            rate = rateSrcConnector * rateConnectorDst / 1e18;
+            rate = Math.mulDiv(rateSrcConnector, rateConnectorDst, 1e18);
         }
     }
 

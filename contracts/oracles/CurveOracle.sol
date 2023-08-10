@@ -61,7 +61,7 @@ contract CurveOracle is IOracle {
                     b1 = ICurveSwapNew(pool).get_dy_underlying(uint128(srcTokenIndex), uint128(dstTokenIndex), b0);
                 }
             }
-            ratesAndWeights.append(OraclePrices.OraclePrice(b1 * 1e18 / b0, w));
+            ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), w));
             pool = registry.find_pool_for_coins(srcToken, dstToken, ++index);
         }
         (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
