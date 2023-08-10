@@ -47,13 +47,14 @@ library OraclePrices {
     * @return data Returns an instance of Data struct containing an OraclePrice array with a specified maximum length
     */
     function init(uint256 maxArrLength) internal pure returns (Data memory data) {
-        OraclePrice[] memory oraclePrices;
         assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
-            oraclePrices := mload(0x40)
-            mstore(0x40, add(oraclePrices, add(0x20, mul(maxArrLength, 0x40))))
-            mstore(oraclePrices, maxArrLength)
+            data := mload(0x40)
+            mstore(0x40, add(data, add(0x80, mul(maxArrLength, 0x40))))
+            mstore(add(data, 0x00), 0)
+            mstore(add(data, 0x20), 0)
+            mstore(add(data, 0x40), add(data, 0x60))
+            mstore(add(data, 0x60), maxArrLength)
         }
-        data = Data(0, 0, oraclePrices);
     }
 
     /**
@@ -94,11 +95,12 @@ library OraclePrices {
 
         // calculate weighted rate
         for (uint256 i = 0; i < size; i++) {
-            if (data.oraclePrices[i].weight * 100 < data.maxOracleWeight * thresholdFilter) {
+            OraclePrice memory p = data.oraclePrices[i];
+            if (p.weight * 100 < data.maxOracleWeight * thresholdFilter) {
                 continue;
             }
-            weightedRate += data.oraclePrices[i].rate * data.oraclePrices[i].weight;
-            totalWeight += data.oraclePrices[i].weight;
+            weightedRate += p.rate * p.weight;
+            totalWeight += p.weight;
         }
         if (totalWeight > 0) {
             unchecked { weightedRate /= totalWeight; }
@@ -118,13 +120,14 @@ library OraclePrices {
 
         // calculate weighted rate
         for (uint256 i = 0; i < size; i++) {
-            if (data.oraclePrices[i].weight * 100 < data.maxOracleWeight * thresholdFilter) {
+            OraclePrice memory p = data.oraclePrices[i];
+            if (p.weight * 100 < data.maxOracleWeight * thresholdFilter) {
                 continue;
             }
-            (bool ok, uint256 weightedRateI) = data.oraclePrices[i].rate.tryMul(data.oraclePrices[i].weight);
+            (bool ok, uint256 weightedRateI) = p.rate.tryMul(p.weight);
             if (ok) {
                 (ok, weightedRate) = _tryAdd(weightedRate, weightedRateI);
-                if (ok) totalWeight += data.oraclePrices[i].weight;
+                if (ok) totalWeight += p.weight;
             }
         }
         if (totalWeight > 0) {
