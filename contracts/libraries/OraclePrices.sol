@@ -42,7 +42,7 @@ library OraclePrices {
 
     /**
     * @notice Initializes an array of OraclePrices with a given maximum length and returns it wrapped inside a Data struct
-    * @dev Uses inline assembly for memory allocation to avoid array zeroing
+    * @dev Uses inline assembly for memory allocation to avoid array zeroing and extra array copy to struct
     * @param maxArrLength The maximum length of the oraclePrices array
     * @return data Returns an instance of Data struct containing an OraclePrice array with a specified maximum length
     */
@@ -78,7 +78,7 @@ library OraclePrices {
 
     /**
     * @notice Calculates the weighted rate from the oracle prices data using a threshold filter
-    * @dev Shrinks the `oraclePrices` array to remove any unused space, then calculates the weighted rate
+    * @dev Shrinks the `oraclePrices` array to remove any unused space, though it's unclear how this optimizes the code, but it is. Then calculates the weighted rate
     *      considering only the oracle prices whose weight is above the threshold which is percent from max weight
     * @param data The data structure containing oracle prices, the maximum oracle weight and the size of the used oracle prices array
     * @param thresholdFilter The threshold to filter oracle prices based on their weight
