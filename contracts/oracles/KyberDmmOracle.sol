@@ -4,15 +4,14 @@ pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IKyberDmmFactory.sol";
 import "../interfaces/IKyberDmmPool.sol";
-import "../libraries/Sqrt.sol";
+import "../libraries/OraclePrices.sol";
 
 contract KyberDmmOracle is IOracle {
-    using SafeMath for uint256;
-    using Sqrt for uint256;
+    using OraclePrices for OraclePrices.Data;
+    using Math for uint256;
 
     IKyberDmmFactory public immutable factory;
 
@@ -22,42 +21,35 @@ contract KyberDmmOracle is IOracle {
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 
-    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
-        unchecked {
-            if (connector == _NONE) {
-                address[] memory pools = factory.getPools(srcToken, dstToken);
+    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external override view returns (uint256 rate, uint256 weight) {
+        OraclePrices.Data memory ratesAndWeights;
+        if (connector == _NONE) {
+            address[] memory pools = factory.getPools(srcToken, dstToken);
 
-                if(pools.length == 0) revert PoolNotFound();
+            if(pools.length == 0) revert PoolNotFound();
 
-                for (uint256 i = 0; i < pools.length; i++) {
-                    (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, pools[i]);
+            ratesAndWeights = OraclePrices.init(pools.length);
+            for (uint256 i = 0; i < pools.length; i++) {
+                (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, pools[i]);
+                ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
+            }
+        } else {
+            address[] memory pools0 = factory.getPools(srcToken, connector);
+            address[] memory pools1 = factory.getPools(connector, dstToken);
 
-                    uint256 w = b0.mul(b1).sqrt();
-                    rate = rate.add(b1.mul(1e18).div(b0).mul(w));
-                    weight = weight.add(w);
-                }
-            } else {
-                address[] memory pools0 = factory.getPools(srcToken, connector);
-                address[] memory pools1 = factory.getPools(connector, dstToken);
+            if(pools0.length == 0 || pools1.length == 0) revert PoolWithConnectorNotFound();
 
-                if(pools0.length == 0 || pools1.length == 0) revert PoolWithConnectorNotFound();
-
-                for (uint256 i = 0; i < pools0.length; i++) {
-                    for (uint256 j = 0; j < pools1.length; j++) {
-                        (uint256 b0, uint256 bc0) = _getBalances(srcToken, connector, pools0[i]);
-                        (uint256 bc1, uint256 b1) = _getBalances(connector, dstToken, pools1[j]);
-
-                        uint256 w = Math.min(b0.mul(bc0), b1.mul(bc1)).sqrt();
-                        rate = rate.add(b1.mul(bc0).mul(1e18).div(bc1).div(b0).mul(w));
-                        weight = weight.add(w);
-                    }
+            ratesAndWeights = OraclePrices.init(pools0.length * pools1.length);
+            for (uint256 i = 0; i < pools0.length; i++) {
+                for (uint256 j = 0; j < pools1.length; j++) {
+                    (uint256 b0, uint256 bc0) = _getBalances(srcToken, connector, pools0[i]);
+                    (uint256 bc1, uint256 b1) = _getBalances(connector, dstToken, pools1[j]);
+                    uint256 w = Math.min(b0 * bc0, b1 * bc1).sqrt();
+                    ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1 * bc0, 1e18, bc1 * b0), w));
                 }
             }
         }
-
-        if (weight > 0) {
-            unchecked { rate /= weight; }
-        }
+        return ratesAndWeights.getRateAndWeight(thresholdFilter);
     }
 
     function _getBalances(IERC20 srcToken, IERC20 dstToken, address pool) private view returns (uint256 srcBalance, uint256 dstBalance) {

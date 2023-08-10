@@ -1,7 +1,11 @@
 const { ethers } = require('hardhat');
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
-const { tokens, deployParams: { Synthetix, UniswapV3 } } = require('./helpers.js');
+const {
+    tokens,
+    deployParams: { Synthetix, UniswapV3 },
+    defaultValues: { thresholdFilter },
+} = require('./helpers.js');
 
 describe('SynthetixOracle', function () {
     function symbolToBytes (symbol) {
@@ -27,7 +31,7 @@ describe('SynthetixOracle', function () {
         const { synthetixOracle } = await loadFixture(initContracts);
         const incorrectSREN = '0x4287dac1cC7434991119Eba7413189A66fFE65cF';
         await expect(
-            synthetixOracle.callStatic.getRate(incorrectSREN, tokens.sKRW, tokens.NONE),
+            synthetixOracle.callStatic.getRate(incorrectSREN, tokens.sKRW, tokens.NONE, thresholdFilter),
         ).to.be.revertedWithCustomError(synthetixOracle, 'UnregisteredToken');
     });
 
@@ -69,8 +73,8 @@ describe('SynthetixOracle', function () {
     });
 
     async function testRate (srcTokens, dstTokens, connector, synthetixOracle, uniswapV3Oracle) {
-        const synthResult = await synthetixOracle.getRate(srcTokens[0], dstTokens[0], connector);
-        const v3Result = await uniswapV3Oracle.getRate(srcTokens[1], dstTokens[1], connector);
+        const synthResult = await synthetixOracle.getRate(srcTokens[0], dstTokens[0], connector, thresholdFilter);
+        const v3Result = await uniswapV3Oracle.getRate(srcTokens[1], dstTokens[1], connector, thresholdFilter);
 
         let actualResult = synthResult.rate.toBigInt();
         let expectedResult = v3Result.rate.toBigInt();

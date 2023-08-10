@@ -2,16 +2,14 @@
 
 pragma solidity 0.8.19;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IDodo.sol";
 import "../interfaces/IDodoFactories.sol";
-import "../libraries/Sqrt.sol";
 
 contract DodoOracle is IOracle {
-    using Sqrt for uint256;
+    using Math for uint256;
 
     IDodoZoo public immutable factory; // dodoZoo
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
@@ -21,7 +19,7 @@ contract DodoOracle is IOracle {
         factory = _dodoZoo;
     }
 
-    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
+    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 /*thresholdFilter*/) external view override returns (uint256 rate, uint256 weight) {
         uint256 balanceSrc;
         uint256 balanceDst;
         if (connector == _NONE) {
@@ -35,7 +33,7 @@ contract DodoOracle is IOracle {
             (rateSrcConnector, balanceSrc, balanceConnector0) = _getDodoInfo(address(srcToken), address(connector));
             (rateConnectorDst, balanceConnector1, balanceDst) = _getDodoInfo(address(connector), address(dstToken));
             weight = Math.min(balanceSrc * balanceConnector0, balanceDst * balanceConnector1).sqrt();
-            rate = rateSrcConnector * rateConnectorDst / 1e18;
+            rate = Math.mulDiv(rateSrcConnector, rateConnectorDst, 1e18);
         }
     }
 

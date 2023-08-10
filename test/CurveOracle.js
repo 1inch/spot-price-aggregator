@@ -1,44 +1,47 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { ethers } = require('hardhat');
 const { assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
-const { tokens, deployParams: { AaveWrapperV2, Curve, Uniswap, UniswapV2, UniswapV3 } } = require('./helpers.js');
+const {
+    tokens,
+    deployParams: { AaveWrapperV2, Curve, Uniswap, UniswapV2, UniswapV3 },
+    defaultValues: { thresholdFilter },
+} = require('./helpers.js');
 
 describe('CurveOracle', function () {
     async function initContracts () {
-        const curveOracle = await deployContract('CurveOracle', [Curve.provider]);
+        const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools]);
         const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
         return { curveOracle, uniswapV3Oracle };
     }
 
     it('usdt -> wbtc', async function () {
         const { curveOracle, uniswapV3Oracle } = await loadFixture(initContracts);
-        const expectedRate = await uniswapV3Oracle.getRate(tokens.USDT, tokens.WBTC, tokens.NONE);
-        const rate = await curveOracle.getRate(tokens.USDT, tokens.WBTC, tokens.NONE);
+        const expectedRate = await uniswapV3Oracle.getRate(tokens.USDT, tokens.WBTC, tokens.NONE, thresholdFilter);
+        const rate = await curveOracle.getRate(tokens.USDT, tokens.WBTC, tokens.NONE, thresholdFilter);
         assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 
     it('wbtc -> usdc', async function () {
         const { curveOracle, uniswapV3Oracle } = await loadFixture(initContracts);
-        const expectedRate = await uniswapV3Oracle.getRate(tokens.WBTC, tokens.USDT, tokens.NONE);
-        const rate = await curveOracle.getRate(tokens.WBTC, tokens.USDT, tokens.NONE);
+        const expectedRate = await uniswapV3Oracle.getRate(tokens.WBTC, tokens.USDT, tokens.NONE, thresholdFilter);
+        const rate = await curveOracle.getRate(tokens.WBTC, tokens.USDT, tokens.NONE, thresholdFilter);
         assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 
     it('wbtc -> weth', async function () {
         const { curveOracle, uniswapV3Oracle } = await loadFixture(initContracts);
-        const expectedRate = await uniswapV3Oracle.getRate(tokens.WBTC, tokens.WETH, tokens.NONE);
-        const rate = await curveOracle.getRate(tokens.WBTC, tokens.WETH, tokens.NONE);
+        const expectedRate = await uniswapV3Oracle.getRate(tokens.WBTC, tokens.WETH, tokens.NONE, thresholdFilter);
+        const rate = await curveOracle.getRate(tokens.WBTC, tokens.WETH, tokens.NONE, thresholdFilter);
         assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 });
 
 describe('CurveOracle doesn\'t ruin rates', function () {
     async function initContracts () {
-        const thresholdFilter = 10;
         const deployer = await ethers.getSigner();
 
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
-        const curveOracle = await deployContract('CurveOracle', [Curve.provider]);
+        const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools]);
         const uniswapOracle = await deployContract('UniswapOracle', [Uniswap.factory]);
         const mooniswapOracle = await deployContract('MooniswapOracle', [tokens.oneInchLP1]);
         const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.WETH]);
@@ -99,20 +102,20 @@ describe('CurveOracle doesn\'t ruin rates', function () {
             deployer.address,
         ]);
 
-        return { oldOffchainOracle, newOffchainOracle, thresholdFilter };
+        return { oldOffchainOracle, newOffchainOracle };
     }
 
     it('WBTC WETH', async function () {
-        const { oldOffchainOracle, newOffchainOracle, thresholdFilter } = await loadFixture(initContracts);
-        await testRate(tokens.WBTC, tokens.WETH, oldOffchainOracle, newOffchainOracle, thresholdFilter);
+        const { oldOffchainOracle, newOffchainOracle } = await loadFixture(initContracts);
+        await testRate(tokens.WBTC, tokens.WETH, oldOffchainOracle, newOffchainOracle);
     });
 
     it('WBTC USDT', async function () {
-        const { oldOffchainOracle, newOffchainOracle, thresholdFilter } = await loadFixture(initContracts);
-        await testRate(tokens.WBTC, tokens.USDT, oldOffchainOracle, newOffchainOracle, thresholdFilter);
+        const { oldOffchainOracle, newOffchainOracle } = await loadFixture(initContracts);
+        await testRate(tokens.WBTC, tokens.USDT, oldOffchainOracle, newOffchainOracle);
     });
 
-    async function testRate (srcToken, dstToken, oldOffchainOracle, newOffchainOracle, thresholdFilter) {
+    async function testRate (srcToken, dstToken, oldOffchainOracle, newOffchainOracle) {
         const expectedRate = await oldOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
         const actualRate = await newOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
         const expectedReverseRate = await oldOffchainOracle.getRateWithThreshold(dstToken, srcToken, true, thresholdFilter);

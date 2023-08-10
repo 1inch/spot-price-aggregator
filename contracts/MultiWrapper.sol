@@ -3,7 +3,7 @@
 pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "./interfaces/IWrapper.sol";
 
@@ -14,7 +14,6 @@ import "./interfaces/IWrapper.sol";
  * The contract provides functions to add and remove wrappers, as well as get information about the wrapped tokens and their conversion rates.
  */
 contract MultiWrapper is Ownable {
-    using SafeMath for uint256;
     using EnumerableSet for EnumerableSet.AddressSet;
 
     error WrapperAlreadyAdded();
@@ -99,7 +98,7 @@ contract MultiWrapper is Ownable {
                                 }
                                 if (!used) {
                                     memWrappedTokens[len] = wrappedToken2;
-                                    memRates[len] = rate.mul(rate2).div(1e18);
+                                    memRates[len] = Math.mulDiv(rate, rate2, 1e18);
                                     len += 1;
                                 }
                             } catch {

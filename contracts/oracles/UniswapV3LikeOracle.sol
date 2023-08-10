@@ -5,15 +5,14 @@ pragma solidity 0.8.19;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV3Pool.sol";
-import "../libraries/Sqrt.sol";
+import "../libraries/OraclePrices.sol";
 
 contract UniswapV3LikeOracle is IOracle {
     using Address for address;
-    using SafeMath for uint256;
-    using Sqrt for uint256;
+    using OraclePrices for OraclePrices.Data;
+    using Math for uint256;
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
     int24 private constant _TICK_STEPS = 2;
@@ -28,21 +27,23 @@ contract UniswapV3LikeOracle is IOracle {
         initcodeHash = _initcodeHash;
         supportedFeesCount = _fees.length;
         unchecked {
-            for (uint256 i = 0; i < supportedFeesCount - 1; i++) {
+            for (uint256 i = 0; i < supportedFeesCount; i++) {
                 fees[i] = _fees[i];
             }
         }
     }
 
-    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external override view returns (uint256 rate, uint256 weight) {
+    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external override view returns (uint256 rate, uint256 weight) {
+        OraclePrices.Data memory ratesAndWeights;
         unchecked {
             if (connector == _NONE) {
+                ratesAndWeights = OraclePrices.init(supportedFeesCount);
                 for (uint256 i = 0; i < supportedFeesCount; i++) {
                     (uint256 rate0, uint256 w) = _getRate(srcToken, dstToken, fees[i]);
-                    rate = rate.add(rate0.mul(w));
-                    weight = weight.add(w);
+                    ratesAndWeights.append(OraclePrices.OraclePrice(rate0, w));
                 }
             } else {
+                ratesAndWeights = OraclePrices.init(supportedFeesCount**2);
                 for (uint256 i = 0; i < supportedFeesCount; i++) {
                     for (uint256 j = 0; j < supportedFeesCount; j++) {
                         (uint256 rate0, uint256 w0) = _getRate(srcToken, connector, fees[i]);
@@ -53,18 +54,12 @@ contract UniswapV3LikeOracle is IOracle {
                         if (w1 == 0) {
                             continue;
                         }
-
-                        uint256 w = Math.min(w0, w1);
-                        rate = rate.add(rate0.mul(rate1).div(1e18).mul(w));
-                        weight = weight.add(w);
+                        ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(rate0, rate1, 1e18), Math.min(w0, w1)));
                     }
                 }
             }
         }
-
-        if (weight > 0) {
-            rate = rate / weight;
-        }
+        return ratesAndWeights.getRateAndWeight(thresholdFilter);
     }
 
     function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint256 liquidity) {
@@ -82,18 +77,20 @@ contract UniswapV3LikeOracle is IOracle {
         tick = tick / tickSpacing * tickSpacing;
         int256 liquidityShiftsLeft = int256(liquidity);
         int256 liquidityShiftsRight = int256(liquidity);
-        for (int24 i = 0; i <= _TICK_STEPS; i++) {
-            (, int256 liquidityNet,,,,,,) = IUniswapV3Pool(pool).ticks(tick + i * tickSpacing);
-            liquidityShiftsRight += liquidityNet;
-            liquidity = Math.min(liquidity, uint256(liquidityShiftsRight));
-            if (liquidityShiftsRight == 0) {
-                return (0, 0);
-            }
-            (, liquidityNet,,,,,,) = IUniswapV3Pool(pool).ticks(tick - i * tickSpacing);
-            liquidityShiftsLeft -= liquidityNet;
-            liquidity = Math.min(liquidity, uint256(liquidityShiftsLeft));
-            if (liquidityShiftsLeft == 0) {
-                return (0, 0);
+        unchecked {
+            for (int24 i = 0; i <= _TICK_STEPS; i++) {
+                (, int256 liquidityNet,,,,,,) = IUniswapV3Pool(pool).ticks(tick + i * tickSpacing);
+                liquidityShiftsRight += liquidityNet;
+                liquidity = Math.min(liquidity, uint256(liquidityShiftsRight));
+                if (liquidityShiftsRight == 0) {
+                    return (0, 0);
+                }
+                (, liquidityNet,,,,,,) = IUniswapV3Pool(pool).ticks(tick - i * tickSpacing);
+                liquidityShiftsLeft -= liquidityNet;
+                liquidity = Math.min(liquidity, uint256(liquidityShiftsLeft));
+                if (liquidityShiftsLeft == 0) {
+                    return (0, 0);
+                }
             }
         }
         if (srcToken == token0) {

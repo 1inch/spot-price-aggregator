@@ -2,14 +2,16 @@
 
 pragma solidity 0.8.19;
 
+import "@openzeppelin/contracts/utils/math/Math.sol";
 import "./OracleBase.sol";
 import "../interfaces/ISolidlyFactory.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/IUniswapV2Pair.sol";
-import "../libraries/Sqrt.sol";
+import "../libraries/OraclePrices.sol";
 
 contract SolidlyOracleNoCreate2 is IOracle {
-    using Sqrt for uint256;
+    using OraclePrices for OraclePrices.Data;
+    using Math for uint256;
 
     ISolidlyFactory public immutable factory;
 
@@ -19,18 +21,15 @@ contract SolidlyOracleNoCreate2 is IOracle {
         factory = _factory;
     }
 
-    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector) external view override returns (uint256 rate, uint256 weight) {
+    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
         if(connector != _NONE) revert ConnectorShouldBeNone();
-        for (uint256 i = 1; i < 2; i++) {
-            (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, i == 0 ? true : false);
-            uint256 w = (b0 * b1).sqrt();
-            rate = rate + b1 * 1e18 / b0 * w;
-            weight = weight + w;
-        }
+        OraclePrices.Data memory ratesAndWeights = OraclePrices.init(2);
+        (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, true);
+        ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
+        (b0, b1) = _getBalances(srcToken, dstToken, false);
+        ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
+        return ratesAndWeights.getRateAndWeight(thresholdFilter);
 
-        if (weight > 0) {
-            unchecked { rate /= weight; }
-        }
     }
 
     function _getBalances(IERC20 srcToken, IERC20 dstToken, bool stable) internal view returns (uint256 srcBalance, uint256 dstBalance) {
