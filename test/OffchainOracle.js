@@ -107,7 +107,7 @@ describe('OffchainOracle', function () {
                 expensiveOffchainOracle.address,
                 expensiveOffchainOracle.interface.encodeFunctionData('getRateWithThreshold', [tokens.DAI, tokens.LINK, true, thresholdFilter]),
             );
-            assertRoughlyEqualValues(result.gasUsed, '879479', 1e-2);
+            assertRoughlyEqualValues(result.gasUsed, '814963', 1e-2);
         });
 
         it('getRateToEth(dai)_ShouldHaveCorrectRate', async function () {
@@ -124,7 +124,7 @@ describe('OffchainOracle', function () {
                 expensiveOffchainOracle.address,
                 expensiveOffchainOracle.interface.encodeFunctionData('getRateToEthWithThreshold', [tokens.DAI, true, thresholdFilter]),
             );
-            assertRoughlyEqualValues(result.gasUsed, '1489045', 1e-2);
+            assertRoughlyEqualValues(result.gasUsed, '1368550', 1e-2);
         });
 
         it('getRateDirect(dai -> link)_ShouldHaveCorrectRate', async function () {
