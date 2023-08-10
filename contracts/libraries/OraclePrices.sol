@@ -77,13 +77,23 @@ library OraclePrices {
 
     /**
     * @notice Calculates the weighted rate from the oracle prices data using a threshold filter
+    * @dev Shrinks the `oraclePrices` array to remove any unused space, then calculates the weighted rate
+    *      considering only the oracle prices whose weight is above the threshold which is percent from max weight
     * @param data The data structure containing oracle prices, the maximum oracle weight and the size of the used oracle prices array
     * @param thresholdFilter The threshold to filter oracle prices based on their weight
     * @return weightedRate The calculated weighted rate
     * @return totalWeight The total weight of the oracle prices that passed the threshold
     */
     function getRateAndWeight(Data memory data, uint256 thresholdFilter) internal pure returns (uint256 weightedRate, uint256 totalWeight) {
-        for (uint256 i = 0; i < data.size; i++) {
+        // shrink oraclePrices array
+        uint256 size = data.size;
+        assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
+            let ptr := mload(add(data, 64))
+            mstore(ptr, size)
+        }
+
+        // calculate weighted rate
+        for (uint256 i = 0; i < size; i++) {
             if (data.oraclePrices[i].weight * 100 < data.maxOracleWeight * thresholdFilter) {
                 continue;
             }
@@ -99,7 +109,15 @@ library OraclePrices {
     * @notice See `getRateAndWeight`. It uses SafeMath to prevent overflows.
     */
     function getRateAndWeightWithSafeMath(Data memory data, uint256 thresholdFilter) internal pure returns (uint256 weightedRate, uint256 totalWeight) {
-        for (uint256 i = 0; i < data.size; i++) {
+        // shrink oraclePrices array
+        uint256 size = data.size;
+        assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
+            let ptr := mload(add(data, 64))
+            mstore(ptr, size)
+        }
+
+        // calculate weighted rate
+        for (uint256 i = 0; i < size; i++) {
             if (data.oraclePrices[i].weight * 100 < data.maxOracleWeight * thresholdFilter) {
                 continue;
             }
