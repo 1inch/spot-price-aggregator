@@ -24,6 +24,30 @@ module.exports = {
             },
             viaIR: true,
         },
+        // compilers: [
+        //     {
+        //         version: '0.8.19',
+        //         settings: {
+        //             optimizer: {
+        //                 enabled: true,
+        //                 runs: 1000000,
+        //             },
+        //             viaIR: true,
+        //         },
+        //     },
+        // ],
+        // overrides: {
+        //     'contracts/oracles/UniswapV3LikeOracle.sol': {
+        //         version: '0.8.19',
+        //         settings: {
+        //             optimizer: {
+        //                 enabled: true,
+        //                 runs: 1000000,
+        //             },
+        //             // viaIR: true,
+        //         },
+        //     },
+        // },
     },
     etherscan,
     networks,
@@ -47,7 +71,7 @@ module.exports = {
         ],
     },
     zksolc: {
-        version: '1.3.7',
+        version: '1.3.13',
         compilerSource: 'binary',
         settings: {},
     },
