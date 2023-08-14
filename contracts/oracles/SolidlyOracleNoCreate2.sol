@@ -13,12 +13,12 @@ contract SolidlyOracleNoCreate2 is IOracle {
     using OraclePrices for OraclePrices.Data;
     using Math for uint256;
 
-    ISolidlyFactory public immutable factory;
+    ISolidlyFactory public immutable FACTORY;
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 
     constructor(ISolidlyFactory _factory) {
-        factory = _factory;
+        FACTORY = _factory;
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
@@ -34,7 +34,7 @@ contract SolidlyOracleNoCreate2 is IOracle {
 
     function _getBalances(IERC20 srcToken, IERC20 dstToken, bool stable) internal view returns (uint256 srcBalance, uint256 dstBalance) {
         (IERC20 token0, IERC20 token1) = srcToken < dstToken ? (srcToken, dstToken) : (dstToken, srcToken);
-        (uint256 reserve0, uint256 reserve1,) = IUniswapV2Pair(factory.getPair(token0, token1, stable)).getReserves();
+        (uint256 reserve0, uint256 reserve1,) = IUniswapV2Pair(FACTORY.getPair(token0, token1, stable)).getReserves();
         (srcBalance, dstBalance) = srcToken == token0 ? (reserve0, reserve1) : (reserve1, reserve0);
     }
 }

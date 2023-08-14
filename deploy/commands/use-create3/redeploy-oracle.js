@@ -16,8 +16,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running deploy script: use-create3/redeploy-oracle');
     console.log('network id ', await getChainId());
 
-    const offchainOracle = await getContract('OffchainOracle', deployments);
-    const oldCustomOracle = await getContract(PARAMS.contractName, deployments);
+    const offchainOracle = await getContract(deployments, 'OffchainOracle');
+    const oldCustomOracle = await getContract(deployments, PARAMS.contractName, PARAMS.deploymentName);
     const oracles = await offchainOracle.oracles();
     const customOracleType = oracles.oracleTypes[oracles.allOracles.indexOf(oldCustomOracle.address)];
 

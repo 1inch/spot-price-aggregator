@@ -12,7 +12,7 @@ contract SynthetixOracle is IOracle {
     error UnregisteredToken();
     error InvalidRate();
 
-    ISynthetixProxy public immutable proxy;
+    ISynthetixProxy public immutable PROXY;
     IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
     uint256 private constant _RATE_TTL = 1 days;
@@ -25,12 +25,12 @@ contract SynthetixOracle is IOracle {
     bytes private constant _SUSD = "sUSD";
 
     constructor(ISynthetixProxy _proxy) {
-        proxy = _proxy;
+        PROXY = _proxy;
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 /*thresholdFilter*/) external view override returns (uint256 rate, uint256 weight) {
         if(connector != _NONE) revert ConnectorShouldBeNone();
-        ISynthetixAddressResolver resolver = ISynthetixAddressResolver(proxy.target());
+        ISynthetixAddressResolver resolver = ISynthetixAddressResolver(PROXY.target());
         ISynthetixExchangeRates exchangeRates = ISynthetixExchangeRates(resolver.getAddress(_EXCHANGE_RATES_KEY));
 
         uint256 srcAnswer = srcToken != _ETH ? _getRate(address(srcToken), resolver, exchangeRates) : _getRate(resolver.getAddress(_SETH_KEY), resolver, exchangeRates);

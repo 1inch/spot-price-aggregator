@@ -13,10 +13,10 @@ contract KyberDmmOracle is IOracle {
     using OraclePrices for OraclePrices.Data;
     using Math for uint256;
 
-    IKyberDmmFactory public immutable factory;
+    IKyberDmmFactory public immutable FACTORY;
 
     constructor(IKyberDmmFactory _factory) {
-        factory = _factory;
+        FACTORY = _factory;
     }
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
@@ -24,7 +24,7 @@ contract KyberDmmOracle is IOracle {
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external override view returns (uint256 rate, uint256 weight) {
         OraclePrices.Data memory ratesAndWeights;
         if (connector == _NONE) {
-            address[] memory pools = factory.getPools(srcToken, dstToken);
+            address[] memory pools = FACTORY.getPools(srcToken, dstToken);
 
             if(pools.length == 0) revert PoolNotFound();
 
@@ -34,8 +34,8 @@ contract KyberDmmOracle is IOracle {
                 ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
             }
         } else {
-            address[] memory pools0 = factory.getPools(srcToken, connector);
-            address[] memory pools1 = factory.getPools(connector, dstToken);
+            address[] memory pools0 = FACTORY.getPools(srcToken, connector);
+            address[] memory pools1 = FACTORY.getPools(connector, dstToken);
 
             if(pools0.length == 0 || pools1.length == 0) revert PoolWithConnectorNotFound();
 

@@ -15,11 +15,11 @@ contract DodoV2Oracle is IOracle {
     using OraclePrices for OraclePrices.Data;
     using Math for uint256;
 
-    IDVMFactory public immutable factory; // DVMFactory
+    IDVMFactory public immutable FACTORY; // DVMFactory
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 
     constructor(IDVMFactory _DVMFactory) {
-        factory = _DVMFactory;
+        FACTORY = _DVMFactory;
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
@@ -55,9 +55,9 @@ contract DodoV2Oracle is IOracle {
     }
 
     function _getMachines(address srcToken, address dstToken) internal view returns (address[] memory machines, bool isSrcBase) {
-        machines = factory.getDODOPool(srcToken, dstToken);
+        machines = FACTORY.getDODOPool(srcToken, dstToken);
         isSrcBase = (machines.length != 0);
-        if (!isSrcBase) machines = factory.getDODOPool(dstToken, srcToken);
+        if (!isSrcBase) machines = FACTORY.getDODOPool(dstToken, srcToken);
         if(machines.length == 0) revert PoolNotFound();
     }
 

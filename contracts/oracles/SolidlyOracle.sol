@@ -12,14 +12,14 @@ contract SolidlyOracle is IOracle {
     using OraclePrices for OraclePrices.Data;
     using Math for uint256;
 
-    address public immutable factory;
-    bytes32 public immutable initcodeHash;
+    address public immutable FACTORY;
+    bytes32 public immutable INITCODE_HASH;
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 
     constructor(address _factory, bytes32 _initcodeHash) {
-        factory = _factory;
-        initcodeHash = _initcodeHash;
+        FACTORY = _factory;
+        INITCODE_HASH = _initcodeHash;
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
@@ -36,9 +36,9 @@ contract SolidlyOracle is IOracle {
     function _pairFor(IERC20 tokenA, IERC20 tokenB, bool stable) private view returns (address pair) {
         pair = address(uint160(uint256(keccak256(abi.encodePacked(
                 hex"ff",
-                factory,
+                FACTORY,
                 keccak256(abi.encodePacked(tokenA, tokenB, stable)),
-                initcodeHash
+                INITCODE_HASH
             )))));
     }
 
