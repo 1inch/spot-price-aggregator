@@ -13,14 +13,14 @@ contract ChainlinkOracle is IOracle {
 
     error RateTooOld();
 
-    IChainlink public immutable chainlink;
+    IChainlink public immutable CHAINLINK;
     address private constant _QUOTE = address(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
     IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
     uint256 private constant _RATE_TTL = 1 days;
 
     constructor(IChainlink _chainlink) {
-        chainlink = _chainlink;
+        CHAINLINK = _chainlink;
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 /*thresholdFilter*/) external view override returns (uint256 rate, uint256 weight) {
@@ -35,7 +35,7 @@ contract ChainlinkOracle is IOracle {
 
     function _getRate(IERC20 token) private view returns (uint256 rate, uint8 decimals) {
         unchecked {
-            (, int256 answer, , uint256 srcUpdatedAt, ) = chainlink.latestRoundData(token, _QUOTE);
+            (, int256 answer, , uint256 srcUpdatedAt, ) = CHAINLINK.latestRoundData(token, _QUOTE);
             if(block.timestamp >= srcUpdatedAt + _RATE_TTL) revert RateTooOld();
             rate = answer.toUint256();
             decimals = ERC20(address(token)).decimals();

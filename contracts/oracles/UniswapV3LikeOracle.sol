@@ -17,17 +17,17 @@ contract UniswapV3LikeOracle is IOracle {
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
     int24 private constant _TICK_STEPS = 2;
 
-    uint256 public immutable supportedFeesCount;
-    address public immutable factory;
-    bytes32 public immutable initcodeHash;
+    uint256 public immutable SUPPORTED_FEES_COUNT;
+    address public immutable FACTORY;
+    bytes32 public immutable INITCODE_HASH;
     uint24[10] public fees;
 
     constructor(address _factory, bytes32 _initcodeHash, uint24[] memory _fees) {
-        factory = _factory;
-        initcodeHash = _initcodeHash;
-        supportedFeesCount = _fees.length;
+        FACTORY = _factory;
+        INITCODE_HASH = _initcodeHash;
+        SUPPORTED_FEES_COUNT = _fees.length;
         unchecked {
-            for (uint256 i = 0; i < supportedFeesCount; i++) {
+            for (uint256 i = 0; i < SUPPORTED_FEES_COUNT; i++) {
                 fees[i] = _fees[i];
             }
         }
@@ -37,15 +37,15 @@ contract UniswapV3LikeOracle is IOracle {
         OraclePrices.Data memory ratesAndWeights;
         unchecked {
             if (connector == _NONE) {
-                ratesAndWeights = OraclePrices.init(supportedFeesCount);
-                for (uint256 i = 0; i < supportedFeesCount; i++) {
+                ratesAndWeights = OraclePrices.init(SUPPORTED_FEES_COUNT);
+                for (uint256 i = 0; i < SUPPORTED_FEES_COUNT; i++) {
                     (uint256 rate0, uint256 w) = _getRate(srcToken, dstToken, fees[i]);
                     ratesAndWeights.append(OraclePrices.OraclePrice(rate0, w));
                 }
             } else {
-                ratesAndWeights = OraclePrices.init(supportedFeesCount**2);
-                for (uint256 i = 0; i < supportedFeesCount; i++) {
-                    for (uint256 j = 0; j < supportedFeesCount; j++) {
+                ratesAndWeights = OraclePrices.init(SUPPORTED_FEES_COUNT**2);
+                for (uint256 i = 0; i < SUPPORTED_FEES_COUNT; i++) {
+                    for (uint256 j = 0; j < SUPPORTED_FEES_COUNT; j++) {
                         (uint256 rate0, uint256 w0) = _getRate(srcToken, connector, fees[i]);
                         if (w0 == 0) {
                             continue;
@@ -105,9 +105,9 @@ contract UniswapV3LikeOracle is IOracle {
                 keccak256(
                     abi.encodePacked(
                         hex'ff',
-                        factory,
+                        FACTORY,
                         keccak256(abi.encode(token0, token1, fee)),
-                        initcodeHash
+                        INITCODE_HASH
                     )
                 )
             )));

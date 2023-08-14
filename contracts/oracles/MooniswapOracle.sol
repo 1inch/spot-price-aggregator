@@ -6,15 +6,15 @@ import "../interfaces/IMooniswapFactory.sol";
 import "./OracleBase.sol";
 
 contract MooniswapOracle is OracleBase {
-    IMooniswapFactory public immutable factory;
+    IMooniswapFactory public immutable FACTORY;
     IERC20 private constant _ETH = IERC20(0x0000000000000000000000000000000000000000);
 
     constructor(IMooniswapFactory _factory) {
-        factory = _factory;
+        FACTORY = _factory;
     }
 
     function _getBalances(IERC20 srcToken, IERC20 dstToken) internal view override returns (uint256, uint256) {
-        IMooniswap mooniswap = factory.pools(srcToken, dstToken);
+        IMooniswap mooniswap = FACTORY.pools(srcToken, dstToken);
         IERC20[] memory tokens = mooniswap.getTokens();
         uint256[2] memory balances;
         unchecked {

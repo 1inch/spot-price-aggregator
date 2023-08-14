@@ -48,7 +48,7 @@ contract OffchainOracle is Ownable {
     MultiWrapper public multiWrapper;
 
     IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);
-    IERC20 private immutable _wBase;
+    IERC20 private immutable _WBASE;
 
     constructor(MultiWrapper _multiWrapper, IOracle[] memory existingOracles, OracleType[] memory oracleTypes, IERC20[] memory existingConnectors, IERC20 wBase, address owner) {
         unchecked {
@@ -72,7 +72,7 @@ contract OffchainOracle is Ownable {
                 if(!_connectors.add(address(existingConnectors[i]))) revert ConnectorAlreadyAdded();
                 emit ConnectorAdded(existingConnectors[i]);
             }
-            _wBase = wBase;
+            _WBASE = wBase;
         }
         if (owner != msg.sender) transferOwnership(owner);
     }
@@ -325,7 +325,7 @@ contract OffchainOracle is Ownable {
     function getRateToEthWithCustomConnectors(IERC20 srcToken, bool useSrcWrappers, IERC20[] memory customConnectors, uint256 thresholdFilter) public view returns (uint256 weightedRate) {
         if(thresholdFilter >= 100) revert TooBigThreshold();
         (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useSrcWrappers);
-        IERC20[2] memory wrappedDstTokens = [_BASE, _wBase];
+        IERC20[2] memory wrappedDstTokens = [_BASE, _WBASE];
         bytes32[][2] memory wrappedOracles = [_ethOracles._inner._values, _wethOracles._inner._values];
         IERC20[][2] memory allConnectors = _getAllConnectors(customConnectors);
 

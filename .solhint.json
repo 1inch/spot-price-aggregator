@@ -1,10 +1,12 @@
 {
     "extends": "solhint:recommended",
     "rules": {
-        "not-rely-on-time": "off",
-        "no-global-import": "off",
         "compiler-version": ["error", "0.8.19"],
-        "private-vars-leading-underscore": "error",
-        "func-visibility": ["warn", { "ignoreConstructors": true }]
+        "explicit-types": ["off"],
+        "func-named-parameters": "off",
+        "func-visibility": ["warn", { "ignoreConstructors": true }],
+        "no-global-import": "off",
+        "not-rely-on-time": "off",
+        "private-vars-leading-underscore": "error"
     }
 }
