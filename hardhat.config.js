@@ -24,30 +24,6 @@ module.exports = {
             },
             viaIR: true,
         },
-        // compilers: [
-        //     {
-        //         version: '0.8.19',
-        //         settings: {
-        //             optimizer: {
-        //                 enabled: true,
-        //                 runs: 1000000,
-        //             },
-        //             viaIR: true,
-        //         },
-        //     },
-        // ],
-        // overrides: {
-        //     'contracts/oracles/UniswapV3LikeOracle.sol': {
-        //         version: '0.8.19',
-        //         settings: {
-        //             optimizer: {
-        //                 enabled: true,
-        //                 runs: 1000000,
-        //             },
-        //             // viaIR: true,
-        //         },
-        //     },
-        // },
     },
     etherscan,
     networks,
