@@ -14,17 +14,17 @@ interface IKlaySwapStorage {
 }
 
 contract KlaySwapOracle is OracleBase {
-    IKlaySwapFactory public immutable factory;
-    IKlaySwapStorage public immutable reserveStorage;
+    IKlaySwapFactory public immutable FACTORY;
+    IKlaySwapStorage public immutable RESERVE_STORAGE;
 
     constructor(IKlaySwapFactory _factory, IKlaySwapStorage _storage) {
-        factory = _factory;
-        reserveStorage = _storage;
+        FACTORY = _factory;
+        RESERVE_STORAGE = _storage;
     }
 
     function _getBalances(IERC20 srcToken, IERC20 dstToken) internal view override returns (uint256 srcBalance, uint256 dstBalance) {
         (IERC20 token0, IERC20 token1) = srcToken < dstToken ? (srcToken, dstToken) : (dstToken, srcToken);
-        (uint256 reserve0, uint256 reserve1,) = reserveStorage.getReserves(factory.tokenToPool(token0, token1));
+        (uint256 reserve0, uint256 reserve1,) = RESERVE_STORAGE.getReserves(FACTORY.tokenToPool(token0, token1));
         (srcBalance, dstBalance) = srcToken == token0 ? (reserve0, reserve1) : (reserve1, reserve0);
     }
 }

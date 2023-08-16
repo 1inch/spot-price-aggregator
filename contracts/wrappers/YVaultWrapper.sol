@@ -3,6 +3,7 @@
 pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 import "../interfaces/IWrapper.sol";
 import "../interfaces/IYVault.sol";
 
@@ -19,7 +20,7 @@ contract YVaultWrapper is IWrapper {
                 try vault.pricePerShare() returns(uint256 _rate) {
                     // vault V2
                     uint8 decimals = ERC20(address(wrappedToken)).decimals();
-                    rate = _rate * (10 ** 18) / (10 ** decimals);
+                    rate = Math.mulDiv(_rate, 10 ** 18, 10 ** decimals);
                 } catch {
                     revert NotSupportedToken();
                 }

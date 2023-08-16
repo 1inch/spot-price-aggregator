@@ -13,7 +13,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
     const OffchainOracleDeploymentData = await deployments.get('OffchainOracle');
-    const oldOffchainOracle = await getContract('OffchainOracle', deployments);
+    const oldOffchainOracle = await getContract(deployments, 'OffchainOracle');
     const wBase = OffchainOracleDeploymentData.args[4];
     const oracles = await oldOffchainOracle.oracles();
 

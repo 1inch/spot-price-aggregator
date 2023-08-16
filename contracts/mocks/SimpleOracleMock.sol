@@ -14,7 +14,7 @@ contract SimpleOracleMock is IOracle {
         weitght = _weight;
     }
 
-    function getRate(IERC20 /*srcToken*/, IERC20 /*dstToken*/, IERC20 /*connector*/) external override view returns (uint256, uint256) {
+    function getRate(IERC20 /*srcToken*/, IERC20 /*dstToken*/, IERC20 /*connector*/, uint256 /*thresholdFilter*/) external override view returns (uint256, uint256) {
         return (rate, weitght);
     }
 

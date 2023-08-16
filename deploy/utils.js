@@ -39,8 +39,8 @@ const _getContract = async (contractName, contractAddress) => {
     return contractFactory.attach(contractAddress);
 };
 
-const getContract = async (contractName, deployments) => {
-    return _getContract(contractName, (await deployments.get(contractName)).address);
+const getContract = async (deployments, contractName, deploymentName = contractName) => {
+    return _getContract(contractName, (await deployments.get(deploymentName)).address);
 };
 
 module.exports = {
