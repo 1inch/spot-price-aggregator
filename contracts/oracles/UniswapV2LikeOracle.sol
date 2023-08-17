@@ -6,21 +6,21 @@ import "./OracleBase.sol";
 import "../interfaces/IUniswapV2Pair.sol";
 
 contract UniswapV2LikeOracle is OracleBase {
-    address public immutable factory;
-    bytes32 public immutable initcodeHash;
+    address public immutable FACTORY;
+    bytes32 public immutable INITCODE_HASH;
 
     constructor(address _factory, bytes32 _initcodeHash) {
-        factory = _factory;
-        initcodeHash = _initcodeHash;
+        FACTORY = _factory;
+        INITCODE_HASH = _initcodeHash;
     }
 
     // calculates the CREATE2 address for a pair without making any external calls
     function _pairFor(IERC20 tokenA, IERC20 tokenB) private view returns (address pair) {
         pair = address(uint160(uint256(keccak256(abi.encodePacked(
                 hex"ff",
-                factory,
+                FACTORY,
                 keccak256(abi.encodePacked(tokenA, tokenB)),
-                initcodeHash
+                INITCODE_HASH
             )))));
     }
 

@@ -13,15 +13,15 @@ interface ISyncswapPool {
 }
 
 contract SyncswapOracle is OracleBase {
-    ISyncswapFactory public immutable factory;
+    ISyncswapFactory public immutable FACTORY;
 
     constructor(ISyncswapFactory _factory) {
-        factory = _factory;
+        FACTORY = _factory;
     }
 
     function _getBalances(IERC20 srcToken, IERC20 dstToken) internal view override returns (uint256 srcBalance, uint256 dstBalance) {
         (IERC20 token0, IERC20 token1) = srcToken < dstToken ? (srcToken, dstToken) : (dstToken, srcToken);
-        address pool = factory.getPool(address(token0), address(token1));
+        address pool = FACTORY.getPool(address(token0), address(token1));
         if(pool == address(0)) revert PoolNotFound();
         (uint reserve0, uint reserve1) = ISyncswapPool(pool).getReserves();
         (srcBalance, dstBalance) = srcToken == token0 ? (reserve0, reserve1) : (reserve1, reserve0);

@@ -1,3 +1,7 @@
+const defaultValues = {
+    thresholdFilter: 10,
+};
+
 const tokens = {
     DAI: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
     WETH: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
@@ -61,6 +65,7 @@ const deployParams = {
     },
     Curve: {
         provider: '0x0000000022D53366457F9d5E68Ec105046FC4383',
+        maxPools: 100,
     },
     Dodo: {
         dodoZoo: '0x3A97247DF274a17C59A3bd12735ea3FcDFb49950',
@@ -92,6 +97,7 @@ const deployParams = {
 };
 
 module.exports = {
+    defaultValues,
     tokens,
     contracts,
     deployParams,

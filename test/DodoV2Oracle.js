@@ -1,6 +1,10 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether, deployContract } = require('@1inch/solidity-utils');
-const { tokens, deployParams: { DodoV2 } } = require('./helpers.js');
+const {
+    tokens,
+    deployParams: { DodoV2 },
+    defaultValues: { thresholdFilter },
+} = require('./helpers.js');
 
 describe('DodoV2Oracle', function () {
     async function initContracts () {
@@ -11,7 +15,7 @@ describe('DodoV2Oracle', function () {
     it('should revert with amount of pools error', async function () {
         const { dodoV2Oracle } = await loadFixture(initContracts);
         await expect(
-            dodoV2Oracle.getRate(tokens.USDT, tokens['1INCH'], tokens.NONE),
+            dodoV2Oracle.getRate(tokens.USDT, tokens['1INCH'], tokens.NONE, thresholdFilter),
         ).to.be.revertedWithCustomError(dodoV2Oracle, 'PoolNotFound');
     });
 
@@ -36,7 +40,7 @@ describe('DodoV2Oracle', function () {
     });
 
     const testRate = async (srcToken, dstToken, connector, dodoV2Oracle) => {
-        const dodoResult = await dodoV2Oracle.getRate(srcToken, dstToken, connector);
+        const dodoResult = await dodoV2Oracle.getRate(srcToken, dstToken, connector, thresholdFilter);
         expect(dodoResult.rate).to.gt(ether('0'));
         expect(dodoResult.weight).to.gt(ether('0'));
     };

@@ -19,7 +19,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const customOracleAddress = await deployOracle(PARAMS, SALT_PROD, deployments);
 
-    const offchainOracle = await getContract('OffchainOracle', deployments);
+    const offchainOracle = await getContract(deployments, 'OffchainOracle');
     await offchainOracle.addOracle(customOracleAddress, PARAMS.oracleType);
 };
 
