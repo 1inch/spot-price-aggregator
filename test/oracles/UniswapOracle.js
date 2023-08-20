@@ -4,7 +4,7 @@ const {
     tokens,
     deployParams: { Uniswap },
     defaultValues: { thresholdFilter },
-} = require('./helpers.js');
+} = require('../helpers.js');
 
 describe('UniswapOracle', function () {
     async function initContracts () {

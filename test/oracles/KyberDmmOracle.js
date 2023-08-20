@@ -4,7 +4,7 @@ const {
     tokens,
     deployParams: { KyberDmm, UniswapV3 },
     defaultValues: { thresholdFilter },
-} = require('./helpers.js');
+} = require('../helpers.js');
 
 describe('KyberDmmOracle', function () {
     async function initContracts () {

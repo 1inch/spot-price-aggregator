@@ -4,7 +4,7 @@ const {
     tokens,
     deployParams: { ShibaSwap, UniswapV2 },
     defaultValues: { thresholdFilter },
-} = require('./helpers.js');
+} = require('../helpers.js');
 
 describe('UniswapV2LikeOracle', function () {
     async function initContracts () {

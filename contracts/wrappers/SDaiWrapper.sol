@@ -3,24 +3,16 @@
 pragma solidity 0.8.19;
 
 import "../interfaces/ISDai.sol";
-import "../interfaces/IWrapper.sol";
+import "./BaseCoinWrapper.sol";
 
-contract SDaiWrapper is IWrapper {
-    IERC20 private immutable _DAI;
-    ISDai private immutable _SDAI;
+contract SDaiWrapper is BaseCoinWrapper {
+    constructor(IERC20 base, IERC20 wBase) BaseCoinWrapper(base, wBase) {} // solhint-disable-line no-empty-blocks
 
-    constructor(ISDai sDai, IERC20 dai) {
-        _SDAI = sDai;
-        _DAI = dai;
+    function _wrap() internal view override returns (IERC20 wrappedToken, uint256 rate) {
+        return (WBASE, ISDai(address(WBASE)).previewDeposit(1e18));
     }
 
-    function wrap(IERC20 token) external view override returns (IERC20 wrappedToken, uint256 rate) {
-        if (token == _DAI) {
-            return (IERC20(address(_SDAI)), _SDAI.previewDeposit(1e18));
-        } else if (token == IERC20(address(_SDAI))) {
-            return (_DAI, _SDAI.previewRedeem(1e18));
-        } else {
-            revert NotSupportedToken();
-        }
+    function _unwrap() internal view override returns (IERC20 unwrappedToken, uint256 rate) {
+        return (BASE, ISDai(address(WBASE)).previewRedeem(1e18));
     }
 }

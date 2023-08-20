@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether, deployContract } = require('@1inch/solidity-utils');
-const { tokens, deployParams: { CompoundWrapper } } = require('./helpers.js');
+const { tokens, deployParams: { CompoundWrapper } } = require('../helpers.js');
 
 describe('CompoundWrapper', function () {
     async function initContracts () {

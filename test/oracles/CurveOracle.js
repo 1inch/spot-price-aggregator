@@ -5,7 +5,7 @@ const {
     tokens,
     deployParams: { AaveWrapperV2, Curve, Uniswap, UniswapV2, UniswapV3 },
     defaultValues: { thresholdFilter },
-} = require('./helpers.js');
+} = require('../helpers.js');
 
 describe('CurveOracle', function () {
     async function initContracts () {
@@ -44,7 +44,7 @@ describe('CurveOracle doesn\'t ruin rates', function () {
         const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools]);
         const uniswapOracle = await deployContract('UniswapOracle', [Uniswap.factory]);
         const mooniswapOracle = await deployContract('MooniswapOracle', [tokens.oneInchLP1]);
-        const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.WETH]);
+        const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.ETH, tokens.WETH]);
         const aaveWrapperV1 = await deployContract('AaveWrapperV1');
         const aaveWrapperV2 = await deployContract('AaveWrapperV2', [AaveWrapperV2.lendingPool]);
         await aaveWrapperV1.addMarkets([tokens.DAI]);
