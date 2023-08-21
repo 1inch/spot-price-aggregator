@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { ethers } = require('hardhat');
-const { expect, ether, deployContract } = require('@1inch/solidity-utils');
+const { expect, deployContract } = require('@1inch/solidity-utils');
 const { tokens } = require('../helpers.js');
 
 describe('SDaiWrapper', function () {
