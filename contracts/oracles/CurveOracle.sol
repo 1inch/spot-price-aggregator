@@ -14,6 +14,12 @@ contract CurveOracle is IOracle {
     using OraclePrices for OraclePrices.Data;
     using Math for uint256;
 
+    struct FunctionInfo {
+        function (address) external view returns (uint256[8] memory) balanceFunc;
+        bytes4 selector;
+        function (uint, uint, uint256) external view returns (uint256) dyFunc;
+    }
+
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 
     uint256 public immutable MAX_POOLS;
@@ -36,44 +42,40 @@ contract CurveOracle is IOracle {
         address srcToken = address(_srcToken);
         address dstToken = address(_dstToken);
         OraclePrices.Data memory ratesAndWeights = OraclePrices.init(MAX_POOLS);
+        FunctionInfo memory info;
         uint256 index = 0;
         for (uint256 i = 0; i < REGISTRIES_COUNT && index < MAX_POOLS; i++) {
             address pool = registries[i].find_pool_for_coins(srcToken, dstToken, index);
             while (pool != address(0) && index < MAX_POOLS) {
                 (int128 srcTokenIndex, int128 dstTokenIndex, bool isUnderlying) = registries[i].get_coin_indices(pool, srcToken, dstToken);
-                uint256 b0;
-                uint256 b1;
-                uint256 w;
                 if (!isUnderlying) {
-                    uint256[8] memory balances = registries[i].get_balances(pool);
-                    w = (balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)]).sqrt();
-                    b0 = balances[uint128(srcTokenIndex)] / 10000;
-                    if (b0 == 0) {
-                        pool = registries[i].find_pool_for_coins(srcToken, dstToken, ++index);
-                        continue;
-                    }
-                    (bool success, bytes memory data) = pool.staticcall(abi.encodeWithSelector(ICurveSwap.get_dy.selector, srcTokenIndex, dstTokenIndex, b0));
-                    if (success && data.length == 32) {
-                        b1 = abi.decode(data, (uint256));
-                    } else {
-                        b1 = ICurveSwapNew(pool).get_dy(uint128(srcTokenIndex), uint128(dstTokenIndex), b0);
-                    }
+                    info = FunctionInfo({
+                        balanceFunc: registries[i].get_balances,
+                        selector: ICurveSwap.get_dy.selector,
+                        dyFunc: ICurveSwapNew(pool).get_dy
+                    });
                 } else {
-                    uint256[8] memory balances = registries[i].get_underlying_balances(pool);
-                    w = (balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)]).sqrt();
-                    b0 = balances[uint128(srcTokenIndex)] / 10000;
-                    if (b0 == 0) {
-                        pool = registries[i].find_pool_for_coins(srcToken, dstToken, ++index);
-                        continue;
-                    }
-                    (bool success, bytes memory data) = pool.staticcall(abi.encodeWithSelector(ICurveSwap.get_dy_underlying.selector, srcTokenIndex, dstTokenIndex, b0));
+                    info = FunctionInfo({
+                        balanceFunc: registries[i].get_underlying_balances,
+                        selector: ICurveSwap.get_dy_underlying.selector,
+                        dyFunc: ICurveSwapNew(pool).get_dy_underlying
+                    });
+                }
+
+                uint256[8] memory balances = info.balanceFunc(pool);
+                uint256 w = (balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)]).sqrt();
+                uint256 b0 = balances[uint128(srcTokenIndex)] / 10000;
+
+                if (b0 != 0) {
+                    uint256 b1;
+                    (bool success, bytes memory data) = pool.staticcall(abi.encodeWithSelector(info.selector, srcTokenIndex, dstTokenIndex, b0));
                     if (success && data.length == 32) {
                         b1 = abi.decode(data, (uint256));
                     } else {
-                        b1 = ICurveSwapNew(pool).get_dy_underlying(uint128(srcTokenIndex), uint128(dstTokenIndex), b0);
+                        b1 = info.dyFunc(uint128(srcTokenIndex), uint128(dstTokenIndex), b0);
                     }
+                    ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), w));
                 }
-                ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), w));
                 pool = registries[i].find_pool_for_coins(srcToken, dstToken, ++index);
             }
         }
