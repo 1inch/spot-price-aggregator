@@ -3,7 +3,7 @@ const { ethers } = require('hardhat');
 const { expect, deployContract } = require('@1inch/solidity-utils');
 const { tokens } = require('../helpers.js');
 
-describe('SDaiWrapper', function () {
+describe('WstETHWrapper', function () {
     async function initContracts () {
         const wstETHWrapper = await deployContract('WstETHWrapper', [tokens.stETH, tokens.wstETH]);
         const wstETH = await ethers.getContractAt('IWstETH', tokens.wstETH);
