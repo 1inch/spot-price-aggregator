@@ -10,7 +10,5 @@ interface IChai {
 
 interface IChaiPot {
     function chi() external view returns (uint256);
-    function dsr() external view returns (uint256);
-    function rho() external view returns (uint256);
 }
 
