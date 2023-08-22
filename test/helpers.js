@@ -41,6 +41,7 @@ const tokens = {
     aLINK: '0xA64BD6C70Cb9051F6A9ba1F163Fdc07E0DfB5F84',
     yvWETH: '0xa258C4606Ca8206D8aA700cE2143D7db854D168c',
     yvWBTC: '0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E',
+    crvUSD: '0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E',
 };
 
 const contracts = {
@@ -67,6 +68,7 @@ const deployParams = {
     Curve: {
         provider: '0x0000000022D53366457F9d5E68Ec105046FC4383',
         maxPools: 100,
+        registryIds: [0, 3, 5, 6, 7, 8, 11],
     },
     Dodo: {
         dodoZoo: '0x3A97247DF274a17C59A3bd12735ea3FcDFb49950',
