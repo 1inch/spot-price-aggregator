@@ -8,7 +8,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         deploymentName: 'YOUR_DEPLOYMENT_NAME',
     };
 
-    console.log('running deploy script: simple-deploy-oracle');
+    console.log('running deploy script: simple-deploy');
     console.log('network id ', await getChainId());
 
     const { deployer } = await getNamedAccounts();

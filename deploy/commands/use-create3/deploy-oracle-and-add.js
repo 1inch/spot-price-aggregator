@@ -1,7 +1,7 @@
 const hre = require('hardhat');
 const { getChainId, ethers } = hre;
 const { getContract } = require('../../utils.js');
-const { deployOracle } = require('./simple-deploy-oracle.js');
+const { deployContract } = require('./simple-deploy.js');
 
 const SALT_INDEX = '';
 
@@ -17,7 +17,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running deploy script: use-create3/deploy-oracle-and-add');
     console.log('network id ', await getChainId());
 
-    const customOracleAddress = await deployOracle(PARAMS, SALT_PROD, deployments);
+    const customOracleAddress = await deployContract(PARAMS, SALT_PROD, deployments);
 
     const offchainOracle = await getContract(deployments, 'OffchainOracle');
     await offchainOracle.addOracle(customOracleAddress, PARAMS.oracleType);

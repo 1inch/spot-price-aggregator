@@ -1,7 +1,7 @@
 const hre = require('hardhat');
 const { getChainId, ethers } = hre;
 const { getContract } = require('../../utils.js');
-const { deployOracle } = require('./simple-deploy-oracle.js');
+const { deployContract } = require('./simple-deploy.js');
 
 const SALT_INDEX = '';
 
@@ -30,7 +30,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         deploymentName: 'OffchainOracle',
     };
 
-    await deployOracle(PARAMS, SALT_PROD, deployments);
+    await deployContract(PARAMS, SALT_PROD, deployments);
 };
 
 module.exports.skip = async () => true;
