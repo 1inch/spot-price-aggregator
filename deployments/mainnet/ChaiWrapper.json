@@ -1,0 +1,144 @@
+{
+  "address": "0x6fE4926a0fCc78ab764b39f2738e1Dea145d7AC0",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "base",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "wBase",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IChaiPot",
+          "name": "pot",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "NotAddedMarket",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotRemovedMarket",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotSupportedToken",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "BASE",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "POT",
+      "outputs": [
+        {
+          "internalType": "contract IChaiPot",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "WBASE",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "wrap",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "wrappedToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rate",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xf1d85eae435a7d5df33d4375cde889985696d34bb42eef6f9ee935f36042cdae",
+  "receipt": {
+    "to": null,
+    "from": "0x56E44874F624EbDE6efCc783eFD685f0FBDC6dcF",
+    "contractAddress": "0x6fE4926a0fCc78ab764b39f2738e1Dea145d7AC0",
+    "transactionIndex": 86,
+    "gasUsed": "359373",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xde927c9364dcd16b4a845626768b232acde25f8fb87a52c61d2d7c9d2344abcd",
+    "transactionHash": "0xf1d85eae435a7d5df33d4375cde889985696d34bb42eef6f9ee935f36042cdae",
+    "logs": [],
+    "blockNumber": 17979082,
+    "cumulativeGasUsed": "10026649",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    "0x06AF07097C9Eeb7fD685c692751D5C66dB49c215",
+    "0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "671e1fe85a8879eb40e6f766670e2d1a",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.19+commit.7dd6d404\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"base\",\"type\":\"address\"},{\"internalType\":\"contract IERC20\",\"name\":\"wBase\",\"type\":\"address\"},{\"internalType\":\"contract IChaiPot\",\"name\":\"pot\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"NotAddedMarket\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"NotRemovedMarket\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"NotSupportedToken\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"BASE\",\"outputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"POT\",\"outputs\":[{\"internalType\":\"contract IChaiPot\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"WBASE\",\"outputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"wrap\",\"outputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"wrappedToken\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"rate\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/wrappers/ChaiWrapper.sol\":\"ChaiWrapper\"},\"evmVersion\":\"paris\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":1000000},\"remappings\":[],\"viaIR\":true},\"sources\":{\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v4.9.0) (token/ERC20/IERC20.sol)\\n\\npragma solidity ^0.8.0;\\n\\n/**\\n * @dev Interface of the ERC20 standard as defined in the EIP.\\n */\\ninterface IERC20 {\\n    /**\\n     * @dev Emitted when `value` tokens are moved from one account (`from`) to\\n     * another (`to`).\\n     *\\n     * Note that `value` may be zero.\\n     */\\n    event Transfer(address indexed from, address indexed to, uint256 value);\\n\\n    /**\\n     * @dev Emitted when the allowance of a `spender` for an `owner` is set by\\n     * a call to {approve}. `value` is the new allowance.\\n     */\\n    event Approval(address indexed owner, address indexed spender, uint256 value);\\n\\n    /**\\n     * @dev Returns the amount of tokens in existence.\\n     */\\n    function totalSupply() external view returns (uint256);\\n\\n    /**\\n     * @dev Returns the amount of tokens owned by `account`.\\n     */\\n    function balanceOf(address account) external view returns (uint256);\\n\\n    /**\\n     * @dev Moves `amount` tokens from the caller's account to `to`.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transfer(address to, uint256 amount) external returns (bool);\\n\\n    /**\\n     * @dev Returns the remaining number of tokens that `spender` will be\\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\\n     * zero by default.\\n     *\\n     * This value changes when {approve} or {transferFrom} are called.\\n     */\\n    function allowance(address owner, address spender) external view returns (uint256);\\n\\n    /**\\n     * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\\n     * that someone may use both the old and the new allowance by unfortunate\\n     * transaction ordering. One possible solution to mitigate this race\\n     * condition is to first reduce the spender's allowance to 0 and set the\\n     * desired value afterwards:\\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\\n     *\\n     * Emits an {Approval} event.\\n     */\\n    function approve(address spender, uint256 amount) external returns (bool);\\n\\n    /**\\n     * @dev Moves `amount` tokens from `from` to `to` using the\\n     * allowance mechanism. `amount` is then deducted from the caller's\\n     * allowance.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transferFrom(address from, address to, uint256 amount) external returns (bool);\\n}\\n\",\"keccak256\":\"0x287b55befed2961a7eabd7d7b1b2839cbca8a5b80ef8dcbb25ed3d4c2002c305\",\"license\":\"MIT\"},\"contracts/interfaces/IChai.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity 0.8.19;\\n\\ninterface IChai {\\n    function balanceOf(address) external view returns (uint256);\\n    function join(address, uint256) external;\\n    function exit(address, uint256) external;\\n}\\n\\ninterface IChaiPot {\\n    function chi() external view returns (uint256);\\n}\\n\\n\",\"keccak256\":\"0x75a0ad52cc287cfe510e9920f53651266275879ac37e0269554f3cd4c2cc4eff\",\"license\":\"MIT\"},\"contracts/interfaces/IWrapper.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity 0.8.19;\\n\\nimport \\\"@openzeppelin/contracts/token/ERC20/IERC20.sol\\\";\\n\\ninterface IWrapper {\\n    error NotSupportedToken();\\n    error NotAddedMarket();\\n    error NotRemovedMarket();\\n\\n    function wrap(IERC20 token) external view returns (IERC20 wrappedToken, uint256 rate);\\n}\\n\",\"keccak256\":\"0xa0deb810fb219935e06d8f3cc47266532c088173d65034a9b0f09909b9d9d454\",\"license\":\"MIT\"},\"contracts/wrappers/ChaiWrapper.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity 0.8.19;\\n\\nimport { IChaiPot } from \\\"../interfaces/IChai.sol\\\";\\nimport \\\"./Wrapper.sol\\\";\\n\\ncontract ChaiWrapper is Wrapper {\\n    uint256 private constant _ONE = 10 ** 27;\\n    IChaiPot public immutable POT;\\n\\n    constructor(IERC20 base, IERC20 wBase, IChaiPot pot) Wrapper(base, wBase) {\\n        POT = pot;\\n    }\\n\\n    function _wrap() internal view override returns (IERC20 wrappedToken, uint256 rate) {\\n        return (WBASE, _rdivup(1e18, POT.chi()));\\n    }\\n\\n    function _unwrap() internal view override returns (IERC20 unwrappedToken, uint256 rate) {\\n        return (BASE, _rmul(POT.chi(), 1e18));\\n    }\\n\\n    function _rdivup(uint x, uint y) internal pure returns (uint z) {\\n        z = (x * _ONE + y - 1) / y;\\n    }\\n\\n    function _rmul(uint x, uint y) internal pure returns (uint z) {\\n        z = x * y / _ONE;\\n    }\\n}\\n\",\"keccak256\":\"0x6a9698db8cfb5f62259144fc178a266cd7b8341c73049bf25ae99a52721ffcf0\",\"license\":\"MIT\"},\"contracts/wrappers/Wrapper.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity 0.8.19;\\n\\nimport \\\"../interfaces/IWrapper.sol\\\";\\n\\nabstract contract Wrapper is IWrapper {\\n    IERC20 public immutable BASE;\\n    IERC20 public immutable WBASE;\\n\\n    constructor(IERC20 base, IERC20 wBase) {\\n        BASE = base;\\n        WBASE = wBase;\\n    }\\n\\n    function wrap(IERC20 token) external view override returns (IERC20 wrappedToken, uint256 rate) {\\n        if(token == BASE) {\\n            return _wrap();\\n        } else if (token == WBASE) {\\n            return _unwrap();\\n        } else {\\n            revert NotSupportedToken();\\n        }\\n    }\\n\\n    function _wrap() internal view virtual returns (IERC20 wrappedToken, uint256 rate) {} // solhint-disable-line no-empty-blocks\\n\\n    function _unwrap() internal view virtual returns (IERC20 unwrappedToken, uint256 rate) {} // solhint-disable-line no-empty-blocks\\n}\\n\",\"keccak256\":\"0x4529f0f26cbc2e113464c03e2eb0aef444ed988d8626e1487db214323073aaad\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60e0346100bf57601f61067838819003918201601f19168301916001600160401b038311848410176100c4578084926060946040528339810103126100bf57610047816100da565b906040610056602083016100da565b910151916001600160a01b03831683036100bf5760805260a05260c05260405161058990816100ef82396080518181816094015261020d015260a051818181610106015281816102f901526103bd015260c0518181816101740152818161028301526104160152f35b600080fd5b634e487b7160e01b600052604160045260246000fd5b51906001600160a01b03821682036100bf5756fe604060808152600436101561001357600080fd5b600090813560e01c8063023276f01461019857806348bb90691461012a5780638e0b3bf2146100bc5763ec342ad01461004b57600080fd5b346100b857817ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126100b8576020905173ffffffffffffffffffffffffffffffffffffffff7f0000000000000000000000000000000000000000000000000000000000000000168152f35b5080fd5b50346100b857817ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126100b8576020905173ffffffffffffffffffffffffffffffffffffffff7f0000000000000000000000000000000000000000000000000000000000000000168152f35b50346100b857817ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126100b8576020905173ffffffffffffffffffffffffffffffffffffffff7f0000000000000000000000000000000000000000000000000000000000000000168152f35b5090346102045760207ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126102045760043573ffffffffffffffffffffffffffffffffffffffff91828216820361020457506101f590610207565b90918351921682526020820152f35b80fd5b906000917f000000000000000000000000000000000000000000000000000000000000000073ffffffffffffffffffffffffffffffffffffffff80921682821681146000146103b75750506020600491604051928380927fc92aecc40000000000000000000000000000000000000000000000000000000082527f0000000000000000000000000000000000000000000000000000000000000000165afa9081156103ac578391610377575b50722cd76fe086b93ce2f768a00b22a000000000009281840180941161034a57722cd76fe086b93ce2f768a00b229fffffffffff820193841161034a57811561031d57507f0000000000000000000000000000000000000000000000000000000000000000920490565b807f4e487b7100000000000000000000000000000000000000000000000000000000602492526012600452fd5b807f4e487b7100000000000000000000000000000000000000000000000000000000602492526011600452fd5b90506020813d82116103a4575b81610391602093836104e3565b810103126103a05751386102b3565b8280fd5b3d9150610384565b6040513d85823e3d90fd5b829491927f000000000000000000000000000000000000000000000000000000000000000016146000146104b9576020600494604051958680927fc92aecc40000000000000000000000000000000000000000000000000000000082527f0000000000000000000000000000000000000000000000000000000000000000165afa9384156104ac578194610475575b50670de0b6b3a76400009384810294818604149015171561034a57506b033b2e3c9fd0803ce800000090920490565b9093506020813d82116104a4575b81610490602093836104e3565b810103126104a057519238610446565b8380fd5b3d9150610483565b50604051903d90823e3d90fd5b60046040517fc8a08d6f000000000000000000000000000000000000000000000000000000008152fd5b90601f7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0910116810190811067ffffffffffffffff82111761052457604052565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fdfea26469706673582212205078c3d58d23e18b9404fbd696cb2bab21d2cc3840636c67a7fbeba3e6fc02f464736f6c63430008130033",
+  "deployedBytecode": "0x604060808152600436101561001357600080fd5b600090813560e01c8063023276f01461019857806348bb90691461012a5780638e0b3bf2146100bc5763ec342ad01461004b57600080fd5b346100b857817ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126100b8576020905173ffffffffffffffffffffffffffffffffffffffff7f0000000000000000000000000000000000000000000000000000000000000000168152f35b5080fd5b50346100b857817ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126100b8576020905173ffffffffffffffffffffffffffffffffffffffff7f0000000000000000000000000000000000000000000000000000000000000000168152f35b50346100b857817ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126100b8576020905173ffffffffffffffffffffffffffffffffffffffff7f0000000000000000000000000000000000000000000000000000000000000000168152f35b5090346102045760207ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126102045760043573ffffffffffffffffffffffffffffffffffffffff91828216820361020457506101f590610207565b90918351921682526020820152f35b80fd5b906000917f000000000000000000000000000000000000000000000000000000000000000073ffffffffffffffffffffffffffffffffffffffff80921682821681146000146103b75750506020600491604051928380927fc92aecc40000000000000000000000000000000000000000000000000000000082527f0000000000000000000000000000000000000000000000000000000000000000165afa9081156103ac578391610377575b50722cd76fe086b93ce2f768a00b22a000000000009281840180941161034a57722cd76fe086b93ce2f768a00b229fffffffffff820193841161034a57811561031d57507f0000000000000000000000000000000000000000000000000000000000000000920490565b807f4e487b7100000000000000000000000000000000000000000000000000000000602492526012600452fd5b807f4e487b7100000000000000000000000000000000000000000000000000000000602492526011600452fd5b90506020813d82116103a4575b81610391602093836104e3565b810103126103a05751386102b3565b8280fd5b3d9150610384565b6040513d85823e3d90fd5b829491927f000000000000000000000000000000000000000000000000000000000000000016146000146104b9576020600494604051958680927fc92aecc40000000000000000000000000000000000000000000000000000000082527f0000000000000000000000000000000000000000000000000000000000000000165afa9384156104ac578194610475575b50670de0b6b3a76400009384810294818604149015171561034a57506b033b2e3c9fd0803ce800000090920490565b9093506020813d82116104a4575b81610490602093836104e3565b810103126104a057519238610446565b8380fd5b3d9150610483565b50604051903d90823e3d90fd5b60046040517fc8a08d6f000000000000000000000000000000000000000000000000000000008152fd5b90601f7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0910116810190811067ffffffffffffffff82111761052457604052565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052604160045260246000fdfea26469706673582212205078c3d58d23e18b9404fbd696cb2bab21d2cc3840636c67a7fbeba3e6fc02f464736f6c63430008130033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [],
+    "types": null
+  }
+}
