@@ -1,11 +1,11 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { ethers } = require('hardhat');
 const { expect, ether, deployContract } = require('@1inch/solidity-utils');
-const { tokens } = require('./helpers.js');
+const { tokens } = require('../helpers.js');
 
 describe('SDaiWrapper', function () {
     async function initContracts () {
-        const sDaiWrapper = await deployContract('SDaiWrapper', [tokens.sDAI, tokens.DAI]);
+        const sDaiWrapper = await deployContract('SDaiWrapper', [tokens.DAI, tokens.sDAI]);
         const sDai = await ethers.getContractAt('ISDai', tokens.sDAI);
         return { sDaiWrapper, sDai };
     }

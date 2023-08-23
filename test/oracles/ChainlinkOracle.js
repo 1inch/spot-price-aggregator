@@ -4,7 +4,7 @@ const {
     tokens,
     deployParams: { Chainlink, UniswapV3 },
     defaultValues: { thresholdFilter },
-} = require('./helpers.js');
+} = require('../helpers.js');
 
 describe('ChainlinkOracle', function () {
     async function initContracts () {

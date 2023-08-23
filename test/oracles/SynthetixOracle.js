@@ -5,7 +5,7 @@ const {
     tokens,
     deployParams: { Synthetix, UniswapV3 },
     defaultValues: { thresholdFilter },
-} = require('./helpers.js');
+} = require('../helpers.js');
 
 describe('SynthetixOracle', function () {
     function symbolToBytes (symbol) {

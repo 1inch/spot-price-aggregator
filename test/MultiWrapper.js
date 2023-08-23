@@ -4,7 +4,7 @@ const { tokens, deployParams: { AaveWrapperV2, CompoundWrapper } } = require('./
 
 describe('MultiWrapper', function () {
     async function initContracts () {
-        const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.WETH]);
+        const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.ETH, tokens.WETH]);
         const aaveWrapperV1 = await deployContract('AaveWrapperV1');
         await aaveWrapperV1.addMarkets([tokens.DAI, tokens.EEE]);
         const aaveWrapperV2 = await deployContract('AaveWrapperV2', [AaveWrapperV2.lendingPool]);
