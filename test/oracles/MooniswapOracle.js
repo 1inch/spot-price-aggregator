@@ -4,7 +4,7 @@ const {
     tokens,
     deployParams: { Mooniswap },
     defaultValues: { thresholdFilter },
-} = require('./helpers.js');
+} = require('../helpers.js');
 
 describe('MooniswapOracle', function () {
     async function initContracts () {

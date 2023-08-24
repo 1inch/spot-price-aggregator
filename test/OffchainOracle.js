@@ -15,7 +15,7 @@ describe('OffchainOracle', function () {
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
         const uniswapOracle = await deployContract('UniswapOracle', [Uniswap.factory]);
         const mooniswapOracle = await deployContract('MooniswapOracle', [tokens.oneInchLP1]);
-        const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.WETH]);
+        const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.ETH, tokens.WETH]);
         const aaveWrapperV1 = await deployContract('AaveWrapperV1');
         const aaveWrapperV2 = await deployContract('AaveWrapperV2', [AaveWrapperV2.lendingPool]);
         await aaveWrapperV1.addMarkets([tokens.DAI]);

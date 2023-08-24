@@ -4,7 +4,7 @@ const {
     tokens,
     deployParams: { DodoV2 },
     defaultValues: { thresholdFilter },
-} = require('./helpers.js');
+} = require('../helpers.js');
 
 describe('DodoV2Oracle', function () {
     async function initContracts () {
