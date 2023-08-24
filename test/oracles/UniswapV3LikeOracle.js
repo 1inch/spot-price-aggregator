@@ -1,7 +1,11 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { ethers } = require('hardhat');
 const { deployContract, assertRoughlyEqualValues } = require('@1inch/solidity-utils');
-const { tokens, deployParams: { AaveWrapperV2, PancakeV3, Uniswap, UniswapV2, UniswapV3 } } = require('./helpers.js');
+const {
+    tokens,
+    deployParams: { AaveWrapperV2, PancakeV3, Uniswap, UniswapV2, UniswapV3 },
+    defaultValues: { thresholdFilter },
+} = require('../helpers.js');
 
 describe('UniswapV3LikeOracle', function () {
     async function initContracts () {
@@ -96,15 +100,14 @@ describe('UniswapV3LikeOracle', function () {
     });
 
     async function testRate (srcToken, dstToken, connector, uniswapV2LikeOracle, uniswapV3LikeOracle) {
-        const v2Result = await uniswapV2LikeOracle.getRate(srcToken, dstToken, connector);
-        const v3Result = await uniswapV3LikeOracle.getRate(srcToken, dstToken, connector);
+        const v2Result = await uniswapV2LikeOracle.getRate(srcToken, dstToken, connector, thresholdFilter);
+        const v3Result = await uniswapV3LikeOracle.getRate(srcToken, dstToken, connector, thresholdFilter);
         assertRoughlyEqualValues(v3Result.rate.toString(), v2Result.rate.toString(), 0.05);
     }
 });
 
 describe('UniswapV3LikeOracle doesn\'t ruin rates', function () {
     async function initContracts () {
-        const thresholdFilter = 10;
         const deployer = await ethers.getSigner();
 
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
@@ -112,7 +115,7 @@ describe('UniswapV3LikeOracle doesn\'t ruin rates', function () {
         const uniswapOracle = await deployContract('UniswapOracle', [Uniswap.factory]);
         const mooniswapOracle = await deployContract('MooniswapOracle', [tokens.oneInchLP1]);
 
-        const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.WETH]);
+        const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.ETH, tokens.WETH]);
         const aaveWrapperV1 = await deployContract('AaveWrapperV1');
         const aaveWrapperV2 = await deployContract('AaveWrapperV2', [AaveWrapperV2.lendingPool]);
         await aaveWrapperV1.addMarkets([tokens.DAI]);
@@ -170,26 +173,26 @@ describe('UniswapV3LikeOracle doesn\'t ruin rates', function () {
             tokens.WETH,
             deployer.address,
         ]);
-        return { thresholdFilter, oldOffchainOracle, deployOffchainOracle };
+        return { oldOffchainOracle, deployOffchainOracle };
     }
 
     it('ETH DAI', async function () {
-        const { thresholdFilter, oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
+        const { oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
         await testRate(tokens.ETH, tokens.DAI, thresholdFilter, oldOffchainOracle, deployOffchainOracle);
     });
 
     it('WETH DAI', async function () {
-        const { thresholdFilter, oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
+        const { oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
         await testRate(tokens.WETH, tokens.DAI, thresholdFilter, oldOffchainOracle, deployOffchainOracle);
     });
 
     it('USDC DAI', async function () {
-        const { thresholdFilter, oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
+        const { oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
         await testRate(tokens.USDC, tokens.DAI, thresholdFilter, oldOffchainOracle, deployOffchainOracle);
     });
 
     it('USDC WETH', async function () {
-        const { thresholdFilter, oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
+        const { oldOffchainOracle, deployOffchainOracle } = await loadFixture(initContracts);
         await testRate(tokens.USDC, tokens.WETH, thresholdFilter, oldOffchainOracle, deployOffchainOracle);
     });
 

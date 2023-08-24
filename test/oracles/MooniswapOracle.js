@@ -1,6 +1,10 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether, deployContract } = require('@1inch/solidity-utils');
-const { tokens, deployParams: { Mooniswap } } = require('./helpers.js');
+const {
+    tokens,
+    deployParams: { Mooniswap },
+    defaultValues: { thresholdFilter },
+} = require('../helpers.js');
 
 describe('MooniswapOracle', function () {
     async function initContracts () {
@@ -10,13 +14,13 @@ describe('MooniswapOracle', function () {
 
     it('eth -> dai', async function () {
         const { mooniswapOracle } = await loadFixture(initContracts);
-        const rate = await mooniswapOracle.getRate(tokens.ETH, tokens.DAI, tokens.NONE);
+        const rate = await mooniswapOracle.getRate(tokens.ETH, tokens.DAI, tokens.NONE, thresholdFilter);
         expect(rate.rate).to.gt(ether('1000'));
     });
 
     it('eth -> usdc -> 1inch', async function () {
         const { mooniswapOracle } = await loadFixture(initContracts);
-        const rate = await mooniswapOracle.getRate(tokens.ETH, tokens['1INCH'], tokens.USDC);
+        const rate = await mooniswapOracle.getRate(tokens.ETH, tokens['1INCH'], tokens.USDC, thresholdFilter);
         expect(rate.rate).to.gt(ether('200'));
     });
 });

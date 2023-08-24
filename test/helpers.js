@@ -1,3 +1,7 @@
+const defaultValues = {
+    thresholdFilter: 10,
+};
+
 const tokens = {
     DAI: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
     WETH: '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
@@ -16,10 +20,13 @@ const tokens = {
     AAVE: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
     LRC: '0xBBbbCA6A901c926F240b89EacB641d8Aec7AEafD',
     COMP: '0xc00e94Cb662C3520282E6f5717214004A7f26888',
+    CHAI: '0x06AF07097C9Eeb7fD685c692751D5C66dB49c215',
     sBTC: '0xfE18be6b3Bd88A2D2A7f928d00292E7a9963CfC6',
+    sDAI: '0x83F20F44975D03b1b09e64809B757c47f942BEeA',
     sLINK: '0xbBC455cb4F1B9e4bFC4B73970d360c8f032EfEE6',
     sKRW: '0x269895a3dF4D73b077Fc823dD6dA1B95f72Aaf9B',
     sUSD: '0x57Ab1ec28D129707052df4dF418D58a2D46d5f51',
+    stETH: '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84',
     SNX: '0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F',
     XRA: '0x7025bab2ec90410de37f488d1298204cd4d6b29d',
     aDAIV1: '0xfC1E690f61EFd961294b3e1Ce3313fBD8aa4f85d',
@@ -36,6 +43,7 @@ const tokens = {
     aLINK: '0xA64BD6C70Cb9051F6A9ba1F163Fdc07E0DfB5F84',
     yvWETH: '0xa258C4606Ca8206D8aA700cE2143D7db854D168c',
     yvWBTC: '0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E',
+    wstETH: '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0',
     base: {
         DAI: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
         WETH: '0x4200000000000000000000000000000000000006',
@@ -46,6 +54,7 @@ const tokens = {
 
 const contracts = {
     create3Deployer: '0x65B3Db8bAeF0215A1F9B14c506D2a3078b2C84AE',
+    chaiPot: '0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7',
 };
 
 const deployParams = {
@@ -67,6 +76,7 @@ const deployParams = {
     },
     Curve: {
         provider: '0x0000000022D53366457F9d5E68Ec105046FC4383',
+        maxPools: 100,
     },
     Dodo: {
         dodoZoo: '0x3A97247DF274a17C59A3bd12735ea3FcDFb49950',
@@ -102,6 +112,7 @@ const deployParams = {
 };
 
 module.exports = {
+    defaultValues,
     tokens,
     contracts,
     deployParams,

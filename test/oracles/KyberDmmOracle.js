@@ -1,6 +1,10 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
-const { tokens, deployParams: { KyberDmm, UniswapV3 } } = require('./helpers.js');
+const {
+    tokens,
+    deployParams: { KyberDmm, UniswapV3 },
+    defaultValues: { thresholdFilter },
+} = require('../helpers.js');
 
 describe('KyberDmmOracle', function () {
     async function initContracts () {
@@ -12,14 +16,14 @@ describe('KyberDmmOracle', function () {
     it('should revert with amount of pools error', async function () {
         const { kyberDmmOracle } = await loadFixture(initContracts);
         await expect(
-            kyberDmmOracle.callStatic.getRate(tokens.USDT, tokens.EEE, tokens.NONE),
+            kyberDmmOracle.callStatic.getRate(tokens.USDT, tokens.EEE, tokens.NONE, thresholdFilter),
         ).to.be.revertedWithCustomError(kyberDmmOracle, 'PoolNotFound');
     });
 
     it('should revert with amount of pools with connector error', async function () {
         const { kyberDmmOracle } = await loadFixture(initContracts);
         await expect(
-            kyberDmmOracle.callStatic.getRate(tokens.USDT, tokens.WETH, tokens.MKR),
+            kyberDmmOracle.callStatic.getRate(tokens.USDT, tokens.WETH, tokens.MKR, thresholdFilter),
         ).to.be.revertedWithCustomError(kyberDmmOracle, 'PoolWithConnectorNotFound');
     });
 
@@ -54,8 +58,8 @@ describe('KyberDmmOracle', function () {
     });
 
     async function testRate (srcToken, dstToken, connector, kyberDmmOracle, uniswapV3Oracle) {
-        const kyberResult = await kyberDmmOracle.getRate(srcToken, dstToken, connector);
-        const v3Result = await uniswapV3Oracle.getRate(srcToken, dstToken, connector);
+        const kyberResult = await kyberDmmOracle.getRate(srcToken, dstToken, connector, thresholdFilter);
+        const v3Result = await uniswapV3Oracle.getRate(srcToken, dstToken, connector, thresholdFilter);
         assertRoughlyEqualValues(v3Result.rate.toString(), kyberResult.rate.toString(), 0.05);
     }
 });

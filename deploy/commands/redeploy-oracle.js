@@ -14,8 +14,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const { deployer } = await getNamedAccounts();
 
-    const offchainOracle = await getContract('OffchainOracle', deployments);
-    const oldCustomOracle = await getContract(PARAMS.contractName, deployments);
+    const offchainOracle = await getContract(deployments, 'OffchainOracle');
+    const oldCustomOracle = await getContract(deployments, PARAMS.contractName, PARAMS.deploymentName);
 
     const oracles = await offchainOracle.oracles();
     const customOracleType = oracles.oracleTypes[oracles.allOracles.indexOf(oldCustomOracle.address)];
