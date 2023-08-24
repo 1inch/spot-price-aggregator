@@ -4,6 +4,7 @@ const { expect, ether, deployContract, assertRoughlyEqualValues } = require('@1i
 const {
     tokens,
     deployParams: { VelocimieterV2 },
+    defaultValues: { thresholdFilter },
 } = require('../helpers.js');
 
 describe('SolidlyOracle', function () {
@@ -22,13 +23,13 @@ describe('SolidlyOracle', function () {
 
         it('axlUSDT -> axlUSDC', async function () {
             const { velocimieterV2Oracle } = await loadFixture(initContracts);
-            const rate = await velocimieterV2Oracle.getRate(tokens.base.axlUSDT, tokens.base.axlUSDC, tokens.NONE);
+            const rate = await velocimieterV2Oracle.getRate(tokens.base.axlUSDT, tokens.base.axlUSDC, tokens.NONE, thresholdFilter);
             assertRoughlyEqualValues(rate.rate, ether('1'), '0.05');
         });
 
         it('weth -> dai', async function () {
             const { velocimieterV2Oracle } = await loadFixture(initContracts);
-            const rate = await velocimieterV2Oracle.getRate(tokens.base.WETH, tokens.base.DAI, tokens.NONE);
+            const rate = await velocimieterV2Oracle.getRate(tokens.base.WETH, tokens.base.DAI, tokens.NONE, thresholdFilter);
             expect(rate.rate).to.gt(ether('1000'));
         });
     });
