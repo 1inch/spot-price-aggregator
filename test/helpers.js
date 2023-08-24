@@ -36,6 +36,12 @@ const tokens = {
     aLINK: '0xA64BD6C70Cb9051F6A9ba1F163Fdc07E0DfB5F84',
     yvWETH: '0xa258C4606Ca8206D8aA700cE2143D7db854D168c',
     yvWBTC: '0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E',
+    base: {
+        DAI: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
+        WETH: '0x4200000000000000000000000000000000000006',
+        axlUSDC: '0xEB466342C4d449BC9f53A865D5Cb90586f405215',
+        axlUSDT: '0x7f5373AE26c3E8FfC4c77b7255DF7eC1A9aF52a6',
+    },
 };
 
 const contracts = {
@@ -88,6 +94,10 @@ const deployParams = {
         factory: '0x41ff9AA7e16B8B1a8a8dc4f0eFacd93D02d071c9', // poolDeployer
         initcodeHash: '0x6ce8eb472fa82df5469c6ab6d485f17c3ad13c8cd7af59b3d4a8026c5ce0f7e2',
         fees: [100, 500, 2500, 10000],
+    },
+    VelocimieterV2: { // base network
+        factory: '0xe21aac7f113bd5dc2389e4d8a8db854a87fd6951',
+        initcodeHash: '0x0ccd005ee58d5fb11632ef5c2e0866256b240965c62c8e990c0f84a97f311879',
     },
 };
 
