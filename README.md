@@ -449,6 +449,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * DackieSwap - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://basescan.org/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
    * SushiSwapV3 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://basescan.org/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
    * UniswapV3 - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://basescan.org/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+   * VelocimeterV2 - [0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A](https://basescan.org/address/0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A)
    
 </details>
 
@@ -462,6 +463,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://basescan.org/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
    * WETH - [0x4200000000000000000000000000000000000006](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+   * axlUSDC - [0xEB466342C4d449BC9f53A865D5Cb90586f405215](https://basescan.org/address/0xEB466342C4d449BC9f53A865D5Cb90586f405215)
 
 </details>
 
