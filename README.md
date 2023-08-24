@@ -410,7 +410,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported DEXes</summary>
 
-   * MuteSwitch - [0x535f5B303DA43c5B83FDe10DE3D79b734B5117C3](https://explorer.zksync.io/address/0x535f5B303DA43c5B83FDe10DE3D79b734B5117C3)
+   * MuteSwitch - [0x536c4329705Cab76e0C2a1e14327A1b59331B9c9](https://explorer.zksync.io/address/0x536c4329705Cab76e0C2a1e14327A1b59331B9c9)
    * Syncswap - [0xdD8263F21D4DDB533C5F3B2059493b431cAEAB8d](https://explorer.zksync.io/address/0xdD8263F21D4DDB533C5F3B2059493b431cAEAB8d)
 
 </details>
@@ -450,6 +450,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * HorizonDex - [0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c](https://basescan.org/address/0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c)
    * SushiSwapV3 - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://basescan.org/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
    * UniswapV3 - [0xD4eFb5998DFBDFB791182fb610D0061136E9DB50](https://basescan.org/address/0xD4eFb5998DFBDFB791182fb610D0061136E9DB50)
+   * VelocimeterV2 - [0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A](https://basescan.org/address/0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A)
    
 </details>
 
@@ -463,6 +464,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://basescan.org/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
    * WETH - [0x4200000000000000000000000000000000000006](https://basescan.org/address/0x4200000000000000000000000000000000000006)
+   * axlUSDC - [0xEB466342C4d449BC9f53A865D5Cb90586f405215](https://basescan.org/address/0xEB466342C4d449BC9f53A865D5Cb90586f405215)
 
 </details>
 
