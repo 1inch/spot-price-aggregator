@@ -13,18 +13,19 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     };
     const SALT_PROD = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(PARAMS.contractName + SALT_INDEX));
 
-    console.log('running deploy script: use-create3/redeploy-oracle');
+    console.log('running deploy script: use-create3/deploy-wrapper-and-add');
     console.log('network id ', await getChainId());
 
     const offchainOracle = await getContract(deployments, 'OffchainOracle');
-    const oldCustomOracle = await getContract(deployments, PARAMS.contractName, PARAMS.deploymentName);
-    const oracles = await offchainOracle.oracles();
-    const customOracleType = oracles.oracleTypes[oracles.allOracles.indexOf(oldCustomOracle.address)];
+    const multiWrapper = await getContract(deployments, 'MultiWrapper');
+    if (ethers.utils.getAddress(await offchainOracle.multiWrapper()) !== ethers.utils.getAddress(multiWrapper.address)) {
+        console.warn('MultiWrapper address in deployments is not equal to the address in OffchainOracle');
+        return;
+    }
 
-    const customOracleAddress = await deployContract(PARAMS, SALT_PROD, deployments);
+    const customWrapperAddress = await deployContract(PARAMS, SALT_PROD, deployments);
 
-    await offchainOracle.removeOracle(oldCustomOracle.address, customOracleType);
-    await offchainOracle.addOracle(customOracleAddress, customOracleType);
+    await multiWrapper.addWrapper(customWrapperAddress);
 };
 
 module.exports.skip = async () => true;
