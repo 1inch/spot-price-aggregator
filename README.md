@@ -49,7 +49,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Compound - [0x7C327E1Ee66d4cF7F4053387241351FDc95A0c04](https://etherscan.io/address/0x7C327E1Ee66d4cF7F4053387241351FDc95A0c04)
    * YVault - [0x9FF110f132d988bfa9bC6a21851Da1aF3aC6EaF8](https://etherscan.io/address/0x9FF110f132d988bfa9bC6a21851Da1aF3aC6EaF8)
    * stETH - [0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F](https://etherscan.io/address/0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F)
-   * wstETH - [0x2493A73208222045BAE233b1D17798FaB7157f8C](https://etherscan.io/address/0x2493A73208222045BAE233b1D17798FaB7157f8C)
+   * wstETH - [0x37eB78fE793E89353e46AEe73E299985C3B8d334](https://etherscan.io/address/0x37eB78fE793E89353e46AEe73E299985C3B8d334)
    * sDAI - [0xF07317368A4B061dadB8C8239cbfCfd4808B76ce](https://etherscan.io/address/0xF07317368A4B061dadB8C8239cbfCfd4808B76ce)
    * CHAI - [0x6fE4926a0fCc78ab764b39f2738e1Dea145d7AC0](https://etherscan.io/address/0x6fE4926a0fCc78ab764b39f2738e1Dea145d7AC0)
    
