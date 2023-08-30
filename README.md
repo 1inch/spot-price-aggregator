@@ -22,22 +22,21 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Ethereum Mainnet
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://etherscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x673cE97aE15DdDAB40CB74906Ff97b127D8c551E](https://etherscan.io/address/0x673cE97aE15DdDAB40CB74906Ff97b127D8c551E)
 
 <details><summary>Supported DEXes</summary>
 
-   * Chainlink - [0x31B81f9D03EEe1c11Ff6c44D481e3e0451409Efe](https://etherscan.io/address/0x31B81f9D03EEe1c11Ff6c44D481e3e0451409Efe)
-   * KyberDMM - [0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3](https://etherscan.io/address/0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3)
-   * Mooniswap - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://etherscan.io/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
-   * Synthetix - [0x4d4872339DEF367B1BA1D53955d8586B9F0BE63D](https://etherscan.io/address/0x4d4872339DEF367B1BA1D53955d8586B9F0BE63D)
-   * Uniswap - [0x7bdc6954e1c7869B4147A320d589689F628E9921](https://etherscan.io/address/0x7bdc6954e1c7869B4147A320d589689F628E9921)
-   * Equalizer - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://etherscan.io/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790)
-   * ShibaSwap - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://etherscan.io/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
-   * SushiSwap - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://etherscan.io/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
-   * UniswapV2 - [0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e](https://etherscan.io/address/0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e)
-   * UniswapV3 - [0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9](https://etherscan.io/address/0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9)
-   * Curve - [0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e](https://etherscan.io/address/0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e)
-   * Pancake 3 - [0xA57eE57aa7af7c43265A8376c3d54543Cc78C089](https://etherscan.io/address/0xA57eE57aa7af7c43265A8376c3d54543Cc78C089)
+   * Chainlink - [0x8606321723D9cA7db708A8b12DAd0A8a83f2F3bD](https://etherscan.io/address/0x8606321723D9cA7db708A8b12DAd0A8a83f2F3bD)
+   * KyberDMM - [0x661305117527C6F79ed81DCA1a86EB86a6464207](https://etherscan.io/address/0x661305117527C6F79ed81DCA1a86EB86a6464207)
+   * Mooniswap - [0xff6F01102df4421044f29a46c65467eAbB4f5A2F](https://etherscan.io/address/0xff6F01102df4421044f29a46c65467eAbB4f5A2F)
+   * Synthetix - [0xFee6b0AC021c8E58321aC38De8d52d0224EA9dfd](https://etherscan.io/address/0xFee6b0AC021c8E58321aC38De8d52d0224EA9dfd)
+   * Uniswap - [0xAdF7CC69626eB6F03F4F613832C84Cf62586A6Bb](https://etherscan.io/address/0xAdF7CC69626eB6F03F4F613832C84Cf62586A6Bb)
+   * Equalizer - [0xEBA383DA9FCe0Ea0acB59A185A73D48dC089c73F](https://etherscan.io/address/0xEBA383DA9FCe0Ea0acB59A185A73D48dC089c73F)
+   * ShibaSwap - [0x0fE8bD9CB73ADC66561330B648a8fC62b4F58943](https://etherscan.io/address/0x0fE8bD9CB73ADC66561330B648a8fC62b4F58943)
+   * SushiSwap - [0x4161cD938C22dC264727458cF5e63f7D8220E1A3](https://etherscan.io/address/0x4161cD938C22dC264727458cF5e63f7D8220E1A3)
+   * UniswapV2 - [0xA21E47477DE9BbcDC962ee18a5E7D339c5a16D28](https://etherscan.io/address/0xA21E47477DE9BbcDC962ee18a5E7D339c5a16D28)
+   * UniswapV3 - [0x09486378850a17A07Ab108FcE77f79A1A7969C52](https://etherscan.io/address/0x09486378850a17A07Ab108FcE77f79A1A7969C52)
+   * Pancake 3 - [0x28836f2A8bF39d0F90111877Ce0A8B6a195BF140](https://etherscan.io/address/0x28836f2A8bF39d0F90111877Ce0A8B6a195BF140)
    
 </details>
 
