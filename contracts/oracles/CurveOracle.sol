@@ -17,7 +17,7 @@ contract CurveOracle is IOracle {
     struct FunctionInfo {
         function (address) external view returns (uint256[8] memory) balanceFunc;
         bytes4 dyFuncInt128Selector;
-        function (uint256, uint256, uint256) external view returns (uint256) dyFunc;
+        function (uint256, uint256, uint256) external view returns (uint256) dyFuncUint256;
     }
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
@@ -50,13 +50,13 @@ contract CurveOracle is IOracle {
                     info = FunctionInfo({
                         balanceFunc: registries[i].get_balances,
                         dyFuncInt128Selector: ICurveSwap.get_dy.selector,
-                        dyFunc: ICurveSwapNew(pool).get_dy
+                        dyFuncUint256: ICurveSwapNew(pool).get_dy
                     });
                 } else {
                     info = FunctionInfo({
                         balanceFunc: registries[i].get_underlying_balances,
                         dyFuncInt128Selector: ICurveSwap.get_dy_underlying.selector,
-                        dyFunc: ICurveSwapNew(pool).get_dy_underlying
+                        dyFuncUint256: ICurveSwapNew(pool).get_dy_underlying
                     });
                 }
 
@@ -70,7 +70,7 @@ contract CurveOracle is IOracle {
                     if (success && data.length == 32) {
                         b1 = abi.decode(data, (uint256));
                     } else {
-                        b1 = info.dyFunc(uint128(srcTokenIndex), uint128(dstTokenIndex), b0);
+                        b1 = info.dyFuncUint256(uint128(srcTokenIndex), uint128(dstTokenIndex), b0);
                     }
                     ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), w));
                 }
