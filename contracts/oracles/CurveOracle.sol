@@ -36,18 +36,16 @@ contract CurveOracle is IOracle {
         }
     }
 
-    function getRate(IERC20 _srcToken, IERC20 _dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
+    function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
         if(connector != _NONE) revert ConnectorShouldBeNone();
 
-        address srcToken = address(_srcToken);
-        address dstToken = address(_dstToken);
         OraclePrices.Data memory ratesAndWeights = OraclePrices.init(MAX_POOLS);
         FunctionInfo memory info;
         uint256 index = 0;
         for (uint256 i = 0; i < REGISTRIES_COUNT && index < MAX_POOLS; i++) {
-            address pool = registries[i].find_pool_for_coins(srcToken, dstToken, index);
+            address pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), index);
             while (pool != address(0) && index < MAX_POOLS) {
-                (int128 srcTokenIndex, int128 dstTokenIndex, bool isUnderlying) = registries[i].get_coin_indices(pool, srcToken, dstToken);
+                (int128 srcTokenIndex, int128 dstTokenIndex, bool isUnderlying) = registries[i].get_coin_indices(pool, address(srcToken), address(dstToken));
                 if (!isUnderlying) {
                     info = FunctionInfo({
                         balanceFunc: registries[i].get_balances,
@@ -76,7 +74,7 @@ contract CurveOracle is IOracle {
                     }
                     ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), w));
                 }
-                pool = registries[i].find_pool_for_coins(srcToken, dstToken, ++index);
+                pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++index);
             }
         }
         (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
