@@ -16,8 +16,8 @@ contract CurveOracle is IOracle {
 
     struct FunctionInfo {
         function (address) external view returns (uint256[8] memory) balanceFunc;
-        bytes4 selector;
-        function (uint, uint, uint256) external view returns (uint256) dyFunc;
+        bytes4 dyFuncInt128Selector;
+        function (uint256, uint256, uint256) external view returns (uint256) dyFunc;
     }
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
@@ -51,13 +51,13 @@ contract CurveOracle is IOracle {
                 if (!isUnderlying) {
                     info = FunctionInfo({
                         balanceFunc: registries[i].get_balances,
-                        selector: ICurveSwap.get_dy.selector,
+                        dyFuncInt128Selector: ICurveSwap.get_dy.selector,
                         dyFunc: ICurveSwapNew(pool).get_dy
                     });
                 } else {
                     info = FunctionInfo({
                         balanceFunc: registries[i].get_underlying_balances,
-                        selector: ICurveSwap.get_dy_underlying.selector,
+                        dyFuncInt128Selector: ICurveSwap.get_dy_underlying.selector,
                         dyFunc: ICurveSwapNew(pool).get_dy_underlying
                     });
                 }
@@ -68,7 +68,7 @@ contract CurveOracle is IOracle {
 
                 if (b0 != 0) {
                     uint256 b1;
-                    (bool success, bytes memory data) = pool.staticcall(abi.encodeWithSelector(info.selector, srcTokenIndex, dstTokenIndex, b0));
+                    (bool success, bytes memory data) = pool.staticcall(abi.encodeWithSelector(info.dyFuncInt128Selector, srcTokenIndex, dstTokenIndex, b0));
                     if (success && data.length == 32) {
                         b1 = abi.decode(data, (uint256));
                     } else {
