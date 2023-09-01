@@ -160,13 +160,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Optimism
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://optimistic.etherscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://optimistic.etherscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * UniswapV3 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://optimistic.etherscan.io/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
-   * Velodrome Finance - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://optimistic.etherscan.io/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * Synthetix - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://optimistic.etherscan.io/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+   * UniswapV3 - [0xf71502f807C37A5aD9bB50aA983423907647bF96](https://optimistic.etherscan.io/address/0xf71502f807C37A5aD9bB50aA983423907647bF96)
+   * Velodrome Finance - [0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef](https://optimistic.etherscan.io/address/0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef)
+   * Synthetix - [0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4](https://optimistic.etherscan.io/address/0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4)
 
 </details>
 
