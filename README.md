@@ -123,15 +123,15 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Polygon (Matic)
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://polygonscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://polygonscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * QuickSwap - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://polygonscan.com/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
-   * ComethSwap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://polygonscan.com/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * DFYN - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://polygonscan.com/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
-   * SushiSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://polygonscan.com/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
-   * UniswapV3 - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://polygonscan.com/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
+   * QuickSwap - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://polygonscan.com/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790)
+   * ComethSwap - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://polygonscan.com/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
+   * DFYN - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://polygonscan.com/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
+   * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://polygonscan.com/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
+   * UniswapV3 - [0xf71502f807C37A5aD9bB50aA983423907647bF96](https://polygonscan.com/address/0xf71502f807C37A5aD9bB50aA983423907647bF96)
 
 </details>
 
@@ -144,6 +144,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported connectors</summary>
 
+   * MATIC - [0x0000000000000000000000000000000000000000](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://polygonscan.com/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
    * WMATIC - [0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270](https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270)
    * USDC - [0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174](https://polygonscan.com/address/0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174)
