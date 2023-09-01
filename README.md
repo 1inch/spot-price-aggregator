@@ -230,13 +230,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Avax
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://snowtrace.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://snowtrace.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * Joe - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://snowtrace.io/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
-   * Pangolin - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://snowtrace.io/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * SushiSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://snowtrace.io/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+   * Joe - [0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F](https://snowtrace.io/address/0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F)
+   * Pangolin - [0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F](https://snowtrace.io/address/0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F)
+   * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://snowtrace.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
 
 </details>
 
@@ -250,6 +250,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported connectors</summary>
 
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://arbiscan.io/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * AVAX - [0x0000000000000000000000000000000000000000](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
    * WAVAX - [0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7](https://snowtrace.io/address/0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7)
    * WETH.e - [0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB](https://snowtrace.io/address/0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB)
    * USDT.e - [0xc7198437980c041c805A1EDcbA50c1Ce5db95118](https://snowtrace.io/address/0xc7198437980c041c805A1EDcbA50c1Ce5db95118)
