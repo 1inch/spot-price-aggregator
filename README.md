@@ -268,14 +268,14 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### xDai
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://gnosisscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://gnosisscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * Honeyswap - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://gnosisscan.io/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
-   * Levinswap - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://gnosisscan.io/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
-   * Swapr - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://gnosisscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
-   * Sushiswap - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://gnosisscan.io/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+   * Honeyswap - [0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F](https://gnosisscan.io/address/0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F)
+   * Levinswap - [0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef](https://gnosisscan.io/address/0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef)
+   * Swapr - [0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001](https://gnosisscan.io/address/0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001)
+   * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://gnosisscan.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
    
 </details>
 
