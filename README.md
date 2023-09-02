@@ -306,14 +306,14 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Fantom
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://ftmscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://ftmscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * Solidex - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://ftmscan.com/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * SpiritSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://ftmscan.com/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
-   * Spooky - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://ftmscan.com/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
-   * SushiSwap - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://ftmscan.com/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+   * Solidex - [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://ftmscan.com/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
+   * SpiritSwap - [0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F](https://ftmscan.com/address/0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F)
+   * Spooky - [0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F](https://ftmscan.com/address/0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F)
+   * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://ftmscan.com/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
 
 </details>
 
@@ -328,6 +328,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported connectors</summary>
 
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://ftmscan.com/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * FTM - [0x0000000000000000000000000000000000000000](https://ftmscan.com/address/0x0000000000000000000000000000000000000000)
    * WFTM - [0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83](https://ftmscan.com/address/0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83)
 
 </details>
