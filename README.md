@@ -414,12 +414,12 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### zkSync
 
-#### Oracle [0xC762d56614D3411eC6fABD56cb075D904b801613](https://explorer.zksync.io/address/0xC762d56614D3411eC6fABD56cb075D904b801613)
+#### Oracle [0xc9bB6e4FF7dEEa48e045CEd9C0ce016c7CFbD500](https://explorer.zksync.io/address/0xc9bB6e4FF7dEEa48e045CEd9C0ce016c7CFbD500)
 
 <details><summary>Supported DEXes</summary>
 
-   * MuteSwitch - [0x536c4329705Cab76e0C2a1e14327A1b59331B9c9](https://explorer.zksync.io/address/0x536c4329705Cab76e0C2a1e14327A1b59331B9c9)
-   * Syncswap - [0xdD8263F21D4DDB533C5F3B2059493b431cAEAB8d](https://explorer.zksync.io/address/0xdD8263F21D4DDB533C5F3B2059493b431cAEAB8d)
+   * MuteSwitch - [0xE0C1daF04Ca9f65c45bF67E87F6135fcf51ba5D1](https://explorer.zksync.io/address/0xE0C1daF04Ca9f65c45bF67E87F6135fcf51ba5D1)
+   * Syncswap - [0x226b15358e2DF022ada190fc3Ac4a32ea26C18c8](https://explorer.zksync.io/address/0x226b15358e2DF022ada190fc3Ac4a32ea26C18c8)
 
 </details>
 
