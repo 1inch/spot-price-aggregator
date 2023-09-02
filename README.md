@@ -381,12 +381,12 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Klaytn
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://scope.klaytn.com/account/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://scope.klaytn.com/account/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * KlaySwap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://scope.klaytn.com/account/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * ClaimSwap - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://scope.klaytn.com/account/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
+   * KlaySwap - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://scope.klaytn.com/account/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+   * ClaimSwap - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://scope.klaytn.com/account/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
 
 </details>
 
