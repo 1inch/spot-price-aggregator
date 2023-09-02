@@ -77,20 +77,20 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Binance Smart Chain
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://bscscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://bscscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * ApeSwap - [0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F](https://bscscan.com/address/0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F)
-   * BakerySwap - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://bscscan.com/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
-   * BSCswap - [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://bscscan.com/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
-   * Demax - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://bscscan.com/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
-   * KyberDmm - [0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795](https://bscscan.com/address/0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795)
-   * Mooniswap - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://bscscan.com/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
-   * Pancake 1 - [0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef](https://bscscan.com/address/0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef)
-   * Pancake 2 - [0x9488795C688d0AAe98F2056467C13a051C954657](https://bscscan.com/address/0x9488795C688d0AAe98F2056467C13a051C954657)
-   * Pancake 3 - [0x04098C93b15E5Cbb5A49651f20218C85F202Cd27](https://bscscan.com/address/0x04098C93b15E5Cbb5A49651f20218C85F202Cd27)
-   * Thugswap - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://bscscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
+   * ApeSwap - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://bscscan.com/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
+   * BakerySwap - [0x82b6B75F5fEabbfD370D45daCEFae3D5c06099DA](https://bscscan.com/address/0x82b6B75F5fEabbfD370D45daCEFae3D5c06099DA)
+   * BSCswap - [0xD4eFb5998DFBDFB791182fb610D0061136E9DB50](https://bscscan.com/address/0xD4eFb5998DFBDFB791182fb610D0061136E9DB50)
+   * Demax - [0x7bdc6954e1c7869B4147A320d589689F628E9921](https://bscscan.com/address/0x7bdc6954e1c7869B4147A320d589689F628E9921)
+   * KyberDMM - [0xE2d0e58302d03F703BD3c5EC2899F4e1af65E18c](https://bscscan.com/address/0xE2d0e58302d03F703BD3c5EC2899F4e1af65E18c)
+   * Mooniswap - [0x5F6a6428756CfAF96584286Ef9f7411621196f3A](https://bscscan.com/address/0x5F6a6428756CfAF96584286Ef9f7411621196f3A)
+   * Pancake 1 - [0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3](https://bscscan.com/address/0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3)
+   * Pancake 2 - [0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A](https://bscscan.com/address/0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A)
+   * Pancake 3 - [0xB4039b37d09772801a51764537c167445f52F48b](https://bscscan.com/address/0xB4039b37d09772801a51764537c167445f52F48b)
+   * Thugswap - [0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9](https://bscscan.com/address/0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9)
    
 </details>
 
