@@ -342,16 +342,16 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Aurora
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://aurorascan.dev/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://aurorascan.dev/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * Trisolaris - [0x587D67870CF6e733F2Ac101eD83675d6C01Ae127](https://aurorascan.dev/address/0x587D67870CF6e733F2Ac101eD83675d6C01Ae127)
-   * WannaSwap - [0x7d809B3b23b62D8a455831f38b312C7c8F965D2e](https://aurorascan.dev/address/0x7d809B3b23b62D8a455831f38b312C7c8F965D2e)
-   * NearPAD - [0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e](https://aurorascan.dev/address/0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e)
-   * AuroraSwap - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://aurorascan.dev/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
-   * Dodo - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://aurorascan.dev/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790)
-   * DodoV2 - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://aurorascan.dev/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
+   * Trisolaris - [0xD4eFb5998DFBDFB791182fb610D0061136E9DB50](https://aurorascan.dev/address/0xD4eFb5998DFBDFB791182fb610D0061136E9DB50)
+   * WannaSwap - [0x7bdc6954e1c7869B4147A320d589689F628E9921](https://aurorascan.dev/address/0x7bdc6954e1c7869B4147A320d589689F628E9921)
+   * NearPAD - [0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56](https://aurorascan.dev/address/0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56)
+   * AuroraSwap - [0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c](https://aurorascan.dev/address/0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c)
+   * Dodo - [0x7dd73CADbDb285b30Cdb92A5572eff6331EED857](https://aurorascan.dev/address/0x7dd73CADbDb285b30Cdb92A5572eff6331EED857)
+   * DodoV2 - [0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3](https://aurorascan.dev/address/0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3)
 
 </details>
 
