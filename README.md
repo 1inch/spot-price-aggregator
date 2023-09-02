@@ -35,7 +35,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * ShibaSwap - [0x0fE8bD9CB73ADC66561330B648a8fC62b4F58943](https://etherscan.io/address/0x0fE8bD9CB73ADC66561330B648a8fC62b4F58943)
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://etherscan.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
    * UniswapV2 - [0xA21E47477DE9BbcDC962ee18a5E7D339c5a16D28](https://etherscan.io/address/0xA21E47477DE9BbcDC962ee18a5E7D339c5a16D28)
-   * UniswapV3 - [0xf71502f807C37A5aD9bB50aA983423907647bF96](https://etherscan.io/address/0xf71502f807C37A5aD9bB50aA983423907647bF96)
+   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://etherscan.io/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
    * Curve - [0xAD9393D581f1F4F91EED5B1C165eac8740A41f6E](https://etherscan.io/address/0xAD9393D581f1F4F91EED5B1C165eac8740A41f6E)
    * Pancake 3 - [0xB4039b37d09772801a51764537c167445f52F48b](https://etherscan.io/address/0xB4039b37d09772801a51764537c167445f52F48b)
    
@@ -131,7 +131,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * ComethSwap - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://polygonscan.com/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
    * DFYN - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://polygonscan.com/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://polygonscan.com/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
-   * UniswapV3 - [0xf71502f807C37A5aD9bB50aA983423907647bF96](https://polygonscan.com/address/0xf71502f807C37A5aD9bB50aA983423907647bF96)
+   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://polygonscan.com/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
 
 </details>
 
@@ -164,7 +164,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported DEXes</summary>
 
-   * UniswapV3 - [0xf71502f807C37A5aD9bB50aA983423907647bF96](https://optimistic.etherscan.io/address/0xf71502f807C37A5aD9bB50aA983423907647bF96)
+   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://optimistic.etherscan.io/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
    * Velodrome Finance - [0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef](https://optimistic.etherscan.io/address/0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef)
    * Synthetix - [0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4](https://optimistic.etherscan.io/address/0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4)
 
@@ -203,7 +203,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * DXswap - [0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F](https://arbiscan.io/address/0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F)
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://arbiscan.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
-   * UniswapV3 - [0xf71502f807C37A5aD9bB50aA983423907647bF96](https://arbiscan.io/address/0xf71502f807C37A5aD9bB50aA983423907647bF96)
+   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://arbiscan.io/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
 
 </details>
 
