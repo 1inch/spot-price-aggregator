@@ -447,18 +447,18 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Base
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://basescan.org/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://basescan.org/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * BaseSwap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://basescan.org/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * RocketSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://basescan.org/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
-   * SwapBased - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://basescan.org/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
-   * DackieSwap - [0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e](https://basescan.org/address/0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e)
-   * HorizonDex - [0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c](https://basescan.org/address/0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c)
-   * SushiSwapV3 - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://basescan.org/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
-   * UniswapV3 - [0xD4eFb5998DFBDFB791182fb610D0061136E9DB50](https://basescan.org/address/0xD4eFb5998DFBDFB791182fb610D0061136E9DB50)
-   * VelocimeterV2 - [0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A](https://basescan.org/address/0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A)
+   * BaseSwap - [0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e](https://basescan.org/address/0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e)
+   * RocketSwap - [0x3EB7BFE1217b97d19e740C3587f2b12D00abc0Bc](https://basescan.org/address/0x3EB7BFE1217b97d19e740C3587f2b12D00abc0Bc)
+   * SwapBased - [0xA57eE57aa7af7c43265A8376c3d54543Cc78C089](https://basescan.org/address/0xA57eE57aa7af7c43265A8376c3d54543Cc78C089)
+   * DackieSwap - [0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544](https://basescan.org/address/0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544)
+   * HorizonDex - [0xcdEee819aEf73511331522552Ca1E54e771D40ed](https://basescan.org/address/0xcdEee819aEf73511331522552Ca1E54e771D40ed)
+   * SushiSwapV3 - [0xf71502f807C37A5aD9bB50aA983423907647bF96](https://basescan.org/address/0xf71502f807C37A5aD9bB50aA983423907647bF96)
+   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://basescan.org/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * VelocimeterV2 - [0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F](https://basescan.org/address/0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F)
    
 </details>
 
