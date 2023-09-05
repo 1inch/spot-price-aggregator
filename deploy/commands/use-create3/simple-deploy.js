@@ -45,7 +45,7 @@ const deployContract = async (params, saltProd, deployments) => {
     CustomContractDeploymentData.abi = CustomContractArtifact.abi;
     CustomContractDeploymentData.bytecode = CustomContractArtifact.bytecode;
     CustomContractDeploymentData.deployedBytecode = CustomContractArtifact.deployedBytecode;
-    await deployments.save(params.contractName, CustomContractDeploymentData);
+    await deployments.save(params.deploymentName, CustomContractDeploymentData);
     return customContractAddress;
 };
 

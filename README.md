@@ -22,22 +22,22 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Ethereum Mainnet
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://etherscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://etherscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * Chainlink - [0x31B81f9D03EEe1c11Ff6c44D481e3e0451409Efe](https://etherscan.io/address/0x31B81f9D03EEe1c11Ff6c44D481e3e0451409Efe)
-   * KyberDMM - [0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3](https://etherscan.io/address/0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3)
-   * Mooniswap - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://etherscan.io/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
-   * Synthetix - [0x4d4872339DEF367B1BA1D53955d8586B9F0BE63D](https://etherscan.io/address/0x4d4872339DEF367B1BA1D53955d8586B9F0BE63D)
-   * Uniswap - [0x7bdc6954e1c7869B4147A320d589689F628E9921](https://etherscan.io/address/0x7bdc6954e1c7869B4147A320d589689F628E9921)
-   * Equalizer - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://etherscan.io/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790)
-   * ShibaSwap - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://etherscan.io/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
-   * SushiSwap - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://etherscan.io/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
-   * UniswapV2 - [0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e](https://etherscan.io/address/0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e)
-   * UniswapV3 - [0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9](https://etherscan.io/address/0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9)
-   * Curve - [0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e](https://etherscan.io/address/0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e)
-   * Pancake 3 - [0xA57eE57aa7af7c43265A8376c3d54543Cc78C089](https://etherscan.io/address/0xA57eE57aa7af7c43265A8376c3d54543Cc78C089)
+   * Chainlink - [0x8606321723D9cA7db708A8b12DAd0A8a83f2F3bD](https://etherscan.io/address/0x8606321723D9cA7db708A8b12DAd0A8a83f2F3bD)
+   * KyberDMM - [0xE2d0e58302d03F703BD3c5EC2899F4e1af65E18c](https://etherscan.io/address/0xE2d0e58302d03F703BD3c5EC2899F4e1af65E18c)
+   * Mooniswap - [0x5F6a6428756CfAF96584286Ef9f7411621196f3A](https://etherscan.io/address/0x5F6a6428756CfAF96584286Ef9f7411621196f3A)
+   * Synthetix - [0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4](https://etherscan.io/address/0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4)
+   * Uniswap - [0xAdF7CC69626eB6F03F4F613832C84Cf62586A6Bb](https://etherscan.io/address/0xAdF7CC69626eB6F03F4F613832C84Cf62586A6Bb)
+   * Equalizer - [0xEBA383DA9FCe0Ea0acB59A185A73D48dC089c73F](https://etherscan.io/address/0xEBA383DA9FCe0Ea0acB59A185A73D48dC089c73F)
+   * ShibaSwap - [0x0fE8bD9CB73ADC66561330B648a8fC62b4F58943](https://etherscan.io/address/0x0fE8bD9CB73ADC66561330B648a8fC62b4F58943)
+   * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://etherscan.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
+   * UniswapV2 - [0xA21E47477DE9BbcDC962ee18a5E7D339c5a16D28](https://etherscan.io/address/0xA21E47477DE9BbcDC962ee18a5E7D339c5a16D28)
+   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://etherscan.io/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * Curve - [0xAD9393D581f1F4F91EED5B1C165eac8740A41f6E](https://etherscan.io/address/0xAD9393D581f1F4F91EED5B1C165eac8740A41f6E)
+   * Pancake 3 - [0xB4039b37d09772801a51764537c167445f52F48b](https://etherscan.io/address/0xB4039b37d09772801a51764537c167445f52F48b)
    
 </details>
 
@@ -72,25 +72,26 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * May-28-2021 - [0x07D91f5fb9Bf7798734C3f606dB065549F6893bb](https://etherscan.io/address/0x07D91f5fb9Bf7798734C3f606dB065549F6893bb)
    * Apr-07-2023 - [0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56](https://etherscan.io/address/0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56)
+   * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://etherscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 </details>
 
 ### Binance Smart Chain
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://bscscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://bscscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * ApeSwap - [0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F](https://bscscan.com/address/0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F)
-   * BakerySwap - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://bscscan.com/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
-   * BSCswap - [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://bscscan.com/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
-   * Demax - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://bscscan.com/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
-   * KyberDmm - [0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795](https://bscscan.com/address/0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795)
-   * Mooniswap - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://bscscan.com/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
-   * Pancake 1 - [0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef](https://bscscan.com/address/0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef)
-   * Pancake 2 - [0x9488795C688d0AAe98F2056467C13a051C954657](https://bscscan.com/address/0x9488795C688d0AAe98F2056467C13a051C954657)
-   * Pancake 3 - [0x04098C93b15E5Cbb5A49651f20218C85F202Cd27](https://bscscan.com/address/0x04098C93b15E5Cbb5A49651f20218C85F202Cd27)
-   * Thugswap - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://bscscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
+   * ApeSwap - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://bscscan.com/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
+   * BakerySwap - [0x82b6B75F5fEabbfD370D45daCEFae3D5c06099DA](https://bscscan.com/address/0x82b6B75F5fEabbfD370D45daCEFae3D5c06099DA)
+   * BSCswap - [0xD4eFb5998DFBDFB791182fb610D0061136E9DB50](https://bscscan.com/address/0xD4eFb5998DFBDFB791182fb610D0061136E9DB50)
+   * Demax - [0x7bdc6954e1c7869B4147A320d589689F628E9921](https://bscscan.com/address/0x7bdc6954e1c7869B4147A320d589689F628E9921)
+   * KyberDMM - [0xE2d0e58302d03F703BD3c5EC2899F4e1af65E18c](https://bscscan.com/address/0xE2d0e58302d03F703BD3c5EC2899F4e1af65E18c)
+   * Mooniswap - [0x5F6a6428756CfAF96584286Ef9f7411621196f3A](https://bscscan.com/address/0x5F6a6428756CfAF96584286Ef9f7411621196f3A)
+   * Pancake 1 - [0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3](https://bscscan.com/address/0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3)
+   * Pancake 2 - [0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A](https://bscscan.com/address/0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A)
+   * Pancake 3 - [0xB4039b37d09772801a51764537c167445f52F48b](https://bscscan.com/address/0xB4039b37d09772801a51764537c167445f52F48b)
+   * Thugswap - [0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9](https://bscscan.com/address/0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9)
    
 </details>
 
@@ -118,20 +119,21 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * May-28-2021 - [0xfbD61B037C325b959c0F6A7e69D8f37770C2c550](https://bscscan.com/address/0xfbD61B037C325b959c0F6A7e69D8f37770C2c550)
    * Apr-06-2023 - [0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001](https://bscscan.com/address/0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001)
+   * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://bscscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 </details>
 
 ### Polygon (Matic)
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://polygonscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://polygonscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * QuickSwap - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://polygonscan.com/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
-   * ComethSwap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://polygonscan.com/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * DFYN - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://polygonscan.com/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
-   * SushiSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://polygonscan.com/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
-   * UniswapV3 - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://polygonscan.com/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
+   * QuickSwap - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://polygonscan.com/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790)
+   * ComethSwap - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://polygonscan.com/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
+   * DFYN - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://polygonscan.com/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
+   * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://polygonscan.com/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
+   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://polygonscan.com/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
 
 </details>
 
@@ -144,6 +146,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported connectors</summary>
 
+   * MATIC - [0x0000000000000000000000000000000000000000](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://polygonscan.com/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
    * WMATIC - [0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270](https://polygonscan.com/address/0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270)
    * USDC - [0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174](https://polygonscan.com/address/0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174)
@@ -154,18 +157,19 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * May-28-2021 - [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](https://polygonscan.com/address/0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9)
    * Apr-05-2023 - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://polygonscan.com/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+   * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://polygonscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 </details>
 
 ### Optimism
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://optimistic.etherscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://optimistic.etherscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * UniswapV3 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://optimistic.etherscan.io/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
-   * Velodrome Finance - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://optimistic.etherscan.io/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * Synthetix - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://optimistic.etherscan.io/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://optimistic.etherscan.io/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * Velodrome Finance - [0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef](https://optimistic.etherscan.io/address/0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef)
+   * Synthetix - [0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4](https://optimistic.etherscan.io/address/0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4)
 
 </details>
 
@@ -191,18 +195,19 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * May-28-2021 - [0x11DEE30E710B8d4a8630392781Cc3c0046365d4c](https://optimistic.etherscan.io/address/0x11DEE30E710B8d4a8630392781Cc3c0046365d4c)
    * Apr-06-2023 - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://optimistic.etherscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+   * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://optimistic.etherscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 </details>
 
 ### Arbitrum
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://arbiscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://arbiscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * DXswap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://arbiscan.io/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * SushiSwap - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://arbiscan.io/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
-   * UniswapV3 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://arbiscan.io/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
+   * DXswap - [0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F](https://arbiscan.io/address/0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F)
+   * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://arbiscan.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
+   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://arbiscan.io/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
 
 </details>
 
@@ -215,6 +220,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported connectors</summary>
 
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://arbiscan.io/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * ETH - [0x0000000000000000000000000000000000000000](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
    * WETH - [0x82aF49447D8a07e3bd95BD0d56f35241523fBab1](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
 
 </details>
@@ -223,18 +229,19 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Sep-14-2021 - [0x735247fb0a604c0adC6cab38ACE16D0DbA31295F](https://arbiscan.io/address/0x735247fb0a604c0adC6cab38ACE16D0DbA31295F)
    * Apr-03-2023 - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://arbiscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+   * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://arbiscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 </details>
 
 ### Avax
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://snowtrace.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://snowtrace.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * Joe - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://snowtrace.io/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
-   * Pangolin - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://snowtrace.io/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * SushiSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://snowtrace.io/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+   * Joe - [0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F](https://snowtrace.io/address/0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F)
+   * Pangolin - [0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F](https://snowtrace.io/address/0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F)
+   * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://snowtrace.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
 
 </details>
 
@@ -248,6 +255,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported connectors</summary>
 
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://arbiscan.io/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * AVAX - [0x0000000000000000000000000000000000000000](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
    * WAVAX - [0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7](https://snowtrace.io/address/0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7)
    * WETH.e - [0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB](https://snowtrace.io/address/0x49D5c2BdFfac6CE2BFdB6640F4F80f226bc10bAB)
    * USDT.e - [0xc7198437980c041c805A1EDcbA50c1Ce5db95118](https://snowtrace.io/address/0xc7198437980c041c805A1EDcbA50c1Ce5db95118)
@@ -260,19 +268,20 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Dec-23-2021 - [0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9](https://snowtrace.io/address/0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9)
    * Apr-03-2023 - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://snowtrace.io/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+   * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://snowtrace.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 </details>
 
 ### xDai
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://gnosisscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://gnosisscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * Honeyswap - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://gnosisscan.io/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
-   * Levinswap - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://gnosisscan.io/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
-   * Swapr - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://gnosisscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
-   * Sushiswap - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://gnosisscan.io/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+   * Honeyswap - [0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F](https://gnosisscan.io/address/0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F)
+   * Levinswap - [0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef](https://gnosisscan.io/address/0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef)
+   * Swapr - [0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001](https://gnosisscan.io/address/0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001)
+   * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://gnosisscan.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
    
 </details>
 
@@ -298,19 +307,20 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Dec-23-2021 - [0x142DB045195CEcaBe415161e1dF1CF0337A4d02E](https://blockscout.com/xdai/mainnet/address/0x142DB045195CEcaBe415161e1dF1CF0337A4d02E)
    * Apr-06-2023 - [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://gnosisscan.io/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
+   * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://gnosisscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 </details>
 
 ### Fantom
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://ftmscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://ftmscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * Solidex - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://ftmscan.com/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * SpiritSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://ftmscan.com/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
-   * Spooky - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://ftmscan.com/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
-   * SushiSwap - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://ftmscan.com/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+   * Solidex - [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://ftmscan.com/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
+   * SpiritSwap - [0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F](https://ftmscan.com/address/0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F)
+   * Spooky - [0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F](https://ftmscan.com/address/0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F)
+   * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://ftmscan.com/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
 
 </details>
 
@@ -325,6 +335,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported connectors</summary>
 
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://ftmscan.com/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * FTM - [0x0000000000000000000000000000000000000000](https://ftmscan.com/address/0x0000000000000000000000000000000000000000)
    * WFTM - [0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83](https://ftmscan.com/address/0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83)
 
 </details>
@@ -333,21 +344,22 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Mar-21-2022 - [0xE8E598A1041b6fDB13999D275a202847D9b654ca](https://ftmscan.com/address/0xE8E598A1041b6fDB13999D275a202847D9b654ca)
    * Apr-04-2023 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://ftmscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
+   * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://ftmscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 </details>
 
 ### Aurora
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://aurorascan.dev/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://aurorascan.dev/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * Trisolaris - [0x587D67870CF6e733F2Ac101eD83675d6C01Ae127](https://aurorascan.dev/address/0x587D67870CF6e733F2Ac101eD83675d6C01Ae127)
-   * WannaSwap - [0x7d809B3b23b62D8a455831f38b312C7c8F965D2e](https://aurorascan.dev/address/0x7d809B3b23b62D8a455831f38b312C7c8F965D2e)
-   * NearPAD - [0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e](https://aurorascan.dev/address/0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e)
-   * AuroraSwap - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://aurorascan.dev/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
-   * Dodo - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://aurorascan.dev/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790)
-   * DodoV2 - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://aurorascan.dev/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
+   * Trisolaris - [0xD4eFb5998DFBDFB791182fb610D0061136E9DB50](https://aurorascan.dev/address/0xD4eFb5998DFBDFB791182fb610D0061136E9DB50)
+   * WannaSwap - [0x7bdc6954e1c7869B4147A320d589689F628E9921](https://aurorascan.dev/address/0x7bdc6954e1c7869B4147A320d589689F628E9921)
+   * NearPAD - [0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56](https://aurorascan.dev/address/0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56)
+   * AuroraSwap - [0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c](https://aurorascan.dev/address/0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c)
+   * Dodo - [0x7dd73CADbDb285b30Cdb92A5572eff6331EED857](https://aurorascan.dev/address/0x7dd73CADbDb285b30Cdb92A5572eff6331EED857)
+   * DodoV2 - [0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3](https://aurorascan.dev/address/0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3)
 
 </details>
 
@@ -372,17 +384,18 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * May-26-2022 - [0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795](https://aurorascan.dev/address/0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795)
    * Mar-31-2023 - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://aurorascan.dev/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
+   * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://aurorascan.dev/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 </details>
 
 ### Klaytn
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://scope.klaytn.com/account/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://scope.klaytn.com/account/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * KlaySwap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://scope.klaytn.com/account/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * ClaimSwap - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://scope.klaytn.com/account/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
+   * KlaySwap - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://scope.klaytn.com/account/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+   * ClaimSwap - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://scope.klaytn.com/account/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
 
 </details>
 
@@ -405,17 +418,18 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Aug-02-2022 - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](https://scope.klaytn.com/account/0x138CE40d675F9a23E4D6127A8600308Cf7A93381)
    * Apr-06-2023 - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://scope.klaytn.com/account/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+   * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://scope.klaytn.com/account/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 </details>
 
 ### zkSync
 
-#### Oracle [0xC762d56614D3411eC6fABD56cb075D904b801613](https://explorer.zksync.io/address/0xC762d56614D3411eC6fABD56cb075D904b801613)
+#### Oracle [0xc9bB6e4FF7dEEa48e045CEd9C0ce016c7CFbD500](https://explorer.zksync.io/address/0xc9bB6e4FF7dEEa48e045CEd9C0ce016c7CFbD500)
 
 <details><summary>Supported DEXes</summary>
 
-   * MuteSwitch - [0x536c4329705Cab76e0C2a1e14327A1b59331B9c9](https://explorer.zksync.io/address/0x536c4329705Cab76e0C2a1e14327A1b59331B9c9)
-   * Syncswap - [0xdD8263F21D4DDB533C5F3B2059493b431cAEAB8d](https://explorer.zksync.io/address/0xdD8263F21D4DDB533C5F3B2059493b431cAEAB8d)
+   * MuteSwitch - [0xE0C1daF04Ca9f65c45bF67E87F6135fcf51ba5D1](https://explorer.zksync.io/address/0xE0C1daF04Ca9f65c45bF67E87F6135fcf51ba5D1)
+   * Syncswap - [0x226b15358e2DF022ada190fc3Ac4a32ea26C18c8](https://explorer.zksync.io/address/0x226b15358e2DF022ada190fc3Ac4a32ea26C18c8)
 
 </details>
 
@@ -438,23 +452,24 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Mar-28-2023 - [0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C](https://explorer.zksync.io/address/0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C)
    * Jun-05-2023 - [0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd](https://explorer.zksync.io/address/0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd)
+   * Jul-12-2023 - [0xC762d56614D3411eC6fABD56cb075D904b801613](https://explorer.zksync.io/address/0xC762d56614D3411eC6fABD56cb075D904b801613)
 
 </details>
 
 ### Base
 
-#### Oracle [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://basescan.org/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://basescan.org/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 <details><summary>Supported DEXes</summary>
 
-   * BaseSwap - [0x750c1b699552cAf908D67F5cCFd20A261305328c](https://basescan.org/address/0x750c1b699552cAf908D67F5cCFd20A261305328c)
-   * RocketSwap - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://basescan.org/address/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
-   * SwapBased - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://basescan.org/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
-   * DackieSwap - [0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e](https://basescan.org/address/0x74bD9e4F8038DA216c3d20E9Ef6a05502Fc7129e)
-   * HorizonDex - [0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c](https://basescan.org/address/0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c)
-   * SushiSwapV3 - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://basescan.org/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
-   * UniswapV3 - [0xD4eFb5998DFBDFB791182fb610D0061136E9DB50](https://basescan.org/address/0xD4eFb5998DFBDFB791182fb610D0061136E9DB50)
-   * VelocimeterV2 - [0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A](https://basescan.org/address/0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A)
+   * BaseSwap - [0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e](https://basescan.org/address/0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e)
+   * RocketSwap - [0x3EB7BFE1217b97d19e740C3587f2b12D00abc0Bc](https://basescan.org/address/0x3EB7BFE1217b97d19e740C3587f2b12D00abc0Bc)
+   * SwapBased - [0xA57eE57aa7af7c43265A8376c3d54543Cc78C089](https://basescan.org/address/0xA57eE57aa7af7c43265A8376c3d54543Cc78C089)
+   * DackieSwap - [0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544](https://basescan.org/address/0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544)
+   * HorizonDex - [0xcdEee819aEf73511331522552Ca1E54e771D40ed](https://basescan.org/address/0xcdEee819aEf73511331522552Ca1E54e771D40ed)
+   * SushiSwapV3 - [0xf71502f807C37A5aD9bB50aA983423907647bF96](https://basescan.org/address/0xf71502f807C37A5aD9bB50aA983423907647bF96)
+   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://basescan.org/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * VelocimeterV2 - [0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F](https://basescan.org/address/0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F)
    
 </details>
 
@@ -469,6 +484,12 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://basescan.org/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
    * WETH - [0x4200000000000000000000000000000000000006](https://basescan.org/address/0x4200000000000000000000000000000000000006)
    * axlUSDC - [0xEB466342C4d449BC9f53A865D5Cb90586f405215](https://basescan.org/address/0xEB466342C4d449BC9f53A865D5Cb90586f405215)
+
+</details>
+
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * Aug-09-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://basescan.org/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
 
 </details>
 
