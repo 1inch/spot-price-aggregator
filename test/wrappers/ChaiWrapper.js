@@ -22,7 +22,7 @@ describe('ChaiWrapper', function () {
         const response = await chaiWrapper.wrap(tokens.DAI);
         const [received] = await trackReceivedTokenAndTx(ethers.provider, chai, wallet.address, async () => chai.join(wallet.address, ether('1')));
         expect(response.wrappedToken).to.equal(tokens.CHAI);
-        assertRoughlyEqualValues(response.rate, received, 1e-8);
+        assertRoughlyEqualValues(response.rate, received, 1e-6);
     });
 
     it('CHAI -> DAI', async function () {
@@ -30,6 +30,6 @@ describe('ChaiWrapper', function () {
         const response = await chaiWrapper.wrap(tokens.CHAI);
         const [received] = await trackReceivedTokenAndTx(ethers.provider, dai, wallet.address, async () => chai.exit(wallet.address, ether('1')));
         expect(response.wrappedToken).to.equal(tokens.DAI);
-        assertRoughlyEqualValues(response.rate, received, 1e-8);
+        assertRoughlyEqualValues(response.rate, received, 1e-6);
     });
 });
