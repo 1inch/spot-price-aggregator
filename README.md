@@ -38,6 +38,8 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://etherscan.io/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
    * Curve - [0xAD9393D581f1F4F91EED5B1C165eac8740A41f6E](https://etherscan.io/address/0xAD9393D581f1F4F91EED5B1C165eac8740A41f6E)
    * Pancake 3 - [0xB4039b37d09772801a51764537c167445f52F48b](https://etherscan.io/address/0xB4039b37d09772801a51764537c167445f52F48b)
+   * Dodo - [0x0A7c4d89e1629f189Eb12dd716B178d1b90D9f66](https://etherscan.io/address/0x0A7c4d89e1629f189Eb12dd716B178d1b90D9f66)
+   * DodoV2 - [0x03aA019F3B78110e030c34e9fA98047A1f62859A](https://etherscan.io/address/0x03aA019F3B78110e030c34e9fA98047A1f62859A)
    
 </details>
 
@@ -358,8 +360,8 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * WannaSwap - [0x7bdc6954e1c7869B4147A320d589689F628E9921](https://aurorascan.dev/address/0x7bdc6954e1c7869B4147A320d589689F628E9921)
    * NearPAD - [0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56](https://aurorascan.dev/address/0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56)
    * AuroraSwap - [0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c](https://aurorascan.dev/address/0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c)
-   * Dodo - [0x7dd73CADbDb285b30Cdb92A5572eff6331EED857](https://aurorascan.dev/address/0x7dd73CADbDb285b30Cdb92A5572eff6331EED857)
-   * DodoV2 - [0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3](https://aurorascan.dev/address/0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3)
+   * Dodo - [0x0A7c4d89e1629f189Eb12dd716B178d1b90D9f66](https://aurorascan.dev/address/0x0A7c4d89e1629f189Eb12dd716B178d1b90D9f66)
+   * DodoV2 - [0x03aA019F3B78110e030c34e9fA98047A1f62859A](https://aurorascan.dev/address/0x03aA019F3B78110e030c34e9fA98047A1f62859A)
 
 </details>
 
