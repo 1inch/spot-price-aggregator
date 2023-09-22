@@ -43,8 +43,10 @@ contract CurveOracle is IOracle {
         FunctionInfo memory info;
         uint256 index = 0;
         for (uint256 i = 0; i < REGISTRIES_COUNT && index < MAX_POOLS; i++) {
-            address pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), index);
+            uint256 registryIndex = 0;
+            address pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), registryIndex);
             while (pool != address(0) && index < MAX_POOLS) {
+                index++;
                 (int128 srcTokenIndex, int128 dstTokenIndex, bool isUnderlying) = registries[i].get_coin_indices(pool, address(srcToken), address(dstToken));
                 if (!isUnderlying) {
                     info = FunctionInfo({
@@ -74,7 +76,7 @@ contract CurveOracle is IOracle {
                     }
                     ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), w));
                 }
-                pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++index);
+                pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
             }
         }
         (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
