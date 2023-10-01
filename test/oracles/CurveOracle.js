@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { ethers } = require('hardhat');
-const { assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
 const {
     tokens,
     deployParams: { AaveWrapperV2, Curve, Uniswap, UniswapV2, UniswapV3 },
@@ -33,6 +33,12 @@ describe('CurveOracle', function () {
         const expectedRate = await uniswapV3Oracle.getRate(tokens.WBTC, tokens.WETH, tokens.NONE, thresholdFilter);
         const rate = await curveOracle.getRate(tokens.WBTC, tokens.WETH, tokens.NONE, thresholdFilter);
         assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
+    });
+
+    it('should use correct `get_dy` selector when vyper return redundant bytes', async function () {
+        const { curveOracle } = await loadFixture(initContracts);
+        const rate = await curveOracle.getRate(tokens.BEAN, tokens['3CRV'], tokens.NONE, thresholdFilter);
+        expect(rate.rate).to.gt('0');
     });
 });
 
