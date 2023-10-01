@@ -92,14 +92,14 @@ contract CurveOracle is IOracle {
                 if (!isUnderlying) {
                     info = FunctionInfo({
                         balanceFuncSelector: ICurveRegistry.get_balances.selector,
-                        dyFuncInt128Selector: ICurveSwap.get_dy.selector,
-                        dyFuncUint256: ICurveSwapNew(pool).get_dy
+                        dyFuncInt128Selector: ICurveSwapInt128.get_dy.selector,
+                        dyFuncUint256: ICurveSwapUint256(pool).get_dy
                     });
                 } else {
                     info = FunctionInfo({
                         balanceFuncSelector: ICurveRegistry.get_underlying_balances.selector,
-                        dyFuncInt128Selector: ICurveSwap.get_dy_underlying.selector,
-                        dyFuncUint256: ICurveSwapNew(pool).get_dy_underlying
+                        dyFuncInt128Selector: ICurveSwapInt128.get_dy_underlying.selector,
+                        dyFuncUint256: ICurveSwapUint256(pool).get_dy_underlying
                     });
                 }
 
