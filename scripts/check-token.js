@@ -42,8 +42,7 @@ async function main () {
     for (let i = 0; i < oracles.allOracles.length; i++) {
         await offchainOracle.addOracle(oracles.allOracles[i], oracles.oracleTypes[i]);
 
-        const getRateParams = [token, true, thresholdFilter];
-        const price = usdPrice(await offchainOracle.getRateToEthWithThreshold(...getRateParams) / 10 ** (18 - decimals));
+        const price = usdPrice(await offchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter) / 10 ** (18 - decimals));
         if (parseFloat(price) !== 0) {
             console.log(oracles.allOracles[i], 'oracle\'s price =', price);
 
