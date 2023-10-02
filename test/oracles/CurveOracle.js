@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { ethers } = require('hardhat');
-const { assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
 const {
     tokens,
     deployParams: { AaveWrapperV2, Curve, Uniswap, UniswapV2, UniswapV3 },
@@ -33,6 +33,84 @@ describe('CurveOracle', function () {
         const expectedRate = await uniswapV3Oracle.getRate(tokens.WBTC, tokens.WETH, tokens.NONE, thresholdFilter);
         const rate = await curveOracle.getRate(tokens.WBTC, tokens.WETH, tokens.NONE, thresholdFilter);
         assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
+    });
+
+    describe('doesn\'t ruin various registry with different selectors', function () {
+        it('Main Registry', async function () {
+            await testNotRuins(0, 2);
+        });
+
+        it('Metapool Factory', async function () {
+            await testNotRuins(1, 2);
+        });
+
+        it('Cryptoswap Registry', async function () {
+            await testNotRuins(2, 2);
+        });
+
+        it('Cryptopool Factory', async function () {
+            await testNotRuins(3, 2);
+        });
+
+        it('Metaregistry', async function () {
+            await testNotRuins(4, 2);
+        });
+
+        it('crvUSD Plain Pools', async function () {
+            await testNotRuins(5, 2);
+        });
+
+        it('Curve Tricrypto Factory', async function () {
+            await testNotRuins(6, 2);
+        });
+
+        async function testNotRuins (registryIndex, testPoolsAmount) {
+            const poolAbiUint256 = [
+                {
+                    name: 'coins',
+                    type: 'function',
+                    inputs: [{ type: 'uint256', name: 'arg0' }],
+                    outputs: [{ type: 'address', name: 'value' }],
+                    stateMutability: 'view',
+                },
+            ];
+            const poolAbiInt128 = [
+                {
+                    name: 'coins',
+                    type: 'function',
+                    inputs: [{ type: 'int128', name: 'arg0' }],
+                    outputs: [{ type: 'address', name: 'value' }],
+                    stateMutability: 'view',
+                },
+            ];
+
+            const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, [Curve.registryIds[registryIndex]], [Curve.registryTypes[registryIndex]]]);
+            const curveProvider = await ethers.getContractAt('ICurveProvider', Curve.provider);
+            const registryAddress = await curveProvider.get_address(Curve.registryIds[registryIndex]);
+            const registry = await ethers.getContractAt('ICurveRegistry', registryAddress);
+
+            const poolCount = await registry.pool_count();
+
+            // we check only `testPoolsAmount` random pools from the registry to save time
+            for (let i = 0; i < poolCount; i += Math.ceil(poolCount / testPoolsAmount)) {
+                const poolAddress = await registry.pool_list(i);
+                let token0, token1;
+                try {
+                    const poolUint256 = await ethers.getContractAt(poolAbiUint256, poolAddress);
+                    token0 = await poolUint256.coins(0);
+                    token1 = await poolUint256.coins(1);
+                } catch (e) {
+                    try {
+                        const poolInt128 = await ethers.getContractAt(poolAbiInt128, poolAddress);
+                        token0 = await poolInt128.coins(0);
+                        token1 = await poolInt128.coins(1);
+                    } catch (e) {
+                        expect.fail(`pool ${i} ${poolAddress} doesn't work with uint256 and int128 selectors of \`coins\` method`);
+                    }
+                }
+                await curveOracle.getRate(token0, token1, tokens.NONE, thresholdFilter);
+            }
+        }
     });
 });
 

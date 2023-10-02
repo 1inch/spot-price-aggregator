@@ -5,6 +5,9 @@ pragma solidity 0.8.19;
 // solhint-disable func-name-mixedcase
 
 interface ICurveRegistry {
+    function pool_count() external view returns (uint256);
+    function pool_list(uint256 index) external view returns (address);
+
     // MAIN_REGISTRY, METAPOOL_FACTORY, CRYPTOSWAP_REGISTRY, CRYPTOPOOL_FACTORY, METAREGISTRY, CRVUSD_PLAIN_POOLS, CURVE_TRICRYPTO_FACTORY
     function find_pool_for_coins(address _srcToken, address _dstToken, uint256 _index) external view returns (address);
 
