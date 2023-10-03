@@ -18,9 +18,9 @@ async function main () {
     });
 
     const offchainOracleInDeployments = await deployments.get('OffchainOracle');
+    const deployer = await ethers.getSigner();
     const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
     const deployedOffchainOracle = OffchainOracle.attach(offchainOracleInDeployments.address);
-    const isDeployedOracleWithFilter = !!offchainOracleInDeployments.devdoc.methods['getRateToEthWithThreshold(address,bool,uint256)'];
 
     const weth = offchainOracleInDeployments.args[4];
     const connectors = await deployedOffchainOracle.connectors();
@@ -31,6 +31,7 @@ async function main () {
         [],
         connectors,
         weth,
+        deployer.address,
     );
     await offchainOracle.deployed();
 
@@ -40,29 +41,18 @@ async function main () {
     } catch {}
 
     console.log('======================');
-    const getRateToEthDeployedOracle = isDeployedOracleWithFilter
-        ? () => deployedOffchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter)
-        : () => deployedOffchainOracle.getRateToEth(token, true);
+    console.log('Current state\'s price =', usdPrice(await deployedOffchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter) / 10 ** (18 - decimals)));
 
-    console.log('OffchainOracle price =', usdPrice(await getRateToEthDeployedOracle() / 10 ** (18 - decimals)));
-
-    const getRateToEth = isDeployedOracleWithFilter
-        ? offchainOracle.getRateToEthWithThreshold
-        : offchainOracle.getRateToEth;
     const oracles = await deployedOffchainOracle.oracles();
     for (let i = 0; i < oracles.allOracles.length; i++) {
         await offchainOracle.addOracle(oracles.allOracles[i], oracles.oracleTypes[i]);
 
-        const getRateParams = [token, true];
-        if (isDeployedOracleWithFilter) {
-            getRateParams.push(thresholdFilter);
-        }
-        const price = usdPrice(await getRateToEth(...getRateParams) / 10 ** (18 - decimals));
+        const price = usdPrice(await offchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter) / 10 ** (18 - decimals));
         if (parseFloat(price) !== 0) {
             console.log('----------------------');
             console.log(`Oracle:  ${contractNameByAddress[oracles.allOracles[i]]}`);
             console.log(`Address: ${oracles.allOracles[i]}`);
-            console.log(`Price =  ${price}`);
+            console.log(`Price =  ${parseFloat(price).toFixed(2)}`);
 
             const oracle = await ethers.getContractAt('OracleBase', oracles.allOracles[i]);
             const pricesViaConnector = [];
@@ -75,7 +65,7 @@ async function main () {
                     else if (tokens.EEE === connectors[j]) symbol = 'EEE';
                     else symbol = await (await ethers.getContractAt('IERC20Metadata', connectors[j])).symbol();
 
-                    const { rate, weight } = await oracle.getRate(token, weth, connectors[j]);
+                    const { rate, weight } = await oracle.getRate(token, weth, connectors[j], thresholdFilter);
                     pricesViaConnector.push({ connector: symbol, rate: parseFloat(usdPrice(rate / 10 ** (18 - decimals))).toFixed(2), weight: weight.toString() });
 
                     // Check pools in factory

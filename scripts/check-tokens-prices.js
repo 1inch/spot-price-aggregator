@@ -17,10 +17,10 @@ async function main () {
         tokenlist = Object.keys(tokenlist);
     }
 
+    const deployer = await ethers.getSigner();
     const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
     const offchainOracleInDeployments = require(`../deployments/${networkName}/OffchainOracle.json`);
     const deployedOffchainOracle = OffchainOracle.attach(offchainOracleInDeployments.address);
-    const isDeployedOracleWithFilter = !!offchainOracleInDeployments.devdoc.methods['getRateToEthWithThreshold(address,bool,uint256)'];
 
     const weth = offchainOracleInDeployments.args[4];
     const connectors = await deployedOffchainOracle.connectors();
@@ -31,6 +31,7 @@ async function main () {
         [],
         connectors,
         weth,
+        deployer.address,
     );
     await offchainOracle.deployed();
 
@@ -66,10 +67,7 @@ async function main () {
         } catch {}
 
         clearAndPrint(`Progress: ${i} / ${tokenlist.length}`);
-        const getRateToEthDeployedOracle = isDeployedOracleWithFilter
-            ? () => deployedOffchainOracle.getRateToEthWithThreshold(token.address, true, thresholdFilter)
-            : () => deployedOffchainOracle.getRateToEth(token.address, true);
-        const deployedOraclePrice = await getRateToEthDeployedOracle();
+        const deployedOraclePrice = await deployedOffchainOracle.getRateToEthWithThreshold(token.address, true, thresholdFilter);
         const currentImplPrice = await offchainOracle.getRateToEthWithThreshold(token.address, true, thresholdFilter);
 
         const currentImplPriceUsd = parseFloat(usdPrice(currentImplPrice / 10 ** (18 - tokenDecimals))).toFixed(2);
