@@ -41,7 +41,7 @@ async function main () {
     } catch {}
 
     console.log('======================');
-    console.log('Current state\'s price =', usdPrice(await deployedOffchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter) / 10 ** (18 - decimals)));
+    console.log('Current state\'s price =', parseFloat(usdPrice(await deployedOffchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter) / 10 ** (18 - decimals))).toFixed(2));
 
     const oracles = await deployedOffchainOracle.oracles();
     for (let i = 0; i < oracles.allOracles.length; i++) {
@@ -49,14 +49,9 @@ async function main () {
 
         const price = usdPrice(await offchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter) / 10 ** (18 - decimals));
         if (parseFloat(price) !== 0) {
-            console.log('----------------------');
-            console.log(`Oracle:  ${contractNameByAddress[oracles.allOracles[i]]}`);
-            console.log(`Address: ${oracles.allOracles[i]}`);
-            console.log(`Price =  ${parseFloat(price).toFixed(2)}`);
-
             const oracle = await ethers.getContractAt('OracleBase', oracles.allOracles[i]);
             const pricesViaConnector = [];
-            let pools = [];
+            // let pools = [];
             for (let j = 0; j < connectors.length; j++) {
                 let symbol = '---';
                 try {
@@ -69,27 +64,33 @@ async function main () {
                     pricesViaConnector.push({ connector: symbol, rate: parseFloat(usdPrice(rate / 10 ** (18 - decimals))).toFixed(2), weight: weight.toString() });
 
                     // Check pools in factory
-                    try {
-                        pools = await checkPools({
-                            oracle: oracles.allOracles[i],
-                            connector: connectors[j],
-                            connectorSymbol: symbol,
-                            token,
-                            weth,
-                            contractNameByAddress,
-                            allDeployments,
-                        });
-                    } catch (e) {
-                        console.log(e)
-                    }
+                    // try {
+                    //     pools = await checkPools({
+                    //         oracle: oracles.allOracles[i],
+                    //         connector: connectors[j],
+                    //         connectorSymbol: symbol,
+                    //         token,
+                    //         weth,
+                    //         contractNameByAddress,
+                    //         allDeployments,
+                    //     });
+                    // } catch (e) {
+                    //     console.log(e)
+                    // }
 
                 } catch {}
             }
 
-            console.table(pricesViaConnector.sort((a, b) => { return parseFloat(b.rate) - parseFloat(a.rate); }));
-            pools.forEach((pool) => {
-                console.dir(pool, { depth: null });
-            });
+            if (pricesViaConnector.length > 0) {
+                console.log('----------------------');
+                console.log(`Oracle:  ${contractNameByAddress[oracles.allOracles[i]]}`);
+                console.log(`Address: ${oracles.allOracles[i]}`);
+                console.log(`Price =  ${parseFloat(price).toFixed(2)}`);
+                console.table(pricesViaConnector.sort((a, b) => { return parseFloat(b.rate) - parseFloat(a.rate); }));
+                // pools.forEach((pool) => {
+                //     console.dir(pool, { depth: null });
+                // });
+            }
         }
 
         await offchainOracle.removeOracle(oracles.allOracles[i], oracles.oracleTypes[i]);
