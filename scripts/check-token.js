@@ -1,6 +1,5 @@
 const { ethers, deployments } = require('hardhat');
 const { tokens } = require('../test/helpers');
-const { ether, constants } = require('@1inch/solidity-utils');
 
 const usdPrice = (ethPrice) => { return ethers.utils.formatEther(BigInt(Math.trunc(ethPrice)) * BigInt(process.env.SCRIPT_ETH_PRICE)); };
 
@@ -13,7 +12,7 @@ async function main () {
 
     const allDeployments = await deployments.all();
     const contractNameByAddress = {};
-    Object.keys(allDeployments).forEach(function(contractName) {
+    Object.keys(allDeployments).forEach(function (contractName) {
         contractNameByAddress[allDeployments[contractName].address] = contractName;
     });
 
@@ -77,7 +76,6 @@ async function main () {
                     // } catch (e) {
                     //     console.log(e)
                     // }
-
                 } catch {}
             }
 
@@ -98,7 +96,7 @@ async function main () {
     console.log('Finished');
 }
 
-async function checkPools ({
+async function checkPools ({ // eslint-disable-line no-unused-vars
     oracle,
     connector,
     connectorSymbol,
@@ -119,7 +117,7 @@ async function checkPools ({
                 pools: [
                     await UniswapV2LikeOracle_createPoolObject(
                         await ethers.getContractAt('IUniswapV2Pair', getPoolUniswapV2(contract.args[0], contract.args[1], token, weth)),
-                    )
+                    ),
                 ],
             });
         } else {
@@ -143,7 +141,7 @@ async function checkPools ({
         const factory = await uniswapV3Oracle.FACTORY();
         const initcodeHash = await uniswapV3Oracle.POOL_INIT_CODE_HASH();
         for (let i = 0; i < fees.length; i++) {
-            const uniV3PoolAddress = getPoolUniswapV3(factory, initcodeHash, token, weth, fees[i])
+            const uniV3PoolAddress = getPoolUniswapV3(factory, initcodeHash, token, weth, fees[i]);
             if (await ethers.provider.getCode(uniV3PoolAddress) === '0x') {
                 continue;
             }
@@ -177,7 +175,7 @@ function getPoolUniswapV2 (factory, initcodeHash, token0, token1) {
     return ethers.utils.getCreate2Address(
         factory,
         ethers.utils.keccak256(ethers.utils.solidityPack(['address', 'address'], [token0, token1])),
-        initcodeHash
+        initcodeHash,
     );
 }
 
@@ -188,8 +186,8 @@ function getPoolUniswapV3 (factory, initcodeHash, token0, token1, fee) {
             '0xff',
             factory,
             ethers.utils.keccak256(ethers.utils.defaultAbiCoder.encode(['address', 'address', 'uint24'], [token0, token1, fee])),
-            initcodeHash
-        ]
+            initcodeHash,
+        ],
     );
     const keccakHash = ethers.utils.keccak256(encodedParams);
     const uint256 = ethers.BigNumber.from('0x' + keccakHash.slice(2));
@@ -197,7 +195,7 @@ function getPoolUniswapV3 (factory, initcodeHash, token0, token1, fee) {
     return ethers.utils.getAddress('0x' + uint160.toHexString().slice(2));
 }
 
-async function UniswapV2LikeOracle_createPoolObject (poolContract) {
+async function UniswapV2LikeOracle_createPoolObject (poolContract) { // eslint-disable-line camelcase
     let poolObj = {};
     try {
         const reserves = await poolContract.getReserves();
@@ -212,21 +210,21 @@ async function UniswapV2LikeOracle_createPoolObject (poolContract) {
     } catch (e) {
         poolObj = {
             error: e.message,
-        }
+        };
     }
     return poolObj;
 }
 
-function sqrt(value) {
+function sqrt (value) {
     if (value < 0n) {
-        throw 'square root of negative numbers is not supported'
+        throw 'square root of negative numbers is not supported'; // eslint-disable-line no-throw-literal
     }
 
     if (value < 2n) {
         return value;
     }
 
-    function newtonIteration(n, x0) {
+    function newtonIteration (n, x0) {
         const x1 = ((n / x0) + x0) >> 1n;
         if (x0 === x1 || x0 === (x1 - 1n)) {
             return x0;
