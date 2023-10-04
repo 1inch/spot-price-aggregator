@@ -8,7 +8,8 @@ async function main () {
         throw new Error('Specify SCRIPT_ETH_PRICE');
     }
     const token = process.env.SCRIPT_TOKEN || '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
-    const thresholdFilter = 10;
+    const isConnectorsZeroPrice = (process.env.SCRIPT_CONNECTORS_ZERO_PRICE || 'false').toLowerCase() === 'true';
+    const thresholdFilter = process.env.SCRIPT_THRESHOLD_FILTER || 10;
 
     const allDeployments = await deployments.all();
     const contractNameByAddress = {};
@@ -60,6 +61,9 @@ async function main () {
                     else symbol = await (await ethers.getContractAt('IERC20Metadata', connectors[j])).symbol();
 
                     const { rate, weight } = await oracle.getRate(token, weth, connectors[j], thresholdFilter);
+                    if (!isConnectorsZeroPrice && parseFloat(rate) === 0) {
+                        continue;
+                    }
                     pricesViaConnector.push({ connector: symbol, rate: parseFloat(usdPrice(rate / 10 ** (18 - decimals))).toFixed(2), weight: weight.toString() });
 
                     // Check pools in factory

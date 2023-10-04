@@ -13,6 +13,8 @@ The script's behavior is controlled by environment variables, which are specifie
  - `SCRIPT_ETH_PRICE` (required) - The current price of ETH in USD.
  - `SCRIPT_TOKEN` (required) - The address of the token that is being checked. This is the token for which the script will retrieve the price from OffchainOracle.
  - `SCRIPT_NETWORK_NAME` (optional) - Specifies the network from which OffchainChain's address is obtained during deployment. If not specified, the script defaults to the mainnet.
+ - `SCRIPT_CONNECTORS_ZERO_PRICE` (optional) - Use the Boolean value "true" or "false" to determine whether to display a zero price in the Oracle when using a specific connector. This indicates the presence of a pool, even though its price is zero. If not specified, the script defaults to the false.
+ - `SCRIPT_THRESHOLD_FILTER` (optional) - The value used to exclude pools whose weight, in percentage terms (ranging from 0 to 99), is less than the weight of the largest pool. This can be useful when pools with low liquidity have significantly different prices, which can influence the overall price. If not specified, the script defaults to the 10.
 
 ## check-tokens-prices
 `yarn && yarn scripts:check-tokens-prices`
