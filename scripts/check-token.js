@@ -1,7 +1,7 @@
 const { ethers, deployments } = require('hardhat');
 const { tokens } = require('../test/helpers');
 
-const usdPrice = (ethPrice) => { return ethers.utils.formatEther(BigInt(Math.trunc(ethPrice)) * BigInt(process.env.SCRIPT_ETH_PRICE)); };
+const usdPrice = (ethPrice, srcTokenDecimals) => { return parseFloat(ethPrice * 10**srcTokenDecimals / 1e18 / 1e18 * parseFloat(process.env.SCRIPT_ETH_PRICE)).toFixed(2) };
 
 async function main () {
     if (!process.env.SCRIPT_ETH_PRICE) {
@@ -41,13 +41,14 @@ async function main () {
     } catch {}
 
     console.log('======================');
-    console.log('Current state\'s price =', parseFloat(usdPrice(await deployedOffchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter) / 10 ** (18 - decimals))).toFixed(2));
+    const currentPrice = await deployedOffchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter);
+    console.log('Current state\'s price =', usdPrice(currentPrice, decimals));
 
     const oracles = await deployedOffchainOracle.oracles();
     for (let i = 0; i < oracles.allOracles.length; i++) {
         await offchainOracle.addOracle(oracles.allOracles[i], oracles.oracleTypes[i]);
 
-        const price = usdPrice(await offchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter) / 10 ** (18 - decimals));
+        const price = await offchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter);
         if (parseFloat(price) !== 0) {
             const oracle = await ethers.getContractAt('OracleBase', oracles.allOracles[i]);
             const pricesViaConnector = [];
@@ -63,7 +64,7 @@ async function main () {
                     if (!isConnectorsZeroPrice && parseFloat(rate) === 0) {
                         continue;
                     }
-                    pricesViaConnector.push({ connector: symbol, rate: parseFloat(usdPrice(rate / 10 ** (18 - decimals))).toFixed(2), weight: weight.toString() });
+                    pricesViaConnector.push({ connector: symbol, rate: usdPrice(rate, decimals), weight: weight.toString() });
                 } catch {}
             }
 
@@ -71,7 +72,7 @@ async function main () {
                 console.log('----------------------');
                 console.log(`Oracle:  ${contractNameByAddress[oracles.allOracles[i]]}`);
                 console.log(`Address: ${oracles.allOracles[i]}`);
-                console.log(`Price =  ${parseFloat(price).toFixed(2)}`);
+                console.log(`Price =  ${usdPrice(price, decimals)}`);
                 console.table(pricesViaConnector.sort((a, b) => { return parseFloat(b.rate) - parseFloat(a.rate); }));
             }
         }
