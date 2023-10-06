@@ -39,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
-      - run: node ./examples/single-price.js
+      - run: node ./examples/single-price.js | grep "Error" && exit 1 || exit 0
         env:
           INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
 
@@ -48,6 +48,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/actions/setup
-      - run: node ./examples/multiple-prices.js
+      - run: node ./examples/multiple-prices.js | grep "Error" && exit 1 || exit 0
         env:
           INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
