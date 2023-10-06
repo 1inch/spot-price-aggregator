@@ -1,6 +1,6 @@
 const ethers = require('ethers');
 
-const yourInfuraKey = 'add your key here';
+const yourInfuraKey = process.env.INFURA_API_KEY || 'add your key here';
 const provider = new ethers.providers.JsonRpcProvider(`https://mainnet.infura.io/v3/${yourInfuraKey}`);
 
 // eslint-disable-next-line max-len
