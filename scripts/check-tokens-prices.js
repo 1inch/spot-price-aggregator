@@ -1,6 +1,6 @@
 const { ethers } = require('hardhat');
 
-const usdPrice = (ethPrice) => { return ethers.utils.formatEther(BigInt(Math.trunc(ethPrice)) * BigInt(process.env.SCRIPT_ETH_PRICE)); };
+const usdPrice = (ethPrice, srcTokenDecimals) => { return parseFloat(ethPrice * 10 ** srcTokenDecimals / 1e18 / 1e18 * parseFloat(process.env.SCRIPT_ETH_PRICE)).toFixed(2); };
 
 async function main () {
     if (!process.env.SCRIPT_ETH_PRICE) {
@@ -70,8 +70,8 @@ async function main () {
         const deployedOraclePrice = await deployedOffchainOracle.getRateToEthWithThreshold(token.address, true, thresholdFilter);
         const currentImplPrice = await offchainOracle.getRateToEthWithThreshold(token.address, true, thresholdFilter);
 
-        const currentImplPriceUsd = parseFloat(usdPrice(currentImplPrice / 10 ** (18 - tokenDecimals))).toFixed(2);
-        const deployedOraclePriceUsd = parseFloat(usdPrice(deployedOraclePrice / 10 ** (18 - tokenDecimals))).toFixed(2);
+        const currentImplPriceUsd = usdPrice(currentImplPrice, tokenDecimals);
+        const deployedOraclePriceUsd = usdPrice(deployedOraclePrice, tokenDecimals);
         const diff = (parseFloat(currentImplPriceUsd) - parseFloat(deployedOraclePriceUsd)).toFixed(2);
 
         tokenPrices.push([
