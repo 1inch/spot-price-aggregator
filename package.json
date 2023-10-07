@@ -21,7 +21,7 @@
         "@nomiclabs/hardhat-ethers": "2.2.3",
         "chai": "4.3.7",
         "chai-bn": "0.3.1",
-        "dotenv-cli": "^7.2.1",
+        "dotenv-cli": "7.3.0",
         "dotenv": "16.3.1",
         "eslint": "8.46.0",
         "eslint-config-standard": "17.1.0",
