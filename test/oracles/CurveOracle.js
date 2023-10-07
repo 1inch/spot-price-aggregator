@@ -35,6 +35,12 @@ describe('CurveOracle', function () {
         assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 
+    it('should use correct `get_dy` selector when vyper return redundant bytes', async function () {
+        const { curveOracle } = await loadFixture(initContracts);
+        const rate = await curveOracle.getRate(tokens.BEAN, tokens['3CRV'], tokens.NONE, thresholdFilter);
+        expect(rate.rate).to.gt('0');
+    });
+
     describe('doesn\'t ruin various registry with different selectors', function () {
         it('Main Registry', async function () {
             await testNotRuins(0, 2);
