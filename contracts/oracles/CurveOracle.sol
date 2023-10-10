@@ -78,8 +78,7 @@ contract CurveOracle is IOracle {
                         registryTypes[i] == CurveRegistryType.CRYPTOPOOL_FACTORY ||
                         registryTypes[i] == CurveRegistryType.CURVE_TRICRYPTO_FACTORY
                     ) {
-                        (uint256 _srcTokenIndex, uint256 _dstTokenIndex) = abi.decode(data, (uint256, uint256));
-                        (srcTokenIndex, dstTokenIndex) = (int128(int256(_srcTokenIndex)), int128(int256(_dstTokenIndex)));
+                        (srcTokenIndex, dstTokenIndex) = abi.decode(data, (int128, int128));
                     } else {
                         pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
                         continue;
