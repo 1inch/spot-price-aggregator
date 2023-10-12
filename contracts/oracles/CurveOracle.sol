@@ -65,23 +65,18 @@ contract CurveOracle is IOracle {
                 int128 dstTokenIndex;
                 (bool success, bytes memory data) = address(registries[i]).staticcall(abi.encodeWithSelector(ICurveRegistry.get_coin_indices.selector, pool, address(srcToken), address(dstToken)));
                 if (success && data.length >= 64) {
-                    // TODO: here we can do only 3 checks from `else if` below
                     if (
-                        registryTypes[i] == CurveRegistryType.MAIN_REGISTRY ||
-                        registryTypes[i] == CurveRegistryType.METAPOOL_FACTORY ||
-                        registryTypes[i] == CurveRegistryType.METAREGISTRY ||
-                        registryTypes[i] == CurveRegistryType.CRVUSD_PLAIN_POOLS
-                    ) {
-                        (srcTokenIndex, dstTokenIndex, isUnderlying) = abi.decode(data, (int128, int128, bool));
-                    } else if (
                         registryTypes[i] == CurveRegistryType.CRYPTOSWAP_REGISTRY ||
                         registryTypes[i] == CurveRegistryType.CRYPTOPOOL_FACTORY ||
                         registryTypes[i] == CurveRegistryType.CURVE_TRICRYPTO_FACTORY
                     ) {
                         (srcTokenIndex, dstTokenIndex) = abi.decode(data, (int128, int128));
                     } else {
-                        pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
-                        continue;
+                        // registryTypes[i] == CurveRegistryType.MAIN_REGISTRY ||
+                        // registryTypes[i] == CurveRegistryType.METAPOOL_FACTORY ||
+                        // registryTypes[i] == CurveRegistryType.METAREGISTRY ||
+                        // registryTypes[i] == CurveRegistryType.CRVUSD_PLAIN_POOLS
+                        (srcTokenIndex, dstTokenIndex, isUnderlying) = abi.decode(data, (int128, int128, bool));
                     }
                 } else {
                     pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
@@ -106,38 +101,28 @@ contract CurveOracle is IOracle {
                 uint256[8] memory balances;
                 (success, data) = address(registries[i]).staticcall(abi.encodeWithSelector(info.balanceFuncSelector, pool));
                 if (success && data.length >= 64) {
-                    // TODO: here we can do only 4 checks from `else if` conditions below
-                    if (
-                        registryTypes[i] == CurveRegistryType.MAIN_REGISTRY ||
-                        registryTypes[i] == CurveRegistryType.CRYPTOSWAP_REGISTRY ||
-                        registryTypes[i] == CurveRegistryType.METAREGISTRY
-                    ) {
-                        balances = abi.decode(data, (uint256[8]));
-                    } else if (
-                        registryTypes[i] == CurveRegistryType.METAPOOL_FACTORY ||
+                    if (registryTypes[i] == CurveRegistryType.METAPOOL_FACTORY ||
                         registryTypes[i] == CurveRegistryType.CRVUSD_PLAIN_POOLS
                     ) {
                         uint256[4] memory _balances = abi.decode(data, (uint256[4]));
                         for (uint256 j = 0; j < 4; j++) {
                             balances[j] = _balances[j];
                         }
-                    } else if (
-                        registryTypes[i] == CurveRegistryType.CURVE_TRICRYPTO_FACTORY
-                    ) {
+                    } else if (registryTypes[i] == CurveRegistryType.CURVE_TRICRYPTO_FACTORY) {
                         uint256[3] memory _balances = abi.decode(data, (uint256[3]));
                         for (uint256 j = 0; j < 3; j++) {
                             balances[j] = _balances[j];
                         }
-                    } else if (
-                        registryTypes[i] == CurveRegistryType.CRYPTOPOOL_FACTORY
-                    ) {
+                    } else if (registryTypes[i] == CurveRegistryType.CRYPTOPOOL_FACTORY) {
                         uint256[2] memory _balances = abi.decode(data, (uint256[2]));
                         for (uint256 j = 0; j < 2; j++) {
                             balances[j] = _balances[j];
                         }
                     } else {
-                        pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
-                        continue;
+                        // registryTypes[i] == CurveRegistryType.MAIN_REGISTRY ||
+                        // registryTypes[i] == CurveRegistryType.CRYPTOSWAP_REGISTRY ||
+                        // registryTypes[i] == CurveRegistryType.METAREGISTRY
+                        balances = abi.decode(data, (uint256[8]));
                     }
                 } else {
                     pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
