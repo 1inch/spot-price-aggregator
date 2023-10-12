@@ -146,9 +146,9 @@ contract CurveOracle is IOracle {
 
                 uint256 w = (balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)]).sqrt();
                 uint256 b0 = balances[uint128(srcTokenIndex)] / 10000;
+                uint256 b1 = balances[uint128(dstTokenIndex)] / 10000;
 
-                if (b0 != 0) {
-                    uint256 b1;
+                if (b0 != 0 && b1 != 0) {
                     (success, data) = pool.staticcall(abi.encodeWithSelector(info.dyFuncInt128Selector, srcTokenIndex, dstTokenIndex, b0));
                     if (success && data.length >= 32) { // vyper could return redundant bytes
                         b1 = abi.decode(data, (uint256));
