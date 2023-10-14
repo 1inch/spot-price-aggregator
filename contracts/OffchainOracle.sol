@@ -430,7 +430,7 @@ contract OffchainOracle is Ownable {
         uint256 prod0; // Least significant 256 bits of the product
         uint256 prod1; // Most significant 256 bits of the product
         // solhint-disable-next-line no-inline-assembly
-        assembly ("memory-safe") {
+        assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
             let mm := mulmod(x, y, not(0))
             prod0 := mul(x, y)
             prod1 := sub(sub(mm, prod0), lt(mm, prod0))
