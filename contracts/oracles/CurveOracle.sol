@@ -101,11 +101,10 @@ contract CurveOracle is IOracle {
                 uint256[] memory balances;
                 (success, data) = address(registries[i]).staticcall(abi.encodeWithSelector(info.balanceFuncSelector, pool));
                 if (success && data.length >= 64) {
-                    assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
-                        balances := add(data, 0x20)
-                    }
-
-                    uint256 length;
+                    // registryTypes[i] == CurveRegistryType.MAIN_REGISTRY ||
+                    // registryTypes[i] == CurveRegistryType.CRYPTOSWAP_REGISTRY ||
+                    // registryTypes[i] == CurveRegistryType.METAREGISTRY
+                    uint256 length = 8;
                     if (registryTypes[i] == CurveRegistryType.METAPOOL_FACTORY ||
                         registryTypes[i] == CurveRegistryType.CRVUSD_PLAIN_POOLS) {
                         length = 4;
@@ -113,14 +112,10 @@ contract CurveOracle is IOracle {
                         length = 3;
                     } else if (registryTypes[i] == CurveRegistryType.CRYPTOPOOL_FACTORY) {
                         length = 2;
-                    } else {
-                        // registryTypes[i] == CurveRegistryType.MAIN_REGISTRY ||
-                        // registryTypes[i] == CurveRegistryType.CRYPTOSWAP_REGISTRY ||
-                        // registryTypes[i] == CurveRegistryType.METAREGISTRY
-                        length = 8;
                     }
 
                     assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
+                        balances := data
                         mstore(balances, length)
                     }
                 } else {
