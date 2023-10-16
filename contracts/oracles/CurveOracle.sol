@@ -98,31 +98,25 @@ contract CurveOracle is IOracle {
                 }
 
                 // call `balanceFunc` (`get_balances` or `get_underlying_balances`) and decode results
-                uint256[8] memory balances;
+                uint256[] memory balances;
                 (success, data) = address(registries[i]).staticcall(abi.encodeWithSelector(info.balanceFuncSelector, pool));
                 if (success && data.length >= 64) {
+                    // registryTypes[i] == CurveRegistryType.MAIN_REGISTRY ||
+                    // registryTypes[i] == CurveRegistryType.CRYPTOSWAP_REGISTRY ||
+                    // registryTypes[i] == CurveRegistryType.METAREGISTRY
+                    uint256 length = 8;
                     if (registryTypes[i] == CurveRegistryType.METAPOOL_FACTORY ||
-                        registryTypes[i] == CurveRegistryType.CRVUSD_PLAIN_POOLS
-                    ) {
-                        uint256[4] memory _balances = abi.decode(data, (uint256[4]));
-                        for (uint256 j = 0; j < 4; j++) {
-                            balances[j] = _balances[j];
-                        }
+                        registryTypes[i] == CurveRegistryType.CRVUSD_PLAIN_POOLS) {
+                        length = 4;
                     } else if (registryTypes[i] == CurveRegistryType.CURVE_TRICRYPTO_FACTORY) {
-                        uint256[3] memory _balances = abi.decode(data, (uint256[3]));
-                        for (uint256 j = 0; j < 3; j++) {
-                            balances[j] = _balances[j];
-                        }
+                        length = 3;
                     } else if (registryTypes[i] == CurveRegistryType.CRYPTOPOOL_FACTORY) {
-                        uint256[2] memory _balances = abi.decode(data, (uint256[2]));
-                        for (uint256 j = 0; j < 2; j++) {
-                            balances[j] = _balances[j];
-                        }
-                    } else {
-                        // registryTypes[i] == CurveRegistryType.MAIN_REGISTRY ||
-                        // registryTypes[i] == CurveRegistryType.CRYPTOSWAP_REGISTRY ||
-                        // registryTypes[i] == CurveRegistryType.METAREGISTRY
-                        balances = abi.decode(data, (uint256[8]));
+                        length = 2;
+                    }
+
+                    assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
+                        balances := data
+                        mstore(balances, length)
                     }
                 } else {
                     pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
