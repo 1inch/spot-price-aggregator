@@ -45,6 +45,8 @@ const tokens = {
     yvWBTC: '0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E',
     crvUSD: '0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E',
     wstETH: '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0',
+    BEAN: '0xBEA0000029AD1c77D3d5D23Ba2D8893dB9d1Efab',
+    '3CRV': '0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490',
     base: {
         DAI: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
         WETH: '0x4200000000000000000000000000000000000006',
@@ -56,6 +58,16 @@ const tokens = {
 const contracts = {
     create3Deployer: '0xD935a2bb926019E0ed6fb31fbD5b1Bbb7c05bf65', // '0x65B3Db8bAeF0215A1F9B14c506D2a3078b2C84AE',
     chaiPot: '0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7',
+};
+
+const CurveRegistryType = {
+    MAIN_REGISTRY: 0,
+    METAPOOL_FACTORY: 1,
+    CRYPTOSWAP_REGISTRY: 2,
+    CRYPTOPOOL_FACTORY: 3,
+    METAREGISTRY: 4,
+    CRVUSD_PLAIN_POOLS: 5,
+    CURVE_TRICRYPTO_FACTORY: 6,
 };
 
 const deployParams = {
@@ -79,6 +91,15 @@ const deployParams = {
         provider: '0x0000000022D53366457F9d5E68Ec105046FC4383',
         maxPools: 100,
         registryIds: [0, 3, 5, 6, 7, 8, 11],
+        registryTypes: [
+            CurveRegistryType.MAIN_REGISTRY,
+            CurveRegistryType.METAPOOL_FACTORY,
+            CurveRegistryType.CRYPTOSWAP_REGISTRY,
+            CurveRegistryType.CRYPTOPOOL_FACTORY,
+            CurveRegistryType.METAREGISTRY,
+            CurveRegistryType.CRVUSD_PLAIN_POOLS,
+            CurveRegistryType.CURVE_TRICRYPTO_FACTORY,
+        ],
     },
     Dodo: {
         dodoZoo: '0x3A97247DF274a17C59A3bd12735ea3FcDFb49950',
