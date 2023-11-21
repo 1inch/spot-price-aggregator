@@ -43,6 +43,6 @@ describe('DodoOracle', function () {
     const testRate = async function (srcToken, dstToken, connector, dodoOracle, uniswapV3Oracle) {
         const dodoResult = await dodoOracle.getRate(srcToken, dstToken, connector, thresholdFilter);
         const v3Result = await uniswapV3Oracle.getRate(srcToken, dstToken, connector, thresholdFilter);
-        assertRoughlyEqualValues(v3Result.rate.toString(), dodoResult.rate.toString(), 0.05);
+        assertRoughlyEqualValues(v3Result.rate, dodoResult.rate, 0.05);
     };
 });

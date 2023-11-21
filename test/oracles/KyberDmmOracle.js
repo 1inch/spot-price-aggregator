@@ -16,14 +16,14 @@ describe('KyberDmmOracle', function () {
     it('should revert with amount of pools error', async function () {
         const { kyberDmmOracle } = await loadFixture(initContracts);
         await expect(
-            kyberDmmOracle.callStatic.getRate(tokens.USDT, tokens.EEE, tokens.NONE, thresholdFilter),
+            kyberDmmOracle.getRate.staticCall(tokens.USDT, tokens.EEE, tokens.NONE, thresholdFilter),
         ).to.be.revertedWithCustomError(kyberDmmOracle, 'PoolNotFound');
     });
 
     it('should revert with amount of pools with connector error', async function () {
         const { kyberDmmOracle } = await loadFixture(initContracts);
         await expect(
-            kyberDmmOracle.callStatic.getRate(tokens.USDT, tokens.WETH, tokens.MKR, thresholdFilter),
+            kyberDmmOracle.getRate.staticCall(tokens.USDT, tokens.WETH, tokens.MKR, thresholdFilter),
         ).to.be.revertedWithCustomError(kyberDmmOracle, 'PoolWithConnectorNotFound');
     });
 
@@ -60,6 +60,6 @@ describe('KyberDmmOracle', function () {
     async function testRate (srcToken, dstToken, connector, kyberDmmOracle, uniswapV3Oracle) {
         const kyberResult = await kyberDmmOracle.getRate(srcToken, dstToken, connector, thresholdFilter);
         const v3Result = await uniswapV3Oracle.getRate(srcToken, dstToken, connector, thresholdFilter);
-        assertRoughlyEqualValues(v3Result.rate.toString(), kyberResult.rate.toString(), 0.05);
+        assertRoughlyEqualValues(v3Result.rate, kyberResult.rate, 0.05);
     }
 });
