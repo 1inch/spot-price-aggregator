@@ -17,7 +17,7 @@ async function main () {
         tokenlist = Object.keys(tokenlist);
     }
 
-    const deployer = await ethers.getSigner();
+    const [deployer] = await ethers.getSigners();
     const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
     const offchainOracleInDeployments = require(`../deployments/${networkName}/OffchainOracle.json`);
     const deployedOffchainOracle = OffchainOracle.attach(offchainOracleInDeployments.address);
@@ -29,11 +29,11 @@ async function main () {
         await deployedOffchainOracle.multiWrapper(),
         [],
         [],
-        connectors,
+        [...connectors],
         weth,
         deployer.address,
     );
-    await offchainOracle.deployed();
+    await offchainOracle.waitForDeployment();
 
     console.log('======================');
 
@@ -52,9 +52,9 @@ async function main () {
         const Oracle = await ethers.getContractFactory(config[0]);
         const oracleConstructorParams = config[2] ? JSON.parse(config[2]) : [];
         const oracle = await Oracle.deploy(...oracleConstructorParams);
-        await oracle.deployed();
+        await oracle.waitForDeployment();
 
-        await offchainOracle.addOracle(oracle.address, config[1]);
+        await offchainOracle.addOracle(oracle, config[1]);
     }
 
     const tokenPrices = [];
@@ -63,19 +63,19 @@ async function main () {
 
         let tokenDecimals = 18;
         try {
-            tokenDecimals = await token.decimals();
+            tokenDecimals = parseFloat(await token.decimals());
         } catch {}
 
         clearAndPrint(`Progress: ${i} / ${tokenlist.length}`);
-        const deployedOraclePrice = await deployedOffchainOracle.getRateToEthWithThreshold(token.address, true, thresholdFilter);
-        const currentImplPrice = await offchainOracle.getRateToEthWithThreshold(token.address, true, thresholdFilter);
+        const deployedOraclePrice = parseFloat(await deployedOffchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter));
+        const currentImplPrice = parseFloat(await offchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter));
 
         const currentImplPriceUsd = usdPrice(currentImplPrice, tokenDecimals);
         const deployedOraclePriceUsd = usdPrice(deployedOraclePrice, tokenDecimals);
         const diff = (parseFloat(currentImplPriceUsd) - parseFloat(deployedOraclePriceUsd)).toFixed(2);
 
         tokenPrices.push([
-            token.address,
+            await token.getAddress(),
             deployedOraclePriceUsd, // price in deployed oracle
             currentImplPriceUsd, // price in oracle with current implementation
             diff, // diff
