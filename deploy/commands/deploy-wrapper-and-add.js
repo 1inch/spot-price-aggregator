@@ -16,7 +16,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const offchainOracle = await getContract(deployments, 'OffchainOracle');
     const multiWrapper = await getContract(deployments, 'MultiWrapper');
-    if (ethers.utils.getAddress(await offchainOracle.multiWrapper()) !== ethers.utils.getAddress(multiWrapper.address)) {
+    if (ethers.getAddress(await offchainOracle.multiWrapper()) !== ethers.getAddress(await multiWrapper.getAddress())) {
         console.warn('MultiWrapper address in deployments is not equal to the address in OffchainOracle');
         return;
     }
@@ -28,7 +28,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         deployer,
         deploymentName: PARAMS.deploymentName,
     });
-    await multiWrapper.addWrapper(customWrapper.address);
+    await multiWrapper.addWrapper(customWrapper);
 };
 
 module.exports.skip = async () => true;

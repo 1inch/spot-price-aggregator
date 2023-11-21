@@ -23,7 +23,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         deployer,
         deploymentName: PARAMS.deploymentName,
     });
-    await offchainOracle.addOracle(customOracle.address, PARAMS.oracleType);
+    await offchainOracle.addOracle(customOracle, PARAMS.oracleType);
 };
 
 module.exports.skip = async () => true;
