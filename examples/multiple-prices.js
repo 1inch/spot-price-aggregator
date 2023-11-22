@@ -1,7 +1,7 @@
 const ethers = require('ethers');
 
 const yourInfuraKey = process.env.INFURA_API_KEY || 'add your key here';
-const provider = new ethers.providers.JsonRpcProvider(`https://mainnet.infura.io/v3/${yourInfuraKey}`);
+const provider = new ethers.JsonRpcProvider(`https://mainnet.infura.io/v3/${yourInfuraKey}`);
 
 // eslint-disable-next-line max-len
 const MultiCallAbi = [{ inputs: [{ components: [{ internalType: 'address', name: 'to', type: 'address' }, { internalType: 'bytes', name: 'data', type: 'bytes' }], internalType: 'struct MultiCall.Call[]', name: 'calls', type: 'tuple[]' }], name: 'multicall', outputs: [{ internalType: 'bytes[]', name: 'results', type: 'bytes[]' }, { internalType: 'bool[]', name: 'success', type: 'bool[]' }], stateMutability: 'view', type: 'function' }];
@@ -51,7 +51,7 @@ multiCallContract.multicall(callData)
                 continue;
             }
 
-            const decodedRate = ethers.utils.defaultAbiCoder.decode(['uint256'], results[i]).toString();
+            const decodedRate = ethers.AbiCoder.defaultAbiCoder().decode(['uint256'], results[i]).toString();
             const numerator = 10 ** tokens[i].decimals;
             const denominator = 1e18; // eth decimals
             const price = decodedRate * numerator / denominator / 1e18;
