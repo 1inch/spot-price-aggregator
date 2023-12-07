@@ -31,7 +31,7 @@ describe('SynthetixOracle', function () {
         const { synthetixOracle } = await loadFixture(initContracts);
         const incorrectSREN = '0x4287dac1cC7434991119Eba7413189A66fFE65cF';
         await expect(
-            synthetixOracle.callStatic.getRate(incorrectSREN, tokens.sKRW, tokens.NONE, thresholdFilter),
+            synthetixOracle.getRate.staticCall(incorrectSREN, tokens.sKRW, tokens.NONE, thresholdFilter),
         ).to.be.revertedWithCustomError(synthetixOracle, 'UnregisteredToken');
     });
 
@@ -76,8 +76,8 @@ describe('SynthetixOracle', function () {
         const synthResult = await synthetixOracle.getRate(srcTokens[0], dstTokens[0], connector, thresholdFilter);
         const v3Result = await uniswapV3Oracle.getRate(srcTokens[1], dstTokens[1], connector, thresholdFilter);
 
-        let actualResult = synthResult.rate.toBigInt();
-        let expectedResult = v3Result.rate.toBigInt();
+        let actualResult = synthResult.rate;
+        let expectedResult = v3Result.rate;
         const srcActualDecimals = await getDecimals(srcTokens[0]);
         const srcExpectedDecimals = await getDecimals(srcTokens[1]);
         const dstActualDecimals = await getDecimals(dstTokens[0]);
@@ -93,7 +93,7 @@ describe('SynthetixOracle', function () {
             actualResult = actualResult / (10n ** diff);
         }
 
-        assertRoughlyEqualValues(expectedResult.toString(), actualResult.toString(), 0.05);
+        assertRoughlyEqualValues(expectedResult, actualResult, 0.05);
     }
 
     async function getDecimals (token) {
@@ -101,6 +101,6 @@ describe('SynthetixOracle', function () {
             return 18n;
         }
         const ERC20 = await ethers.getContractFactory('ERC20');
-        return BigInt(await (await ERC20.attach(token)).decimals());
+        return await ERC20.attach(token).decimals();
     }
 });

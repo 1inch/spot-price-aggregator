@@ -15,11 +15,11 @@ describe('MultiWrapper', function () {
         await fulcrumWrapper.addMarkets([tokens.DAI, tokens.WETH]);
 
         const multiWrapper = await deployContract('MultiWrapper', [[
-            wethWrapper.address,
-            aaveWrapperV1.address,
-            aaveWrapperV2.address,
-            compoundWrapper.address,
-            fulcrumWrapper.address,
+            wethWrapper,
+            aaveWrapperV1,
+            aaveWrapperV2,
+            compoundWrapper,
+            fulcrumWrapper,
         ]]);
 
         return { multiWrapper };

@@ -17,7 +17,6 @@ describe('ChainlinkOracle', function () {
         const { chainlinkOracle, uniswapV3Oracle } = await loadFixture(initContracts);
         const actual = await chainlinkOracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE, thresholdFilter);
         const expected = await uniswapV3Oracle.getRate(tokens.USDT, tokens.DAI, tokens.NONE, thresholdFilter);
-
         assertRoughlyEqualValues(expected.rate.toString(), actual.rate.toString(), 0.05);
     });
 

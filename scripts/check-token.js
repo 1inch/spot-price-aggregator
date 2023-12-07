@@ -18,7 +18,7 @@ async function main () {
     });
 
     const offchainOracleInDeployments = await deployments.get('OffchainOracle');
-    const deployer = await ethers.getSigner();
+    const [deployer] = await ethers.getSigners();
     const OffchainOracle = await ethers.getContractFactory('OffchainOracle');
     const deployedOffchainOracle = OffchainOracle.attach(offchainOracleInDeployments.address);
 
@@ -29,19 +29,19 @@ async function main () {
         await deployedOffchainOracle.multiWrapper(),
         [],
         [],
-        connectors,
+        [...connectors],
         weth,
         deployer.address,
     );
-    await offchainOracle.deployed();
+    await offchainOracle.waitForDeployment();
 
     let decimals = 18;
     try {
-        decimals = await (await ethers.getContractAt('IERC20Metadata', token)).decimals();
+        decimals = parseFloat(await (await ethers.getContractAt('IERC20Metadata', token)).decimals());
     } catch {}
 
     console.log('======================');
-    const currentPrice = await deployedOffchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter);
+    const currentPrice = parseFloat(await deployedOffchainOracle.getRateToEthWithThreshold(token, true, thresholdFilter));
     console.log('Current state\'s price =', usdPrice(currentPrice, decimals));
 
     const oracles = await deployedOffchainOracle.oracles();

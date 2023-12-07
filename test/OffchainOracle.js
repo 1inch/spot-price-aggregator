@@ -10,7 +10,7 @@ const {
 
 describe('OffchainOracle', function () {
     async function initContracts () {
-        const deployer = await ethers.getSigner();
+        const [deployer] = await ethers.getSigners();
 
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
         const uniswapOracle = await deployContract('UniswapOracle', [Uniswap.factory]);
@@ -21,9 +21,9 @@ describe('OffchainOracle', function () {
         await aaveWrapperV1.addMarkets([tokens.DAI]);
         await aaveWrapperV2.addMarkets([tokens.DAI]);
         const multiWrapper = await deployContract('MultiWrapper', [[
-            wethWrapper.address,
-            aaveWrapperV1.address,
-            aaveWrapperV2.address,
+            wethWrapper,
+            aaveWrapperV1,
+            aaveWrapperV2,
         ]]);
 
         return {
@@ -40,11 +40,11 @@ describe('OffchainOracle', function () {
             const { uniswapV2LikeOracle, uniswapOracle, mooniswapOracle, multiWrapper, deployer } = await initContracts();
 
             const offchainOracle = await deployContract('OffchainOracle', [
-                multiWrapper.address,
+                multiWrapper,
                 [
-                    uniswapV2LikeOracle.address,
-                    uniswapOracle.address,
-                    mooniswapOracle.address,
+                    uniswapV2LikeOracle,
+                    uniswapOracle,
+                    mooniswapOracle,
                 ],
                 ['0', '1', '2'],
                 [
@@ -58,11 +58,11 @@ describe('OffchainOracle', function () {
             ]);
 
             const expensiveOffchainOracle = await deployContract('OffchainOracle', [
-                multiWrapper.address,
+                multiWrapper,
                 [
-                    uniswapV2LikeOracle.address,
-                    uniswapOracle.address,
-                    mooniswapOracle.address,
+                    uniswapV2LikeOracle,
+                    uniswapOracle,
+                    mooniswapOracle,
                 ],
                 ['2', '2', '2'],
                 [
@@ -104,7 +104,7 @@ describe('OffchainOracle', function () {
             if (hre.__SOLIDITY_COVERAGE_RUNNING) { this.skip(); }
             const { expensiveOffchainOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
             const result = await gasEstimator.gasCost(
-                expensiveOffchainOracle.address,
+                await expensiveOffchainOracle.getAddress(),
                 expensiveOffchainOracle.interface.encodeFunctionData('getRateWithThreshold', [tokens.DAI, tokens.LINK, true, thresholdFilter]),
             );
             assertRoughlyEqualValues(result.gasUsed, '814963', 1e-2);
@@ -121,7 +121,7 @@ describe('OffchainOracle', function () {
             if (hre.__SOLIDITY_COVERAGE_RUNNING) { this.skip(); }
             const { expensiveOffchainOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
             const result = await gasEstimator.gasCost(
-                expensiveOffchainOracle.address,
+                await expensiveOffchainOracle.getAddress(),
                 expensiveOffchainOracle.interface.encodeFunctionData('getRateToEthWithThreshold', [tokens.DAI, true, thresholdFilter]),
             );
             assertRoughlyEqualValues(result.gasUsed, '1368550', 1e-2);
@@ -138,7 +138,7 @@ describe('OffchainOracle', function () {
             if (hre.__SOLIDITY_COVERAGE_RUNNING) { this.skip(); }
             const { expensiveOffchainOracle, gasEstimator } = await loadFixture(initContractsAndOffchainOracle);
             const result = await gasEstimator.gasCost(
-                expensiveOffchainOracle.address,
+                await expensiveOffchainOracle.getAddress(),
                 expensiveOffchainOracle.interface.encodeFunctionData('getRateWithThreshold', [tokens.DAI, tokens.LINK, false, thresholdFilter]),
             );
             assertRoughlyEqualValues(result.gasUsed, '382698', 1e-1);
@@ -155,10 +155,10 @@ describe('OffchainOracle', function () {
                 tokens.USDC,
             ];
             const offchainOracle = await deployContract('OffchainOracle', [
-                multiWrapper.address,
+                multiWrapper,
                 [
-                    uniswapV2LikeOracle.address,
-                    uniswapOracle.address,
+                    uniswapV2LikeOracle,
+                    uniswapOracle,
                 ],
                 ['0', '1'],
                 [
@@ -170,10 +170,10 @@ describe('OffchainOracle', function () {
             ]);
 
             const offchainOracleWithoutConnectors = await deployContract('OffchainOracle', [
-                multiWrapper.address,
+                multiWrapper,
                 [
-                    uniswapV2LikeOracle.address,
-                    uniswapOracle.address,
+                    uniswapV2LikeOracle,
+                    uniswapOracle,
                 ],
                 ['0', '1'],
                 [
@@ -191,7 +191,7 @@ describe('OffchainOracle', function () {
             const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.WETH, tokens.DAI, true, connectors, thresholdFilter);
             const rate = await offchainOracle.getRateWithThreshold(tokens.WETH, tokens.DAI, true, thresholdFilter);
             expect(rateWithCustomConnector).to.gt(ether('1000'));
-            assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
+            assertRoughlyEqualValues(rateWithCustomConnector, rate, 1e-18);
         });
 
         it('eth -> dai', async function () {
@@ -199,7 +199,7 @@ describe('OffchainOracle', function () {
             const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.ETH, tokens.DAI, true, connectors, thresholdFilter);
             const rate = await offchainOracle.getRateWithThreshold(tokens.ETH, tokens.DAI, true, thresholdFilter);
             expect(rateWithCustomConnector).to.gt(ether('1000'));
-            assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
+            assertRoughlyEqualValues(rateWithCustomConnector, rate, 1e-18);
         });
 
         it('usdc -> dai', async function () {
@@ -207,7 +207,7 @@ describe('OffchainOracle', function () {
             const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.USDC, tokens.DAI, true, connectors, thresholdFilter);
             const rate = await offchainOracle.getRateWithThreshold(tokens.USDC, tokens.DAI, true, thresholdFilter);
             expect(rateWithCustomConnector).to.gt(ether('980000000000'));
-            assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
+            assertRoughlyEqualValues(rateWithCustomConnector, rate, 1e-18);
         });
 
         it('dai -> adai', async function () {
@@ -215,7 +215,7 @@ describe('OffchainOracle', function () {
             const rateWithCustomConnector = await offchainOracleWithoutConnectors.getRateWithCustomConnectors(tokens.DAI, tokens.aDAIV2, true, connectors, thresholdFilter);
             const rate = await offchainOracle.getRateWithThreshold(tokens.DAI, tokens.aDAIV2, true, thresholdFilter);
             expect(rateWithCustomConnector).to.equal(ether('1'));
-            assertRoughlyEqualValues(rateWithCustomConnector.toBigInt(), rate.toBigInt(), 1e-18);
+            assertRoughlyEqualValues(rateWithCustomConnector, rate, 1e-18);
         });
     });
 
@@ -225,9 +225,9 @@ describe('OffchainOracle', function () {
 
             const simpleOracleMock = await deployContract('SimpleOracleMock', ['608424427628800532964876503129856304465282478', '2']);
             const offchainOracle = await deployContract('OffchainOracle', [
-                multiWrapper.address,
+                multiWrapper,
                 [
-                    simpleOracleMock.address,
+                    simpleOracleMock,
                 ],
                 ['0'],
                 [

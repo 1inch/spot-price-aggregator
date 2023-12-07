@@ -43,31 +43,31 @@ describe('CurveOracle', function () {
 
     describe('doesn\'t ruin various registry with different selectors', function () {
         it('Main Registry', async function () {
-            await testNotRuins(0, 2);
+            await testNotRuins(0, 2n);
         });
 
         it('Metapool Factory', async function () {
-            await testNotRuins(1, 2);
+            await testNotRuins(1, 2n);
         });
 
         it('Cryptoswap Registry', async function () {
-            await testNotRuins(2, 2);
+            await testNotRuins(2, 2n);
         });
 
         it('Cryptopool Factory', async function () {
-            await testNotRuins(3, 2);
+            await testNotRuins(3, 2n);
         });
 
         it('Metaregistry', async function () {
-            await testNotRuins(4, 2);
+            await testNotRuins(4, 2n);
         });
 
         it('crvUSD Plain Pools', async function () {
-            await testNotRuins(5, 2);
+            await testNotRuins(5, 2n);
         });
 
         it('Curve Tricrypto Factory', async function () {
-            await testNotRuins(6, 2);
+            await testNotRuins(6, 2n);
         });
 
         async function testNotRuins (registryIndex, testPoolsAmount) {
@@ -98,7 +98,7 @@ describe('CurveOracle', function () {
             const poolCount = await registry.pool_count();
 
             // we check only `testPoolsAmount` random pools from the registry to save time
-            for (let i = 0; i < poolCount; i += Math.ceil(poolCount / testPoolsAmount)) {
+            for (let i = 0n; i < poolCount; i += (poolCount / testPoolsAmount)) {
                 const poolAddress = await registry.pool_list(i);
                 let token0, token1;
                 try {
@@ -122,7 +122,7 @@ describe('CurveOracle', function () {
 
 describe('CurveOracle doesn\'t ruin rates', function () {
     async function initContracts () {
-        const deployer = await ethers.getSigner();
+        const [deployer] = await ethers.getSigners();
 
         const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
         const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, Curve.registryIds, Curve.registryTypes]);
@@ -134,17 +134,17 @@ describe('CurveOracle doesn\'t ruin rates', function () {
         await aaveWrapperV1.addMarkets([tokens.DAI]);
         await aaveWrapperV2.addMarkets([tokens.DAI]);
         const multiWrapper = await deployContract('MultiWrapper', [[
-            wethWrapper.address,
-            aaveWrapperV1.address,
-            aaveWrapperV2.address,
+            wethWrapper,
+            aaveWrapperV1,
+            aaveWrapperV2,
         ]]);
 
         const oldOffchainOracle = await deployContract('OffchainOracle', [
-            multiWrapper.address,
+            multiWrapper,
             [
-                uniswapV2LikeOracle.address,
-                uniswapOracle.address,
-                mooniswapOracle.address,
+                uniswapV2LikeOracle,
+                uniswapOracle,
+                mooniswapOracle,
             ],
             [
                 '0',
@@ -163,12 +163,12 @@ describe('CurveOracle doesn\'t ruin rates', function () {
         ]);
 
         const newOffchainOracle = await deployContract('OffchainOracle', [
-            multiWrapper.address,
+            multiWrapper,
             [
-                uniswapV2LikeOracle.address,
-                uniswapOracle.address,
-                mooniswapOracle.address,
-                curveOracle.address,
+                uniswapV2LikeOracle,
+                uniswapOracle,
+                mooniswapOracle,
+                curveOracle,
             ],
             [
                 '0',
@@ -204,7 +204,7 @@ describe('CurveOracle doesn\'t ruin rates', function () {
         const actualRate = await newOffchainOracle.getRateWithThreshold(srcToken, dstToken, true, thresholdFilter);
         const expectedReverseRate = await oldOffchainOracle.getRateWithThreshold(dstToken, srcToken, true, thresholdFilter);
         const actualReverseRate = await newOffchainOracle.getRateWithThreshold(dstToken, srcToken, true, thresholdFilter);
-        assertRoughlyEqualValues(actualRate.toString(), expectedRate.toString(), '0.05');
-        assertRoughlyEqualValues(actualReverseRate.toString(), expectedReverseRate.toString(), '0.05');
+        assertRoughlyEqualValues(actualRate, expectedRate, '0.05');
+        assertRoughlyEqualValues(actualReverseRate, expectedReverseRate, '0.05');
     }
 });

@@ -11,14 +11,14 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         args: [],
         deploymentName: 'YOUR_DEPLOYMENT_NAME',
     };
-    const SALT_PROD = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(PARAMS.contractName + SALT_INDEX));
+    const SALT_PROD = ethers.keccak256(ethers.toUtf8Bytes(PARAMS.contractName + SALT_INDEX));
 
     console.log('running deploy script: use-create3/deploy-wrapper-and-add');
     console.log('network id ', await getChainId());
 
     const offchainOracle = await getContract(deployments, 'OffchainOracle');
     const multiWrapper = await getContract(deployments, 'MultiWrapper');
-    if (ethers.utils.getAddress(await offchainOracle.multiWrapper()) !== ethers.utils.getAddress(multiWrapper.address)) {
+    if (ethers.getAddress(await offchainOracle.multiWrapper()) !== ethers.getAddress(await multiWrapper.getAddress())) {
         console.warn('MultiWrapper address in deployments is not equal to the address in OffchainOracle');
         return;
     }

@@ -18,7 +18,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const oldCustomOracle = await getContract(deployments, PARAMS.contractName, PARAMS.deploymentName);
 
     const oracles = await offchainOracle.oracles();
-    const customOracleType = oracles.oracleTypes[oracles.allOracles.indexOf(oldCustomOracle.address)];
+    const customOracleType = oracles.oracleTypes[oracles.allOracles.indexOf(await oldCustomOracle.getAddress())];
 
     const customOracle = await deployAndGetContract({
         contractName: PARAMS.contractName,
@@ -28,8 +28,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         deploymentName: PARAMS.deploymentName,
         skipIfAlreadyDeployed: false,
     });
-    await offchainOracle.removeOracle(oldCustomOracle.address, customOracleType);
-    await offchainOracle.addOracle(customOracle.address, customOracleType);
+    await offchainOracle.removeOracle(oldCustomOracle, customOracleType);
+    await offchainOracle.addOracle(customOracle, customOracleType);
 };
 
 module.exports.skip = async () => true;

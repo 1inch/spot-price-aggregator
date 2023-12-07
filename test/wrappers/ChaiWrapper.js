@@ -12,8 +12,8 @@ describe('ChaiWrapper', function () {
         await wallet.sendTransaction({ to: '0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667', value: ether('1') });
         // Buy CHAI using DAI
         const dai = await ethers.getContractAt('IERC20', tokens.DAI);
-        await dai.approve(chai.address, ether('3'));
-        await chai.join(wallet.address, ether('2'));
+        await dai.approve(chai, ether('3'));
+        await chai.join(wallet, ether('2'));
         return { wallet, chaiWrapper, chai, dai };
     }
 

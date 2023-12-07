@@ -10,7 +10,8 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         args: [],
         deploymentName: 'YOUR_DEPLOYMENT_NAME',
     };
-    const SALT_PROD = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(PARAMS.contractName + SALT_INDEX));
+
+    const SALT_PROD = ethers.keccak256(ethers.toUtf8Bytes(PARAMS.contractName + SALT_INDEX));
 
     console.log('running deploy script: use-create3/simple-deploy');
     console.log('network id ', await getChainId());
@@ -21,9 +22,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 const deployContract = async (params, saltProd, deployments) => {
     const create3Deployer = await ethers.getContractAt('ICreate3Deployer', contracts.create3Deployer);
     const CustomContract = await ethers.getContractFactory(params.contractName);
-    const deployData = CustomContract.getDeployTransaction(
+    const deployData = (await CustomContract.getDeployTransaction(
         ...params.args,
-    ).data;
+    )).data;
 
     const txn = await create3Deployer.deploy(saltProd, deployData);
     const receipt = await txn.wait();
