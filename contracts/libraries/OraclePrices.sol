@@ -1,3 +1,4 @@
+// solhint-disable private-vars-leading-underscore
 // SPDX-License-Identifier: MIT
 
 pragma solidity 0.8.23;
