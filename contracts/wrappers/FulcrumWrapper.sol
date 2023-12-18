@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.19;
+pragma solidity 0.8.23;
 
 import "../interfaces/ILoanToken.sol";
 import "../interfaces/IBzxProtocol.sol";

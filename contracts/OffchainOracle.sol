@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.19;
+pragma solidity 0.8.23;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
@@ -50,7 +50,7 @@ contract OffchainOracle is Ownable {
     IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private immutable _WBASE;
 
-    constructor(MultiWrapper _multiWrapper, IOracle[] memory existingOracles, OracleType[] memory oracleTypes, IERC20[] memory existingConnectors, IERC20 wBase, address owner) {
+    constructor(MultiWrapper _multiWrapper, IOracle[] memory existingOracles, OracleType[] memory oracleTypes, IERC20[] memory existingConnectors, IERC20 wBase, address owner_) Ownable(owner_) {
         unchecked {
             if(existingOracles.length != oracleTypes.length) revert ArraysLengthMismatch();
             multiWrapper = _multiWrapper;
@@ -74,7 +74,6 @@ contract OffchainOracle is Ownable {
             }
             _WBASE = wBase;
         }
-        if (owner != msg.sender) transferOwnership(owner);
     }
 
     /**

@@ -1,9 +1,11 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether, deployContract } = require('@1inch/solidity-utils');
 const { tokens, deployParams: { AaveWrapperV2, CompoundWrapper } } = require('./helpers.js');
+const { ethers } = require('hardhat');
 
 describe('MultiWrapper', function () {
     async function initContracts () {
+        const [owner] = await ethers.getSigners();
         const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.ETH, tokens.WETH]);
         const aaveWrapperV1 = await deployContract('AaveWrapperV1');
         await aaveWrapperV1.addMarkets([tokens.DAI, tokens.EEE]);
@@ -14,13 +16,16 @@ describe('MultiWrapper', function () {
         const fulcrumWrapper = await deployContract('FulcrumWrapper');
         await fulcrumWrapper.addMarkets([tokens.DAI, tokens.WETH]);
 
-        const multiWrapper = await deployContract('MultiWrapper', [[
-            wethWrapper,
-            aaveWrapperV1,
-            aaveWrapperV2,
-            compoundWrapper,
-            fulcrumWrapper,
-        ]]);
+        const multiWrapper = await deployContract('MultiWrapper', [
+            [
+                wethWrapper,
+                aaveWrapperV1,
+                aaveWrapperV2,
+                compoundWrapper,
+                fulcrumWrapper,
+            ],
+            owner,
+        ]);
 
         return { multiWrapper };
     }

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.19;
+pragma solidity 0.8.23;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
@@ -29,7 +29,7 @@ contract MultiWrapper is Ownable {
      * @dev Initializes the MultiWrapper with an array of existing `IWrapper` contracts.
      * @param existingWrappers Initial wrappers to be added.
      */
-    constructor(IWrapper[] memory existingWrappers) {
+    constructor(IWrapper[] memory existingWrappers, address owner_) Ownable(owner_) {
         unchecked {
             for (uint256 i = 0; i < existingWrappers.length; i++) {
                 if (!_wrappers.add(address(existingWrappers[i]))) revert WrapperAlreadyAdded();

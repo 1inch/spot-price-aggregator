@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.19;
+pragma solidity 0.8.23;
 
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 
 /**
  * @title OraclePrices
@@ -12,7 +12,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
  *         The level of low-weight pool filtering can be managed using the thresholdFilter parameter.
  */
 library OraclePrices {
-    using SafeMath for uint256;
+    using Math for uint256;
 
     /**
     * @title Oracle Price Data Structure
