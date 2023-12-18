@@ -35,7 +35,7 @@
         "hardhat-gas-reporter": "1.0.9",
         "hardhat-tracer": "2.7.0",
         "rimraf": "5.0.5",
-        "solhint": "4.0.0",
+        "solhint": "3.6.2",
         "solidity-coverage": "0.8.5",
         "zksync-ethers": "6.0.0",
         "zksync-web3": "0.17.1"
