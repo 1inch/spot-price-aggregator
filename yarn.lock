@@ -544,16 +544,7 @@
     chalk "4.1.2"
     ts-morph "^20.0.0"
 
-"@matterlabs/hardhat-zksync-solc@0.3.17":
-  version "0.3.17"
-  resolved "https://registry.yarnpkg.com/@matterlabs/hardhat-zksync-solc/-/hardhat-zksync-solc-0.3.17.tgz#72f199544dc89b268d7bfc06d022a311042752fd"
-  integrity sha512-aZgQ0yfXW5xPkfuEH1d44ncWV4T2LzKZd0VVPo4PL5cUrYs2/II1FaEDp5zsf3FxOR1xT3mBsjuSrtJkk4AL8Q==
-  dependencies:
-    "@nomiclabs/hardhat-docker" "^2.0.0"
-    chalk "4.1.2"
-    dockerode "^3.3.4"
-
-"@matterlabs/hardhat-zksync-solc@1.0.5", "@matterlabs/hardhat-zksync-solc@^1.0.4":
+"@matterlabs/hardhat-zksync-solc@1.0.5", "@matterlabs/hardhat-zksync-solc@^1.0.3", "@matterlabs/hardhat-zksync-solc@^1.0.4":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@matterlabs/hardhat-zksync-solc/-/hardhat-zksync-solc-1.0.5.tgz#9f128da0b47c147216dbd84c82bc58c190052afe"
   integrity sha512-IBWvbGJSISNtWIz/4VBfV1NweVYK7xHmy787o6fDjntxP5P4XEklTJU3/pNBQdL5fZbIrQqMmXFMOwUXnuEY6Q==
@@ -565,15 +556,16 @@
     proper-lockfile "^4.1.2"
     semver "^7.5.1"
 
-"@matterlabs/hardhat-zksync-verify@0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@matterlabs/hardhat-zksync-verify/-/hardhat-zksync-verify-0.2.0.tgz#a0c6b897202057873355b680244f72f573d86a97"
-  integrity sha512-iUwxhPlNk+HWe+UadLqQzdDb2fammbKYoz8wqVuyr9jygFUf8JNPLWDZOS0KCQgRn/dmT22+i9nSREOg66bAHA==
+"@matterlabs/hardhat-zksync-verify@1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@matterlabs/hardhat-zksync-verify/-/hardhat-zksync-verify-1.2.1.tgz#462a8b875fc11150f58baaf6a5b8ac1926ff26a6"
+  integrity sha512-kysWVNi07dgqTbesuQUnIUXNJBKWpMfTOAFErV9C69KUNIZg776em5hosdINIConAbwnnLrVa1/4g//Zpltk5g==
   dependencies:
-    "@matterlabs/hardhat-zksync-solc" "0.3.17"
+    "@matterlabs/hardhat-zksync-solc" "^1.0.3"
+    "@nomicfoundation/hardhat-verify" "^2.0.0"
     axios "^1.4.0"
     chalk "4.1.2"
-    dockerode "^3.3.4"
+    zksync-ethers "^6.0.0"
 
 "@metamask/abi-utils@^2.0.2":
   version "2.0.2"
@@ -839,29 +831,7 @@
   dependencies:
     ethereumjs-util "^7.1.4"
 
-"@nomicfoundation/hardhat-network-helpers@1.0.9":
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@nomicfoundation/hardhat-network-helpers/-/hardhat-network-helpers-1.0.9.tgz#767449e8a2acda79306ac84626117583d95d25aa"
-  integrity sha512-OXWCv0cHpwLUO2u7bFxBna6dQtCC2Gg/aN/KtJLO7gmuuA28vgmVKYFRCDUqrbjujzgfwQ2aKyZ9Y3vSmDqS7Q==
-  dependencies:
-    ethereumjs-util "^7.1.4"
-
-"@nomicfoundation/hardhat-verify@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@nomicfoundation/hardhat-verify/-/hardhat-verify-1.1.1.tgz#6a433d777ce0172d1f0edf7f2d3e1df14b3ecfc1"
-  integrity sha512-9QsTYD7pcZaQFEA3tBb/D/oCStYDiEVDN7Dxeo/4SCyHRSm86APypxxdOMEPlGmXsAvd+p1j/dTODcpxb8aztA==
-  dependencies:
-    "@ethersproject/abi" "^5.1.2"
-    "@ethersproject/address" "^5.0.2"
-    cbor "^8.1.0"
-    chalk "^2.4.2"
-    debug "^4.1.1"
-    lodash.clonedeep "^4.5.0"
-    semver "^6.3.0"
-    table "^6.8.0"
-    undici "^5.14.0"
-
-"@nomicfoundation/hardhat-verify@2.0.2":
+"@nomicfoundation/hardhat-verify@2.0.2", "@nomicfoundation/hardhat-verify@^2.0.0":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@nomicfoundation/hardhat-verify/-/hardhat-verify-2.0.2.tgz#085f8509a335db44ea3bf39a8561f1ce0462fea2"
   integrity sha512-SXmLPHrfh801m0Dj/8v4stAM6OI0tFktDlWe1pn3k43bCCjn5TGqcVy7hCtauG8/AlQWNZhR+01qTovSSVTvXQ==
@@ -2159,16 +2129,6 @@ docker-modem@^1.0.8:
     readable-stream "~1.0.26-4"
     split-ca "^1.0.0"
 
-docker-modem@^3.0.0:
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/docker-modem/-/docker-modem-3.0.8.tgz#ef62c8bdff6e8a7d12f0160988c295ea8705e77a"
-  integrity sha512-f0ReSURdM3pcKPNS30mxOHSbaFLcknGmQjwSfmbcdOw1XWKXVhukM3NJHhr7NpY9BIyyWQb0EBo3KQvvuU5egQ==
-  dependencies:
-    debug "^4.1.1"
-    readable-stream "^3.5.0"
-    split-ca "^1.0.1"
-    ssh2 "^1.11.0"
-
 docker-modem@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/docker-modem/-/docker-modem-5.0.1.tgz#106bab0886d4df4ed1ea9053f1863ade4adbe846"
@@ -2187,15 +2147,6 @@ dockerode@^2.5.8:
     concat-stream "~1.6.2"
     docker-modem "^1.0.8"
     tar-fs "~1.16.3"
-
-dockerode@^3.3.4:
-  version "3.3.5"
-  resolved "https://registry.yarnpkg.com/dockerode/-/dockerode-3.3.5.tgz#7ae3f40f2bec53ae5e9a741ce655fff459745629"
-  integrity sha512-/0YNa3ZDNeLr/tSckmD69+Gq+qVNhvKfAHNeZJBnp7EOP6RGKV8ORrJHkUn20So5wU+xxT7+1n5u8PjHbfjbSA==
-  dependencies:
-    "@balena/dockerignore" "^1.0.2"
-    docker-modem "^3.0.0"
-    tar-fs "~2.0.1"
 
 dockerode@^4.0.0:
   version "4.0.0"
@@ -5708,7 +5659,7 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zksync-ethers@6.0.0:
+zksync-ethers@6.0.0, zksync-ethers@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/zksync-ethers/-/zksync-ethers-6.0.0.tgz#60ec1c38bb2a0b844433fa59a33633e258cb00d6"
   integrity sha512-eQv8V3eK6dDHobI27mHydT1liqlKAoVJzdhxYfP4weE7emPMCcHfJBVVxN5HyitEkuwZC7ir7fa1Q7PK6ox+Cw==
