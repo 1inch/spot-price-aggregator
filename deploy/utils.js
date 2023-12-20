@@ -19,6 +19,12 @@ async function addAaveTokens (aaveWrapperV2, AAWE_WRAPPER_TOKENS) {
     }
 }
 
+async function getAllAave3ReservesTokens (lendingPoolV3Address) {
+    const lendingPoolV3 = await ethers.getContractAt('ILendingPoolV3', lendingPoolV3Address);
+    const tokens = await lendingPoolV3.getAllReservesTokens();
+    return tokens.map(token => token[1]);
+}
+
 const deployCompoundTokenWrapper = async (contractInfo, tokenName, deployments, deployer, deploymentName = `CompoundLikeWrapper_${contractInfo.name}`) => {
     const comptroller = await ethers.getContractAt('IComptroller', contractInfo.address);
     const cToken = (await comptroller.getAllMarkets()).filter(token => token !== tokenName);
@@ -45,6 +51,7 @@ const getContract = async (deployments, contractName, deploymentName = contractN
 
 module.exports = {
     addAaveTokens,
+    getAllAave3ReservesTokens,
     deployCompoundTokenWrapper,
     getContract,
 };
