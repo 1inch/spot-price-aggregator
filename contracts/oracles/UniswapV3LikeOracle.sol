@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.19;
+pragma solidity 0.8.23;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
@@ -65,7 +65,7 @@ contract UniswapV3LikeOracle is IOracle {
     function _getRate(IERC20 srcToken, IERC20 dstToken, uint24 fee) internal view returns (uint256 rate, uint256 liquidity) {
         (IERC20 token0, IERC20 token1) = srcToken < dstToken ? (srcToken, dstToken) : (dstToken, srcToken);
         address pool = _getPool(address(token0), address(token1), fee);
-        if (!pool.isContract() ) {
+        if (pool.code.length == 0) { // !pool.isContract()
             return (0, 0);
         }
         liquidity = IUniswapV3Pool(pool).liquidity();

@@ -20,11 +20,14 @@ describe('OffchainOracle', function () {
         const aaveWrapperV2 = await deployContract('AaveWrapperV2', [AaveWrapperV2.lendingPool]);
         await aaveWrapperV1.addMarkets([tokens.DAI]);
         await aaveWrapperV2.addMarkets([tokens.DAI]);
-        const multiWrapper = await deployContract('MultiWrapper', [[
-            wethWrapper,
-            aaveWrapperV1,
-            aaveWrapperV2,
-        ]]);
+        const multiWrapper = await deployContract('MultiWrapper', [
+            [
+                wethWrapper,
+                aaveWrapperV1,
+                aaveWrapperV2,
+            ],
+            deployer,
+        ]);
 
         return {
             uniswapV2LikeOracle,

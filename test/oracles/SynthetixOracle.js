@@ -100,7 +100,7 @@ describe('SynthetixOracle', function () {
         if (token === tokens.ETH || token === token.EEE) {
             return 18n;
         }
-        const ERC20 = await ethers.getContractFactory('ERC20');
-        return await ERC20.attach(token).decimals();
+        const contract = await ethers.getContractAt('ERC20', token);
+        return await contract.decimals();
     }
 });

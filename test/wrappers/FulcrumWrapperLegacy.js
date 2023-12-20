@@ -1,6 +1,7 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether, deployContract } = require('@1inch/solidity-utils');
 const { tokens } = require('../helpers.js');
+const { ethers } = require('hardhat');
 
 const tests = [
     {
@@ -11,7 +12,8 @@ const tests = [
 
 describe('FulcrumWrapperLegacy', function () {
     async function initContracts () {
-        const fulcrumWrapperLegacy = await deployContract('FulcrumWrapperLegacy');
+        const [owner] = await ethers.getSigners();
+        const fulcrumWrapperLegacy = await deployContract('FulcrumWrapperLegacy', [owner]);
         await fulcrumWrapperLegacy.addMarkets([tokens.iUSDC]);
         return { fulcrumWrapperLegacy };
     }

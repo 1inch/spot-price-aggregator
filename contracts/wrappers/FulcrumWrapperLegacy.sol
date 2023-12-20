@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.19;
+pragma solidity 0.8.23;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "../interfaces/ILoanToken.sol";
@@ -9,6 +9,8 @@ import "../interfaces/IWrapper.sol";
 contract FulcrumWrapperLegacy is IWrapper, Ownable {
     mapping(IERC20 => IERC20) public iTokenToToken;
     mapping(IERC20 => IERC20) public tokenToiToken;
+
+    constructor(address _owner) Ownable(_owner) {} // solhint-disable-line no-empty-blocks
 
     function addMarkets(ILoanToken[] memory markets) external onlyOwner {
         unchecked {
