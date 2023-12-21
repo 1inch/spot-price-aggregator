@@ -48,6 +48,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * WETH - [0x2b36053EB3BC1D68f51Bb7916D1503D1556f3ffc](https://etherscan.io/address/0x2b36053EB3BC1D68f51Bb7916D1503D1556f3ffc)
    * AaveV1 - [0x8C00a411Fe8983525F82CFCe34fe4B092d9E525d](https://etherscan.io/address/0x8C00a411Fe8983525F82CFCe34fe4B092d9E525d)
    * AaveV2 - [0x06cC74503B6d1eB6D4d6Bc402f48fC07b804105f](https://etherscan.io/address/0x06cC74503B6d1eB6D4d6Bc402f48fC07b804105f)
+   * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://etherscan.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    * Compound - [0x7C327E1Ee66d4cF7F4053387241351FDc95A0c04](https://etherscan.io/address/0x7C327E1Ee66d4cF7F4053387241351FDc95A0c04)
    * YVault - [0x9FF110f132d988bfa9bC6a21851Da1aF3aC6EaF8](https://etherscan.io/address/0x9FF110f132d988bfa9bC6a21851Da1aF3aC6EaF8)
    * stETH - [0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F](https://etherscan.io/address/0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F)
@@ -143,6 +144,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * WMATIC - [0xA0446D8804611944F1B527eCD37d7dcbE442caba](https://polygonscan.com/address/0xA0446D8804611944F1B527eCD37d7dcbE442caba)
    * AaveV2 - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](https://polygonscan.com/address/0x138CE40d675F9a23E4D6127A8600308Cf7A93381)
+   * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://polygonscan.com/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    
 </details>
 
@@ -177,6 +179,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported wrappers</summary>
 
+   * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://optimistic.etherscan.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    * // todo: add BaseCoinWrapper
    
 </details>
@@ -216,6 +219,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported wrappers</summary>
 
    * WETH - [0x0F85A912448279111694F4Ba4F85dC641c54b594](https://arbiscan.io/address/0x0F85A912448279111694F4Ba4F85dC641c54b594)
+   * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://arbiscan.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    
 </details>
 
@@ -251,6 +255,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * WAVAX - [0x046605839c01C54921f4aA1AAa245E88227707D8](https://snowtrace.io/address/0x046605839c01C54921f4aA1AAa245E88227707D8)
    * AaveV2 - [0x8Aa57827C3D147E39F1058517939461538D9C56A](https://snowtrace.io/address/0x8Aa57827C3D147E39F1058517939461538D9C56A)
+   * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://snowtrace.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    
 </details>
 
@@ -290,6 +295,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported wrappers</summary>
 
    * WXDAI - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://gnosisscan.io/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
+   * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://gnosisscan.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    
 </details>
 
@@ -330,6 +336,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * WFTM - [0x046605839c01C54921f4aA1AAa245E88227707D8](https://ftmscan.com/address/0x046605839c01C54921f4aA1AAa245E88227707D8)
    * AaveV2 - [0xa0c978c28AB8aEfc95bF58e68A05ce6B9dEAc5A9](https://ftmscan.com/address/0xa0c978c28AB8aEfc95bF58e68A05ce6B9dEAc5A9)
+   * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://ftmscan.com/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    * Scream - [0x7d18d5Ba1FA30Da1AD757c57eb643564CA02922D](https://ftmscan.com/address/0x7d18d5Ba1FA30Da1AD757c57eb643564CA02922D)
    
 </details>
@@ -478,6 +485,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported wrappers</summary>
 
    * WETH - [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://basescan.org/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
+   * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://basescan.org/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
 
 </details>
 
