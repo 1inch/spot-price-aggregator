@@ -55,6 +55,11 @@ const tokens = {
         axlUSDC: '0xEB466342C4d449BC9f53A865D5Cb90586f405215',
         axlUSDT: '0x7f5373AE26c3E8FfC4c77b7255DF7eC1A9aF52a6',
     },
+    optimistic: {
+        WETH: '0x4200000000000000000000000000000000000006',
+        USDC: '0x7F5c764cBc14f9669B88837ca1490cCa17c31607',
+        OP: '0x4200000000000000000000000000000000000042',
+    },
 };
 
 const contracts = {
@@ -136,6 +141,10 @@ const deployParams = {
     VelocimieterV2: { // base network
         factory: '0xe21aac7f113bd5dc2389e4d8a8db854a87fd6951',
         initcodeHash: '0x0ccd005ee58d5fb11632ef5c2e0866256b240965c62c8e990c0f84a97f311879',
+    },
+    VelodromeV2: { // optimistic network
+        router: '0xa062aE8A9c5e11aaA026fc2670B0D65cCc8B2858',
+        registry: '0xF4c67CdEAaB8360370F41514d06e32CcD8aA1d7B',
     },
 };
 

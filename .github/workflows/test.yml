@@ -20,8 +20,8 @@ jobs:
       - uses: ./.github/actions/setup
       - run: yarn test:ci
         env:
-          MAINNET_RPC_URL: ${{ secrets.MAINNET_RPC_URL }}
-          RPC_AUTH_HEADER: ${{ secrets.RPC_AUTH_HEADER }}
+          MAINNET_RPC_URL: "${{ secrets.MAINNET_RPC_URL }}|${{ secrets.RPC_AUTH_HEADER }}"
+          OPTIMISTIC_RPC_URL: ${{ secrets.OPTIMISTIC_RPC_URL }}
 
   coverage:
     runs-on: ubuntu-latest
@@ -30,8 +30,8 @@ jobs:
       - uses: ./.github/actions/setup
       - run: yarn coverage
         env:
-          MAINNET_RPC_URL: ${{ secrets.MAINNET_RPC_URL }}
-          RPC_AUTH_HEADER: ${{ secrets.RPC_AUTH_HEADER }}
+          MAINNET_RPC_URL: "${{ secrets.MAINNET_RPC_URL }}|${{ secrets.RPC_AUTH_HEADER }}"
+          OPTIMISTIC_RPC_URL: ${{ secrets.OPTIMISTIC_RPC_URL }}
       - uses: codecov/codecov-action@v3
 
   single-price-example:
