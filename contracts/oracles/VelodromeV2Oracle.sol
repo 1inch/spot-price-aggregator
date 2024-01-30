@@ -33,51 +33,32 @@ contract VelodromeV2Oracle is IOracle {
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
         address[] memory factories = REGISTRY.poolFactories();
+        if (connector == _NONE) {
+            (rate, weight) = _getWeightedRate(srcToken, dstToken, factories, thresholdFilter);
+        } else {
+            (uint256 rateC0, uint256 weightC0) = _getWeightedRate(srcToken, connector, factories, thresholdFilter);
+            (uint256 rateC1, uint256 weightC1) = _getWeightedRate(connector, dstToken, factories, thresholdFilter);
+            rate = rateC0 * rateC1 / 1e18;
+            weight = Math.min(weightC0, weightC1);
+        }
+    }
+
+    function _getWeightedRate(IERC20 srcToken, IERC20 dstToken, address[] memory factories, uint256 thresholdFilter) internal view returns (uint256 rate, uint256 weight) {
         uint256 factoriesLength = factories.length;
         OraclePrices.Data memory ratesAndWeights = OraclePrices.init(2 * factoriesLength);
         uint256 b0;
         uint256 b1;
-        if (connector == _NONE) {
-            for (uint256 i = 0; i < factoriesLength; i++) {
-                (b0, b1) = _getReserves(srcToken, dstToken, true, factories[i]);
-                if (b0 > 0) {
-                    ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
-                }
-                (b0, b1) = _getReserves(srcToken, dstToken, false, factories[i]);
-                if (b0 > 0) {
-                    ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
-                }
+        for (uint256 i = 0; i < factoriesLength; i++) {
+            (b0, b1) = _getReserves(srcToken, dstToken, true, factories[i]);
+            if (b0 > 0) {
+                ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
             }
-            (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
-        } else {
-            OraclePrices.Data memory ratesAndWeightsC0 = OraclePrices.init(2 * factoriesLength);
-            for (uint256 i = 0; i < factoriesLength; i++) {
-                (b0, b1) = _getReserves(srcToken, connector, true, factories[i]);
-                if (b0 > 0) {
-                    ratesAndWeightsC0.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
-                }
-                (b0, b1) = _getReserves(srcToken, connector, false, factories[i]);
-                if (b0 > 0) {
-                    ratesAndWeightsC0.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
-                }
+            (b0, b1) = _getReserves(srcToken, dstToken, false, factories[i]);
+            if (b0 > 0) {
+                ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
             }
-            (uint256 rateC0, uint256 weightC0) = ratesAndWeightsC0.getRateAndWeight(thresholdFilter);
-
-            OraclePrices.Data memory ratesAndWeightsC1 = OraclePrices.init(2 * factoriesLength);
-            for (uint256 i = 0; i < factoriesLength; i++) {
-                (b0, b1) = _getReserves(connector, dstToken, true, factories[i]);
-                if (b0 > 0) {
-                    ratesAndWeightsC1.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
-                }
-                (b0, b1) = _getReserves(connector, dstToken, false, factories[i]);
-                if (b0 > 0) {
-                    ratesAndWeightsC1.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
-                }
-            }
-            (uint256 rateC1, uint256 weightC1) = ratesAndWeightsC1.getRateAndWeight(thresholdFilter);
-            rate = rateC0 * rateC1 / 1e18;
-            weight = Math.min(weightC0, weightC1);
         }
+        (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
     }
 
     function _getReserves(IERC20 srcToken, IERC20 dstToken, bool stable, address factory) internal view returns (uint256 reserveSrc, uint256 reserveDst) {
