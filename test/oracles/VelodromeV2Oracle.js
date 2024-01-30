@@ -7,7 +7,7 @@ const {
     defaultValues: { thresholdFilter },
 } = require('../helpers.js');
 
-describe.skip('VelodromeV2Oracle', function () {
+describe('VelodromeV2Oracle', function () {
     before(async function () {
         await network.provider.request({ // take optimistic fork
             method: 'hardhat_reset',
