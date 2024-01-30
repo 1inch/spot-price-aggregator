@@ -1,3 +1,6 @@
+const { network } = require('hardhat');
+const { Networks } = require('@1inch/solidity-utils/hardhat-setup');
+
 const defaultValues = {
     thresholdFilter: 10,
 };
@@ -148,9 +151,30 @@ const deployParams = {
     },
 };
 
+const resetHardhatNetworkFork = async function (networkName) {
+    if (networkName.toLowerCase() === 'hardhat') {
+        await network.provider.request({ // reset to local network
+            method: 'hardhat_reset',
+            params: [],
+        });
+    } else {
+        const { url, authKeyHttpHeader } = (new Networks())._parseRpcEnv(process.env[`${networkName.toUpperCase()}_RPC_URL`]);
+        await network.provider.request({ // reset to networkName fork
+            method: 'hardhat_reset',
+            params: [{
+                forking: {
+                    jsonRpcUrl: url,
+                    httpHeaders: authKeyHttpHeader ? { 'auth-key': authKeyHttpHeader } : undefined,
+                },
+            }],
+        });
+    }
+};
+
 module.exports = {
     defaultValues,
     tokens,
     contracts,
     deployParams,
+    resetHardhatNetworkFork,
 };

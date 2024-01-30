@@ -1,35 +1,19 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { network } = require('hardhat');
 const { assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
 const {
     tokens,
     deployParams: { VelodromeV2, UniswapV3 },
     defaultValues: { thresholdFilter },
+    resetHardhatNetworkFork,
 } = require('../helpers.js');
 
 describe('VelodromeV2Oracle', function () {
     before(async function () {
-        const optimisticRpcUrl = process.env.OPTIMISTIC_RPC_URL;
-        const [url, authKeyHttpHeader, overflow] = optimisticRpcUrl.split('|');
-        if (overflow || url === '') {
-            throw new Error(`Invalid RPC PARAM: ${optimisticRpcUrl}. It should be in the format: <RPC_URL> or <RPC_URL>|<AUTH_KEY_HTTP_HEADER>`);
-        }
-        await network.provider.request({ // take optimistic fork
-            method: 'hardhat_reset',
-            params: [{
-                forking: {
-                    jsonRpcUrl: url,
-                    httpHeaders: authKeyHttpHeader ? { 'auth-key': authKeyHttpHeader } : undefined,
-                },
-            }],
-        });
+        await resetHardhatNetworkFork('optimistic');
     });
 
     after(async function () {
-        await network.provider.request({ // reset back to local network
-            method: 'hardhat_reset',
-            params: [],
-        });
+        await resetHardhatNetworkFork('mainnet');
     });
 
     async function initContracts () {
