@@ -21,7 +21,7 @@ describe('CurveOracle', function () {
         assertRoughlyEqualValues(rate.rate.toString(), expectedRate.rate.toString(), '0.05');
     });
 
-    it('wbtc -> usdc', async function () {
+    it('wbtc -> usdt', async function () {
         const { curveOracle, uniswapV3Oracle } = await loadFixture(initContracts);
         const expectedRate = await uniswapV3Oracle.getRate(tokens.WBTC, tokens.USDT, tokens.NONE, thresholdFilter);
         const rate = await curveOracle.getRate(tokens.WBTC, tokens.USDT, tokens.NONE, thresholdFilter);
@@ -39,6 +39,31 @@ describe('CurveOracle', function () {
         const { curveOracle } = await loadFixture(initContracts);
         const rate = await curveOracle.getRate(tokens.BEAN, tokens['3CRV'], tokens.NONE, thresholdFilter);
         expect(rate.rate).to.gt('0');
+    });
+
+    describe('measure gas', function () {
+        it('usdt -> wbtc', async function () {
+            const { curveOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await measureGas(await curveOracle.getFunction('getRate').send(tokens.USDT, tokens.WBTC, tokens.NONE, thresholdFilter), 'CurveOracle usdt -> wbtc');
+            await measureGas(await uniswapV3Oracle.getFunction('getRate').send(tokens.USDT, tokens.WBTC, tokens.NONE, thresholdFilter), 'UniswapV3Oracle usdt -> wbtc');
+        });
+
+        it('wbtc -> usdt', async function () {
+            const { curveOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await measureGas(await curveOracle.getFunction('getRate').send(tokens.WBTC, tokens.USDT, tokens.NONE, thresholdFilter), 'CurveOracle wbtc -> usdt');
+            await measureGas(await uniswapV3Oracle.getFunction('getRate').send(tokens.WBTC, tokens.USDT, tokens.NONE, thresholdFilter), 'UniswapV3Oracle wbtc -> usdt');
+        });
+
+        it('wbtc -> weth', async function () {
+            const { curveOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await measureGas(await curveOracle.getFunction('getRate').send(tokens.WBTC, tokens.WETH, tokens.NONE, thresholdFilter), 'CurveOracle wbtc -> weth');
+            await measureGas(await uniswapV3Oracle.getFunction('getRate').send(tokens.WBTC, tokens.WETH, tokens.NONE, thresholdFilter), 'UniswapV3Oracle wbtc -> weth');
+        });
+
+        async function measureGas (tx, comment) {
+            const receipt = await tx.wait();
+            console.log('gasUsed', comment, receipt.gasUsed.toString());
+        }
     });
 
     describe('doesn\'t ruin various registry with different selectors', function () {
