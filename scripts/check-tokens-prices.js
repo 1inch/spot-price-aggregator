@@ -6,13 +6,17 @@ async function main () {
     if (!process.env.SCRIPT_ETH_PRICE) {
         throw new Error('Specify SCRIPT_ETH_PRICE');
     }
-    const tokenlistPath = process.env.SCRIPT_TOKENLIST;
+    let tokenlist = process.env.SCRIPT_TOKENLIST;
     const networkName = process.env.SCRIPT_NETWORK_NAME || 'mainnet';
     const skipOracles = (process.env.SCRIPT_SKIP_ORACLES || '').split(',');
     const addOracles = (process.env.SCRIPT_ADD_ORACLES || '').split('|');
     const thresholdFilter = 10;
 
-    let tokenlist = require(tokenlistPath);
+    try {
+        tokenlist = JSON.parse(tokenlist);
+    } catch {
+        tokenlist = require(tokenlist);
+    }
     if (!Array.isArray(tokenlist)) {
         tokenlist = Object.keys(tokenlist);
     }
