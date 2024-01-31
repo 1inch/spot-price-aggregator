@@ -27,7 +27,7 @@ The script compares the prices of a list of tokens in two different instances of
 
 The script's behavior is controlled by environment variables, which are specified as follows:
 - `SCRIPT_ETH_PRICE` (required) - The current price of ETH in USD.
-- `SCRIPT_TOKENLIST` (required) - Path to a file with list of tokens to be checked. The list can either be an array of token addresses or an object with token addresses as keys.
+- `SCRIPT_TOKENLIST` (required) - A stringified json array of tokens or a path to a file with list of tokens to be checked. The list in the file can either be an array of token addresses or an object with token addresses as keys.
     - Example: result of `https://token-prices.1inch.io/v1.1/1`
 - `SCRIPT_NETWORK_NAME` (optional) - Specifies the network from which OffchainOracle's address is obtained during deployment. If not specified, the script defaults to the mainnet.
 - `SCRIPT_SKIP_ORACLES` (optional) - Comma-separated list of oracle addresses that should not be added from a deployed oracle.
@@ -41,4 +41,4 @@ The script's behavior is controlled by environment variables, which are specifie
         SCRIPT_ADD_ORACLES=UniswapV3Oracle:0:|KyberDmmOracle:0:["0x833e4083b7ae46cea85695c4f7ed25cdad8886de"]|UniswapV2LikeOracle:0:["0x115934131916c8b277dd010ee02de363c09d037c","0x65d1a3b1e46c6e4f1be1ad5f99ef14dc488ae0549dc97db9b30afe2241ce1c7a"]
         ```
 
-Note that the `SCRIPT_TOKENLIST` must be a valid path to a file containing the list of tokens to be checked. The script uses the require function to import the file, so it must be either a JavaScript or JSON file.
+Note that when `SCRIPT_TOKENLIST` is used to specify a file path, it must lead to a valid file containing the list of tokens to be checked. The script uses the require function to import the file, so it must be either a JavaScript or JSON file.

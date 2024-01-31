@@ -10,7 +10,6 @@ require('hardhat-gas-reporter');
 require('hardhat-tracer');
 require('solidity-coverage');
 
-require('dotenv').config();
 const { Networks, getNetwork } = require('@1inch/solidity-utils/hardhat-setup');
 
 const { networks, etherscan } = (new Networks(true, 'mainnet', true)).registerAll();

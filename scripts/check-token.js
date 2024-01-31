@@ -1,7 +1,7 @@
 const { ethers, deployments } = require('hardhat');
 const { tokens } = require('../test/helpers');
 
-const usdPrice = (ethPrice, srcTokenDecimals) => { return parseFloat(ethPrice * 10 ** srcTokenDecimals / 1e18 / 1e18 * parseFloat(process.env.SCRIPT_ETH_PRICE)).toFixed(2); };
+const usdPrice = (ethPrice, srcTokenDecimals) => { return parseFloat(parseFloat(ethPrice) * 10 ** srcTokenDecimals / 1e18 / 1e18 * parseFloat(process.env.SCRIPT_ETH_PRICE)).toFixed(2); };
 
 async function main () {
     if (!process.env.SCRIPT_ETH_PRICE) {
