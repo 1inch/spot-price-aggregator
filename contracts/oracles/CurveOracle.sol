@@ -129,18 +129,13 @@ contract CurveOracle is IOracle {
 
                 if (b0 != 0 && b1 != 0) {
                     (success, data) = pool.staticcall(abi.encodeWithSelector(info.dyFuncInt128, srcTokenIndex, dstTokenIndex, b0));
-                    if (success && data.length >= 32) { // vyper could return redundant bytes
-                        b1 = abi.decode(data, (uint256));
-                    } else {
+                    if (!success || data.length < 32) {
                         (success, data) = pool.staticcall(abi.encodeWithSelector(info.dyFuncUint256, uint128(srcTokenIndex), uint128(dstTokenIndex), b0));
-                        if (success && data.length >= 32) { // vyper could return redundant bytes
-                            b1 = abi.decode(data, (uint256));
-                        } else {
-                            pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
-                            continue;
-                        }
                     }
-                    ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), w));
+                    if (success && data.length >= 32) {  // vyper could return redundant bytes
+                        b1 = abi.decode(data, (uint256));
+                        ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), w));
+                    }
                 }
                 pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
             }
