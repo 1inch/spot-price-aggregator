@@ -30,11 +30,11 @@ describe('MooniswapOracle', function () {
 
     it('USDC -> 1INCH', async function () {
         const { mooniswapOracle, uniswapV3Oracle } = await loadFixture(initContracts);
-        await testRate(tokens.USDC, tokens['1INCH'], tokens.NONE, mooniswapOracle, uniswapV3Oracle);
+        await testRate(tokens.USDC, tokens['1INCH'], tokens.NONE, mooniswapOracle, uniswapV3Oracle, 0.06);
     });
 
-    it.skip('ETH -> USDC -> 1INCH // todo: need to fix', async function () {
+    it('ETH -> USDC -> 1INCH', async function () {
         const { mooniswapOracle, uniswapV3Oracle } = await loadFixture(initContracts);
-        await testRate([tokens.ETH, tokens.WETH], tokens['1INCH'], tokens.USDC, mooniswapOracle, uniswapV3Oracle);
+        await testRate([tokens.ETH, tokens.WETH], tokens['1INCH'], tokens.USDC, mooniswapOracle, uniswapV3Oracle, 0.075);
     });
 });
