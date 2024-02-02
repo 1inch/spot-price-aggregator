@@ -1,19 +1,20 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
+const { network } = require('hardhat');
 const { assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { resetHardhatNetworkFork } = require('@1inch/solidity-utils/hardhat-setup');
 const {
     tokens,
     deployParams: { VelodromeV2, UniswapV3 },
     defaultValues: { thresholdFilter },
-    resetHardhatNetworkFork,
 } = require('../helpers.js');
 
 describe('VelodromeV2Oracle', function () {
     before(async function () {
-        await resetHardhatNetworkFork('optimistic');
+        await resetHardhatNetworkFork(network, 'optimistic');
     });
 
     after(async function () {
-        await resetHardhatNetworkFork('mainnet');
+        await resetHardhatNetworkFork(network, 'mainnet');
     });
 
     async function initContracts () {

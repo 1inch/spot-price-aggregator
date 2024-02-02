@@ -1,6 +1,3 @@
-const { network } = require('hardhat');
-const { Networks } = require('@1inch/solidity-utils/hardhat-setup');
-
 const defaultValues = {
     thresholdFilter: 10,
 };
@@ -55,8 +52,7 @@ const tokens = {
     base: {
         DAI: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
         WETH: '0x4200000000000000000000000000000000000006',
-        axlUSDC: '0xEB466342C4d449BC9f53A865D5Cb90586f405215',
-        axlUSDT: '0x7f5373AE26c3E8FfC4c77b7255DF7eC1A9aF52a6',
+        USDC: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
     },
     optimistic: {
         WETH: '0x4200000000000000000000000000000000000006',
@@ -89,6 +85,11 @@ const deployParams = {
     },
     UniswapV3: {
         factory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
+        initcodeHash: '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54',
+        fees: [100, 500, 3000, 10000],
+    },
+    UniswapV3Base: { // base network
+        factory: '0x33128a8fC17869897dcE68Ed026d694621f6FDfD',
         initcodeHash: '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54',
         fees: [100, 500, 3000, 10000],
     },
@@ -151,30 +152,9 @@ const deployParams = {
     },
 };
 
-const resetHardhatNetworkFork = async function (networkName) {
-    if (networkName.toLowerCase() === 'hardhat') {
-        await network.provider.request({ // reset to local network
-            method: 'hardhat_reset',
-            params: [],
-        });
-    } else {
-        const { url, authKeyHttpHeader } = (new Networks())._parseRpcEnv(process.env[`${networkName.toUpperCase()}_RPC_URL`]);
-        await network.provider.request({ // reset to networkName fork
-            method: 'hardhat_reset',
-            params: [{
-                forking: {
-                    jsonRpcUrl: url,
-                    httpHeaders: authKeyHttpHeader ? { 'auth-key': authKeyHttpHeader } : undefined,
-                },
-            }],
-        });
-    }
-};
-
 module.exports = {
     defaultValues,
     tokens,
     contracts,
     deployParams,
-    resetHardhatNetworkFork,
 };
