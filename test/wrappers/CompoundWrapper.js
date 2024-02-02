@@ -9,28 +9,28 @@ describe('CompoundWrapper', function () {
         return { compoundWrapper };
     }
 
-    it('dai -> cdai', async function () {
+    it('DAI -> cDAI', async function () {
         const { compoundWrapper } = await loadFixture(initContracts);
         const response = await compoundWrapper.wrap(tokens.DAI);
         expect(response.rate).to.lt('5000000000');
         expect(response.wrappedToken).to.equal(tokens.cDAI);
     });
 
-    it('cdai -> dai', async function () {
+    it('cDAI -> DAI', async function () {
         const { compoundWrapper } = await loadFixture(initContracts);
         const response = await compoundWrapper.wrap(tokens.cDAI);
         expect(response.rate).to.gt(ether('200000000'));
         expect(response.wrappedToken).to.equal(tokens.DAI);
     });
 
-    it('eth -> ceth', async function () {
+    it('ETH -> cETH', async function () {
         const { compoundWrapper } = await loadFixture(initContracts);
         const response = await compoundWrapper.wrap(tokens.ETH);
         expect(response.rate).to.lt('5000000000');
         expect(response.wrappedToken).to.equal(tokens.cETH);
     });
 
-    it('ceth -> eth', async function () {
+    it('cETH -> ETH', async function () {
         const { compoundWrapper } = await loadFixture(initContracts);
         const response = await compoundWrapper.wrap(tokens.cETH);
         expect(response.rate).to.gt(ether('200000000'));

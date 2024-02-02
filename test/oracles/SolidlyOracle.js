@@ -1,11 +1,11 @@
 const { network } = require('hardhat');
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { deployContract, assertRoughlyEqualValues } = require('@1inch/solidity-utils');
+const { deployContract } = require('@1inch/solidity-utils');
 const { resetHardhatNetworkFork } = require('@1inch/solidity-utils/hardhat-setup');
 const {
     tokens,
     deployParams: { VelocimieterV2, UniswapV3Base },
-    defaultValues: { thresholdFilter },
+    testRate,
 } = require('../helpers.js');
 
 describe('SolidlyOracle', function () {
@@ -29,15 +29,19 @@ describe('SolidlyOracle', function () {
             await testRate(tokens.base.WETH, tokens.base.USDC, tokens.NONE, velocimieterV2Oracle, uniswapV3Oracle);
         });
 
-        it('weth -> dai', async function () {
+        it('USDC -> WETH', async function () {
+            const { velocimieterV2Oracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.base.USDC, tokens.base.WETH, tokens.NONE, velocimieterV2Oracle, uniswapV3Oracle);
+        });
+
+        it('WETH -> DAI', async function () {
             const { velocimieterV2Oracle, uniswapV3Oracle } = await loadFixture(initContracts);
             await testRate(tokens.base.WETH, tokens.base.DAI, tokens.NONE, velocimieterV2Oracle, uniswapV3Oracle);
         });
 
-        const testRate = async function (srcToken, dstToken, connector, velodromeV2Oracle, uniswapV3Oracle) {
-            const velodromeV2Result = await velodromeV2Oracle.getRate(srcToken, dstToken, connector, thresholdFilter);
-            const v3Result = await uniswapV3Oracle.getRate(srcToken, dstToken, connector, thresholdFilter);
-            assertRoughlyEqualValues(v3Result.rate, velodromeV2Result.rate, 0.05);
-        };
+        it('DAI -> WETH', async function () {
+            const { velocimieterV2Oracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.base.DAI, tokens.base.WETH, tokens.NONE, velocimieterV2Oracle, uniswapV3Oracle);
+        });
     });
 });

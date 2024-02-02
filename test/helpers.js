@@ -1,3 +1,6 @@
+const { ethers } = require('hardhat');
+const { assertRoughlyEqualValues } = require('@1inch/solidity-utils');
+
 const defaultValues = {
     thresholdFilter: 10,
 };
@@ -152,9 +155,66 @@ const deployParams = {
     },
 };
 
+async function measureGas (tx, comment) {
+    const receipt = await tx.wait();
+    console.log('gasUsed', comment, receipt.gasUsed.toString());
+}
+
+function _parseTokenForTestRate (token) {
+    let targetToken = token;
+    let referenceToken = token;
+    if (Array.isArray(token)) {
+        targetToken = token[0];
+        referenceToken = token[1];
+    }
+    return { targetToken, referenceToken };
+}
+
+async function _getDecimals (token) {
+    if (token === tokens.ETH || token === token.EEE) {
+        return 18n;
+    }
+    const contract = await ethers.getContractAt('ERC20', token);
+    return await contract.decimals();
+}
+
+async function testRate (srcToken, dstToken, connector, targetOracle, referenceOracle, relativeDiff = 0.05, thresholdFilter = defaultValues.thresholdFilter) {
+    const { targetToken: targetSrcToken, referenceToken: referenceSrcToken } = _parseTokenForTestRate(srcToken);
+    const { targetToken: targetDstToken, referenceToken: referenceDstToken } = _parseTokenForTestRate(dstToken);
+    let { rate: actual } = await targetOracle.getRate(targetSrcToken, targetDstToken, connector, thresholdFilter);
+    let { rate: expected } = await referenceOracle.getRate(referenceSrcToken, referenceDstToken, connector, thresholdFilter);
+
+    const targetSrcTokenDecimals = await _getDecimals(targetSrcToken);
+    const referenceSrcTokenDecimals = await _getDecimals(referenceSrcToken);
+    const targetDstTokenDecimals = await _getDecimals(targetDstToken);
+    const referenceDstTokenDecimals = await _getDecimals(referenceDstToken);
+
+    if (targetSrcTokenDecimals > referenceSrcTokenDecimals) {
+        const diff = targetSrcTokenDecimals - referenceSrcTokenDecimals;
+        expected = expected / (10n ** diff);
+    }
+
+    if (targetDstTokenDecimals > referenceDstTokenDecimals) {
+        const diff = targetDstTokenDecimals - referenceDstTokenDecimals;
+        actual = actual / (10n ** diff);
+    }
+    assertRoughlyEqualValues(expected, actual, relativeDiff);
+}
+
+async function testRateOffchainOracle (srcToken, dstToken, oldOffchainOracle, newOffchainOracle, relativeDiff = 0.05, thresholdFilter = defaultValues.thresholdFilter) {
+    const { targetToken: targetSrcToken, referenceToken: referenceSrcToken } = _parseTokenForTestRate(srcToken);
+    const { targetToken: targetDstToken, referenceToken: referenceDstToken } = _parseTokenForTestRate(dstToken);
+    const actualRate = await newOffchainOracle.getRateWithThreshold(targetSrcToken, targetDstToken, true, thresholdFilter);
+    const expectedRate = await oldOffchainOracle.getRateWithThreshold(referenceSrcToken, referenceDstToken, true, thresholdFilter);
+    assertRoughlyEqualValues(actualRate, expectedRate, relativeDiff);
+}
+
 module.exports = {
     defaultValues,
     tokens,
     contracts,
     deployParams,
+    measureGas,
+    testRate,
+    testRateOffchainOracle,
 };

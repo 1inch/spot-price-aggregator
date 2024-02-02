@@ -45,7 +45,7 @@ describe.skip('ProdTest', async function () {
         return { offchainOracle };
     }
 
-    it('zks -> eth', async function () {
+    it('ZKS -> ETH', async function () {
         const { offchainOracle } = await loadFixture(initContracts);
         const rate = await offchainOracle.getRateWithThreshold(tokens.WETH, '0x793786e2dd4Cc492ed366a94B88a3Ff9ba5E7546', thresholdFilter);
         console.log(rate.toString());
