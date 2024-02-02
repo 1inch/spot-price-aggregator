@@ -24,10 +24,10 @@ contract CurveOracle is IOracle {
         CURVE_TRICRYPTO_FACTORY
     }
 
-    struct FunctionInfo {
-        bytes4 balanceFuncSelector;
-        bytes4 dyFuncInt128Selector;
-        function (uint256, uint256, uint256) external view returns (uint256) dyFuncUint256;
+    struct FunctionSelectorsInfo {
+        bytes4 balanceFunc;
+        bytes4 dyFuncInt128;
+        bytes4 dyFuncUint256;
     }
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
@@ -52,7 +52,7 @@ contract CurveOracle is IOracle {
         if(connector != _NONE) revert ConnectorShouldBeNone();
 
         OraclePrices.Data memory ratesAndWeights = OraclePrices.init(MAX_POOLS);
-        FunctionInfo memory info;
+        FunctionSelectorsInfo memory info;
         uint256 index = 0;
         for (uint256 i = 0; i < REGISTRIES_COUNT && index < MAX_POOLS; i++) {
             uint256 registryIndex = 0;
@@ -84,22 +84,22 @@ contract CurveOracle is IOracle {
                 }
 
                 if (!isUnderlying) {
-                    info = FunctionInfo({
-                        balanceFuncSelector: ICurveRegistry.get_balances.selector,
-                        dyFuncInt128Selector: ICurveSwapInt128.get_dy.selector,
-                        dyFuncUint256: ICurveSwapUint256(pool).get_dy
+                    info = FunctionSelectorsInfo({
+                        balanceFunc: ICurveRegistry.get_balances.selector,
+                        dyFuncInt128: ICurveSwapInt128.get_dy.selector,
+                        dyFuncUint256: ICurveSwapUint256.get_dy.selector
                     });
                 } else {
-                    info = FunctionInfo({
-                        balanceFuncSelector: ICurveRegistry.get_underlying_balances.selector,
-                        dyFuncInt128Selector: ICurveSwapInt128.get_dy_underlying.selector,
-                        dyFuncUint256: ICurveSwapUint256(pool).get_dy_underlying
+                    info = FunctionSelectorsInfo({
+                        balanceFunc: ICurveRegistry.get_underlying_balances.selector,
+                        dyFuncInt128: ICurveSwapInt128.get_dy_underlying.selector,
+                        dyFuncUint256: ICurveSwapUint256.get_dy_underlying.selector
                     });
                 }
 
                 // call `balanceFunc` (`get_balances` or `get_underlying_balances`) and decode results
                 uint256[] memory balances;
-                (success, data) = address(registries[i]).staticcall(abi.encodeWithSelector(info.balanceFuncSelector, pool));
+                (success, data) = address(registries[i]).staticcall(abi.encodeWithSelector(info.balanceFunc, pool));
                 if (success && data.length >= 64) {
                     // registryTypes[i] == CurveRegistryType.MAIN_REGISTRY ||
                     // registryTypes[i] == CurveRegistryType.CRYPTOSWAP_REGISTRY ||
@@ -128,13 +128,14 @@ contract CurveOracle is IOracle {
                 uint256 b1 = balances[uint128(dstTokenIndex)] / 10000;
 
                 if (b0 != 0 && b1 != 0) {
-                    (success, data) = pool.staticcall(abi.encodeWithSelector(info.dyFuncInt128Selector, srcTokenIndex, dstTokenIndex, b0));
-                    if (success && data.length >= 32) { // vyper could return redundant bytes
-                        b1 = abi.decode(data, (uint256));
-                    } else {
-                        b1 = info.dyFuncUint256(uint128(srcTokenIndex), uint128(dstTokenIndex), b0);
+                    (success, data) = pool.staticcall(abi.encodeWithSelector(info.dyFuncInt128, srcTokenIndex, dstTokenIndex, b0));
+                    if (!success || data.length < 32) {
+                        (success, data) = pool.staticcall(abi.encodeWithSelector(info.dyFuncUint256, uint128(srcTokenIndex), uint128(dstTokenIndex), b0));
                     }
-                    ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), w));
+                    if (success && data.length >= 32) {  // vyper could return redundant bytes
+                        b1 = abi.decode(data, (uint256));
+                        ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), w));
+                    }
                 }
                 pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
             }
