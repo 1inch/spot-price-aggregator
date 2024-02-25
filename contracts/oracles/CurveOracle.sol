@@ -56,9 +56,13 @@ contract CurveOracle is IOracle {
         uint256 poolsCount = 0;
         for (uint256 i = 0; i < REGISTRIES_COUNT && poolsCount < MAX_POOLS; i++) {
             uint256 poolIndex = 0;
-            address pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), poolIndex);
-            while (pool != address(0) && poolsCount < MAX_POOLS) {
+            for (
+                address pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), poolIndex);
+                pool != address(0) && poolsCount < MAX_POOLS;
+                poolIndex++
+            ) {
                 poolsCount++;
+
                 // call `get_coin_indices` and set (srcTokenIndex, dstTokenIndex, isUnderlying) variables
                 bool isUnderlying;
                 int128 srcTokenIndex;
@@ -79,7 +83,6 @@ contract CurveOracle is IOracle {
                         (srcTokenIndex, dstTokenIndex, isUnderlying) = abi.decode(data, (int128, int128, bool));
                     }
                 } else {
-                    pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++poolIndex);
                     continue;
                 }
 
@@ -119,7 +122,6 @@ contract CurveOracle is IOracle {
                         mstore(balances, length)
                     }
                 } else {
-                    pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++poolIndex);
                     continue;
                 }
 
@@ -137,7 +139,6 @@ contract CurveOracle is IOracle {
                         ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), w));
                     }
                 }
-                pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++poolIndex);
             }
         }
         (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
