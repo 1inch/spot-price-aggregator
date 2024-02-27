@@ -30,7 +30,7 @@ describe('MultiWrapper', function () {
         return { multiWrapper };
     }
 
-    it('eth', async function () {
+    it('ETH', async function () {
         const { multiWrapper } = await loadFixture(initContracts);
         const response = await multiWrapper.getWrappedTokens(tokens.ETH);
         expect(response.wrappedTokens).to.deep.equal([tokens.WETH, tokens.aWETHV2, tokens.iETH, tokens.aETHV1, tokens.cETH, tokens.ETH]);
@@ -42,7 +42,7 @@ describe('MultiWrapper', function () {
         expect(response.rates[4]).to.lt('5000000000');
     });
 
-    it('dai', async function () {
+    it('DAI', async function () {
         const { multiWrapper } = await loadFixture(initContracts);
         const response = await multiWrapper.getWrappedTokens(tokens.DAI);
         expect(response.wrappedTokens).to.deep.equal([tokens.aDAIV1, tokens.aDAIV2, tokens.cDAI, tokens.iDAI, tokens.DAI]);

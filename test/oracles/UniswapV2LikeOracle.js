@@ -13,13 +13,13 @@ describe('UniswapV2LikeOracle', function () {
             return { uniswapV2Oracle };
         }
 
-        it('weth -> dai', async function () {
+        it('WETH -> DAI', async function () {
             const { uniswapV2Oracle } = await loadFixture(initContracts);
             const rate = await uniswapV2Oracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE, thresholdFilter);
             expect(rate.rate).to.gt(ether('1000'));
         });
 
-        it('weth -> usdc -> dai', async function () {
+        it('WETH -> USDC -> DAI', async function () {
             const { uniswapV2Oracle } = await loadFixture(initContracts);
             const rate = await uniswapV2Oracle.getRate(tokens.WETH, tokens.DAI, tokens.USDC, thresholdFilter);
             expect(rate.rate).to.gt(ether('1000'));
@@ -32,13 +32,13 @@ describe('UniswapV2LikeOracle', function () {
             return { shibaswapOracle };
         }
 
-        it('weth -> dai', async function () {
+        it('WETH -> DAI', async function () {
             const { shibaswapOracle } = await loadFixture(initContracts);
             const rate = await shibaswapOracle.getRate(tokens.WETH, tokens.DAI, tokens.NONE, thresholdFilter);
             expect(rate.rate).to.gt(ether('1000'));
         });
 
-        it('weth -> usdc -> dai', async function () {
+        it('WETH -> USDC -> DAI', async function () {
             const { shibaswapOracle } = await loadFixture(initContracts);
             const rate = await shibaswapOracle.getRate(tokens.WETH, tokens.DAI, tokens.USDC, thresholdFilter);
             expect(rate.rate).to.gt(ether('1000'));

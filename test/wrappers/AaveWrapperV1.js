@@ -9,28 +9,28 @@ describe('AaveWrapperV1', function () {
         return { aaveWrapper };
     }
 
-    it('dai -> adai', async function () {
+    it('DAI -> aDAI', async function () {
         const { aaveWrapper } = await loadFixture(initContracts);
         const response = await aaveWrapper.wrap(tokens.DAI);
         expect(response.rate).to.equal(ether('1'));
         expect(response.wrappedToken).to.equal(tokens.aDAIV1);
     });
 
-    it('adai -> dai', async function () {
+    it('aDAI -> DAI', async function () {
         const { aaveWrapper } = await loadFixture(initContracts);
         const response = await aaveWrapper.wrap(tokens.aDAIV1);
         expect(response.rate).to.equal(ether('1'));
         expect(response.wrappedToken).to.equal(tokens.DAI);
     });
 
-    it('eth -> aeth', async function () {
+    it('ETH -> aETH', async function () {
         const { aaveWrapper } = await loadFixture(initContracts);
         const response = await aaveWrapper.wrap(tokens.ETH);
         expect(response.rate).to.equal(ether('1'));
         expect(response.wrappedToken).to.equal(tokens.aETHV1);
     });
 
-    it('aeth -> eth', async function () {
+    it('aETH -> ETH', async function () {
         const { aaveWrapper } = await loadFixture(initContracts);
         const response = await aaveWrapper.wrap(tokens.aETHV1);
         expect(response.rate).to.equal(ether('1'));

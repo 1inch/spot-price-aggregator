@@ -1,9 +1,9 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { expect, deployContract } = require('@1inch/solidity-utils');
 const {
     tokens,
     deployParams: { Dodo, UniswapV3 },
-    defaultValues: { thresholdFilter },
+    testRate,
 } = require('../helpers.js');
 
 describe('DodoOracle', function () {
@@ -16,7 +16,7 @@ describe('DodoOracle', function () {
     it('should revert with amount of pools error', async function () {
         const { dodoOracle } = await loadFixture(initContracts);
         await expect(
-            dodoOracle.getRate(tokens.USDT, tokens['1INCH'], tokens.NONE, thresholdFilter),
+            testRate(tokens.USDT, tokens['1INCH'], tokens.NONE, dodoOracle),
         ).to.be.revertedWithCustomError(dodoOracle, 'PoolNotFound');
     });
 
@@ -39,10 +39,4 @@ describe('DodoOracle', function () {
         const { dodoOracle, uniswapV3Oracle } = await loadFixture(initContracts);
         await testRate(tokens.WBTC, tokens.WETH, tokens.USDC, dodoOracle, uniswapV3Oracle);
     });
-
-    const testRate = async function (srcToken, dstToken, connector, dodoOracle, uniswapV3Oracle) {
-        const dodoResult = await dodoOracle.getRate(srcToken, dstToken, connector, thresholdFilter);
-        const v3Result = await uniswapV3Oracle.getRate(srcToken, dstToken, connector, thresholdFilter);
-        assertRoughlyEqualValues(v3Result.rate, dodoResult.rate, 0.05);
-    };
 });

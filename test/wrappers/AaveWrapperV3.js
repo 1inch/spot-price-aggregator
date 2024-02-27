@@ -63,28 +63,28 @@ describe('AaveWrapperV3', function () {
         await expect(aaveWrapper.removeMarkets([tokens.aDAIV1])).to.be.revertedWithCustomError(aaveWrapper, 'NotRemovedMarket');
     });
 
-    it('dai -> adai', async function () {
+    it('DAI -> aDAI', async function () {
         const { aaveWrapper } = await loadFixture(initContracts);
         const response = await aaveWrapper.wrap(tokens.DAI);
         expect(response.rate).to.equal(ether('1'));
         expect(response.wrappedToken).to.equal(tokens.aDAIV3);
     });
 
-    it('adai -> dai', async function () {
+    it('aDAI -> DAI', async function () {
         const { aaveWrapper } = await loadFixture(initContracts);
         const response = await aaveWrapper.wrap(tokens.aDAIV3);
         expect(response.rate).to.equal(ether('1'));
         expect(response.wrappedToken).to.equal(tokens.DAI);
     });
 
-    it('weth -> aweth', async function () {
+    it('WETH -> aWETH', async function () {
         const { aaveWrapper } = await loadFixture(initContracts);
         const response = await aaveWrapper.wrap(tokens.WETH);
         expect(response.rate).to.equal(ether('1'));
         expect(response.wrappedToken).to.equal(tokens.aWETHV3);
     });
 
-    it('aweth -> weth', async function () {
+    it('aWETH -> WETH', async function () {
         const { aaveWrapper } = await loadFixture(initContracts);
         const response = await aaveWrapper.wrap(tokens.aWETHV3);
         expect(response.rate).to.equal(ether('1'));

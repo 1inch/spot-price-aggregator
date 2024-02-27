@@ -1,10 +1,9 @@
-const { ethers } = require('hardhat');
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { expect, deployContract } = require('@1inch/solidity-utils');
 const {
     tokens,
     deployParams: { Synthetix, UniswapV3 },
-    defaultValues: { thresholdFilter },
+    testRate,
 } = require('../helpers.js');
 
 describe('SynthetixOracle', function () {
@@ -31,14 +30,14 @@ describe('SynthetixOracle', function () {
         const { synthetixOracle } = await loadFixture(initContracts);
         const incorrectSREN = '0x4287dac1cC7434991119Eba7413189A66fFE65cF';
         await expect(
-            synthetixOracle.getRate.staticCall(incorrectSREN, tokens.sKRW, tokens.NONE, thresholdFilter),
+            testRate(incorrectSREN, tokens.sKRW, tokens.NONE, synthetixOracle),
         ).to.be.revertedWithCustomError(synthetixOracle, 'UnregisteredToken');
     });
 
     it('should revert on connector usage', async function () {
-        const { synthetixOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+        const { synthetixOracle } = await loadFixture(initContracts);
         await expect(
-            testRate([tokens.sBTC, tokens.WBTC], [tokens.ETH, tokens.WETH], tokens.USDC, synthetixOracle, uniswapV3Oracle),
+            testRate([tokens.sBTC, tokens.WBTC], [tokens.ETH, tokens.WETH], tokens.USDC, synthetixOracle),
         ).to.be.revertedWithCustomError(synthetixOracle, 'ConnectorShouldBeNone');
     });
 
@@ -71,36 +70,4 @@ describe('SynthetixOracle', function () {
         const { synthetixOracle, uniswapV3Oracle } = await loadFixture(initContracts);
         await testRate([tokens.ETH, tokens.WETH], [tokens.SNX, tokens.SNX], tokens.NONE, synthetixOracle, uniswapV3Oracle);
     });
-
-    async function testRate (srcTokens, dstTokens, connector, synthetixOracle, uniswapV3Oracle) {
-        const synthResult = await synthetixOracle.getRate(srcTokens[0], dstTokens[0], connector, thresholdFilter);
-        const v3Result = await uniswapV3Oracle.getRate(srcTokens[1], dstTokens[1], connector, thresholdFilter);
-
-        let actualResult = synthResult.rate;
-        let expectedResult = v3Result.rate;
-        const srcActualDecimals = await getDecimals(srcTokens[0]);
-        const srcExpectedDecimals = await getDecimals(srcTokens[1]);
-        const dstActualDecimals = await getDecimals(dstTokens[0]);
-        const dstExpectedDecimals = await getDecimals(dstTokens[1]);
-
-        if (srcActualDecimals > srcExpectedDecimals) {
-            const diff = srcActualDecimals - srcExpectedDecimals;
-            expectedResult = expectedResult / (10n ** diff);
-        }
-
-        if (dstActualDecimals > dstExpectedDecimals) {
-            const diff = dstActualDecimals - dstExpectedDecimals;
-            actualResult = actualResult / (10n ** diff);
-        }
-
-        assertRoughlyEqualValues(expectedResult, actualResult, 0.05);
-    }
-
-    async function getDecimals (token) {
-        if (token === tokens.ETH || token === token.EEE) {
-            return 18n;
-        }
-        const contract = await ethers.getContractAt('ERC20', token);
-        return await contract.decimals();
-    }
 });
