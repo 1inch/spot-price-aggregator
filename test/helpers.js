@@ -53,9 +53,9 @@ const tokens = {
     BEAN: '0xBEA0000029AD1c77D3d5D23Ba2D8893dB9d1Efab',
     '3CRV': '0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490',
     base: {
-        DAI: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
         WETH: '0x4200000000000000000000000000000000000006',
-        USDC: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913',
+        DAI: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
+        axlUSDC: '0xEB466342C4d449BC9f53A865D5Cb90586f405215',
     },
     optimistic: {
         WETH: '0x4200000000000000000000000000000000000006',
@@ -145,7 +145,7 @@ const deployParams = {
         initcodeHash: '0x6ce8eb472fa82df5469c6ab6d485f17c3ad13c8cd7af59b3d4a8026c5ce0f7e2',
         fees: [100, 500, 2500, 10000],
     },
-    VelocimieterV2: { // base network
+    VelocimeterV2: { // base network
         factory: '0xe21aac7f113bd5dc2389e4d8a8db854a87fd6951',
         initcodeHash: '0x0ccd005ee58d5fb11632ef5c2e0866256b240965c62c8e990c0f84a97f311879',
     },
