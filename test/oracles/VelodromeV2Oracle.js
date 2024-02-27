@@ -1,19 +1,22 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { network } = require('hardhat');
+const { deployContract } = require('@1inch/solidity-utils');
+const { resetHardhatNetworkFork } = require('@1inch/solidity-utils/hardhat-setup');
 const {
     tokens,
     deployParams: { VelodromeV2, UniswapV3 },
     defaultValues: { thresholdFilter },
-    resetHardhatNetworkFork,
+    testRate,
+    measureGas,
 } = require('../helpers.js');
 
 describe('VelodromeV2Oracle', function () {
     before(async function () {
-        await resetHardhatNetworkFork('optimistic');
+        await resetHardhatNetworkFork(network, 'optimistic');
     });
 
     after(async function () {
-        await resetHardhatNetworkFork('mainnet');
+        await resetHardhatNetworkFork(network, 'mainnet');
     });
 
     async function initContracts () {
@@ -36,12 +39,6 @@ describe('VelodromeV2Oracle', function () {
         const { velodromeV2Oracle, uniswapV3Oracle } = await loadFixture(initContracts);
         await testRate(tokens.optimistic.WETH, tokens.optimistic.USDC, tokens.optimistic.OP, velodromeV2Oracle, uniswapV3Oracle);
     });
-
-    const testRate = async function (srcToken, dstToken, connector, velodromeV2Oracle, uniswapV3Oracle) {
-        const velodromeV2Result = await velodromeV2Oracle.getRate(srcToken, dstToken, connector, thresholdFilter);
-        const v3Result = await uniswapV3Oracle.getRate(srcToken, dstToken, connector, thresholdFilter);
-        assertRoughlyEqualValues(v3Result.rate, velodromeV2Result.rate, 0.05);
-    };
 
     describe('Measure gas', function () {
         it('WETH -> USDC', async function () {
@@ -79,10 +76,5 @@ describe('VelodromeV2Oracle', function () {
                 'UniswapV3Oracle WETH -> OP -> USDC',
             );
         });
-
-        async function measureGas (tx, comment) {
-            const receipt = await tx.wait();
-            console.log('gasUsed', comment, receipt.gasUsed.toString());
-        }
     });
 });

@@ -1,5 +1,5 @@
-const { network } = require('hardhat');
-const { Networks } = require('@1inch/solidity-utils/hardhat-setup');
+const { ethers } = require('hardhat');
+const { assertRoughlyEqualValues } = require('@1inch/solidity-utils');
 
 const defaultValues = {
     thresholdFilter: 10,
@@ -53,10 +53,9 @@ const tokens = {
     BEAN: '0xBEA0000029AD1c77D3d5D23Ba2D8893dB9d1Efab',
     '3CRV': '0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490',
     base: {
-        DAI: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
         WETH: '0x4200000000000000000000000000000000000006',
+        DAI: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
         axlUSDC: '0xEB466342C4d449BC9f53A865D5Cb90586f405215',
-        axlUSDT: '0x7f5373AE26c3E8FfC4c77b7255DF7eC1A9aF52a6',
     },
     optimistic: {
         WETH: '0x4200000000000000000000000000000000000006',
@@ -89,6 +88,11 @@ const deployParams = {
     },
     UniswapV3: {
         factory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
+        initcodeHash: '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54',
+        fees: [100, 500, 3000, 10000],
+    },
+    UniswapV3Base: { // base network
+        factory: '0x33128a8fC17869897dcE68Ed026d694621f6FDfD',
         initcodeHash: '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54',
         fees: [100, 500, 3000, 10000],
     },
@@ -141,7 +145,7 @@ const deployParams = {
         initcodeHash: '0x6ce8eb472fa82df5469c6ab6d485f17c3ad13c8cd7af59b3d4a8026c5ce0f7e2',
         fees: [100, 500, 2500, 10000],
     },
-    VelocimieterV2: { // base network
+    VelocimeterV2: { // base network
         factory: '0xe21aac7f113bd5dc2389e4d8a8db854a87fd6951',
         initcodeHash: '0x0ccd005ee58d5fb11632ef5c2e0866256b240965c62c8e990c0f84a97f311879',
     },
@@ -151,30 +155,66 @@ const deployParams = {
     },
 };
 
-const resetHardhatNetworkFork = async function (networkName) {
-    if (networkName.toLowerCase() === 'hardhat') {
-        await network.provider.request({ // reset to local network
-            method: 'hardhat_reset',
-            params: [],
-        });
-    } else {
-        const { url, authKeyHttpHeader } = (new Networks())._parseRpcEnv(process.env[`${networkName.toUpperCase()}_RPC_URL`]);
-        await network.provider.request({ // reset to networkName fork
-            method: 'hardhat_reset',
-            params: [{
-                forking: {
-                    jsonRpcUrl: url,
-                    httpHeaders: authKeyHttpHeader ? { 'auth-key': authKeyHttpHeader } : undefined,
-                },
-            }],
-        });
+async function measureGas (tx, comment) {
+    const receipt = await tx.wait();
+    console.log('gasUsed', comment, receipt.gasUsed.toString());
+}
+
+function _parseTokenForTestRate (token) {
+    let targetToken = token;
+    let referenceToken = token;
+    if (Array.isArray(token)) {
+        targetToken = token[0];
+        referenceToken = token[1];
     }
-};
+    return { targetToken, referenceToken };
+}
+
+async function _getDecimals (token) {
+    if (token === tokens.ETH || token === token.EEE) {
+        return 18n;
+    }
+    const contract = await ethers.getContractAt('ERC20', token);
+    return await contract.decimals();
+}
+
+async function testRate (srcToken, dstToken, connector, targetOracle, referenceOracle, relativeDiff = 0.05, thresholdFilter = defaultValues.thresholdFilter) {
+    const { targetToken: targetSrcToken, referenceToken: referenceSrcToken } = _parseTokenForTestRate(srcToken);
+    const { targetToken: targetDstToken, referenceToken: referenceDstToken } = _parseTokenForTestRate(dstToken);
+    let { rate: actual } = await targetOracle.getRate(targetSrcToken, targetDstToken, connector, thresholdFilter);
+    let { rate: expected } = await referenceOracle.getRate(referenceSrcToken, referenceDstToken, connector, thresholdFilter);
+
+    const targetSrcTokenDecimals = await _getDecimals(targetSrcToken);
+    const referenceSrcTokenDecimals = await _getDecimals(referenceSrcToken);
+    const targetDstTokenDecimals = await _getDecimals(targetDstToken);
+    const referenceDstTokenDecimals = await _getDecimals(referenceDstToken);
+
+    if (targetSrcTokenDecimals > referenceSrcTokenDecimals) {
+        const diff = targetSrcTokenDecimals - referenceSrcTokenDecimals;
+        expected = expected / (10n ** diff);
+    }
+
+    if (targetDstTokenDecimals > referenceDstTokenDecimals) {
+        const diff = targetDstTokenDecimals - referenceDstTokenDecimals;
+        actual = actual / (10n ** diff);
+    }
+    assertRoughlyEqualValues(expected, actual, relativeDiff);
+}
+
+async function testRateOffchainOracle (srcToken, dstToken, oldOffchainOracle, newOffchainOracle, relativeDiff = 0.05, thresholdFilter = defaultValues.thresholdFilter) {
+    const { targetToken: targetSrcToken, referenceToken: referenceSrcToken } = _parseTokenForTestRate(srcToken);
+    const { targetToken: targetDstToken, referenceToken: referenceDstToken } = _parseTokenForTestRate(dstToken);
+    const actualRate = await newOffchainOracle.getRateWithThreshold(targetSrcToken, targetDstToken, true, thresholdFilter);
+    const expectedRate = await oldOffchainOracle.getRateWithThreshold(referenceSrcToken, referenceDstToken, true, thresholdFilter);
+    assertRoughlyEqualValues(actualRate, expectedRate, relativeDiff);
+}
 
 module.exports = {
     defaultValues,
     tokens,
     contracts,
     deployParams,
-    resetHardhatNetworkFork,
+    measureGas,
+    testRate,
+    testRateOffchainOracle,
 };

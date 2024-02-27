@@ -1,36 +1,47 @@
-const { ethers } = require('hardhat');
+const { network } = require('hardhat');
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect, ether, deployContract, assertRoughlyEqualValues } = require('@1inch/solidity-utils');
+const { deployContract } = require('@1inch/solidity-utils');
+const { resetHardhatNetworkFork } = require('@1inch/solidity-utils/hardhat-setup');
 const {
     tokens,
-    deployParams: { VelocimieterV2 },
-    defaultValues: { thresholdFilter },
+    deployParams: { VelocimeterV2, UniswapV3Base },
+    testRate,
 } = require('../helpers.js');
 
 describe('SolidlyOracle', function () {
-    describe('VelocimieterV2 @base', function () {
+    describe('VelocimeterV2', function () {
         before(async function () {
-            if ((await ethers.provider.getNetwork()).chainId !== 8453) {
-                console.log('Skipping tests, not on Base network');
-                this.skip();
-            }
+            await resetHardhatNetworkFork(network, 'base');
+        });
+
+        after(async function () {
+            await resetHardhatNetworkFork(network, 'mainnet');
         });
 
         async function initContracts () {
-            const velocimieterV2Oracle = await deployContract('SolidlyOracle', [VelocimieterV2.factory, VelocimieterV2.initcodeHash]);
-            return { velocimieterV2Oracle };
+            const velocimeterV2Oracle = await deployContract('SolidlyOracle', [VelocimeterV2.factory, VelocimeterV2.initcodeHash]);
+            const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3Base.factory, UniswapV3Base.initcodeHash, UniswapV3Base.fees]);
+            return { velocimeterV2Oracle, uniswapV3Oracle };
         }
 
-        it('axlUSDT -> axlUSDC', async function () {
-            const { velocimieterV2Oracle } = await loadFixture(initContracts);
-            const rate = await velocimieterV2Oracle.getRate(tokens.base.axlUSDT, tokens.base.axlUSDC, tokens.NONE, thresholdFilter);
-            assertRoughlyEqualValues(rate.rate, ether('1'), '0.05');
+        it('WETH -> axlUSDC', async function () {
+            const { velocimeterV2Oracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.base.WETH, tokens.base.axlUSDC, tokens.NONE, velocimeterV2Oracle, uniswapV3Oracle);
         });
 
-        it('weth -> dai', async function () {
-            const { velocimieterV2Oracle } = await loadFixture(initContracts);
-            const rate = await velocimieterV2Oracle.getRate(tokens.base.WETH, tokens.base.DAI, tokens.NONE, thresholdFilter);
-            expect(rate.rate).to.gt(ether('1000'));
+        it('axlUSDC -> WETH', async function () {
+            const { velocimeterV2Oracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.base.axlUSDC, tokens.base.WETH, tokens.NONE, velocimeterV2Oracle, uniswapV3Oracle);
+        });
+
+        it('WETH -> DAI', async function () {
+            const { velocimeterV2Oracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.base.WETH, tokens.base.DAI, tokens.NONE, velocimeterV2Oracle, uniswapV3Oracle, 0.1);
+        });
+
+        it('DAI -> WETH', async function () {
+            const { velocimeterV2Oracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.base.DAI, tokens.base.WETH, tokens.NONE, velocimeterV2Oracle, uniswapV3Oracle, 0.1);
         });
     });
 });

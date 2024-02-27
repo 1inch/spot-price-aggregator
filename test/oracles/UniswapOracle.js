@@ -12,19 +12,19 @@ describe('UniswapOracle', function () {
         return { uniswapOracle };
     }
 
-    it('weth -> dai', async function () {
+    it('WETH -> ETH -> DAI', async function () {
         const { uniswapOracle } = await loadFixture(initContracts);
         const rate = await uniswapOracle.getRate(tokens.WETH, tokens.DAI, tokens.ETH, thresholdFilter);
         expect(rate.rate).to.gt(ether('1000'));
     });
 
-    it('eth -> dai', async function () {
+    it('ETH -> DAI', async function () {
         const { uniswapOracle } = await loadFixture(initContracts);
         const rate = await uniswapOracle.getRate(tokens.ETH, tokens.DAI, tokens.NONE, thresholdFilter);
         expect(rate.rate).to.gt(ether('1000'));
     });
 
-    it('dai -> eth', async function () {
+    it('DAI -> ETH', async function () {
         const { uniswapOracle } = await loadFixture(initContracts);
         const rate = await uniswapOracle.getRate(tokens.DAI, tokens.ETH, tokens.NONE, thresholdFilter);
         expect(rate.rate).to.lt(ether('0.001'));

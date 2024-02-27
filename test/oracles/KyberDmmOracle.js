@@ -1,9 +1,9 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { expect, deployContract } = require('@1inch/solidity-utils');
 const {
     tokens,
     deployParams: { KyberDmm, UniswapV3 },
-    defaultValues: { thresholdFilter },
+    testRate,
 } = require('../helpers.js');
 
 describe('KyberDmmOracle', function () {
@@ -16,14 +16,14 @@ describe('KyberDmmOracle', function () {
     it('should revert with amount of pools error', async function () {
         const { kyberDmmOracle } = await loadFixture(initContracts);
         await expect(
-            kyberDmmOracle.getRate.staticCall(tokens.USDT, tokens.EEE, tokens.NONE, thresholdFilter),
+            testRate(tokens.USDT, tokens.EEE, tokens.NONE, kyberDmmOracle),
         ).to.be.revertedWithCustomError(kyberDmmOracle, 'PoolNotFound');
     });
 
     it('should revert with amount of pools with connector error', async function () {
         const { kyberDmmOracle } = await loadFixture(initContracts);
         await expect(
-            kyberDmmOracle.getRate.staticCall(tokens.USDT, tokens.WETH, tokens.MKR, thresholdFilter),
+            testRate(tokens.USDT, tokens.WETH, tokens.MKR, kyberDmmOracle),
         ).to.be.revertedWithCustomError(kyberDmmOracle, 'PoolWithConnectorNotFound');
     });
 
@@ -56,10 +56,4 @@ describe('KyberDmmOracle', function () {
         const { kyberDmmOracle, uniswapV3Oracle } = await loadFixture(initContracts);
         await testRate(tokens.WBTC, tokens.USDC, tokens.USDT, kyberDmmOracle, uniswapV3Oracle);
     });
-
-    async function testRate (srcToken, dstToken, connector, kyberDmmOracle, uniswapV3Oracle) {
-        const kyberResult = await kyberDmmOracle.getRate(srcToken, dstToken, connector, thresholdFilter);
-        const v3Result = await uniswapV3Oracle.getRate(srcToken, dstToken, connector, thresholdFilter);
-        assertRoughlyEqualValues(v3Result.rate, kyberResult.rate, 0.05);
-    }
 });
