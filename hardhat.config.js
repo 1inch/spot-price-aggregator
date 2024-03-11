@@ -45,6 +45,7 @@ module.exports = {
     dependencyCompiler: {
         paths: [
             '@1inch/solidity-utils/contracts/interfaces/ICreate3Deployer.sol',
+            '@1inch/solidity-utils/contracts/interfaces/IWETH.sol',
         ],
     },
     zksolc: {
