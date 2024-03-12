@@ -50,6 +50,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * AaveV2 - [0x06cC74503B6d1eB6D4d6Bc402f48fC07b804105f](https://etherscan.io/address/0x06cC74503B6d1eB6D4d6Bc402f48fC07b804105f)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://etherscan.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    * Compound - [0x7C327E1Ee66d4cF7F4053387241351FDc95A0c04](https://etherscan.io/address/0x7C327E1Ee66d4cF7F4053387241351FDc95A0c04)
+   * CompoundV3 - [0xd24222B521337DABE4f1e56d351818fbf26905eD](https://etherscan.io/address/0xd24222B521337DABE4f1e56d351818fbf26905eD)
    * YVault - [0x9FF110f132d988bfa9bC6a21851Da1aF3aC6EaF8](https://etherscan.io/address/0x9FF110f132d988bfa9bC6a21851Da1aF3aC6EaF8)
    * stETH - [0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F](https://etherscan.io/address/0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F)
    * wstETH - [0x37eB78fE793E89353e46AEe73E299985C3B8d334](https://etherscan.io/address/0x37eB78fE793E89353e46AEe73E299985C3B8d334)
