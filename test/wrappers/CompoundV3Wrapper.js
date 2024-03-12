@@ -14,7 +14,7 @@ describe('CompoundV3Wrapper', function () {
         const cWETHv3 = new ethers.Contract(tokens.cWETHv3, [...IERC20ABI, ...COMETABI], wallet);
         const weth = await ethers.getContractAt('IWETH', tokens.WETH);
 
-        await compoundV3Wrapper.addToken(tokens.cWETHv3);
+        await compoundV3Wrapper.addMarkets([tokens.cWETHv3]);
         await weth.deposit({ value: ether('2') });
         await weth.approve(cWETHv3, ether('2'));
 
@@ -23,20 +23,20 @@ describe('CompoundV3Wrapper', function () {
 
     it('should revert when add/remove by non-owner', async function () {
         const { nonOwner, compoundV3Wrapper } = await loadFixture(initContracts);
-        await expect(compoundV3Wrapper.connect(nonOwner).addToken(tokens.cUSDCv3)).to.be.revertedWithCustomError(compoundV3Wrapper, 'OwnableUnauthorizedAccount');
-        await expect(compoundV3Wrapper.connect(nonOwner).removeToken(tokens.cWETHv3)).to.be.revertedWithCustomError(compoundV3Wrapper, 'OwnableUnauthorizedAccount');
+        await expect(compoundV3Wrapper.connect(nonOwner).addMarkets([tokens.cUSDCv3])).to.be.revertedWithCustomError(compoundV3Wrapper, 'OwnableUnauthorizedAccount');
+        await expect(compoundV3Wrapper.connect(nonOwner).removeMarkets([tokens.cWETHv3])).to.be.revertedWithCustomError(compoundV3Wrapper, 'OwnableUnauthorizedAccount');
     });
 
-    it('addToken', async function () {
+    it('addMarkets', async function () {
         const { compoundV3Wrapper } = await loadFixture(initContracts);
-        await compoundV3Wrapper.addToken(tokens.cUSDCv3);
+        await compoundV3Wrapper.addMarkets([tokens.cUSDCv3]);
         expect(await compoundV3Wrapper.cTokenToToken(tokens.cUSDCv3)).to.equal(tokens.USDC);
         expect(await compoundV3Wrapper.tokenTocToken(tokens.USDC)).to.equal(tokens.cUSDCv3);
     });
 
-    it('removeToken', async function () {
+    it('removeMarkets', async function () {
         const { compoundV3Wrapper } = await loadFixture(initContracts);
-        await compoundV3Wrapper.removeToken(tokens.cWETHv3);
+        await compoundV3Wrapper.removeMarkets([tokens.cWETHv3]);
         expect(await compoundV3Wrapper.cTokenToToken(tokens.cWETHv3)).to.equal(constants.ZERO_ADDRESS);
         expect(await compoundV3Wrapper.tokenTocToken(tokens.WETH)).to.equal(constants.ZERO_ADDRESS);
     });

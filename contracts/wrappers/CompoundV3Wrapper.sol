@@ -12,16 +12,20 @@ contract CompoundV3Wrapper is IWrapper, Ownable {
 
     constructor(address _owner) Ownable(_owner) {} // solhint-disable-line no-empty-blocks
 
-    function addToken(address token) external onlyOwner {
-        IERC20 baseToken = IERC20(IComet(token).baseToken());
-        cTokenToToken[IERC20(token)] = baseToken;
-        tokenTocToken[baseToken] = IERC20(token);
+    function addMarkets(address[] memory tokens) external onlyOwner {
+        for (uint256 i = 0; i < tokens.length; i++) {
+            IERC20 baseToken = IERC20(IComet(tokens[i]).baseToken());
+            cTokenToToken[IERC20(tokens[i])] = baseToken;
+            tokenTocToken[baseToken] = IERC20(tokens[i]);
+        }
     }
 
-    function removeToken(address token) external onlyOwner {
-        IERC20 baseToken = IERC20(IComet(token).baseToken());
-        delete cTokenToToken[IERC20(token)];
-        delete tokenTocToken[baseToken];
+    function removeMarkets(address[] memory tokens) external onlyOwner {
+        for (uint256 i = 0; i < tokens.length; i++) {
+            IERC20 baseToken = IERC20(IComet(tokens[i]).baseToken());
+            delete cTokenToToken[IERC20(tokens[i])];
+            delete tokenTocToken[baseToken];
+        }
     }
 
     function wrap(IERC20 token) external view override returns (IERC20 wrappedToken, uint256 rate) {
