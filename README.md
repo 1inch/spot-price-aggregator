@@ -557,7 +557,7 @@ This section provides a comprehensive guide on deploying an oracle, including th
 ### Step 5: Deploying Oracles
 
 5. **Deploy Oracles:**
-   - Use the deploy script located at `deploy/commands/simple-deploy.js`.
+   - Use the deploy script located at `deploy/commands/simple-deploy.js`. You can find a description of the script and how to use it in the [scripts description](https://github.com/1inch/spot-price-aggregator/blob/master/deploy/README.md).
    - Configure the `PARAMS` object for each protocol you wish to deploy an oracle for. The parameters include:
       - **contractName**: Name of the contract from the `contracts/oracles/` directory.
       - **args**: Arguments required by the contract (See contract's constructor).
@@ -568,12 +568,12 @@ This section provides a comprehensive guide on deploying an oracle, including th
 ### Step 6: Deploying Wrappers
 
 6. **Deploy Wrappers:**
-   - Follow similar steps as step 5 to deploy necessary wrappers. You can find it in the `contracts/wrappers/` directory. 
+   - Follow similar steps as step 5 to deploy necessary wrappers and `MultiWrapper`. You can find different wrappers in the `contracts/wrappers/` directory. After `MultiWrapper` is deployed, it will be possible to edit these lists of wrappers.
 
 ### Step 7: Deploying OffchainOracle
 
 7. **Deploy OffchainOracle:**
-   - Follow similar steps as step 5 to deploy the `OffchainOracle`. Make sure to include the deployed oracles (from step 5), wrappers (from step 6) and specifying the tokens you wish to use as connectors for price discovery. After `OffchainOracle` is deployed, it will be possible to edit these lists of oracles, wrappers and connectors.
+   - Follow similar steps as step 5 to deploy the `OffchainOracle`. Make sure to include the deployed oracles (from step 5), `MultiWrapper` with wrappers (from step 6) and specifying the tokens you wish to use as connectors for price discovery. After `OffchainOracle` is deployed, it will be possible to edit these lists of oracles and connectors.
 
 ### Support and Assistance
 
