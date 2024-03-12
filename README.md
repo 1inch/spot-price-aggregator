@@ -224,6 +224,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * WETH - [0x0F85A912448279111694F4Ba4F85dC641c54b594](https://arbiscan.io/address/0x0F85A912448279111694F4Ba4F85dC641c54b594)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://arbiscan.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
+   * CompoundV3 - [0x04098C93b15E5Cbb5A49651f20218C85F202Cd27](https://arbiscan.io/address/0x04098C93b15E5Cbb5A49651f20218C85F202Cd27)
    
 </details>
 
