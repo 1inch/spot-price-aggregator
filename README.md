@@ -50,6 +50,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * AaveV2 - [0x06cC74503B6d1eB6D4d6Bc402f48fC07b804105f](https://etherscan.io/address/0x06cC74503B6d1eB6D4d6Bc402f48fC07b804105f)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://etherscan.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    * Compound - [0x7C327E1Ee66d4cF7F4053387241351FDc95A0c04](https://etherscan.io/address/0x7C327E1Ee66d4cF7F4053387241351FDc95A0c04)
+   * CompoundV3 - [0xd24222B521337DABE4f1e56d351818fbf26905eD](https://etherscan.io/address/0xd24222B521337DABE4f1e56d351818fbf26905eD)
    * YVault - [0x9FF110f132d988bfa9bC6a21851Da1aF3aC6EaF8](https://etherscan.io/address/0x9FF110f132d988bfa9bC6a21851Da1aF3aC6EaF8)
    * stETH - [0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F](https://etherscan.io/address/0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F)
    * wstETH - [0x37eB78fE793E89353e46AEe73E299985C3B8d334](https://etherscan.io/address/0x37eB78fE793E89353e46AEe73E299985C3B8d334)
@@ -145,6 +146,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * WMATIC - [0xA0446D8804611944F1B527eCD37d7dcbE442caba](https://polygonscan.com/address/0xA0446D8804611944F1B527eCD37d7dcbE442caba)
    * AaveV2 - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](https://polygonscan.com/address/0x138CE40d675F9a23E4D6127A8600308Cf7A93381)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://polygonscan.com/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
+   * CompoundV3 - [0xAc63D130525c251EbB24E010c2959a98c80B993a](https://polygonscan.com/address/0xAc63D130525c251EbB24E010c2959a98c80B993a)
    
 </details>
 
@@ -222,6 +224,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * WETH - [0x0F85A912448279111694F4Ba4F85dC641c54b594](https://arbiscan.io/address/0x0F85A912448279111694F4Ba4F85dC641c54b594)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://arbiscan.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
+   * CompoundV3 - [0x04098C93b15E5Cbb5A49651f20218C85F202Cd27](https://arbiscan.io/address/0x04098C93b15E5Cbb5A49651f20218C85F202Cd27)
    
 </details>
 
@@ -488,6 +491,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * WETH - [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://basescan.org/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://basescan.org/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
+   * CompoundV3 - [0x3afA12cf9Ac1a96845973BD93dBEa183A94DD74F](https://basescan.org/address/0x3afA12cf9Ac1a96845973BD93dBEa183A94DD74F)
 
 </details>
 
