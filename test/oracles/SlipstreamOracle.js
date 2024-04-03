@@ -7,7 +7,7 @@ const {
     deployParams: { UniswapV3, Slipstream },
     defaultValues: { thresholdFilter },
     testRate,
-    measureGas
+    measureGas,
 } = require('../helpers.js');
 
 describe('SlipstreamOracle', function () {

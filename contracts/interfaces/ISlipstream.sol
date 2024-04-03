@@ -5,12 +5,14 @@ pragma solidity 0.8.23;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 interface ISlipstream {
-    function slot0() external view returns (uint160 sqrtPriceX96,
+    function slot0() external view returns (
+        uint160 sqrtPriceX96,
         int24 tick,
         uint16 observationIndex,
         uint16 observationCardinality,
         uint16 observationCardinalityNext,
-        bool unlocked); 
+        bool unlocked
+    ); 
     function ticks(int24 tick) external view returns (
         uint128 liquidityGross,
         int128 liquidityNet,
