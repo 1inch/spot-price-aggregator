@@ -61,9 +61,10 @@ const tokens = {
     },
     optimistic: {
         WETH: '0x4200000000000000000000000000000000000006',
-        USDC: '0x7F5c764cBc14f9669B88837ca1490cCa17c31607',
+        USDC: '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85',
         OP: '0x4200000000000000000000000000000000000042',
-    },
+        DAI: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1'
+    }
 };
 
 const contracts = {
@@ -154,6 +155,14 @@ const deployParams = {
     VelodromeV2: { // optimistic network
         router: '0xa062aE8A9c5e11aaA026fc2670B0D65cCc8B2858',
         registry: '0xF4c67CdEAaB8360370F41514d06e32CcD8aA1d7B',
+        factory: '0xF1046053aa5682b4F9a81b5481394DA16BE5FF5a',
+        poolImplementation: '0x95885af5492195f0754be71ad1545fe81364e531',
+        stables: [true, false],
+    },
+    Slipstream: { // optimistic network
+        factory: '0x548118C7E0B865C2CfA94D15EC86B666468ac758',
+        implementation: '0xE0A596c403E854FFb9C828aB4f07eEae04A05D37',
+        tickSpacings: [1, 50, 100, 200, 2_000],
     },
 };
 
