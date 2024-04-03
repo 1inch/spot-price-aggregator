@@ -155,9 +155,6 @@ const deployParams = {
     VelodromeV2: { // optimistic network
         router: '0xa062aE8A9c5e11aaA026fc2670B0D65cCc8B2858',
         registry: '0xF4c67CdEAaB8360370F41514d06e32CcD8aA1d7B',
-        factory: '0xF1046053aa5682b4F9a81b5481394DA16BE5FF5a',
-        poolImplementation: '0x95885af5492195f0754be71ad1545fe81364e531',
-        stables: [true, false],
     },
     Slipstream: { // optimistic network
         factory: '0x548118C7E0B865C2CfA94D15EC86B666468ac758',
