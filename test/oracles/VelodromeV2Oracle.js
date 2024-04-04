@@ -20,7 +20,7 @@ describe('VelodromeV2Oracle', function () {
     });
 
     async function initContracts () {
-        const velodromeV2Oracle = await deployContract('VelodromeV2Oracle', [VelodromeV2.router, VelodromeV2.registry]);
+        const velodromeV2Oracle = await deployContract('VelodromeV2Oracle', [VelodromeV2.poolFactory, VelodromeV2.poolImplementation]);
         const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
         return { velodromeV2Oracle, uniswapV3Oracle };
     }
