@@ -25,6 +25,27 @@ async function getAllAave3ReservesTokens (lendingPoolV3Address) {
     return tokens.map(token => token[1]);
 }
 
+async function getAllAaveV3UnderlyingTokensForStataTokens (staticATokenFactoryAddress) {
+    const aTokenABI = [
+        {
+            name: 'UNDERLYING_ASSET_ADDRESS',
+            type: 'function',
+            inputs: [],
+            outputs: [{ type: 'address', name: 'value' }],
+            stateMutability: 'view',
+        },
+    ];
+    const staticATokenFactory = await ethers.getContractAt('IStaticATokenFactory', staticATokenFactoryAddress);
+    const allStataTokens = await staticATokenFactory.getStaticATokens();
+    const tokens = [];
+    for (const token of allStataTokens) {
+        const stataToken = await ethers.getContractAt('IStaticATokenLM', token);
+        const aToken = await ethers.getContractAt(aTokenABI, await stataToken.aToken());
+        tokens.push(await aToken.UNDERLYING_ASSET_ADDRESS());
+    }
+    return tokens;
+}
+
 const deployCompoundTokenWrapper = async (contractInfo, tokenName, deployments, deployer, deploymentName = `CompoundLikeWrapper_${contractInfo.name}`) => {
     const comptroller = await ethers.getContractAt('IComptroller', contractInfo.address);
     const cToken = (await comptroller.getAllMarkets()).filter(token => token !== tokenName);
@@ -52,6 +73,7 @@ const getContract = async (deployments, contractName, deploymentName = contractN
 module.exports = {
     addAaveTokens,
     getAllAave3ReservesTokens,
+    getAllAaveV3UnderlyingTokensForStataTokens,
     deployCompoundTokenWrapper,
     getContract,
 };
