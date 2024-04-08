@@ -251,7 +251,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 </details>
 
-### Avax
+### Avalanche (Avax)
 
 #### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://snowtrace.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
@@ -269,6 +269,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * WAVAX - [0x046605839c01C54921f4aA1AAa245E88227707D8](https://snowtrace.io/address/0x046605839c01C54921f4aA1AAa245E88227707D8)
    * AaveV2 - [0x8Aa57827C3D147E39F1058517939461538D9C56A](https://snowtrace.io/address/0x8Aa57827C3D147E39F1058517939461538D9C56A)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://snowtrace.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
+   * StataTokens (AaveV3) - [0x1A75DF59f464a70Cc8f7383983852FF72e5F5167](https://snowtrace.io/address/0x1A75DF59f464a70Cc8f7383983852FF72e5F5167)
    
 </details>
 
