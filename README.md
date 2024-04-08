@@ -81,7 +81,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 </details>
 
-### Binance Smart Chain
+### Binance Smart Chain (BSC, BNB)
 
 #### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://bscscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
@@ -105,6 +105,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Venus - [0x11DEE30E710B8d4a8630392781Cc3c0046365d4c](https://bscscan.com/address/0x11DEE30E710B8d4a8630392781Cc3c0046365d4c)
    * WBNB - [0x54431918cec22932fcf97e54769f4e00f646690f](https://bscscan.com/address/0x54431918cec22932fcf97e54769f4e00f646690f)
+   * StataTokens (AaveV3) - [0x1A75DF59f464a70Cc8f7383983852FF72e5F5167](https://bscscan.com/address/0x1A75DF59f464a70Cc8f7383983852FF72e5F5167)
    
 </details>
 
