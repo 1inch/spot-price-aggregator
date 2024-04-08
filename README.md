@@ -150,6 +150,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * WMATIC - [0xA0446D8804611944F1B527eCD37d7dcbE442caba](https://polygonscan.com/address/0xA0446D8804611944F1B527eCD37d7dcbE442caba)
    * AaveV2 - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](https://polygonscan.com/address/0x138CE40d675F9a23E4D6127A8600308Cf7A93381)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://polygonscan.com/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
+   * StataTokens (AaveV3) - [0x1A75DF59f464a70Cc8f7383983852FF72e5F5167](https://polygonscan.com/address/0x1A75DF59f464a70Cc8f7383983852FF72e5F5167)
    * CompoundV3 - [0xAc63D130525c251EbB24E010c2959a98c80B993a](https://polygonscan.com/address/0xAc63D130525c251EbB24E010c2959a98c80B993a)
    
 </details>
