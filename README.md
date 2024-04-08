@@ -295,7 +295,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 </details>
 
-### xDai
+### Gnosis (xDai)
 
 #### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://gnosisscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
@@ -312,6 +312,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * WXDAI - [0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7](https://gnosisscan.io/address/0xB89A664FdAf504CDc7826B97Ba6e522d9b78dbE7)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://gnosisscan.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
+   * StataTokens (AaveV3) - [0x1A75DF59f464a70Cc8f7383983852FF72e5F5167](https://gnosisscan.io/address/0x1A75DF59f464a70Cc8f7383983852FF72e5F5167)
    
 </details>
 
