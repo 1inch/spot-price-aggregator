@@ -30,7 +30,7 @@ contract StataTokenWrapper is IWrapper {
         unchecked {
             for (uint256 i = 0; i < tokens.length; i++) {
                 IERC20 stataToken = IERC20(FACTORY.getStaticAToken(address(tokens[i])));
-                if(stataToken == IERC20(address(0))) revert NotRemovedMarket();
+                if(stataToken != IERC20(address(0))) revert NotRemovedMarket();
                 delete stataTokenToToken[stataToken];
                 delete tokenToStataToken[tokens[i]];
             }
