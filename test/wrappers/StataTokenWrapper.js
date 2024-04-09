@@ -73,15 +73,15 @@ describe('StataTokenWrapper', function () {
         await expect(stataTokenWrapper.addMarkets([tokens.DAI, tokens.CHAI])).to.be.revertedWithCustomError(stataTokenWrapper, 'NotAddedMarket');
     });
 
-    it('should correct remove market', async function () {
+    it('should correct remove market which not support by protocol', async function () {
         const { stataTokenWrapper } = await loadFixture(initContracts);
-        await stataTokenWrapper.removeMarkets([tokens.USDC]);
-        await expect(stataTokenWrapper.wrap(tokens.USDC)).to.be.revertedWithCustomError(stataTokenWrapper, 'NotSupportedToken');
+        await stataTokenWrapper.removeMarkets([tokens.CHAI]);
+        await expect(stataTokenWrapper.wrap(tokens.CHAI)).to.be.revertedWithCustomError(stataTokenWrapper, 'NotSupportedToken');
     });
 
-    it('should revert if removed market is incorrect', async function () {
+    it('should revert if removed market is supported by protocol', async function () {
         const { stataTokenWrapper } = await loadFixture(initContracts);
-        await expect(stataTokenWrapper.removeMarkets([tokens.CHAI])).to.be.revertedWithCustomError(stataTokenWrapper, 'NotRemovedMarket');
+        await expect(stataTokenWrapper.removeMarkets([tokens.USDC])).to.be.revertedWithCustomError(stataTokenWrapper, 'NotRemovedMarket');
     });
 
     it('USDC -> stataUSDC', async function () {
