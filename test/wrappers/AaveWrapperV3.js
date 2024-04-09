@@ -52,15 +52,15 @@ describe('AaveWrapperV3', function () {
         await expect(aaveWrapper.addMarkets([tokens.DAI, tokens.aDAIV1])).to.be.revertedWithCustomError(aaveWrapper, 'NotAddedMarket');
     });
 
-    it('should correct remove market', async function () {
+    it('should correct remove market which not support by protocol', async function () {
         const { aaveWrapper } = await loadFixture(initContracts);
-        await aaveWrapper.removeMarkets([tokens.DAI]);
-        await expect(aaveWrapper.wrap(tokens.DAI)).to.be.revertedWithCustomError(aaveWrapper, 'NotSupportedToken');
+        await aaveWrapper.removeMarkets([tokens.aDAIV1]);
+        await expect(aaveWrapper.wrap(tokens.aDAIV1)).to.be.revertedWithCustomError(aaveWrapper, 'NotSupportedToken');
     });
 
-    it('should revert if removed market is incorrect', async function () {
+    it('should revert if removed market is supported by protocol', async function () {
         const { aaveWrapper } = await loadFixture(initContracts);
-        await expect(aaveWrapper.removeMarkets([tokens.aDAIV1])).to.be.revertedWithCustomError(aaveWrapper, 'NotRemovedMarket');
+        await expect(aaveWrapper.removeMarkets([tokens.DAI])).to.be.revertedWithCustomError(aaveWrapper, 'NotRemovedMarket');
     });
 
     it('DAI -> aDAI', async function () {
