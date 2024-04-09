@@ -102,6 +102,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported wrappers</summary>
 
+   * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://bscscan.com/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    * Venus - [0x11DEE30E710B8d4a8630392781Cc3c0046365d4c](https://bscscan.com/address/0x11DEE30E710B8d4a8630392781Cc3c0046365d4c)
    * WBNB - [0x54431918cec22932fcf97e54769f4e00f646690f](https://bscscan.com/address/0x54431918cec22932fcf97e54769f4e00f646690f)
    
