@@ -158,7 +158,7 @@ const deployParams = {
     },
     Slipstream: { // optimistic network
         factory: '0x548118C7E0B865C2CfA94D15EC86B666468ac758',
-        implementation: '0xE0A596c403E854FFb9C828aB4f07eEae04A05D37',
+        initcodeHash: '0x3e17c3f6d9f39d14b65192404b8d70a2f921655d3f7f5e7481ab3fcf0756e8ea',
         tickSpacings: [1, 50, 100, 200, 2_000],
     },
 };

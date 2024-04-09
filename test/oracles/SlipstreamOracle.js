@@ -21,7 +21,7 @@ describe('SlipstreamOracle', function () {
 
     async function initContracts () {
         const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
-        const slipstreamOracle = await deployContract('SlipstreamOracle', [Slipstream.factory, Slipstream.implementation, Slipstream.tickSpacings]);
+        const slipstreamOracle = await deployContract('UniswapV3LikeOracle', [Slipstream.factory, Slipstream.initcodeHash, Slipstream.tickSpacings]);
         return { uniswapV3Oracle, slipstreamOracle };
     }
 
