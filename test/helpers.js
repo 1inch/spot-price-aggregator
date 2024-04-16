@@ -57,6 +57,11 @@ const tokens = {
     stataUSDC: '0x73edDFa87C71ADdC275c2b9890f5c3a8480bC9E6',
     stataWETH: '0x252231882FB38481497f3C767469106297c8d93b',
     stataDAI: '0xaf270C38fF895EA3f95Ed488CEACe2386F038249',
+    avax: {
+        EURC: '0xC891EB4cbdEFf6e073e859e987815Ed1505c2ACD',
+        USDC: '0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E',
+        USDCe: '0xA7D7079b0FEaD91F3e65f86E8915Cb59c1a4C664',
+    },
     base: {
         WETH: '0x4200000000000000000000000000000000000006',
         DAI: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
@@ -166,6 +171,9 @@ const deployParams = {
         factory: '0x548118C7E0B865C2CfA94D15EC86B666468ac758',
         initcodeHash: '0x3e17c3f6d9f39d14b65192404b8d70a2f921655d3f7f5e7481ab3fcf0756e8ea',
         tickSpacings: [1, 50, 100, 200, 2_000],
+    },
+    TraderJoeV2: { // avax network
+        factory: '0x8e42f2F4101563bF679975178e880FD87d3eFd4e',
     },
 };
 
