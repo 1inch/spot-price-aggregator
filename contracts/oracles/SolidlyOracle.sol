@@ -23,13 +23,27 @@ contract SolidlyOracle is IOracle {
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
-        if(connector != _NONE) revert ConnectorShouldBeNone();
+        if (connector == _NONE) {
+            (rate, weight) = _getWeightedRate(srcToken, dstToken, thresholdFilter);
+        } else {
+            (uint256 rateC0, uint256 weightC0) = _getWeightedRate(srcToken, connector, thresholdFilter);
+            (uint256 rateC1, uint256 weightC1) = _getWeightedRate(connector, dstToken, thresholdFilter);
+            rate = rateC0 * rateC1 / 1e18;
+            weight = Math.min(weightC0, weightC1);
+        }
+    }
+
+    function _getWeightedRate(IERC20 srcToken, IERC20 dstToken, uint256 thresholdFilter) internal view returns (uint256 rate, uint256 weight) {
         OraclePrices.Data memory ratesAndWeights = OraclePrices.init(2);
         (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, true);
-        ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
+        if (b0 > 0) {
+            ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
+        }
         (b0, b1) = _getBalances(srcToken, dstToken, false);
-        ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
-        return ratesAndWeights.getRateAndWeight(thresholdFilter);
+        if (b0 > 0) {
+            ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), (b0 * b1).sqrt()));
+        }
+        (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
     }
 
     // calculates the CREATE2 address for a pair without making any external calls
