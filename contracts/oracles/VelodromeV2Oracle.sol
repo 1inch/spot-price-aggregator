@@ -33,7 +33,7 @@ contract VelodromeV2Oracle is IOracle {
         address factory;
         bytes32 initcodeHash;
     }
-    address public immutable CL_FACTORY_ADDRESS; // SlipstreamOracle
+    address public immutable CL_FACTORY_ADDRESS; // Slipstream used as separate Oracle
     address public immutable POOL_FACTORY_ADDRESS;
     bytes32 public immutable POOL_FACTORY_INITCODE_HASH;
 
