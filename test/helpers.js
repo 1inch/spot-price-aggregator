@@ -171,11 +171,6 @@ const deployParams = {
         initcodeHash: '0x3e17c3f6d9f39d14b65192404b8d70a2f921655d3f7f5e7481ab3fcf0756e8ea',
         tickSpacings: [1, 50, 100, 200, 2_000],
     },
-    Slipstream: { // optimistic network
-        factory: '0x548118C7E0B865C2CfA94D15EC86B666468ac758',
-        initcodeHash: '0x3e17c3f6d9f39d14b65192404b8d70a2f921655d3f7f5e7481ab3fcf0756e8ea',
-        tickSpacings: [1, 50, 100, 200, 2_000],
-    },
 };
 
 async function measureGas (tx, comment) {
