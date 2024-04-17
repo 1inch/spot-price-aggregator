@@ -1,157 +1,466 @@
 {
-    "address": "0xA31bB36c5164B165f9c36955EA4CcBaB42B3B28E",
-    "abi": [
+  "address": "0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "contract IWrapper[]",
+          "name": "existingWrappers",
+          "type": "address[]"
+        },
+        {
+          "internalType": "address",
+          "name": "owner_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "MathOverflowedMulDiv",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableInvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableUnauthorizedAccount",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "UnknownWrapper",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "WrapperAlreadyAdded",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "contract IWrapper",
+          "name": "connector",
+          "type": "address"
+        }
+      ],
+      "name": "WrapperAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "contract IWrapper",
+          "name": "connector",
+          "type": "address"
+        }
+      ],
+      "name": "WrapperRemoved",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IWrapper",
+          "name": "wrapper",
+          "type": "address"
+        }
+      ],
+      "name": "addWrapper",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "token",
+          "type": "address"
+        }
+      ],
+      "name": "getWrappedTokens",
+      "outputs": [
+        {
+          "internalType": "contract IERC20[]",
+          "name": "wrappedTokens",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "rates",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IWrapper",
+          "name": "wrapper",
+          "type": "address"
+        }
+      ],
+      "name": "removeWrapper",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "wrappers",
+      "outputs": [
+        {
+          "internalType": "contract IWrapper[]",
+          "name": "allWrappers",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x066f65ef953001ef1aa5a946f0c45dae926b61f2f09d8dcad26fb5167f47dafc",
+  "receipt": {
+    "to": null,
+    "from": "0x56E44874F624EbDE6efCc783eFD685f0FBDC6dcF",
+    "contractAddress": "0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544",
+    "transactionIndex": 82,
+    "gasUsed": "1051051",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000000000000000000000001000000000004000000000000008000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000020000000000002000000800000000000000010000000000000000400000000000000000000000000000000000000000000000000000000000000800000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000008000000200000000000000000",
+    "blockHash": "0x0f06782891fd22b06412bedcc96571090e71c81f42555db6475be1cfc738a016",
+    "transactionHash": "0x066f65ef953001ef1aa5a946f0c45dae926b61f2f09d8dcad26fb5167f47dafc",
+    "logs": [
       {
-        "inputs": [
-          {
-            "internalType": "contract IWrapper[]",
-            "name": "existingWrappers",
-            "type": "address[]"
-          }
+        "transactionIndex": 82,
+        "blockNumber": 37711992,
+        "transactionHash": "0x066f65ef953001ef1aa5a946f0c45dae926b61f2f09d8dcad26fb5167f47dafc",
+        "address": "0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x00000000000000000000000056e44874f624ebde6efcc783efd685f0fbdc6dcf"
         ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
+        "data": "0x",
+        "logIndex": 179,
+        "blockHash": "0x0f06782891fd22b06412bedcc96571090e71c81f42555db6475be1cfc738a016"
       },
       {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "previousOwner",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "newOwner",
-            "type": "address"
-          }
+        "transactionIndex": 82,
+        "blockNumber": 37711992,
+        "transactionHash": "0x066f65ef953001ef1aa5a946f0c45dae926b61f2f09d8dcad26fb5167f47dafc",
+        "address": "0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544",
+        "topics": [
+          "0x9471982c02bc8a0888c85288dcf07501f924fd3b336a516ff0747d9d28b516fd"
         ],
-        "name": "OwnershipTransferred",
-        "type": "event"
+        "data": "0x0000000000000000000000000c8fc7a71c28c768fdc1f7d75835229bebeb1573",
+        "logIndex": 180,
+        "blockHash": "0x0f06782891fd22b06412bedcc96571090e71c81f42555db6475be1cfc738a016"
       },
       {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "internalType": "contract IWrapper",
-            "name": "connector",
-            "type": "address"
-          }
+        "transactionIndex": 82,
+        "blockNumber": 37711992,
+        "transactionHash": "0x066f65ef953001ef1aa5a946f0c45dae926b61f2f09d8dcad26fb5167f47dafc",
+        "address": "0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544",
+        "topics": [
+          "0x9471982c02bc8a0888c85288dcf07501f924fd3b336a516ff0747d9d28b516fd"
         ],
-        "name": "WrapperAdded",
-        "type": "event"
+        "data": "0x0000000000000000000000001a75df59f464a70cc8f7383983852ff72e5f5167",
+        "logIndex": 181,
+        "blockHash": "0x0f06782891fd22b06412bedcc96571090e71c81f42555db6475be1cfc738a016"
       },
       {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": false,
-            "internalType": "contract IWrapper",
-            "name": "connector",
-            "type": "address"
-          }
+        "transactionIndex": 82,
+        "blockNumber": 37711992,
+        "transactionHash": "0x066f65ef953001ef1aa5a946f0c45dae926b61f2f09d8dcad26fb5167f47dafc",
+        "address": "0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544",
+        "topics": [
+          "0x9471982c02bc8a0888c85288dcf07501f924fd3b336a516ff0747d9d28b516fd"
         ],
-        "name": "WrapperRemoved",
-        "type": "event"
+        "data": "0x00000000000000000000000011dee30e710b8d4a8630392781cc3c0046365d4c",
+        "logIndex": 182,
+        "blockHash": "0x0f06782891fd22b06412bedcc96571090e71c81f42555db6475be1cfc738a016"
       },
       {
-        "inputs": [
-          {
-            "internalType": "contract IWrapper",
-            "name": "wrapper",
-            "type": "address"
-          }
+        "transactionIndex": 82,
+        "blockNumber": 37711992,
+        "transactionHash": "0x066f65ef953001ef1aa5a946f0c45dae926b61f2f09d8dcad26fb5167f47dafc",
+        "address": "0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544",
+        "topics": [
+          "0x9471982c02bc8a0888c85288dcf07501f924fd3b336a516ff0747d9d28b516fd"
         ],
-        "name": "addWrapper",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "contract IERC20",
-            "name": "token",
-            "type": "address"
-          }
-        ],
-        "name": "getWrappedTokens",
-        "outputs": [
-          {
-            "internalType": "contract IERC20[]",
-            "name": "wrappedTokens",
-            "type": "address[]"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "rates",
-            "type": "uint256[]"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "owner",
-        "outputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "contract IWrapper",
-            "name": "wrapper",
-            "type": "address"
-          }
-        ],
-        "name": "removeWrapper",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "renounceOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "newOwner",
-            "type": "address"
-          }
-        ],
-        "name": "transferOwnership",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "wrappers",
-        "outputs": [
-          {
-            "internalType": "contract IWrapper[]",
-            "name": "allWrappers",
-            "type": "address[]"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
+        "data": "0x00000000000000000000000054431918cec22932fcf97e54769f4e00f646690f",
+        "logIndex": 183,
+        "blockHash": "0x0f06782891fd22b06412bedcc96571090e71c81f42555db6475be1cfc738a016"
       }
-    ]
+    ],
+    "blockNumber": 37711992,
+    "cumulativeGasUsed": "8860681",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    [
+      "0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573",
+      "0x1A75DF59f464a70Cc8f7383983852FF72e5F5167",
+      "0x11DEE30E710B8d4a8630392781Cc3c0046365d4c",
+      "0x54431918cec22932fcf97e54769f4e00f646690f"
+    ],
+    "0x56E44874F624EbDE6efCc783eFD685f0FBDC6dcF"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "71b8e2890eab49b1686b02fbce3e62fe",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.23+commit.f704f362\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"contract IWrapper[]\",\"name\":\"existingWrappers\",\"type\":\"address[]\"},{\"internalType\":\"address\",\"name\":\"owner_\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"MathOverflowedMulDiv\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\"name\":\"OwnableInvalidOwner\",\"type\":\"error\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"OwnableUnauthorizedAccount\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"UnknownWrapper\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"WrapperAlreadyAdded\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"contract IWrapper\",\"name\":\"connector\",\"type\":\"address\"}],\"name\":\"WrapperAdded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"contract IWrapper\",\"name\":\"connector\",\"type\":\"address\"}],\"name\":\"WrapperRemoved\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"contract IWrapper\",\"name\":\"wrapper\",\"type\":\"address\"}],\"name\":\"addWrapper\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IERC20\",\"name\":\"token\",\"type\":\"address\"}],\"name\":\"getWrappedTokens\",\"outputs\":[{\"internalType\":\"contract IERC20[]\",\"name\":\"wrappedTokens\",\"type\":\"address[]\"},{\"internalType\":\"uint256[]\",\"name\":\"rates\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"contract IWrapper\",\"name\":\"wrapper\",\"type\":\"address\"}],\"name\":\"removeWrapper\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"wrappers\",\"outputs\":[{\"internalType\":\"contract IWrapper[]\",\"name\":\"allWrappers\",\"type\":\"address[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"errors\":{\"MathOverflowedMulDiv()\":[{\"details\":\"Muldiv operation overflow.\"}],\"OwnableInvalidOwner(address)\":[{\"details\":\"The owner is not a valid owner account. (eg. `address(0)`)\"}],\"OwnableUnauthorizedAccount(address)\":[{\"details\":\"The caller account is not authorized to perform an operation.\"}]},\"kind\":\"dev\",\"methods\":{\"addWrapper(address)\":{\"params\":{\"wrapper\":\"The address of the wrapper to be added.\"}},\"constructor\":{\"details\":\"Initializes the MultiWrapper with an array of existing `IWrapper` contracts.\",\"params\":{\"existingWrappers\":\"Initial wrappers to be added.\"}},\"getWrappedTokens(address)\":{\"details\":\"Iterates over the wrappers to determine the wrapped tokens and their conversion rates.\",\"params\":{\"token\":\"The token for which to retrieve the wrapped tokens and conversion rates.\"},\"returns\":{\"rates\":\"Conversion rates for the wrapped tokens.\",\"wrappedTokens\":\"Tokens obtainable by wrapping the input token, including the input token and a rate of 1e18 for it.\"}},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"removeWrapper(address)\":{\"params\":{\"wrapper\":\"The address of the wrapper to be removed.\"}},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"},\"wrappers()\":{\"returns\":{\"allWrappers\":\"Array of wrapper contracts.\"}}},\"title\":\"MultiWrapper\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"addWrapper(address)\":{\"notice\":\"Adds a distinct wrapper contract that cannot be duplicated. Only the owner can add a wrapper.\"},\"constructor\":{\"notice\":\"Adds the provided wrappers to the contract.\"},\"getWrappedTokens(address)\":{\"notice\":\"Retrieves the wrapped tokens and their conversion rates for a given token.\"},\"removeWrapper(address)\":{\"notice\":\"Removes a specified wrapper contract. Only the owner can remove a wrapper.\"},\"wrappers()\":{\"notice\":\"Returns all wrappers currently added to the contract.\"}},\"notice\":\"\\u0421ontract allows for the management of multiple `IWrapper` contracts that can be used to wrap tokens in OffchainOracle's calculations. Wrappers are contracts that enable the conversion of tokens from one protocol to another. The contract provides functions to add and remove wrappers, as well as get information about the wrapped tokens and their conversion rates.\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/MultiWrapper.sol\":\"MultiWrapper\"},\"evmVersion\":\"shanghai\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":1000000},\"remappings\":[],\"viaIR\":true},\"sources\":{\"@openzeppelin/contracts/access/Ownable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)\\n\\npragma solidity ^0.8.20;\\n\\nimport {Context} from \\\"../utils/Context.sol\\\";\\n\\n/**\\n * @dev Contract module which provides a basic access control mechanism, where\\n * there is an account (an owner) that can be granted exclusive access to\\n * specific functions.\\n *\\n * The initial owner is set to the address provided by the deployer. This can\\n * later be changed with {transferOwnership}.\\n *\\n * This module is used through inheritance. It will make available the modifier\\n * `onlyOwner`, which can be applied to your functions to restrict their use to\\n * the owner.\\n */\\nabstract contract Ownable is Context {\\n    address private _owner;\\n\\n    /**\\n     * @dev The caller account is not authorized to perform an operation.\\n     */\\n    error OwnableUnauthorizedAccount(address account);\\n\\n    /**\\n     * @dev The owner is not a valid owner account. (eg. `address(0)`)\\n     */\\n    error OwnableInvalidOwner(address owner);\\n\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    /**\\n     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.\\n     */\\n    constructor(address initialOwner) {\\n        if (initialOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(initialOwner);\\n    }\\n\\n    /**\\n     * @dev Throws if called by any account other than the owner.\\n     */\\n    modifier onlyOwner() {\\n        _checkOwner();\\n        _;\\n    }\\n\\n    /**\\n     * @dev Returns the address of the current owner.\\n     */\\n    function owner() public view virtual returns (address) {\\n        return _owner;\\n    }\\n\\n    /**\\n     * @dev Throws if the sender is not the owner.\\n     */\\n    function _checkOwner() internal view virtual {\\n        if (owner() != _msgSender()) {\\n            revert OwnableUnauthorizedAccount(_msgSender());\\n        }\\n    }\\n\\n    /**\\n     * @dev Leaves the contract without owner. It will not be possible to call\\n     * `onlyOwner` functions. Can only be called by the current owner.\\n     *\\n     * NOTE: Renouncing ownership will leave the contract without an owner,\\n     * thereby disabling any functionality that is only available to the owner.\\n     */\\n    function renounceOwnership() public virtual onlyOwner {\\n        _transferOwnership(address(0));\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Can only be called by the current owner.\\n     */\\n    function transferOwnership(address newOwner) public virtual onlyOwner {\\n        if (newOwner == address(0)) {\\n            revert OwnableInvalidOwner(address(0));\\n        }\\n        _transferOwnership(newOwner);\\n    }\\n\\n    /**\\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\\n     * Internal function without access restriction.\\n     */\\n    function _transferOwnership(address newOwner) internal virtual {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xff6d0bb2e285473e5311d9d3caacb525ae3538a80758c10649a4d61029b017bb\",\"license\":\"MIT\"},\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (token/ERC20/IERC20.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Interface of the ERC20 standard as defined in the EIP.\\n */\\ninterface IERC20 {\\n    /**\\n     * @dev Emitted when `value` tokens are moved from one account (`from`) to\\n     * another (`to`).\\n     *\\n     * Note that `value` may be zero.\\n     */\\n    event Transfer(address indexed from, address indexed to, uint256 value);\\n\\n    /**\\n     * @dev Emitted when the allowance of a `spender` for an `owner` is set by\\n     * a call to {approve}. `value` is the new allowance.\\n     */\\n    event Approval(address indexed owner, address indexed spender, uint256 value);\\n\\n    /**\\n     * @dev Returns the value of tokens in existence.\\n     */\\n    function totalSupply() external view returns (uint256);\\n\\n    /**\\n     * @dev Returns the value of tokens owned by `account`.\\n     */\\n    function balanceOf(address account) external view returns (uint256);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from the caller's account to `to`.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transfer(address to, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Returns the remaining number of tokens that `spender` will be\\n     * allowed to spend on behalf of `owner` through {transferFrom}. This is\\n     * zero by default.\\n     *\\n     * This value changes when {approve} or {transferFrom} are called.\\n     */\\n    function allowance(address owner, address spender) external view returns (uint256);\\n\\n    /**\\n     * @dev Sets a `value` amount of tokens as the allowance of `spender` over the\\n     * caller's tokens.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * IMPORTANT: Beware that changing an allowance with this method brings the risk\\n     * that someone may use both the old and the new allowance by unfortunate\\n     * transaction ordering. One possible solution to mitigate this race\\n     * condition is to first reduce the spender's allowance to 0 and set the\\n     * desired value afterwards:\\n     * https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729\\n     *\\n     * Emits an {Approval} event.\\n     */\\n    function approve(address spender, uint256 value) external returns (bool);\\n\\n    /**\\n     * @dev Moves a `value` amount of tokens from `from` to `to` using the\\n     * allowance mechanism. `value` is then deducted from the caller's\\n     * allowance.\\n     *\\n     * Returns a boolean value indicating whether the operation succeeded.\\n     *\\n     * Emits a {Transfer} event.\\n     */\\n    function transferFrom(address from, address to, uint256 value) external returns (bool);\\n}\\n\",\"keccak256\":\"0xc6a8ff0ea489379b61faa647490411b80102578440ab9d84e9a957cc12164e70\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/Context.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Provides information about the current execution context, including the\\n * sender of the transaction and its data. While these are generally available\\n * via msg.sender and msg.data, they should not be accessed in such a direct\\n * manner, since when dealing with meta-transactions the account sending and\\n * paying for execution may not be the actual sender (as far as an application\\n * is concerned).\\n *\\n * This contract is only required for intermediate, library-like contracts.\\n */\\nabstract contract Context {\\n    function _msgSender() internal view virtual returns (address) {\\n        return msg.sender;\\n    }\\n\\n    function _msgData() internal view virtual returns (bytes calldata) {\\n        return msg.data;\\n    }\\n\\n    function _contextSuffixLength() internal view virtual returns (uint256) {\\n        return 0;\\n    }\\n}\\n\",\"keccak256\":\"0x493033a8d1b176a037b2cc6a04dad01a5c157722049bbecf632ca876224dd4b2\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/math/Math.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (utils/math/Math.sol)\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Standard math utilities missing in the Solidity language.\\n */\\nlibrary Math {\\n    /**\\n     * @dev Muldiv operation overflow.\\n     */\\n    error MathOverflowedMulDiv();\\n\\n    enum Rounding {\\n        Floor, // Toward negative infinity\\n        Ceil, // Toward positive infinity\\n        Trunc, // Toward zero\\n        Expand // Away from zero\\n    }\\n\\n    /**\\n     * @dev Returns the addition of two unsigned integers, with an overflow flag.\\n     */\\n    function tryAdd(uint256 a, uint256 b) internal pure returns (bool, uint256) {\\n        unchecked {\\n            uint256 c = a + b;\\n            if (c < a) return (false, 0);\\n            return (true, c);\\n        }\\n    }\\n\\n    /**\\n     * @dev Returns the subtraction of two unsigned integers, with an overflow flag.\\n     */\\n    function trySub(uint256 a, uint256 b) internal pure returns (bool, uint256) {\\n        unchecked {\\n            if (b > a) return (false, 0);\\n            return (true, a - b);\\n        }\\n    }\\n\\n    /**\\n     * @dev Returns the multiplication of two unsigned integers, with an overflow flag.\\n     */\\n    function tryMul(uint256 a, uint256 b) internal pure returns (bool, uint256) {\\n        unchecked {\\n            // Gas optimization: this is cheaper than requiring 'a' not being zero, but the\\n            // benefit is lost if 'b' is also tested.\\n            // See: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/522\\n            if (a == 0) return (true, 0);\\n            uint256 c = a * b;\\n            if (c / a != b) return (false, 0);\\n            return (true, c);\\n        }\\n    }\\n\\n    /**\\n     * @dev Returns the division of two unsigned integers, with a division by zero flag.\\n     */\\n    function tryDiv(uint256 a, uint256 b) internal pure returns (bool, uint256) {\\n        unchecked {\\n            if (b == 0) return (false, 0);\\n            return (true, a / b);\\n        }\\n    }\\n\\n    /**\\n     * @dev Returns the remainder of dividing two unsigned integers, with a division by zero flag.\\n     */\\n    function tryMod(uint256 a, uint256 b) internal pure returns (bool, uint256) {\\n        unchecked {\\n            if (b == 0) return (false, 0);\\n            return (true, a % b);\\n        }\\n    }\\n\\n    /**\\n     * @dev Returns the largest of two numbers.\\n     */\\n    function max(uint256 a, uint256 b) internal pure returns (uint256) {\\n        return a > b ? a : b;\\n    }\\n\\n    /**\\n     * @dev Returns the smallest of two numbers.\\n     */\\n    function min(uint256 a, uint256 b) internal pure returns (uint256) {\\n        return a < b ? a : b;\\n    }\\n\\n    /**\\n     * @dev Returns the average of two numbers. The result is rounded towards\\n     * zero.\\n     */\\n    function average(uint256 a, uint256 b) internal pure returns (uint256) {\\n        // (a + b) / 2 can overflow.\\n        return (a & b) + (a ^ b) / 2;\\n    }\\n\\n    /**\\n     * @dev Returns the ceiling of the division of two numbers.\\n     *\\n     * This differs from standard division with `/` in that it rounds towards infinity instead\\n     * of rounding towards zero.\\n     */\\n    function ceilDiv(uint256 a, uint256 b) internal pure returns (uint256) {\\n        if (b == 0) {\\n            // Guarantee the same behavior as in a regular Solidity division.\\n            return a / b;\\n        }\\n\\n        // (a + b - 1) / b can overflow on addition, so we distribute.\\n        return a == 0 ? 0 : (a - 1) / b + 1;\\n    }\\n\\n    /**\\n     * @notice Calculates floor(x * y / denominator) with full precision. Throws if result overflows a uint256 or\\n     * denominator == 0.\\n     * @dev Original credit to Remco Bloemen under MIT license (https://xn--2-umb.com/21/muldiv) with further edits by\\n     * Uniswap Labs also under MIT license.\\n     */\\n    function mulDiv(uint256 x, uint256 y, uint256 denominator) internal pure returns (uint256 result) {\\n        unchecked {\\n            // 512-bit multiply [prod1 prod0] = x * y. Compute the product mod 2^256 and mod 2^256 - 1, then use\\n            // use the Chinese Remainder Theorem to reconstruct the 512 bit result. The result is stored in two 256\\n            // variables such that product = prod1 * 2^256 + prod0.\\n            uint256 prod0 = x * y; // Least significant 256 bits of the product\\n            uint256 prod1; // Most significant 256 bits of the product\\n            assembly {\\n                let mm := mulmod(x, y, not(0))\\n                prod1 := sub(sub(mm, prod0), lt(mm, prod0))\\n            }\\n\\n            // Handle non-overflow cases, 256 by 256 division.\\n            if (prod1 == 0) {\\n                // Solidity will revert if denominator == 0, unlike the div opcode on its own.\\n                // The surrounding unchecked block does not change this fact.\\n                // See https://docs.soliditylang.org/en/latest/control-structures.html#checked-or-unchecked-arithmetic.\\n                return prod0 / denominator;\\n            }\\n\\n            // Make sure the result is less than 2^256. Also prevents denominator == 0.\\n            if (denominator <= prod1) {\\n                revert MathOverflowedMulDiv();\\n            }\\n\\n            ///////////////////////////////////////////////\\n            // 512 by 256 division.\\n            ///////////////////////////////////////////////\\n\\n            // Make division exact by subtracting the remainder from [prod1 prod0].\\n            uint256 remainder;\\n            assembly {\\n                // Compute remainder using mulmod.\\n                remainder := mulmod(x, y, denominator)\\n\\n                // Subtract 256 bit number from 512 bit number.\\n                prod1 := sub(prod1, gt(remainder, prod0))\\n                prod0 := sub(prod0, remainder)\\n            }\\n\\n            // Factor powers of two out of denominator and compute largest power of two divisor of denominator.\\n            // Always >= 1. See https://cs.stackexchange.com/q/138556/92363.\\n\\n            uint256 twos = denominator & (0 - denominator);\\n            assembly {\\n                // Divide denominator by twos.\\n                denominator := div(denominator, twos)\\n\\n                // Divide [prod1 prod0] by twos.\\n                prod0 := div(prod0, twos)\\n\\n                // Flip twos such that it is 2^256 / twos. If twos is zero, then it becomes one.\\n                twos := add(div(sub(0, twos), twos), 1)\\n            }\\n\\n            // Shift in bits from prod1 into prod0.\\n            prod0 |= prod1 * twos;\\n\\n            // Invert denominator mod 2^256. Now that denominator is an odd number, it has an inverse modulo 2^256 such\\n            // that denominator * inv = 1 mod 2^256. Compute the inverse by starting with a seed that is correct for\\n            // four bits. That is, denominator * inv = 1 mod 2^4.\\n            uint256 inverse = (3 * denominator) ^ 2;\\n\\n            // Use the Newton-Raphson iteration to improve the precision. Thanks to Hensel's lifting lemma, this also\\n            // works in modular arithmetic, doubling the correct bits in each step.\\n            inverse *= 2 - denominator * inverse; // inverse mod 2^8\\n            inverse *= 2 - denominator * inverse; // inverse mod 2^16\\n            inverse *= 2 - denominator * inverse; // inverse mod 2^32\\n            inverse *= 2 - denominator * inverse; // inverse mod 2^64\\n            inverse *= 2 - denominator * inverse; // inverse mod 2^128\\n            inverse *= 2 - denominator * inverse; // inverse mod 2^256\\n\\n            // Because the division is now exact we can divide by multiplying with the modular inverse of denominator.\\n            // This will give us the correct result modulo 2^256. Since the preconditions guarantee that the outcome is\\n            // less than 2^256, this is the final result. We don't need to compute the high bits of the result and prod1\\n            // is no longer required.\\n            result = prod0 * inverse;\\n            return result;\\n        }\\n    }\\n\\n    /**\\n     * @notice Calculates x * y / denominator with full precision, following the selected rounding direction.\\n     */\\n    function mulDiv(uint256 x, uint256 y, uint256 denominator, Rounding rounding) internal pure returns (uint256) {\\n        uint256 result = mulDiv(x, y, denominator);\\n        if (unsignedRoundsUp(rounding) && mulmod(x, y, denominator) > 0) {\\n            result += 1;\\n        }\\n        return result;\\n    }\\n\\n    /**\\n     * @dev Returns the square root of a number. If the number is not a perfect square, the value is rounded\\n     * towards zero.\\n     *\\n     * Inspired by Henry S. Warren, Jr.'s \\\"Hacker's Delight\\\" (Chapter 11).\\n     */\\n    function sqrt(uint256 a) internal pure returns (uint256) {\\n        if (a == 0) {\\n            return 0;\\n        }\\n\\n        // For our first guess, we get the biggest power of 2 which is smaller than the square root of the target.\\n        //\\n        // We know that the \\\"msb\\\" (most significant bit) of our target number `a` is a power of 2 such that we have\\n        // `msb(a) <= a < 2*msb(a)`. This value can be written `msb(a)=2**k` with `k=log2(a)`.\\n        //\\n        // This can be rewritten `2**log2(a) <= a < 2**(log2(a) + 1)`\\n        // \\u2192 `sqrt(2**k) <= sqrt(a) < sqrt(2**(k+1))`\\n        // \\u2192 `2**(k/2) <= sqrt(a) < 2**((k+1)/2) <= 2**(k/2 + 1)`\\n        //\\n        // Consequently, `2**(log2(a) / 2)` is a good first approximation of `sqrt(a)` with at least 1 correct bit.\\n        uint256 result = 1 << (log2(a) >> 1);\\n\\n        // At this point `result` is an estimation with one bit of precision. We know the true value is a uint128,\\n        // since it is the square root of a uint256. Newton's method converges quadratically (precision doubles at\\n        // every iteration). We thus need at most 7 iteration to turn our partial result with one bit of precision\\n        // into the expected uint128 result.\\n        unchecked {\\n            result = (result + a / result) >> 1;\\n            result = (result + a / result) >> 1;\\n            result = (result + a / result) >> 1;\\n            result = (result + a / result) >> 1;\\n            result = (result + a / result) >> 1;\\n            result = (result + a / result) >> 1;\\n            result = (result + a / result) >> 1;\\n            return min(result, a / result);\\n        }\\n    }\\n\\n    /**\\n     * @notice Calculates sqrt(a), following the selected rounding direction.\\n     */\\n    function sqrt(uint256 a, Rounding rounding) internal pure returns (uint256) {\\n        unchecked {\\n            uint256 result = sqrt(a);\\n            return result + (unsignedRoundsUp(rounding) && result * result < a ? 1 : 0);\\n        }\\n    }\\n\\n    /**\\n     * @dev Return the log in base 2 of a positive value rounded towards zero.\\n     * Returns 0 if given 0.\\n     */\\n    function log2(uint256 value) internal pure returns (uint256) {\\n        uint256 result = 0;\\n        unchecked {\\n            if (value >> 128 > 0) {\\n                value >>= 128;\\n                result += 128;\\n            }\\n            if (value >> 64 > 0) {\\n                value >>= 64;\\n                result += 64;\\n            }\\n            if (value >> 32 > 0) {\\n                value >>= 32;\\n                result += 32;\\n            }\\n            if (value >> 16 > 0) {\\n                value >>= 16;\\n                result += 16;\\n            }\\n            if (value >> 8 > 0) {\\n                value >>= 8;\\n                result += 8;\\n            }\\n            if (value >> 4 > 0) {\\n                value >>= 4;\\n                result += 4;\\n            }\\n            if (value >> 2 > 0) {\\n                value >>= 2;\\n                result += 2;\\n            }\\n            if (value >> 1 > 0) {\\n                result += 1;\\n            }\\n        }\\n        return result;\\n    }\\n\\n    /**\\n     * @dev Return the log in base 2, following the selected rounding direction, of a positive value.\\n     * Returns 0 if given 0.\\n     */\\n    function log2(uint256 value, Rounding rounding) internal pure returns (uint256) {\\n        unchecked {\\n            uint256 result = log2(value);\\n            return result + (unsignedRoundsUp(rounding) && 1 << result < value ? 1 : 0);\\n        }\\n    }\\n\\n    /**\\n     * @dev Return the log in base 10 of a positive value rounded towards zero.\\n     * Returns 0 if given 0.\\n     */\\n    function log10(uint256 value) internal pure returns (uint256) {\\n        uint256 result = 0;\\n        unchecked {\\n            if (value >= 10 ** 64) {\\n                value /= 10 ** 64;\\n                result += 64;\\n            }\\n            if (value >= 10 ** 32) {\\n                value /= 10 ** 32;\\n                result += 32;\\n            }\\n            if (value >= 10 ** 16) {\\n                value /= 10 ** 16;\\n                result += 16;\\n            }\\n            if (value >= 10 ** 8) {\\n                value /= 10 ** 8;\\n                result += 8;\\n            }\\n            if (value >= 10 ** 4) {\\n                value /= 10 ** 4;\\n                result += 4;\\n            }\\n            if (value >= 10 ** 2) {\\n                value /= 10 ** 2;\\n                result += 2;\\n            }\\n            if (value >= 10 ** 1) {\\n                result += 1;\\n            }\\n        }\\n        return result;\\n    }\\n\\n    /**\\n     * @dev Return the log in base 10, following the selected rounding direction, of a positive value.\\n     * Returns 0 if given 0.\\n     */\\n    function log10(uint256 value, Rounding rounding) internal pure returns (uint256) {\\n        unchecked {\\n            uint256 result = log10(value);\\n            return result + (unsignedRoundsUp(rounding) && 10 ** result < value ? 1 : 0);\\n        }\\n    }\\n\\n    /**\\n     * @dev Return the log in base 256 of a positive value rounded towards zero.\\n     * Returns 0 if given 0.\\n     *\\n     * Adding one to the result gives the number of pairs of hex symbols needed to represent `value` as a hex string.\\n     */\\n    function log256(uint256 value) internal pure returns (uint256) {\\n        uint256 result = 0;\\n        unchecked {\\n            if (value >> 128 > 0) {\\n                value >>= 128;\\n                result += 16;\\n            }\\n            if (value >> 64 > 0) {\\n                value >>= 64;\\n                result += 8;\\n            }\\n            if (value >> 32 > 0) {\\n                value >>= 32;\\n                result += 4;\\n            }\\n            if (value >> 16 > 0) {\\n                value >>= 16;\\n                result += 2;\\n            }\\n            if (value >> 8 > 0) {\\n                result += 1;\\n            }\\n        }\\n        return result;\\n    }\\n\\n    /**\\n     * @dev Return the log in base 256, following the selected rounding direction, of a positive value.\\n     * Returns 0 if given 0.\\n     */\\n    function log256(uint256 value, Rounding rounding) internal pure returns (uint256) {\\n        unchecked {\\n            uint256 result = log256(value);\\n            return result + (unsignedRoundsUp(rounding) && 1 << (result << 3) < value ? 1 : 0);\\n        }\\n    }\\n\\n    /**\\n     * @dev Returns whether a provided rounding mode is considered rounding up for unsigned integers.\\n     */\\n    function unsignedRoundsUp(Rounding rounding) internal pure returns (bool) {\\n        return uint8(rounding) % 2 == 1;\\n    }\\n}\\n\",\"keccak256\":\"0x005ec64c6313f0555d59e278f9a7a5ab2db5bdc72a027f255a37c327af1ec02d\",\"license\":\"MIT\"},\"@openzeppelin/contracts/utils/structs/EnumerableSet.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n// OpenZeppelin Contracts (last updated v5.0.0) (utils/structs/EnumerableSet.sol)\\n// This file was procedurally generated from scripts/generate/templates/EnumerableSet.js.\\n\\npragma solidity ^0.8.20;\\n\\n/**\\n * @dev Library for managing\\n * https://en.wikipedia.org/wiki/Set_(abstract_data_type)[sets] of primitive\\n * types.\\n *\\n * Sets have the following properties:\\n *\\n * - Elements are added, removed, and checked for existence in constant time\\n * (O(1)).\\n * - Elements are enumerated in O(n). No guarantees are made on the ordering.\\n *\\n * ```solidity\\n * contract Example {\\n *     // Add the library methods\\n *     using EnumerableSet for EnumerableSet.AddressSet;\\n *\\n *     // Declare a set state variable\\n *     EnumerableSet.AddressSet private mySet;\\n * }\\n * ```\\n *\\n * As of v3.3.0, sets of type `bytes32` (`Bytes32Set`), `address` (`AddressSet`)\\n * and `uint256` (`UintSet`) are supported.\\n *\\n * [WARNING]\\n * ====\\n * Trying to delete such a structure from storage will likely result in data corruption, rendering the structure\\n * unusable.\\n * See https://github.com/ethereum/solidity/pull/11843[ethereum/solidity#11843] for more info.\\n *\\n * In order to clean an EnumerableSet, you can either remove all elements one by one or create a fresh instance using an\\n * array of EnumerableSet.\\n * ====\\n */\\nlibrary EnumerableSet {\\n    // To implement this library for multiple types with as little code\\n    // repetition as possible, we write it in terms of a generic Set type with\\n    // bytes32 values.\\n    // The Set implementation uses private functions, and user-facing\\n    // implementations (such as AddressSet) are just wrappers around the\\n    // underlying Set.\\n    // This means that we can only create new EnumerableSets for types that fit\\n    // in bytes32.\\n\\n    struct Set {\\n        // Storage of set values\\n        bytes32[] _values;\\n        // Position is the index of the value in the `values` array plus 1.\\n        // Position 0 is used to mean a value is not in the set.\\n        mapping(bytes32 value => uint256) _positions;\\n    }\\n\\n    /**\\n     * @dev Add a value to a set. O(1).\\n     *\\n     * Returns true if the value was added to the set, that is if it was not\\n     * already present.\\n     */\\n    function _add(Set storage set, bytes32 value) private returns (bool) {\\n        if (!_contains(set, value)) {\\n            set._values.push(value);\\n            // The value is stored at length-1, but we add 1 to all indexes\\n            // and use 0 as a sentinel value\\n            set._positions[value] = set._values.length;\\n            return true;\\n        } else {\\n            return false;\\n        }\\n    }\\n\\n    /**\\n     * @dev Removes a value from a set. O(1).\\n     *\\n     * Returns true if the value was removed from the set, that is if it was\\n     * present.\\n     */\\n    function _remove(Set storage set, bytes32 value) private returns (bool) {\\n        // We cache the value's position to prevent multiple reads from the same storage slot\\n        uint256 position = set._positions[value];\\n\\n        if (position != 0) {\\n            // Equivalent to contains(set, value)\\n            // To delete an element from the _values array in O(1), we swap the element to delete with the last one in\\n            // the array, and then remove the last element (sometimes called as 'swap and pop').\\n            // This modifies the order of the array, as noted in {at}.\\n\\n            uint256 valueIndex = position - 1;\\n            uint256 lastIndex = set._values.length - 1;\\n\\n            if (valueIndex != lastIndex) {\\n                bytes32 lastValue = set._values[lastIndex];\\n\\n                // Move the lastValue to the index where the value to delete is\\n                set._values[valueIndex] = lastValue;\\n                // Update the tracked position of the lastValue (that was just moved)\\n                set._positions[lastValue] = position;\\n            }\\n\\n            // Delete the slot where the moved value was stored\\n            set._values.pop();\\n\\n            // Delete the tracked position for the deleted slot\\n            delete set._positions[value];\\n\\n            return true;\\n        } else {\\n            return false;\\n        }\\n    }\\n\\n    /**\\n     * @dev Returns true if the value is in the set. O(1).\\n     */\\n    function _contains(Set storage set, bytes32 value) private view returns (bool) {\\n        return set._positions[value] != 0;\\n    }\\n\\n    /**\\n     * @dev Returns the number of values on the set. O(1).\\n     */\\n    function _length(Set storage set) private view returns (uint256) {\\n        return set._values.length;\\n    }\\n\\n    /**\\n     * @dev Returns the value stored at position `index` in the set. O(1).\\n     *\\n     * Note that there are no guarantees on the ordering of values inside the\\n     * array, and it may change when more values are added or removed.\\n     *\\n     * Requirements:\\n     *\\n     * - `index` must be strictly less than {length}.\\n     */\\n    function _at(Set storage set, uint256 index) private view returns (bytes32) {\\n        return set._values[index];\\n    }\\n\\n    /**\\n     * @dev Return the entire set in an array\\n     *\\n     * WARNING: This operation will copy the entire storage to memory, which can be quite expensive. This is designed\\n     * to mostly be used by view accessors that are queried without any gas fees. Developers should keep in mind that\\n     * this function has an unbounded cost, and using it as part of a state-changing function may render the function\\n     * uncallable if the set grows to a point where copying to memory consumes too much gas to fit in a block.\\n     */\\n    function _values(Set storage set) private view returns (bytes32[] memory) {\\n        return set._values;\\n    }\\n\\n    // Bytes32Set\\n\\n    struct Bytes32Set {\\n        Set _inner;\\n    }\\n\\n    /**\\n     * @dev Add a value to a set. O(1).\\n     *\\n     * Returns true if the value was added to the set, that is if it was not\\n     * already present.\\n     */\\n    function add(Bytes32Set storage set, bytes32 value) internal returns (bool) {\\n        return _add(set._inner, value);\\n    }\\n\\n    /**\\n     * @dev Removes a value from a set. O(1).\\n     *\\n     * Returns true if the value was removed from the set, that is if it was\\n     * present.\\n     */\\n    function remove(Bytes32Set storage set, bytes32 value) internal returns (bool) {\\n        return _remove(set._inner, value);\\n    }\\n\\n    /**\\n     * @dev Returns true if the value is in the set. O(1).\\n     */\\n    function contains(Bytes32Set storage set, bytes32 value) internal view returns (bool) {\\n        return _contains(set._inner, value);\\n    }\\n\\n    /**\\n     * @dev Returns the number of values in the set. O(1).\\n     */\\n    function length(Bytes32Set storage set) internal view returns (uint256) {\\n        return _length(set._inner);\\n    }\\n\\n    /**\\n     * @dev Returns the value stored at position `index` in the set. O(1).\\n     *\\n     * Note that there are no guarantees on the ordering of values inside the\\n     * array, and it may change when more values are added or removed.\\n     *\\n     * Requirements:\\n     *\\n     * - `index` must be strictly less than {length}.\\n     */\\n    function at(Bytes32Set storage set, uint256 index) internal view returns (bytes32) {\\n        return _at(set._inner, index);\\n    }\\n\\n    /**\\n     * @dev Return the entire set in an array\\n     *\\n     * WARNING: This operation will copy the entire storage to memory, which can be quite expensive. This is designed\\n     * to mostly be used by view accessors that are queried without any gas fees. Developers should keep in mind that\\n     * this function has an unbounded cost, and using it as part of a state-changing function may render the function\\n     * uncallable if the set grows to a point where copying to memory consumes too much gas to fit in a block.\\n     */\\n    function values(Bytes32Set storage set) internal view returns (bytes32[] memory) {\\n        bytes32[] memory store = _values(set._inner);\\n        bytes32[] memory result;\\n\\n        /// @solidity memory-safe-assembly\\n        assembly {\\n            result := store\\n        }\\n\\n        return result;\\n    }\\n\\n    // AddressSet\\n\\n    struct AddressSet {\\n        Set _inner;\\n    }\\n\\n    /**\\n     * @dev Add a value to a set. O(1).\\n     *\\n     * Returns true if the value was added to the set, that is if it was not\\n     * already present.\\n     */\\n    function add(AddressSet storage set, address value) internal returns (bool) {\\n        return _add(set._inner, bytes32(uint256(uint160(value))));\\n    }\\n\\n    /**\\n     * @dev Removes a value from a set. O(1).\\n     *\\n     * Returns true if the value was removed from the set, that is if it was\\n     * present.\\n     */\\n    function remove(AddressSet storage set, address value) internal returns (bool) {\\n        return _remove(set._inner, bytes32(uint256(uint160(value))));\\n    }\\n\\n    /**\\n     * @dev Returns true if the value is in the set. O(1).\\n     */\\n    function contains(AddressSet storage set, address value) internal view returns (bool) {\\n        return _contains(set._inner, bytes32(uint256(uint160(value))));\\n    }\\n\\n    /**\\n     * @dev Returns the number of values in the set. O(1).\\n     */\\n    function length(AddressSet storage set) internal view returns (uint256) {\\n        return _length(set._inner);\\n    }\\n\\n    /**\\n     * @dev Returns the value stored at position `index` in the set. O(1).\\n     *\\n     * Note that there are no guarantees on the ordering of values inside the\\n     * array, and it may change when more values are added or removed.\\n     *\\n     * Requirements:\\n     *\\n     * - `index` must be strictly less than {length}.\\n     */\\n    function at(AddressSet storage set, uint256 index) internal view returns (address) {\\n        return address(uint160(uint256(_at(set._inner, index))));\\n    }\\n\\n    /**\\n     * @dev Return the entire set in an array\\n     *\\n     * WARNING: This operation will copy the entire storage to memory, which can be quite expensive. This is designed\\n     * to mostly be used by view accessors that are queried without any gas fees. Developers should keep in mind that\\n     * this function has an unbounded cost, and using it as part of a state-changing function may render the function\\n     * uncallable if the set grows to a point where copying to memory consumes too much gas to fit in a block.\\n     */\\n    function values(AddressSet storage set) internal view returns (address[] memory) {\\n        bytes32[] memory store = _values(set._inner);\\n        address[] memory result;\\n\\n        /// @solidity memory-safe-assembly\\n        assembly {\\n            result := store\\n        }\\n\\n        return result;\\n    }\\n\\n    // UintSet\\n\\n    struct UintSet {\\n        Set _inner;\\n    }\\n\\n    /**\\n     * @dev Add a value to a set. O(1).\\n     *\\n     * Returns true if the value was added to the set, that is if it was not\\n     * already present.\\n     */\\n    function add(UintSet storage set, uint256 value) internal returns (bool) {\\n        return _add(set._inner, bytes32(value));\\n    }\\n\\n    /**\\n     * @dev Removes a value from a set. O(1).\\n     *\\n     * Returns true if the value was removed from the set, that is if it was\\n     * present.\\n     */\\n    function remove(UintSet storage set, uint256 value) internal returns (bool) {\\n        return _remove(set._inner, bytes32(value));\\n    }\\n\\n    /**\\n     * @dev Returns true if the value is in the set. O(1).\\n     */\\n    function contains(UintSet storage set, uint256 value) internal view returns (bool) {\\n        return _contains(set._inner, bytes32(value));\\n    }\\n\\n    /**\\n     * @dev Returns the number of values in the set. O(1).\\n     */\\n    function length(UintSet storage set) internal view returns (uint256) {\\n        return _length(set._inner);\\n    }\\n\\n    /**\\n     * @dev Returns the value stored at position `index` in the set. O(1).\\n     *\\n     * Note that there are no guarantees on the ordering of values inside the\\n     * array, and it may change when more values are added or removed.\\n     *\\n     * Requirements:\\n     *\\n     * - `index` must be strictly less than {length}.\\n     */\\n    function at(UintSet storage set, uint256 index) internal view returns (uint256) {\\n        return uint256(_at(set._inner, index));\\n    }\\n\\n    /**\\n     * @dev Return the entire set in an array\\n     *\\n     * WARNING: This operation will copy the entire storage to memory, which can be quite expensive. This is designed\\n     * to mostly be used by view accessors that are queried without any gas fees. Developers should keep in mind that\\n     * this function has an unbounded cost, and using it as part of a state-changing function may render the function\\n     * uncallable if the set grows to a point where copying to memory consumes too much gas to fit in a block.\\n     */\\n    function values(UintSet storage set) internal view returns (uint256[] memory) {\\n        bytes32[] memory store = _values(set._inner);\\n        uint256[] memory result;\\n\\n        /// @solidity memory-safe-assembly\\n        assembly {\\n            result := store\\n        }\\n\\n        return result;\\n    }\\n}\\n\",\"keccak256\":\"0x86c1470cbfd878491e5de030072b647352d36bd27122cffb928970b1945282aa\",\"license\":\"MIT\"},\"contracts/MultiWrapper.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity 0.8.23;\\n\\nimport \\\"@openzeppelin/contracts/access/Ownable.sol\\\";\\nimport \\\"@openzeppelin/contracts/utils/math/Math.sol\\\";\\nimport \\\"@openzeppelin/contracts/utils/structs/EnumerableSet.sol\\\";\\nimport \\\"./interfaces/IWrapper.sol\\\";\\n\\n/**\\n * @title MultiWrapper\\n * @notice \\u0421ontract allows for the management of multiple `IWrapper` contracts that can be used to wrap tokens in OffchainOracle's calculations.\\n * Wrappers are contracts that enable the conversion of tokens from one protocol to another.\\n * The contract provides functions to add and remove wrappers, as well as get information about the wrapped tokens and their conversion rates.\\n */\\ncontract MultiWrapper is Ownable {\\n    using EnumerableSet for EnumerableSet.AddressSet;\\n\\n    error WrapperAlreadyAdded();\\n    error UnknownWrapper();\\n\\n    event WrapperAdded(IWrapper connector);\\n    event WrapperRemoved(IWrapper connector);\\n\\n    EnumerableSet.AddressSet private _wrappers;\\n\\n    /**\\n     * @notice Adds the provided wrappers to the contract.\\n     * @dev Initializes the MultiWrapper with an array of existing `IWrapper` contracts.\\n     * @param existingWrappers Initial wrappers to be added.\\n     */\\n    constructor(IWrapper[] memory existingWrappers, address owner_) Ownable(owner_) {\\n        unchecked {\\n            for (uint256 i = 0; i < existingWrappers.length; i++) {\\n                if (!_wrappers.add(address(existingWrappers[i]))) revert WrapperAlreadyAdded();\\n                emit WrapperAdded(existingWrappers[i]);\\n            }\\n        }\\n    }\\n\\n    /**\\n     * @notice Returns all wrappers currently added to the contract.\\n     * @return allWrappers Array of wrapper contracts.\\n     */\\n    function wrappers() external view returns (IWrapper[] memory allWrappers) {\\n        allWrappers = new IWrapper[](_wrappers.length());\\n        unchecked {\\n            for (uint256 i = 0; i < allWrappers.length; i++) {\\n                allWrappers[i] = IWrapper(address(uint160(uint256(_wrappers._inner._values[i]))));\\n            }\\n        }\\n    }\\n\\n    /**\\n     * @notice Adds a distinct wrapper contract that cannot be duplicated. Only the owner can add a wrapper.\\n     * @param wrapper The address of the wrapper to be added.\\n     */\\n    function addWrapper(IWrapper wrapper) external onlyOwner {\\n        if (!_wrappers.add(address(wrapper))) revert WrapperAlreadyAdded();\\n        emit WrapperAdded(wrapper);\\n    }\\n\\n    /**\\n     * @notice Removes a specified wrapper contract. Only the owner can remove a wrapper.\\n     * @param wrapper The address of the wrapper to be removed.\\n     */\\n    function removeWrapper(IWrapper wrapper) external onlyOwner {\\n        if (!_wrappers.remove(address(wrapper))) revert UnknownWrapper();\\n        emit WrapperRemoved(wrapper);\\n    }\\n\\n    /**\\n     * @notice Retrieves the wrapped tokens and their conversion rates for a given token.\\n     * @dev Iterates over the wrappers to determine the wrapped tokens and their conversion rates.\\n     * @param token The token for which to retrieve the wrapped tokens and conversion rates.\\n     * @return wrappedTokens Tokens obtainable by wrapping the input token, including the input token and a rate of 1e18 for it.\\n     * @return rates Conversion rates for the wrapped tokens.\\n     */\\n    function getWrappedTokens(IERC20 token) external view returns (IERC20[] memory wrappedTokens, uint256[] memory rates) {\\n        unchecked {\\n            IERC20[] memory memWrappedTokens = new IERC20[](20);\\n            uint256[] memory memRates = new uint256[](20);\\n            uint256 len = 0;\\n            for (uint256 i = 0; i < _wrappers._inner._values.length; i++) {\\n                try IWrapper(address(uint160(uint256(_wrappers._inner._values[i])))).wrap(token) returns (IERC20 wrappedToken, uint256 rate) {\\n                    memWrappedTokens[len] = wrappedToken;\\n                    memRates[len] = rate;\\n                    len += 1;\\n                    for (uint256 j = 0; j < _wrappers._inner._values.length; j++) {\\n                        if (i != j) {\\n                            try IWrapper(address(uint160(uint256(_wrappers._inner._values[j])))).wrap(wrappedToken) returns (IERC20 wrappedToken2, uint256 rate2) {\\n                                bool used = false;\\n                                for (uint256 k = 0; k < len; k++) {\\n                                    if (wrappedToken2 == memWrappedTokens[k]) {\\n                                        used = true;\\n                                        break;\\n                                    }\\n                                }\\n                                if (!used) {\\n                                    memWrappedTokens[len] = wrappedToken2;\\n                                    memRates[len] = Math.mulDiv(rate, rate2, 1e18);\\n                                    len += 1;\\n                                }\\n                            } catch {\\n                                continue;\\n                            }\\n                        }\\n                    }\\n                } catch {\\n                    continue;\\n                }\\n            }\\n            wrappedTokens = new IERC20[](len + 1);\\n            rates = new uint256[](len + 1);\\n            for (uint256 i = 0; i < len; i++) {\\n                wrappedTokens[i] = memWrappedTokens[i];\\n                rates[i] = memRates[i];\\n            }\\n            wrappedTokens[len] = token;\\n            rates[len] = 1e18;\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x5290231e2850f1db7dc579f40592168b19479c74bd3e46afd66ac646475ac6a4\",\"license\":\"MIT\"},\"contracts/interfaces/IWrapper.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n\\npragma solidity 0.8.23;\\n\\nimport \\\"@openzeppelin/contracts/token/ERC20/IERC20.sol\\\";\\n\\ninterface IWrapper {\\n    error NotSupportedToken();\\n    error NotAddedMarket();\\n    error NotRemovedMarket();\\n\\n    function wrap(IERC20 token) external view returns (IERC20 wrappedToken, uint256 rate);\\n}\\n\",\"keccak256\":\"0x1d3cefe7c67b9f9750823be723dd0b00f9894ec4e0cd078eac321a2cff8f7da2\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60406080815234620001915762001039803803806200001e81620001d5565b9283398101908281830312620001915780516001600160401b039190828111620001915781019280601f8501121562000191578351936020938511620001c1578460051b90848062000072818501620001d5565b809881520192820101928311620001915790848094939201905b828210620001955750505001516001600160a01b039081811690819003620001915780156200017a575f80546001600160a01b03198116831782558316907f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09080a35f5b83518110156200016b5762000113826200010b8387620001fb565b511662000224565b156200015a57807f9471982c02bc8a0888c85288dcf07501f924fd3b336a516ff0747d9d28b516fd84846200014b60019589620001fb565b51168851908152a101620000f0565b845163f105b92b60e01b8152600490fd5b8451610db89081620002818239f35b8451631e4fbdf760e01b81525f6004820152602490fd5b5f80fd5b815193945091929091906001600160a01b0381168103620001915781528493929184019084016200008c565b634e487b7160e01b5f52604160045260245ffd5b6040519190601f01601f191682016001600160401b03811183821017620001c157604052565b8051821015620002105760209160051b010190565b634e487b7160e01b5f52603260045260245ffd5b805f52600260205260405f2054155f146200027b57600190815468010000000000000000811015620001c15782810180845581101562000210578190835f5260205f2001558154905f52600260205260405f205590565b505f9056fe60806040526004361015610011575f80fd5b5f3560e01c806326b09c291461086b578063715018a6146107d15780638da5cb5b14610781578063cb991d9414610338578063e914d4941461027b578063f2fde38b1461019c5763f56d770a14610066575f80fd5b34610198575f7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011261019857600180546100ba6100a4826109b3565b916100b26040519384610972565b8083526109b3565b9160207fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe06020840194013685375f825b61013f575b5060405192602084019060208552518091526040840194915f5b8281106101165785870386f35b835173ffffffffffffffffffffffffffffffffffffffff16875295810195928101928401610109565b918094928492945181101561018d578073ffffffffffffffffffffffffffffffffffffffff61016e8493610a1a565b90549060031b1c166101808286610ab0565b52019092949391936100ea565b5091939290926100ef565b5f80fd5b346101985760207ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126101985760043573ffffffffffffffffffffffffffffffffffffffff808216809203610198576101f5610ac4565b811561024b575f54827fffffffffffffffffffffffff00000000000000000000000000000000000000008216175f55167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e05f80a3005b60246040517f1e4fbdf70000000000000000000000000000000000000000000000000000000081525f6004820152fd5b346101985760207ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126101985760043573ffffffffffffffffffffffffffffffffffffffff8116809103610198576102d3610ac4565b6102dc81610c5e565b1561030e5760207f6728138e7d63827e0674bb75cd86127580945caff9813b228967dadf0e5cb57491604051908152a1005b60046040517ff975261f000000000000000000000000000000000000000000000000000000008152fd5b346101985760207ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126101985760043573ffffffffffffffffffffffffffffffffffffffff811681036101985760405161039381610928565b601481526102809182366020840137604051926103af84610928565b601484523660208501375f905f600154905b81811061050a57505060018201926103e16103db856109cb565b946109cb565b945f5b8481106104b957505050670de0b6b3a76400009173ffffffffffffffffffffffffffffffffffffffff610423921661041c8286610ab0565b5284610ab0565b52604051918291604083016040845281518091526020606085019201905f5b81811061048a575050508281036020840152602080835192838152019201905f5b818110610471575050500390f35b8251845285945060209384019390920191600101610463565b825173ffffffffffffffffffffffffffffffffffffffff16845286955060209384019390920191600101610442565b8073ffffffffffffffffffffffffffffffffffffffff6104de600193869a999a610ab0565b51166104ea828a610ab0565b526104f58184610ab0565b516105008289610ab0565b52019594956103e4565b73ffffffffffffffffffffffffffffffffffffffff6040602461052f84999899610a1a565b91905491835194859384927f023276f0000000000000000000000000000000000000000000000000000000008452828b16600485015260031b1c165afa805f925f9261075d575b5061058a5750506001905b019493946103c1565b9094806105996001928a610ab0565b73ffffffffffffffffffffffffffffffffffffffff88169052826105bd828a610ab0565b5201945f5b8481106105d457505050600190610581565b8084036105e6575b6001905b016105c2565b6024604073ffffffffffffffffffffffffffffffffffffffff61060884610a1a565b90549060031b1c168151928380927f023276f000000000000000000000000000000000000000000000000000000000825273ffffffffffffffffffffffffffffffffffffffff881660048301525afa90815f915f9361072a575b506106715750506001906105e0565b8a5f805b8b81106106d5575b501561068c575b5050506105dc565b600193999192849373ffffffffffffffffffffffffffffffffffffffff6106b6856106c095610ab0565b9116905286610b14565b6106ca828c610ab0565b520196908a8a610684565b90916106f68273ffffffffffffffffffffffffffffffffffffffff92610ab0565b511673ffffffffffffffffffffffffffffffffffffffff84161461071f57600101908c91610675565b50508a60018d61067d565b90925061074f915060403d604011610756575b6107478183610972565b810190610a7c565b918c610662565b503d61073d565b909250610779915060403d604011610756576107478183610972565b909189610576565b34610198575f7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011261019857602073ffffffffffffffffffffffffffffffffffffffff5f5416604051908152f35b34610198575f7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011261019857610807610ac4565b5f73ffffffffffffffffffffffffffffffffffffffff81547fffffffffffffffffffffffff000000000000000000000000000000000000000081168355167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08280a3005b346101985760207ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126101985760043573ffffffffffffffffffffffffffffffffffffffff8116809103610198576108c3610ac4565b6108cc81610bd1565b156108fe5760207f9471982c02bc8a0888c85288dcf07501f924fd3b336a516ff0747d9d28b516fd91604051908152a1005b60046040517ff105b92b000000000000000000000000000000000000000000000000000000008152fd5b6102a0810190811067ffffffffffffffff82111761094557604052565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52604160045260245ffd5b90601f7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0910116810190811067ffffffffffffffff82111761094557604052565b67ffffffffffffffff81116109455760051b60200190565b906109d5826109b3565b6109e26040519182610972565b8281527fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0610a1082946109b3565b0190602036910137565b600154811015610a4f5760015f527fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf601905f90565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52603260045260245ffd5b919082604091031261019857815173ffffffffffffffffffffffffffffffffffffffff811681036101985760209092015190565b8051821015610a4f5760209160051b010190565b73ffffffffffffffffffffffffffffffffffffffff5f54163303610ae457565b60246040517f118cdaa7000000000000000000000000000000000000000000000000000000008152336004820152fd5b90808202907fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff81840990828083109203918083039214610bc057670de0b6b3a76400009082821115610b96577faccb18165bd6fe31ae1cf318dc5b51eee0e1ba569b88cd74c1773b91fac10669940990828211900360ee1b910360121c170290565b60046040517f227bc153000000000000000000000000000000000000000000000000000000008152fd5b5050670de0b6b3a764000091500490565b805f52600260205260405f2054155f14610c59576001546801000000000000000081101561094557610c42610c0d826001859401600155610a1a565b81939154907fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9060031b92831b921b19161790565b9055600154905f52600260205260405f2055600190565b505f90565b5f818152600260205260409020548015610d7c577fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff90818101818111610d4f5760015490838201918211610d4f57818103610d1b575b5050506001548015610cee57810190610ccc82610a1a565b909182549160031b1b191690556001555f5260026020525f6040812055600190565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52603160045260245ffd5b610d39610d2a610c0d93610a1a565b90549060031b1c928392610a1a565b90555f52600260205260405f20555f8080610cb4565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52601160045260245ffd5b50505f9056fea264697066735822122071a4bfa03eb8835bbed5d659c2d7d076458827c9564f99587ece0bc05805e6d264736f6c63430008170033",
+  "deployedBytecode": "0x60806040526004361015610011575f80fd5b5f3560e01c806326b09c291461086b578063715018a6146107d15780638da5cb5b14610781578063cb991d9414610338578063e914d4941461027b578063f2fde38b1461019c5763f56d770a14610066575f80fd5b34610198575f7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011261019857600180546100ba6100a4826109b3565b916100b26040519384610972565b8083526109b3565b9160207fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe06020840194013685375f825b61013f575b5060405192602084019060208552518091526040840194915f5b8281106101165785870386f35b835173ffffffffffffffffffffffffffffffffffffffff16875295810195928101928401610109565b918094928492945181101561018d578073ffffffffffffffffffffffffffffffffffffffff61016e8493610a1a565b90549060031b1c166101808286610ab0565b52019092949391936100ea565b5091939290926100ef565b5f80fd5b346101985760207ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126101985760043573ffffffffffffffffffffffffffffffffffffffff808216809203610198576101f5610ac4565b811561024b575f54827fffffffffffffffffffffffff00000000000000000000000000000000000000008216175f55167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e05f80a3005b60246040517f1e4fbdf70000000000000000000000000000000000000000000000000000000081525f6004820152fd5b346101985760207ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126101985760043573ffffffffffffffffffffffffffffffffffffffff8116809103610198576102d3610ac4565b6102dc81610c5e565b1561030e5760207f6728138e7d63827e0674bb75cd86127580945caff9813b228967dadf0e5cb57491604051908152a1005b60046040517ff975261f000000000000000000000000000000000000000000000000000000008152fd5b346101985760207ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126101985760043573ffffffffffffffffffffffffffffffffffffffff811681036101985760405161039381610928565b601481526102809182366020840137604051926103af84610928565b601484523660208501375f905f600154905b81811061050a57505060018201926103e16103db856109cb565b946109cb565b945f5b8481106104b957505050670de0b6b3a76400009173ffffffffffffffffffffffffffffffffffffffff610423921661041c8286610ab0565b5284610ab0565b52604051918291604083016040845281518091526020606085019201905f5b81811061048a575050508281036020840152602080835192838152019201905f5b818110610471575050500390f35b8251845285945060209384019390920191600101610463565b825173ffffffffffffffffffffffffffffffffffffffff16845286955060209384019390920191600101610442565b8073ffffffffffffffffffffffffffffffffffffffff6104de600193869a999a610ab0565b51166104ea828a610ab0565b526104f58184610ab0565b516105008289610ab0565b52019594956103e4565b73ffffffffffffffffffffffffffffffffffffffff6040602461052f84999899610a1a565b91905491835194859384927f023276f0000000000000000000000000000000000000000000000000000000008452828b16600485015260031b1c165afa805f925f9261075d575b5061058a5750506001905b019493946103c1565b9094806105996001928a610ab0565b73ffffffffffffffffffffffffffffffffffffffff88169052826105bd828a610ab0565b5201945f5b8481106105d457505050600190610581565b8084036105e6575b6001905b016105c2565b6024604073ffffffffffffffffffffffffffffffffffffffff61060884610a1a565b90549060031b1c168151928380927f023276f000000000000000000000000000000000000000000000000000000000825273ffffffffffffffffffffffffffffffffffffffff881660048301525afa90815f915f9361072a575b506106715750506001906105e0565b8a5f805b8b81106106d5575b501561068c575b5050506105dc565b600193999192849373ffffffffffffffffffffffffffffffffffffffff6106b6856106c095610ab0565b9116905286610b14565b6106ca828c610ab0565b520196908a8a610684565b90916106f68273ffffffffffffffffffffffffffffffffffffffff92610ab0565b511673ffffffffffffffffffffffffffffffffffffffff84161461071f57600101908c91610675565b50508a60018d61067d565b90925061074f915060403d604011610756575b6107478183610972565b810190610a7c565b918c610662565b503d61073d565b909250610779915060403d604011610756576107478183610972565b909189610576565b34610198575f7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011261019857602073ffffffffffffffffffffffffffffffffffffffff5f5416604051908152f35b34610198575f7ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc36011261019857610807610ac4565b5f73ffffffffffffffffffffffffffffffffffffffff81547fffffffffffffffffffffffff000000000000000000000000000000000000000081168355167f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e08280a3005b346101985760207ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffc3601126101985760043573ffffffffffffffffffffffffffffffffffffffff8116809103610198576108c3610ac4565b6108cc81610bd1565b156108fe5760207f9471982c02bc8a0888c85288dcf07501f924fd3b336a516ff0747d9d28b516fd91604051908152a1005b60046040517ff105b92b000000000000000000000000000000000000000000000000000000008152fd5b6102a0810190811067ffffffffffffffff82111761094557604052565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52604160045260245ffd5b90601f7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0910116810190811067ffffffffffffffff82111761094557604052565b67ffffffffffffffff81116109455760051b60200190565b906109d5826109b3565b6109e26040519182610972565b8281527fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffe0610a1082946109b3565b0190602036910137565b600154811015610a4f5760015f527fb10e2d527612073b26eecdfd717e6a320cf44b4afac2b0732d9fcbe2b7fa0cf601905f90565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52603260045260245ffd5b919082604091031261019857815173ffffffffffffffffffffffffffffffffffffffff811681036101985760209092015190565b8051821015610a4f5760209160051b010190565b73ffffffffffffffffffffffffffffffffffffffff5f54163303610ae457565b60246040517f118cdaa7000000000000000000000000000000000000000000000000000000008152336004820152fd5b90808202907fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff81840990828083109203918083039214610bc057670de0b6b3a76400009082821115610b96577faccb18165bd6fe31ae1cf318dc5b51eee0e1ba569b88cd74c1773b91fac10669940990828211900360ee1b910360121c170290565b60046040517f227bc153000000000000000000000000000000000000000000000000000000008152fd5b5050670de0b6b3a764000091500490565b805f52600260205260405f2054155f14610c59576001546801000000000000000081101561094557610c42610c0d826001859401600155610a1a565b81939154907fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff9060031b92831b921b19161790565b9055600154905f52600260205260405f2055600190565b505f90565b5f818152600260205260409020548015610d7c577fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff90818101818111610d4f5760015490838201918211610d4f57818103610d1b575b5050506001548015610cee57810190610ccc82610a1a565b909182549160031b1b191690556001555f5260026020525f6040812055600190565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52603160045260245ffd5b610d39610d2a610c0d93610a1a565b90549060031b1c928392610a1a565b90555f52600260205260405f20555f8080610cb4565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52601160045260245ffd5b50505f9056fea264697066735822122071a4bfa03eb8835bbed5d659c2d7d076458827c9564f99587ece0bc05805e6d264736f6c63430008170033",
+  "devdoc": {
+    "errors": {
+      "MathOverflowedMulDiv()": [
+        {
+          "details": "Muldiv operation overflow."
+        }
+      ],
+      "OwnableInvalidOwner(address)": [
+        {
+          "details": "The owner is not a valid owner account. (eg. `address(0)`)"
+        }
+      ],
+      "OwnableUnauthorizedAccount(address)": [
+        {
+          "details": "The caller account is not authorized to perform an operation."
+        }
+      ]
+    },
+    "kind": "dev",
+    "methods": {
+      "addWrapper(address)": {
+        "params": {
+          "wrapper": "The address of the wrapper to be added."
+        }
+      },
+      "constructor": {
+        "details": "Initializes the MultiWrapper with an array of existing `IWrapper` contracts.",
+        "params": {
+          "existingWrappers": "Initial wrappers to be added."
+        }
+      },
+      "getWrappedTokens(address)": {
+        "details": "Iterates over the wrappers to determine the wrapped tokens and their conversion rates.",
+        "params": {
+          "token": "The token for which to retrieve the wrapped tokens and conversion rates."
+        },
+        "returns": {
+          "rates": "Conversion rates for the wrapped tokens.",
+          "wrappedTokens": "Tokens obtainable by wrapping the input token, including the input token and a rate of 1e18 for it."
+        }
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "removeWrapper(address)": {
+        "params": {
+          "wrapper": "The address of the wrapper to be removed."
+        }
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      },
+      "wrappers()": {
+        "returns": {
+          "allWrappers": "Array of wrapper contracts."
+        }
+      }
+    },
+    "title": "MultiWrapper",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "addWrapper(address)": {
+        "notice": "Adds a distinct wrapper contract that cannot be duplicated. Only the owner can add a wrapper."
+      },
+      "constructor": {
+        "notice": "Adds the provided wrappers to the contract."
+      },
+      "getWrappedTokens(address)": {
+        "notice": "Retrieves the wrapped tokens and their conversion rates for a given token."
+      },
+      "removeWrapper(address)": {
+        "notice": "Removes a specified wrapper contract. Only the owner can remove a wrapper."
+      },
+      "wrappers()": {
+        "notice": "Returns all wrappers currently added to the contract."
+      }
+    },
+    "notice": "Сontract allows for the management of multiple `IWrapper` contracts that can be used to wrap tokens in OffchainOracle's calculations. Wrappers are contracts that enable the conversion of tokens from one protocol to another. The contract provides functions to add and remove wrappers, as well as get information about the wrapped tokens and their conversion rates.",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 53,
+        "contract": "contracts/MultiWrapper.sol:MultiWrapper",
+        "label": "_owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 4726,
+        "contract": "contracts/MultiWrapper.sol:MultiWrapper",
+        "label": "_wrappers",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_struct(AddressSet)4366_storage"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_bytes32)dyn_storage": {
+        "base": "t_bytes32",
+        "encoding": "dynamic_array",
+        "label": "bytes32[]",
+        "numberOfBytes": "32"
+      },
+      "t_bytes32": {
+        "encoding": "inplace",
+        "label": "bytes32",
+        "numberOfBytes": "32"
+      },
+      "t_mapping(t_bytes32,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_bytes32",
+        "label": "mapping(bytes32 => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_struct(AddressSet)4366_storage": {
+        "encoding": "inplace",
+        "label": "struct EnumerableSet.AddressSet",
+        "members": [
+          {
+            "astId": 4365,
+            "contract": "contracts/MultiWrapper.sol:MultiWrapper",
+            "label": "_inner",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_struct(Set)4051_storage"
+          }
+        ],
+        "numberOfBytes": "64"
+      },
+      "t_struct(Set)4051_storage": {
+        "encoding": "inplace",
+        "label": "struct EnumerableSet.Set",
+        "members": [
+          {
+            "astId": 4046,
+            "contract": "contracts/MultiWrapper.sol:MultiWrapper",
+            "label": "_values",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_array(t_bytes32)dyn_storage"
+          },
+          {
+            "astId": 4050,
+            "contract": "contracts/MultiWrapper.sol:MultiWrapper",
+            "label": "_positions",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_mapping(t_bytes32,t_uint256)"
+          }
+        ],
+        "numberOfBytes": "64"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
 }

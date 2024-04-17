@@ -54,6 +54,9 @@ const tokens = {
     wstETH: '0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0',
     BEAN: '0xBEA0000029AD1c77D3d5D23Ba2D8893dB9d1Efab',
     '3CRV': '0x6c3F90f043a72FA612cbac8115EE7e52BDe6E490',
+    stataUSDC: '0x73edDFa87C71ADdC275c2b9890f5c3a8480bC9E6',
+    stataWETH: '0x252231882FB38481497f3C767469106297c8d93b',
+    stataDAI: '0xaf270C38fF895EA3f95Ed488CEACe2386F038249',
     base: {
         WETH: '0x4200000000000000000000000000000000000006',
         DAI: '0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb',
@@ -61,8 +64,9 @@ const tokens = {
     },
     optimistic: {
         WETH: '0x4200000000000000000000000000000000000006',
-        USDC: '0x7F5c764cBc14f9669B88837ca1490cCa17c31607',
+        USDC: '0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85',
         OP: '0x4200000000000000000000000000000000000042',
+        DAI: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1',
     },
 };
 
@@ -87,6 +91,9 @@ const deployParams = {
     },
     AaveWrapperV3: {
         lendingPool: '0x7B4EB56E7CD4b454BA8ff71E4518426369a138a3',
+    },
+    StataTokenWrapper: {
+        staticATokenFactory: '0x411D79b8cC43384FDE66CaBf9b6a17180c842511',
     },
     UniswapV3: {
         factory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
@@ -158,6 +165,11 @@ const deployParams = {
             factory: '0xF1046053aa5682b4F9a81b5481394DA16BE5FF5a',
             initcodeHash: '0xc0629f1c7daa09624e54d4f711ba99922a844907cce02997176399e4cc7e8fcf',
         },
+    },
+    Slipstream: { // optimistic network
+        factory: '0x548118C7E0B865C2CfA94D15EC86B666468ac758',
+        initcodeHash: '0x3e17c3f6d9f39d14b65192404b8d70a2f921655d3f7f5e7481ab3fcf0756e8ea',
+        tickSpacings: [1, 50, 100, 200, 2_000],
     },
     Slipstream: { // optimistic network
         factory: '0x548118C7E0B865C2CfA94D15EC86B666468ac758',

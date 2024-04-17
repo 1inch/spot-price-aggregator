@@ -33,7 +33,7 @@ contract AaveWrapperV3 is IWrapper {
             for (uint256 i = 0; i < tokens.length; i++) {
                 (address aTokenAddress,,) = _LENDING_POOL.getReserveTokensAddresses(address(tokens[i]));
                 IERC20 aToken = IERC20(aTokenAddress);
-                if(aToken == IERC20(address(0))) revert NotRemovedMarket();
+                if(aToken != IERC20(address(0))) revert NotRemovedMarket();
                 delete aTokenToToken[aToken];
                 delete tokenToaToken[tokens[i]];
             }
