@@ -152,8 +152,17 @@ const deployParams = {
         initcodeHash: '0x0ccd005ee58d5fb11632ef5c2e0866256b240965c62c8e990c0f84a97f311879',
     },
     VelodromeV2: { // optimistic network
-        poolFactory: '0xF1046053aa5682b4F9a81b5481394DA16BE5FF5a',
-        poolImplementation: '0x95885Af5492195F0754bE71AD1545Fe81364E531',
+        router: '0xa062aE8A9c5e11aaA026fc2670B0D65cCc8B2858',
+        registry: '0xF4c67CdEAaB8360370F41514d06e32CcD8aA1d7B',
+        poolFactory: {
+            factory: '0xF1046053aa5682b4F9a81b5481394DA16BE5FF5a',
+            initcodeHash: '0xc0629f1c7daa09624e54d4f711ba99922a844907cce02997176399e4cc7e8fcf',
+        },
+    },
+    Slipstream: { // optimistic network
+        factory: '0x548118C7E0B865C2CfA94D15EC86B666468ac758',
+        initcodeHash: '0x3e17c3f6d9f39d14b65192404b8d70a2f921655d3f7f5e7481ab3fcf0756e8ea',
+        tickSpacings: [1, 50, 100, 200, 2_000],
     },
 };
 
