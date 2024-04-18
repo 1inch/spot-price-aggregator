@@ -83,6 +83,9 @@ const CurveRegistryType = {
     METAREGISTRY: 4,
     CRVUSD_PLAIN_POOLS: 5,
     CURVE_TRICRYPTO_FACTORY: 6,
+    STABLESWAP_FACTORY: 7,
+    L2_FACTORY: 8,
+    CRYPTO_FACTORY: 9,
 };
 
 const deployParams = {

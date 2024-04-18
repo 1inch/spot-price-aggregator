@@ -21,7 +21,10 @@ contract CurveOracle is IOracle {
         CRYPTOPOOL_FACTORY,
         METAREGISTRY,
         CRVUSD_PLAIN_POOLS,
-        CURVE_TRICRYPTO_FACTORY
+        CURVE_TRICRYPTO_FACTORY,
+        STABLESWAP_FACTORY,
+        L2_FACTORY,
+        CRYPTO_FACTORY
     }
 
     struct FunctionSelectorsInfo {
@@ -75,7 +78,10 @@ contract CurveOracle is IOracle {
                         // registryTypes[i] == CurveRegistryType.MAIN_REGISTRY ||
                         // registryTypes[i] == CurveRegistryType.METAPOOL_FACTORY ||
                         // registryTypes[i] == CurveRegistryType.METAREGISTRY ||
-                        // registryTypes[i] == CurveRegistryType.CRVUSD_PLAIN_POOLS
+                        // registryTypes[i] == CurveRegistryType.CRVUSD_PLAIN_POOLS ||
+                        // registryTypes[i] == CurveRegistryType.STABLESWAP_FACTORY ||
+                        // registryTypes[i] == CurveRegistryType.L2_FACTORY ||
+                        // registryTypes[i] == CurveRegistryType.CRYPTO_FACTORY
                         (srcTokenIndex, dstTokenIndex, isUnderlying) = abi.decode(data, (int128, int128, bool));
                     }
                 } else {
@@ -105,13 +111,20 @@ contract CurveOracle is IOracle {
                     // registryTypes[i] == CurveRegistryType.CRYPTOSWAP_REGISTRY ||
                     // registryTypes[i] == CurveRegistryType.METAREGISTRY
                     uint256 length = 8;
-                    if (registryTypes[i] == CurveRegistryType.METAPOOL_FACTORY ||
-                        registryTypes[i] == CurveRegistryType.CRVUSD_PLAIN_POOLS) {
-                        length = 4;
-                    } else if (registryTypes[i] == CurveRegistryType.CURVE_TRICRYPTO_FACTORY) {
-                        length = 3;
-                    } else if (registryTypes[i] == CurveRegistryType.CRYPTOPOOL_FACTORY) {
-                        length = 2;
+                    if (!isUnderlying) {
+                        if (
+                            registryTypes[i] == CurveRegistryType.METAPOOL_FACTORY ||
+                            registryTypes[i] == CurveRegistryType.CRVUSD_PLAIN_POOLS ||
+                            registryTypes[i] == CurveRegistryType.STABLESWAP_FACTORY ||
+                            registryTypes[i] == CurveRegistryType.L2_FACTORY ||
+                            registryTypes[i] == CurveRegistryType.CRYPTO_FACTORY
+                        ) {
+                            length = 4;
+                        } else if (registryTypes[i] == CurveRegistryType.CURVE_TRICRYPTO_FACTORY) {
+                            length = 3;
+                        } else if (registryTypes[i] == CurveRegistryType.CRYPTOPOOL_FACTORY) {
+                            length = 2;
+                        }
                     }
 
                     assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
