@@ -351,6 +351,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * SpiritSwap - [0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F](https://ftmscan.com/address/0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F)
    * Spooky - [0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F](https://ftmscan.com/address/0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F)
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://ftmscan.com/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
+   * Curve - [0x0bA0D1B119d8a8E193e2802c2C7Ef1BDfAdddc49](https://ftmscan.com/address/0x0bA0D1B119d8a8E193e2802c2C7Ef1BDfAdddc49)
 
 </details>
 
