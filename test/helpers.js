@@ -170,6 +170,10 @@ const deployParams = {
         initcodeHash: '0x3e17c3f6d9f39d14b65192404b8d70a2f921655d3f7f5e7481ab3fcf0756e8ea',
         tickSpacings: [1, 50, 100, 200, 2_000],
     },
+    Aerodrome: { // base network
+        factory: '0x420DD381b31aEf6683db6B902084cB0FFECe40Da',
+        initcodeHash: '0x6f178972b07752b522a4da1c5b71af6524e8b0bd6027ccb29e5312b0e5bcdc3c',
+    },
 };
 
 async function measureGas (tx, comment) {

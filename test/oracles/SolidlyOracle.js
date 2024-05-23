@@ -4,12 +4,12 @@ const { deployContract } = require('@1inch/solidity-utils');
 const { resetHardhatNetworkFork } = require('@1inch/solidity-utils/hardhat-setup');
 const {
     tokens,
-    deployParams: { VelocimeterV2, UniswapV3Base },
+    deployParams: { Aerodrome, VelocimeterV2, UniswapV3Base },
     testRate,
 } = require('../helpers.js');
 
 describe('SolidlyOracle', function () {
-    describe('VelocimeterV2', function () {
+    describe('BASE network', function () {
         before(async function () {
             await resetHardhatNetworkFork(network, 'base');
         });
@@ -24,24 +24,46 @@ describe('SolidlyOracle', function () {
             return { velocimeterV2Oracle, uniswapV3Oracle };
         }
 
-        it('WETH -> axlUSDC', async function () {
-            const { velocimeterV2Oracle, uniswapV3Oracle } = await loadFixture(initContracts);
-            await testRate(tokens.base.WETH, tokens.base.axlUSDC, tokens.NONE, velocimeterV2Oracle, uniswapV3Oracle);
+        async function deployVelocimeterV2 () {
+            const { uniswapV3Oracle } = await initContracts();
+            const oracle = await deployContract('SolidlyOracle', [VelocimeterV2.factory, VelocimeterV2.initcodeHash]);
+            return { oracle, uniswapV3Oracle };
+        }
+
+        async function deployAerodrome () {
+            const { uniswapV3Oracle } = await initContracts();
+            const oracle = await deployContract('SolidlyOracle', [Aerodrome.factory, Aerodrome.initcodeHash]);
+            return { oracle, uniswapV3Oracle };
+        }
+
+        function shouldWorkForOracle (fixture) {
+            it('WETH -> axlUSDC', async function () {
+                const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
+                await testRate(tokens.base.WETH, tokens.base.axlUSDC, tokens.NONE, oracle, uniswapV3Oracle);
+            });
+
+            it('axlUSDC -> WETH', async function () {
+                const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
+                await testRate(tokens.base.axlUSDC, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle);
+            });
+
+            it('WETH -> DAI', async function () {
+                const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
+                await testRate(tokens.base.WETH, tokens.base.DAI, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
+            });
+
+            it('DAI -> WETH', async function () {
+                const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
+                await testRate(tokens.base.DAI, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
+            });
+        }
+
+        describe('VelocimeterV2', function () {
+            shouldWorkForOracle(deployVelocimeterV2);
         });
 
-        it('axlUSDC -> WETH', async function () {
-            const { velocimeterV2Oracle, uniswapV3Oracle } = await loadFixture(initContracts);
-            await testRate(tokens.base.axlUSDC, tokens.base.WETH, tokens.NONE, velocimeterV2Oracle, uniswapV3Oracle);
-        });
-
-        it('WETH -> DAI', async function () {
-            const { velocimeterV2Oracle, uniswapV3Oracle } = await loadFixture(initContracts);
-            await testRate(tokens.base.WETH, tokens.base.DAI, tokens.NONE, velocimeterV2Oracle, uniswapV3Oracle, 0.1);
-        });
-
-        it('DAI -> WETH', async function () {
-            const { velocimeterV2Oracle, uniswapV3Oracle } = await loadFixture(initContracts);
-            await testRate(tokens.base.DAI, tokens.base.WETH, tokens.NONE, velocimeterV2Oracle, uniswapV3Oracle, 0.1);
+        describe('Aerodrome', function () {
+            shouldWorkForOracle(deployAerodrome);
         });
     });
 });
