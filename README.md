@@ -250,6 +250,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://arbiscan.io/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
    * ETH - [0x0000000000000000000000000000000000000000](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
    * WETH - [0x82aF49447D8a07e3bd95BD0d56f35241523fBab1](https://arbiscan.io/address/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1)
+   * USDC - [0xaf88d065e77c8cC2239327C5EDb3A432268e5831](https://arbiscan.io/address/0xaf88d065e77c8cC2239327C5EDb3A432268e5831)
 
 </details>
 
@@ -529,6 +530,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://basescan.org/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
    * WETH - [0x4200000000000000000000000000000000000006](https://basescan.org/address/0x4200000000000000000000000000000000000006)
    * axlUSDC - [0xEB466342C4d449BC9f53A865D5Cb90586f405215](https://basescan.org/address/0xEB466342C4d449BC9f53A865D5Cb90586f405215)
+   * USDC - [0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
 
 </details>
 
@@ -604,6 +606,6 @@ This section provides a comprehensive guide on deploying an oracle, including th
 7. **Deploy OffchainOracle:**
    - Follow similar steps as step 5 to deploy the `OffchainOracle`. Make sure to include the deployed oracles (from step 5), `MultiWrapper` with wrappers (from step 6) and specifying the tokens you wish to use as connectors for price discovery. After `OffchainOracle` is deployed, it will be possible to edit these lists of oracles and connectors.
 
-### Support and Assistance
+## Support and Assistance
 
 For any questions or further assistance, don't hesitate to reach out (for example via issue). This guide aims to facilitate your oracle deployment process, ensuring a smooth and reliable setup.
