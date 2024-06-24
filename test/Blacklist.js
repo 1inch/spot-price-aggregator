@@ -6,7 +6,7 @@ const { tokens } = require('./helpers.js');
 describe('Blacklist', function () {
     async function initContracts () {
         const [owner, alice] = await ethers.getSigners();
-        const blacklist = await deployContract('Blacklist', [owner]);
+        const blacklist = await deployContract('Blacklist', [[], owner]);
         return { owner, alice, blacklist };
     }
 

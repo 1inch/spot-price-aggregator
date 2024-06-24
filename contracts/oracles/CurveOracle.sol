@@ -41,7 +41,14 @@ contract CurveOracle is IOracle, Blacklist {
     ICurveRegistry[11] public registries;
     CurveRegistryType[11] public registryTypes;
 
-    constructor(ICurveProvider _addressProvider, uint256 _maxPools, uint256[] memory _registryIds, CurveRegistryType[] memory _registryTypes, address owner) Blacklist(owner) {
+    constructor(
+        ICurveProvider _addressProvider,
+        uint256 _maxPools,
+        uint256[] memory _registryIds,
+        CurveRegistryType[] memory _registryTypes,
+        address[] memory initialBlacklist,
+        address owner
+    ) Blacklist(initialBlacklist, owner) {
         MAX_POOLS = _maxPools;
         REGISTRIES_COUNT = _registryIds.length;
         unchecked {
