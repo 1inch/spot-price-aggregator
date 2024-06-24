@@ -15,7 +15,7 @@ describe('Blacklist', function () {
         await expect(blacklist.connect(alice).toggleBlacklistAddress(tokens.ETH)).to.be.revertedWithCustomError(blacklist, 'OwnableUnauthorizedAccount');
     });
 
-    it('should togle record state', async function () {
+    it('should toggle record state', async function () {
         const { owner, blacklist } = await loadFixture(initContracts);
         await blacklist.connect(owner).toggleBlacklistAddress(tokens.ETH);
         expect(await blacklist.blacklisted(tokens.ETH)).to.be.true;
