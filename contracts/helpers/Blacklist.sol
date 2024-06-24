@@ -9,10 +9,10 @@ contract Blacklist is Ownable {
 
     constructor(address owner) Ownable(owner) {}
 
-    event BlacklistAddress(address pool, bool isBlacklisted);
+    event BlacklistUpdated(address pool, bool isBlacklisted);
 
     function toggleBlacklistAddress(address pool) external onlyOwner {
         blacklisted[pool] = !blacklisted[pool];
-        emit BlacklistAddress(pool, blacklisted[pool]);
+        emit BlacklistUpdated(pool, blacklisted[pool]);
     }
 }
