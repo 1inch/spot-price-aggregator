@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { ethers } = require('hardhat');
-const { expect, deployContract } = require('@1inch/solidity-utils');
+const { expect, deployContract, constants } = require('@1inch/solidity-utils');
 const {
     tokens,
     deployParams: { AaveWrapperV2, Curve, Uniswap, UniswapV2, UniswapV3 },
@@ -12,7 +12,7 @@ const {
 
 describe('CurveOracle', function () {
     async function initContracts () {
-        const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, Curve.registryIds, Curve.registryTypes]);
+        const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, Curve.registryIds, Curve.registryTypes, constants.EEE_ADDRESS]);
         const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
         return { curveOracle, uniswapV3Oracle };
     }
@@ -107,7 +107,7 @@ describe('CurveOracle', function () {
                 },
             ];
 
-            const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, [Curve.registryIds[registryIndex]], [Curve.registryTypes[registryIndex]]]);
+            const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, [Curve.registryIds[registryIndex]], [Curve.registryTypes[registryIndex]], constants.EEE_ADDRESS]);
             const curveProvider = await ethers.getContractAt('ICurveProvider', Curve.provider);
             const registryAddress = await curveProvider.get_address(Curve.registryIds[registryIndex]);
             const registry = await ethers.getContractAt('ICurveRegistry', registryAddress);
@@ -141,7 +141,7 @@ describe('CurveOracle', function () {
             const [deployer] = await ethers.getSigners();
 
             const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
-            const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, Curve.registryIds, Curve.registryTypes]);
+            const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, Curve.registryIds, Curve.registryTypes, constants.EEE_ADDRESS]);
             const uniswapOracle = await deployContract('UniswapOracle', [Uniswap.factory]);
             const mooniswapOracle = await deployContract('MooniswapOracle', [tokens.oneInchLP1]);
             const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.ETH, tokens.WETH]);
