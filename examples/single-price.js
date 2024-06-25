@@ -21,7 +21,7 @@ offchainOracle.getRateToEth(
         const numerator = 10 ** token.decimals;
         const denominator = 1e18; // eth decimals
         const price = parseFloat(rate) * numerator / denominator / 1e18;
-        console.log(price.toString()); // ETH in USDT
-        console.log((1 / price).toString()); // USDT in ETH
+        console.log(price.toString()); // how much ETH needed for 1 USDT
+        console.log((1 / price).toString()); // how much USDT needed for 1 ETH
     })
     .catch(console.log);
