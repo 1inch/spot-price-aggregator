@@ -9,8 +9,9 @@ import "../interfaces/ICurveProvider.sol";
 import "../interfaces/ICurveRegistry.sol";
 import "../interfaces/ICurveSwap.sol";
 import "../libraries/OraclePrices.sol";
+import "../helpers/Blacklist.sol";
 
-contract CurveOracle is IOracle {
+contract CurveOracle is IOracle, Blacklist {
     using OraclePrices for OraclePrices.Data;
     using Math for uint256;
 
@@ -40,7 +41,14 @@ contract CurveOracle is IOracle {
     ICurveRegistry[11] public registries;
     CurveRegistryType[11] public registryTypes;
 
-    constructor(ICurveProvider _addressProvider, uint256 _maxPools, uint256[] memory _registryIds, CurveRegistryType[] memory _registryTypes) {
+    constructor(
+        ICurveProvider _addressProvider,
+        uint256 _maxPools,
+        uint256[] memory _registryIds,
+        CurveRegistryType[] memory _registryTypes,
+        address[] memory initialBlacklist,
+        address owner
+    ) Blacklist(initialBlacklist, owner) {
         MAX_POOLS = _maxPools;
         REGISTRIES_COUNT = _registryIds.length;
         unchecked {
@@ -61,6 +69,10 @@ contract CurveOracle is IOracle {
             uint256 registryIndex = 0;
             address pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), registryIndex);
             while (pool != address(0) && index < MAX_POOLS) {
+                if (blacklisted[pool]) {
+                    pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
+                    continue;
+                }
                 index++;
                 // call `get_coin_indices` and set (srcTokenIndex, dstTokenIndex, isUnderlying) variables
                 bool isUnderlying;
