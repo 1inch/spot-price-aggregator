@@ -242,5 +242,25 @@ describe('OffchainOracle', function () {
 
             expect(await offchainOracle.getRateToEth(tokens.DAI, true)).not.to.be.reverted;
         });
+
+        it('should correct work with wrappers when price is not 1:1', async function () {
+            const { multiWrapper, deployer } = await initContracts();
+
+            const wstETHWrapper = await deployContract('WstETHWrapper', [tokens.ETH, tokens.wstETH]);
+            await multiWrapper.addWrapper(wstETHWrapper);
+
+            const offchainOracle = await deployContract('OffchainOracle', [
+                multiWrapper,
+                [],
+                [],
+                [],
+                tokens.WETH,
+                deployer.address,
+            ]);
+
+            const rateForward = await offchainOracle.getRateWithCustomConnectors(tokens.WETH, tokens.wstETH, true, [], thresholdFilter);
+            const rateReverse = await offchainOracle.getRateWithCustomConnectors(tokens.wstETH, tokens.WETH, true, [], thresholdFilter);
+            assertRoughlyEqualValues(rateForward * rateReverse / BigInt(1e18), BigInt(1e18), 5e-18);
+        });
     });
 });
