@@ -273,7 +273,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://snowtrace.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://snowtrace.io/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
    * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://snowtrace.io/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
-   * Curve - [0x715C0357F8F29FB7a71acDcaeFdde2B964824B23](https://snowtrace.io/address/0x715C0357F8F29FB7a71acDcaeFdde2B964824B23)
+   * Curve - [0x8e38ec1f7D3D40ebf3987DaB0fb2aD688D96c3D1](https://snowtrace.io/address/0x8e38ec1f7D3D40ebf3987DaB0fb2aD688D96c3D1)
 
 </details>
 
