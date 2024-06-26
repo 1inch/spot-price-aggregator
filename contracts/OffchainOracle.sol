@@ -267,7 +267,7 @@ contract OffchainOracle is Ownable {
             for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
                 for (uint256 k2 = 0; k2 < wrappedDstTokens.length; k2++) {
                     if (wrappedSrcTokens[k1] == wrappedDstTokens[k2]) {
-                        return srcRates[k1] * dstRates[k2] / 1e18;
+                        return 1e18 * srcRates[k1] / dstRates[k2];
                     }
                     for (uint256 k3 = 0; k3 < 2; k3++) {
                         for (uint256 j = 0; j < allConnectors[k3].length; j++) {
