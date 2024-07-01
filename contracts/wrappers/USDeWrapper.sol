@@ -3,7 +3,7 @@
 pragma solidity 0.8.23;
 
 import "./Wrapper.sol";
-import "@openzeppelin/interfaces/IERC4626.sol";
+import "@openzeppelin/contracts/interfaces/IERC4626.sol";
 
 contract USDeWrapper is Wrapper {
 
