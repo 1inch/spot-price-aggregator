@@ -57,6 +57,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * wstETH - [0x37eB78fE793E89353e46AEe73E299985C3B8d334](https://etherscan.io/address/0x37eB78fE793E89353e46AEe73E299985C3B8d334)
    * sDAI - [0xF07317368A4B061dadB8C8239cbfCfd4808B76ce](https://etherscan.io/address/0xF07317368A4B061dadB8C8239cbfCfd4808B76ce)
    * CHAI - [0x6fE4926a0fCc78ab764b39f2738e1Dea145d7AC0](https://etherscan.io/address/0x6fE4926a0fCc78ab764b39f2738e1Dea145d7AC0)
+   * sUSDe - [0x6b4A160c09E7acCB2Ceb881E52409a01731d112c](https://etherscan.io/address/0x6b4A160c09E7acCB2Ceb881E52409a01731d112c)
    
 </details>
 
