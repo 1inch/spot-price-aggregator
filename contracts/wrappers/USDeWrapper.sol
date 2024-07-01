@@ -13,6 +13,6 @@ contract USDeWrapper is Wrapper {
     }
 
     function _unwrap() internal view virtual override returns (IERC20 unwrappedToken, uint256 rate) {
-        return (BASE, IERC4626(address(BASE)).convertToAssets(1e18)); // scale up when redeeming sUSDe for USDe
+        return (BASE, IERC4626(address(WBASE)).convertToAssets(1e18)); // scale up when redeeming sUSDe for USDe
     }
 }
