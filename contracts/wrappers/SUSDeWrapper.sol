@@ -5,7 +5,7 @@ pragma solidity 0.8.23;
 import "./Wrapper.sol";
 import "@openzeppelin/contracts/interfaces/IERC4626.sol";
 
-contract USDeWrapper is Wrapper {
+contract SUSDeWrapper is Wrapper {
 
     constructor(IERC20 base, IERC20 wBase) Wrapper(base, wBase) {} // solhint-disable-line no-empty-blocks
 
