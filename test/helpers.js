@@ -70,6 +70,10 @@ const tokens = {
         OP: '0x4200000000000000000000000000000000000042',
         DAI: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1',
     },
+    matic: {
+        WETH: '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270',
+        USDC: '0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359',
+    },
 };
 
 const contracts = {
@@ -107,6 +111,11 @@ const deployParams = {
     },
     UniswapV3Base: { // base network
         factory: '0x33128a8fC17869897dcE68Ed026d694621f6FDfD',
+        initcodeHash: '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54',
+        fees: [100, 500, 3000, 10000],
+    },
+    UniswapV3Polygon: { // polygon network
+        factory: '0x1F98431c8aD98523631AE4a59f267346ea31F984',
         initcodeHash: '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54',
         fees: [100, 500, 3000, 10000],
     },
@@ -175,6 +184,10 @@ const deployParams = {
     Aerodrome: { // base network
         factory: '0x420DD381b31aEf6683db6B902084cB0FFECe40Da',
         initcodeHash: '0x6f178972b07752b522a4da1c5b71af6524e8b0bd6027ccb29e5312b0e5bcdc3c',
+    },
+    QuickSwapV3: { // polygon network
+        factory: '0x2D98E2FA9da15aa6dC9581AB097Ced7af697CB92', // poolDeployer
+        initcodeHash: '0x6ec6c9c8091d160c0aa74b2b14ba9c1717e95093bd3ac085cee99a49aab294a4',
     },
 };
 
