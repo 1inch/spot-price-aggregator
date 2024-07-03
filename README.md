@@ -361,7 +361,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Fantom
 
-#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://ftmscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://ftmscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -395,6 +395,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Mar-21-2022 - [0xE8E598A1041b6fDB13999D275a202847D9b654ca](https://ftmscan.com/address/0xE8E598A1041b6fDB13999D275a202847D9b654ca)
    * Apr-04-2023 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://ftmscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://ftmscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+   * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://ftmscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 </details>
 
