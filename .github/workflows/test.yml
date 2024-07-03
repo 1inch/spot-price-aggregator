@@ -23,6 +23,7 @@ jobs:
           MAINNET_RPC_URL: ${{ secrets.MAINNET_RPC_URL }}
           OPTIMISTIC_RPC_URL: ${{ secrets.OPTIMISTIC_RPC_URL }}
           BASE_RPC_URL: ${{ secrets.BASE_RPC_URL }}
+          MATIC_RPC_URL: ${{ secrets.MATIC_RPC_URL }}
 
   coverage:
     runs-on: ubuntu-latest
@@ -34,6 +35,7 @@ jobs:
           MAINNET_RPC_URL: ${{ secrets.MAINNET_RPC_URL }}
           OPTIMISTIC_RPC_URL: ${{ secrets.OPTIMISTIC_RPC_URL }}
           BASE_RPC_URL: ${{ secrets.BASE_RPC_URL }}
+          MATIC_RPC_URL: ${{ secrets.MATIC_RPC_URL }}
       - uses: codecov/codecov-action@v3
 
   single-price-example:
