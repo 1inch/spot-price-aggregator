@@ -401,7 +401,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Aurora
 
-#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://aurorascan.dev/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://aurorascan.dev/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -437,6 +437,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * May-26-2022 - [0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795](https://aurorascan.dev/address/0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795)
    * Mar-31-2023 - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://aurorascan.dev/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://aurorascan.dev/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+   * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://aurorascan.dev/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 </details>
 
