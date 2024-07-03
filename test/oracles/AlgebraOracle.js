@@ -29,6 +29,29 @@ describe('AlgebraOracle', function () {
             await testRate(tokens.matic.USDC, tokens.matic.WETH, tokens.NONE, algebraOracle, uniswapV3Oracle);
         });
 
-        // TODO: add more tests
+        it('WETH -> USDC', async function () {
+            const { algebraOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.matic.WETH, tokens.matic.USDC, tokens.NONE, algebraOracle, uniswapV3Oracle);
+        });
+
+        it('WETH -> WMATIC', async function () {
+            const { algebraOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.matic.WETH, tokens.matic.WMATIC, tokens.NONE, algebraOracle, uniswapV3Oracle);
+        });
+
+        it('WMATIC -> WETH', async function () {
+            const { algebraOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.matic.WMATIC, tokens.matic.WETH, tokens.NONE, algebraOracle, uniswapV3Oracle);
+        });
+
+        it('WMATIC -> USDC -> WETH', async function () {
+            const { algebraOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.matic.WMATIC, tokens.matic.WETH, tokens.matic.USDC, algebraOracle, uniswapV3Oracle);
+        });
+
+        it('WETH -> USDC -> WMATIC', async function () {
+            const { algebraOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.matic.WETH, tokens.matic.WMATIC, tokens.matic.USDC, algebraOracle, uniswapV3Oracle);
+        });
     });
 });

@@ -72,7 +72,7 @@ contract UniswapV3LikeOracle is IOracle {
         if (liquidity == 0) {
             return (0, 0);
         }
-        (uint256 sqrtPriceX96, int24 tick) = IUniswapV3Pool(pool).slot0();
+        (uint256 sqrtPriceX96, int24 tick) = _currentState(pool);
         int24 tickSpacing = IUniswapV3Pool(pool).tickSpacing();
         tick = tick / tickSpacing * tickSpacing;
         int256 liquidityShiftsLeft = int256(liquidity);
@@ -111,5 +111,9 @@ contract UniswapV3LikeOracle is IOracle {
                     )
                 )
             )));
+    }
+
+    function _currentState(address pool) internal view virtual returns (uint256 sqrtPriceX96, int24 tick) {
+        (sqrtPriceX96, tick) = IUniswapV3Pool(pool).slot0();
     }
 }

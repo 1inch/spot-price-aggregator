@@ -2,6 +2,7 @@
 
 pragma solidity 0.8.23;
 
+import "../interfaces/IAlgebraPool.sol";
 import "./UniswapV3LikeOracle.sol";
 
 contract AlgebraOracle is UniswapV3LikeOracle {
@@ -19,5 +20,9 @@ contract AlgebraOracle is UniswapV3LikeOracle {
                     )
                 )
             )));
+    }
+
+    function _currentState(address pool) internal view override returns (uint256 sqrtPriceX96, int24 tick) {
+        (sqrtPriceX96, tick) = IAlgebraPool(pool).globalState();
     }
 }
