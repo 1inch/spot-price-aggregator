@@ -137,7 +137,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Polygon (Matic)
 
-#### Oracle [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://polygonscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://polygonscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -179,6 +179,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * May-28-2021 - [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](https://polygonscan.com/address/0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9)
    * Apr-05-2023 - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://polygonscan.com/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://polygonscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+   * Sep-01-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://polygonscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
 
 </details>
 
