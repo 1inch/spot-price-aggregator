@@ -1,8 +1,6 @@
 require('@matterlabs/hardhat-zksync-deploy');
 require('@matterlabs/hardhat-zksync-solc');
-require('@matterlabs/hardhat-zksync-verify');
 require('@nomicfoundation/hardhat-ethers');
-require('@nomicfoundation/hardhat-verify');
 require('@nomicfoundation/hardhat-chai-matchers');
 require('hardhat-deploy');
 require('hardhat-dependency-compiler');
@@ -11,6 +9,12 @@ require('hardhat-tracer');
 require('solidity-coverage');
 
 const { Networks, getNetwork } = require('@1inch/solidity-utils/hardhat-setup');
+
+if (getNetwork().indexOf('zksync') !== -1) {
+    require('@matterlabs/hardhat-zksync-verify');
+} else {
+    require('@nomicfoundation/hardhat-verify');
+}
 
 const { networks, etherscan } = (new Networks(true, 'mainnet', true)).registerAll();
 
@@ -49,7 +53,7 @@ module.exports = {
         ],
     },
     zksolc: {
-        version: '1.3.17',
+        version: '1.5.1',
         compilerSource: 'binary',
         settings: {},
     },
