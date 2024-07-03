@@ -140,6 +140,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported DEXes</summary>
 
    * QuickSwap - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://polygonscan.com/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790)
+   * QuickSwapV3 - [0x07B040d681AB25713eC722789e00520d3692CA39](https://polygonscan.com/address/0x07B040d681AB25713eC722789e00520d3692CA39)
    * ComethSwap - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://polygonscan.com/address/0x11BFd590f592457b65Eb85327F5938141f61878a)
    * DFYN - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://polygonscan.com/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://polygonscan.com/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
