@@ -1,14 +1,15 @@
 const hre = require('hardhat');
 const { getChainId, ethers } = hre;
 const { getContract } = require('../../utils.js');
-const { deployContract } = require('./simple-deploy.js');
+const { deployAndGetContractWithCreate3 } = require('@1inch/solidity-utils');
+const { contracts } = require('../../../test/helpers.js');
 
 const SALT_INDEX = '';
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const PARAMS = {
         contractName: 'YOUR_CONTRACT_NAME',
-        args: [],
+        constructorArgs: [],
         deploymentName: 'YOUR_DEPLOYMENT_NAME',
         oracleType: '0',
     };
@@ -17,10 +18,18 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running deploy script: use-create3/deploy-oracle-and-add');
     console.log('network id ', await getChainId());
 
-    const customOracleAddress = await deployContract(PARAMS, SALT_PROD, deployments);
+    const { deployer: txSigner } = await getNamedAccounts();
+
+    const customOracle = await deployAndGetContractWithCreate3({
+        ...PARAMS,
+        create3Deployer: contracts.create3Deployer,
+        SALT_PROD,
+        deployments,
+        txSigner,
+    });
 
     const offchainOracle = await getContract(deployments, 'OffchainOracle');
-    await offchainOracle.addOracle(customOracleAddress, PARAMS.oracleType);
+    await offchainOracle.addOracle(customOracle, PARAMS.oracleType);
 };
 
 module.exports.skip = async () => true;

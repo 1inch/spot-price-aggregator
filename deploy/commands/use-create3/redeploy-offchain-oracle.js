@@ -1,7 +1,8 @@
 const hre = require('hardhat');
 const { getChainId, ethers } = hre;
 const { getContract } = require('../../utils.js');
-const { deployContract } = require('./simple-deploy.js');
+const { deployAndGetContractWithCreate3 } = require('@1inch/solidity-utils');
+const { contracts } = require('../../../test/helpers.js');
 
 const SALT_INDEX = '';
 
@@ -19,7 +20,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const PARAMS = {
         contractName: 'OffchainOracle',
-        args: [
+        constructorArgs: [
             await oldOffchainOracle.multiWrapper(),
             [...oracles.allOracles],
             [...oracles.oracleTypes],
@@ -30,7 +31,12 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         deploymentName: 'OffchainOracle',
     };
 
-    await deployContract(PARAMS, SALT_PROD, deployments);
+    await deployAndGetContractWithCreate3({
+        ...PARAMS,
+        create3Deployer: contracts.create3Deployer,
+        SALT_PROD,
+        deployments,
+    });
 };
 
 module.exports.skip = async () => true;

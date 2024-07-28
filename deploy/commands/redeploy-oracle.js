@@ -5,7 +5,7 @@ const { getContract } = require('../utils.js');
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const PARAMS = {
         contractName: 'YOUR_CONTRACT_NAME',
-        args: [],
+        constructorArgs: [],
         deploymentName: 'YOUR_DEPLOYMENT_NAME',
     };
 
@@ -21,11 +21,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     const customOracleType = oracles.oracleTypes[oracles.allOracles.indexOf(await oldCustomOracle.getAddress())];
 
     const customOracle = await deployAndGetContract({
-        contractName: PARAMS.contractName,
-        constructorArgs: PARAMS.args,
+        ...PARAMS,
         deployments,
         deployer,
-        deploymentName: PARAMS.deploymentName,
         skipIfAlreadyDeployed: false,
     });
     await offchainOracle.removeOracle(oldCustomOracle, customOracleType);

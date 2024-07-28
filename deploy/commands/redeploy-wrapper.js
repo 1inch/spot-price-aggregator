@@ -5,7 +5,7 @@ const { getContract } = require('../utils.js');
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const PARAMS = {
         contractName: 'YOUR_CONTRACT_NAME',
-        args: [],
+        constructorArgs: [],
         deploymentName: 'YOUR_DEPLOYMENT_NAME',
     };
 
@@ -23,11 +23,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const oldCustomWrapper = await getContract(deployments, PARAMS.contractName, PARAMS.deploymentName);
     const customWrapper = await deployAndGetContract({
-        contractName: PARAMS.contractName,
-        constructorArgs: PARAMS.args,
+        ...PARAMS,
         deployments,
         deployer,
-        deploymentName: PARAMS.deploymentName,
         skipIfAlreadyDeployed: false,
     });
     await multiWrapper.removeWrapper(oldCustomWrapper);
