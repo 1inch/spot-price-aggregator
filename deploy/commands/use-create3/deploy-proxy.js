@@ -11,7 +11,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const SALT_PROD = ethers.keccak256(ethers.toUtf8Bytes('OffchainOracle' + SALT_INDEX));
 
-    console.log('running deploy script: deploy-proxy');
+    console.log('running deploy script: use-create3/deploy-proxy');
     console.log('network id ', await getChainId());
 
     const { deployer: txSigner } = await getNamedAccounts();
