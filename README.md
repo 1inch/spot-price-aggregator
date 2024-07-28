@@ -488,7 +488,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### zkSync
 
-#### Oracle [0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033](https://explorer.zksync.io/address/0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033)
+#### Oracle [0x816932F65b2ab40f974D687290E79543f11C02d5](https://explorer.zksync.io/address/0x816932F65b2ab40f974D687290E79543f11C02d5)
 
 <details><summary>Supported DEXes</summary>
 
@@ -518,6 +518,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Jun-05-2023 - [0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd](https://explorer.zksync.io/address/0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd)
    * Jul-12-2023 - [0xC762d56614D3411eC6fABD56cb075D904b801613](https://explorer.zksync.io/address/0xC762d56614D3411eC6fABD56cb075D904b801613)
    * Sep-02-2023 - [0xc9bB6e4FF7dEEa48e045CEd9C0ce016c7CFbD500](https://explorer.zksync.io/address/0xc9bB6e4FF7dEEa48e045CEd9C0ce016c7CFbD500)
+   * Jul-03-2024 - [0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033](https://explorer.zksync.io/address/0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033) - <i><b>current implementation</b></i>
 
 </details>
 
