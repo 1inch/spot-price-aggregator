@@ -451,7 +451,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Klaytn
 
-#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://scope.klaytn.com/account/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://scope.klaytn.com/account/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
 
 <details><summary>Supported DEXes</summary>
 
@@ -481,6 +481,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Apr-06-2023 - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://scope.klaytn.com/account/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://scope.klaytn.com/account/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://scope.klaytn.com/account/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+   * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://scope.klaytn.com/account/0xf224a25453D76A41c4427DD1C05369BC9f498444) - <i><b>current implementation</b></i>
 
 </details>
 
