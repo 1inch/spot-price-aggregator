@@ -29,23 +29,16 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     });
     await sleep(5000);
 
-    if (!constants.DEV_CHAINS.includes(hre.network.name)) {
-        if (!hre.network.zksync) {
-            const proxyAdminBytes32 = await ethers.provider.send('eth_getStorageAt', [
-                proxyAddress,
-                ADMIN_SLOT,
-                'latest',
-            ]);
-
-            await hre.run('verify:verify', {
-                address: '0x' + proxyAdminBytes32.substring(26, 66),
-                constructorArguments: [deployer],
-            });
-        }
+    if (!constants.DEV_CHAINS.includes(hre.network.name) && !hre.network.zksync) {
+        const proxyAdminBytes32 = await ethers.provider.send('eth_getStorageAt', [
+            proxyAddress,
+            ADMIN_SLOT,
+            'latest',
+        ]);
 
         await hre.run('verify:verify', {
-            address: proxyAddress,
-            constructorArguments: [implAddress, deployer, '0x'],
+            address: '0x' + proxyAdminBytes32.substring(26, 66),
+            constructorArguments: [deployer],
         });
     }
 };
