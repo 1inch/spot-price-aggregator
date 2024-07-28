@@ -34,7 +34,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     await deployAndGetContractWithCreate3({
         ...PARAMS,
         create3Deployer: contracts.create3Deployer,
-        SALT_PROD,
+        salt: SALT_PROD,
         deployments,
     });
 };

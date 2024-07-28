@@ -14,7 +14,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running deploy script: use-create3/deploy-proxy');
     console.log('network id ', await getChainId());
 
-    const { deployer: txSigner } = await getNamedAccounts();
+    const { deployer } = await getNamedAccounts();
 
     const create3Deployer = await ethers.getContractAt('ICreate3Deployer', contracts.create3Deployer);
     const implAddress = (await deployments.get('OffchainOracle')).address;
@@ -22,11 +22,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     await deployAndGetContractWithCreate3({
         contractName: 'TransparentUpgradeableProxy',
-        constructorArgs: [implAddress, txSigner, '0x'],
+        constructorArgs: [implAddress, deployer, '0x'],
         create3Deployer: contracts.create3Deployer,
-        SALT_PROD,
+        salt: SALT_PROD,
         deployments,
-        txSigner,
     });
     await sleep(5000);
 
@@ -40,13 +39,13 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
             await hre.run('verify:verify', {
                 address: '0x' + proxyAdminBytes32.substring(26, 66),
-                constructorArguments: [txSigner],
+                constructorArguments: [deployer],
             });
         }
 
         await hre.run('verify:verify', {
             address: proxyAddress,
-            constructorArguments: [implAddress, txSigner, '0x'],
+            constructorArguments: [implAddress, deployer, '0x'],
         });
     }
 };

@@ -6,7 +6,7 @@ const { contracts } = require('../../../test/helpers.js');
 
 const SALT_INDEX = '';
 
-module.exports = async ({ getNamedAccounts, deployments }) => {
+module.exports = async ({ deployments }) => {
     const PARAMS = {
         contractName: 'YOUR_CONTRACT_NAME',
         constructorArgs: [],
@@ -18,14 +18,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log('running deploy script: use-create3/deploy-oracle-and-add');
     console.log('network id ', await getChainId());
 
-    const { deployer: txSigner } = await getNamedAccounts();
-
     const customOracle = await deployAndGetContractWithCreate3({
         ...PARAMS,
         create3Deployer: contracts.create3Deployer,
-        SALT_PROD,
+        salt: SALT_PROD,
         deployments,
-        txSigner,
     });
 
     const offchainOracle = await getContract(deployments, 'OffchainOracle');
