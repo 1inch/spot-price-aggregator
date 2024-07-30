@@ -10,12 +10,14 @@ This directory houses a suite of scripts designed for the deployment and adminis
 │   ├── redeploy-offchain-oracle
 │   ├── redeploy-oracle
 │   ├── redeploy-wrapper
+│   ├── deploy-proxy
 │   └── simple-deploy
 ├── deploy-oracle-and-add
 ├── deploy-wrapper-and-add
 ├── redeploy-offchain-oracle
 ├── redeploy-oracle
 ├── redeploy-wrapper
+├── deploy-proxy
 └── simple-deploy
 ```
 
@@ -39,7 +41,10 @@ This directory houses a suite of scripts designed for the deployment and adminis
 **6. `redeploy-wrapper`**
 - Facilitates the redeployment or updating of an existing Wrapper. It is exchange existing Wrapper in MultiWrapper to current implementation in repository.
 
-**7. `use-create3/...`**
+**7. `deploy-proxy`**
+- This script helps deploy a proxy contract for the OffchainOracle, allowing future upgrades of the contract while retaining the same address by only changing the implementation.
+
+**8. `use-create3/...`**
 - These scripts are tailored for deployment in the same manner as those outside `use-create3` directory, but they exclusively utilize the CREATE3 method for deployment.
 
 ## Usage

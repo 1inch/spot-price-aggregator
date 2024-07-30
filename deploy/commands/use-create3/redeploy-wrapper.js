@@ -1,14 +1,15 @@
 const hre = require('hardhat');
 const { getChainId, ethers } = hre;
 const { getContract } = require('../../utils.js');
-const { deployContract } = require('./simple-deploy.js');
+const { deployAndGetContractWithCreate3 } = require('@1inch/solidity-utils');
+const { contracts } = require('../../../test/helpers.js');
 
 const SALT_INDEX = '';
 
-module.exports = async ({ getNamedAccounts, deployments }) => {
+module.exports = async ({ deployments }) => {
     const PARAMS = {
         contractName: 'YOUR_CONTRACT_NAME',
-        args: [],
+        constructorArgs: [],
         deploymentName: 'YOUR_DEPLOYMENT_NAME',
     };
     const SALT_PROD = ethers.keccak256(ethers.toUtf8Bytes(PARAMS.contractName + SALT_INDEX));
@@ -24,10 +25,15 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     }
 
     const oldCustomWrapper = await getContract(deployments, PARAMS.contractName, PARAMS.deploymentName);
-    const customWrapperAddress = await deployContract(PARAMS, SALT_PROD, deployments);
+    const customWrapper = await deployAndGetContractWithCreate3({
+        ...PARAMS,
+        create3Deployer: contracts.create3Deployer,
+        salt: SALT_PROD,
+        deployments,
+    });
 
     await multiWrapper.removeWrapper(oldCustomWrapper);
-    await multiWrapper.addWrapper(customWrapperAddress);
+    await multiWrapper.addWrapper(customWrapper);
 };
 
 module.exports.skip = async () => true;

@@ -22,7 +22,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Ethereum Mainnet
 
-#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://etherscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://etherscan.io/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
 
 <details><summary>Supported DEXes</summary>
 
@@ -80,12 +80,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Apr-07-2023 - [0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56](https://etherscan.io/address/0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://etherscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-01-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://etherscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+   * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://etherscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444) - <i><b>current implementation</b></i>
 
 </details>
 
 ### Binance Smart Chain (BSC, BNB)
 
-#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://bscscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://bscscan.com/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
 
 <details><summary>Supported DEXes</summary>
 
@@ -132,12 +133,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Apr-06-2023 - [0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001](https://bscscan.com/address/0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://bscscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://bscscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+   * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://bscscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444) - <i><b>current implementation</b></i>
 
 </details>
 
 ### Polygon (Matic)
 
-#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://polygonscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://polygonscan.com/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
 
 <details><summary>Supported DEXes</summary>
 
@@ -180,12 +182,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Apr-05-2023 - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://polygonscan.com/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://polygonscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-01-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://polygonscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+   * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://polygonscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444) - <i><b>current implementation</b></i>
 
 </details>
 
 ### Optimism (Optimistic)
 
-#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://optimistic.etherscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://optimistic.etherscan.io/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
 
 <details><summary>Supported DEXes</summary>
 
@@ -226,12 +229,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Apr-06-2023 - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://optimistic.etherscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://optimistic.etherscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-01-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://optimistic.etherscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+   * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://optimistic.etherscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444) - <i><b>current implementation</b></i>
 
 </details>
 
 ### Arbitrum
 
-#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://arbiscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://arbiscan.io/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
 
 <details><summary>Supported DEXes</summary>
 
@@ -267,12 +271,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Apr-03-2023 - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://arbiscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://arbiscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-01-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://arbiscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+   * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://arbiscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444) - <i><b>current implementation</b></i>
 
 </details>
 
 ### Avalanche (Avax)
 
-#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://snowtrace.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://snowtrace.io/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
 
 <details><summary>Supported DEXes</summary>
 
@@ -313,12 +318,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Apr-03-2023 - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://snowtrace.io/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://snowtrace.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-01-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://snowtrace.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+   * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://snowtrace.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444) - <i><b>current implementation</b></i>
 
 </details>
 
 ### Gnosis (xDai)
 
-#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://gnosisscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://gnosisscan.io/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
 
 <details><summary>Supported DEXes</summary>
 
@@ -356,12 +362,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Apr-06-2023 - [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://gnosisscan.io/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://gnosisscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://gnosisscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+   * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://gnosisscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444) - <i><b>current implementation</b></i>
 
 </details>
 
 ### Fantom
 
-#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://ftmscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://ftmscan.com/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
 
 <details><summary>Supported DEXes</summary>
 
@@ -396,12 +403,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Apr-04-2023 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://ftmscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://ftmscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://ftmscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+   * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://ftmscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444) - <i><b>current implementation</b></i>
 
 </details>
 
 ### Aurora
 
-#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://aurorascan.dev/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://aurorascan.dev/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
 
 <details><summary>Supported DEXes</summary>
 
@@ -438,12 +446,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Mar-31-2023 - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://aurorascan.dev/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://aurorascan.dev/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://aurorascan.dev/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+   * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://aurorascan.dev/address/0xf224a25453D76A41c4427DD1C05369BC9f498444) - <i><b>current implementation</b></i>
 
 </details>
 
 ### Klaytn
 
-#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://scope.klaytn.com/account/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://scope.klaytn.com/account/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
 
 <details><summary>Supported DEXes</summary>
 
@@ -473,12 +482,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Apr-06-2023 - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://scope.klaytn.com/account/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://scope.klaytn.com/account/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://scope.klaytn.com/account/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+   * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://scope.klaytn.com/account/0xf224a25453D76A41c4427DD1C05369BC9f498444) - <i><b>current implementation</b></i>
 
 </details>
 
 ### zkSync
 
-#### Oracle [0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033](https://explorer.zksync.io/address/0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033)
+#### Oracle [0x816932F65b2ab40f974D687290E79543f11C02d5](https://explorer.zksync.io/address/0x816932F65b2ab40f974D687290E79543f11C02d5)
 
 <details><summary>Supported DEXes</summary>
 
@@ -508,12 +518,13 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Jun-05-2023 - [0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd](https://explorer.zksync.io/address/0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd)
    * Jul-12-2023 - [0xC762d56614D3411eC6fABD56cb075D904b801613](https://explorer.zksync.io/address/0xC762d56614D3411eC6fABD56cb075D904b801613)
    * Sep-02-2023 - [0xc9bB6e4FF7dEEa48e045CEd9C0ce016c7CFbD500](https://explorer.zksync.io/address/0xc9bB6e4FF7dEEa48e045CEd9C0ce016c7CFbD500)
+   * Jul-03-2024 - [0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033](https://explorer.zksync.io/address/0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033) - <i><b>current implementation</b></i>
 
 </details>
 
 ### Base
 
-#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://basescan.org/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://basescan.org/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
 
 <details><summary>Supported DEXes</summary>
 
@@ -552,6 +563,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Aug-09-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://basescan.org/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://basescan.org/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+   * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://basescan.org/address/0xf224a25453D76A41c4427DD1C05369BC9f498444) - <i><b>current implementation</b></i>
 
 </details>
 

@@ -50,6 +50,7 @@ module.exports = {
         paths: [
             '@1inch/solidity-utils/contracts/interfaces/ICreate3Deployer.sol',
             '@1inch/solidity-utils/contracts/interfaces/IWETH.sol',
+            '@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol',
         ],
     },
     zksolc: {

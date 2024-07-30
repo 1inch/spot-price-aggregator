@@ -5,7 +5,7 @@ const { getContract } = require('../utils.js');
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const PARAMS = {
         contractName: 'YOUR_CONTRACT_NAME',
-        args: [],
+        constructorArgs: [],
         deploymentName: 'YOUR_DEPLOYMENT_NAME',
         oracleType: '0',
     };
@@ -17,11 +17,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
     const offchainOracle = await getContract(deployments, 'OffchainOracle');
     const customOracle = await deployAndGetContract({
-        contractName: PARAMS.contractName,
-        constructorArgs: PARAMS.args,
+        ...PARAMS,
         deployments,
         deployer,
-        deploymentName: PARAMS.deploymentName,
     });
     await offchainOracle.addOracle(customOracle, PARAMS.oracleType);
 };
