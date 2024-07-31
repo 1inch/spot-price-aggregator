@@ -12,7 +12,7 @@ const {
 
 describe('CurveOracle', function () {
     async function initContracts () {
-        const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, Curve.registryIds, Curve.registryTypes, [], constants.EEE_ADDRESS]);
+        const curveOracle = await deployContract('CurveOracle', ['0xF98B45FA17DE75FB1aD0e7aFD971b0ca00e379fC']);
         const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
         return { curveOracle, uniswapV3Oracle };
     }
@@ -30,6 +30,11 @@ describe('CurveOracle', function () {
     it('WBTC -> WETH', async function () {
         const { curveOracle, uniswapV3Oracle } = await loadFixture(initContracts);
         await testRate(tokens.WBTC, tokens.WETH, tokens.NONE, curveOracle, uniswapV3Oracle);
+    });
+
+    it('USDT -> USDC', async function () {
+        const { curveOracle, uniswapV3Oracle } = await loadFixture(initContracts);
+        await testRate(tokens.USDT, tokens.USDC, tokens.NONE, curveOracle, uniswapV3Oracle);
     });
 
     it('should use correct `get_dy` selector when vyper return redundant bytes', async function () {
