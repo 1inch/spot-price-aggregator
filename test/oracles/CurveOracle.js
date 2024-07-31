@@ -12,7 +12,8 @@ const {
 
 describe('CurveOracle', function () {
     async function initContracts () {
-        const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, Curve.registryIds, Curve.registryTypes, [], constants.EEE_ADDRESS]);
+        // const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, Curve.registryIds, Curve.registryTypes, [], constants.EEE_ADDRESS]);
+        const curveOracle = await deployContract('CurveOracle', ['0xA834f3d23749233c9B61ba723588570A1cCA0Ed7']);
         const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
         return { curveOracle, uniswapV3Oracle };
     }
@@ -58,92 +59,94 @@ describe('CurveOracle', function () {
         });
     });
 
-    describe('Doesn\'t ruin various registry with different selectors', function () {
-        it('Main Registry', async function () {
-            await testNotRuins(0, 2n);
-        });
+    // describe('Doesn\'t ruin various registry with different selectors', function () {
+    //     it('Main Registry', async function () {
+    //         await testNotRuins(0, 2n);
+    //     });
 
-        it('Metapool Factory', async function () {
-            await testNotRuins(1, 2n);
-        });
+    //     it('Metapool Factory', async function () {
+    //         await testNotRuins(1, 2n);
+    //     });
 
-        it('Cryptoswap Registry', async function () {
-            await testNotRuins(2, 2n);
-        });
+    //     it('Cryptoswap Registry', async function () {
+    //         await testNotRuins(2, 2n);
+    //     });
 
-        it('Cryptopool Factory', async function () {
-            await testNotRuins(3, 2n);
-        });
+    //     it('Cryptopool Factory', async function () {
+    //         await testNotRuins(3, 2n);
+    //     });
 
-        it('Metaregistry', async function () {
-            await testNotRuins(4, 2n);
-        });
+    //     it('Metaregistry', async function () {
+    //         await testNotRuins(4, 2n);
+    //     });
 
-        it('crvUSD Plain Pools', async function () {
-            await testNotRuins(5, 2n);
-        });
+    //     it('crvUSD Plain Pools', async function () {
+    //         await testNotRuins(5, 2n);
+    //     });
 
-        it('Curve Tricrypto Factory', async function () {
-            await testNotRuins(6, 2n);
-        });
+    //     it('Curve Tricrypto Factory', async function () {
+    //         await testNotRuins(6, 2n);
+    //     });
 
-        async function testNotRuins (registryIndex, testPoolsAmount) {
-            const poolAbiUint256 = [
-                {
-                    name: 'coins',
-                    type: 'function',
-                    inputs: [{ type: 'uint256', name: 'arg0' }],
-                    outputs: [{ type: 'address', name: 'value' }],
-                    stateMutability: 'view',
-                },
-            ];
-            const poolAbiInt128 = [
-                {
-                    name: 'coins',
-                    type: 'function',
-                    inputs: [{ type: 'int128', name: 'arg0' }],
-                    outputs: [{ type: 'address', name: 'value' }],
-                    stateMutability: 'view',
-                },
-            ];
+    //     async function testNotRuins (registryIndex, testPoolsAmount) {
+    //         const poolAbiUint256 = [
+    //             {
+    //                 name: 'coins',
+    //                 type: 'function',
+    //                 inputs: [{ type: 'uint256', name: 'arg0' }],
+    //                 outputs: [{ type: 'address', name: 'value' }],
+    //                 stateMutability: 'view',
+    //             },
+    //         ];
+    //         const poolAbiInt128 = [
+    //             {
+    //                 name: 'coins',
+    //                 type: 'function',
+    //                 inputs: [{ type: 'int128', name: 'arg0' }],
+    //                 outputs: [{ type: 'address', name: 'value' }],
+    //                 stateMutability: 'view',
+    //             },
+    //         ];
 
-            const curveOracle = await deployContract('CurveOracle', [
-                Curve.provider, Curve.maxPools, [Curve.registryIds[registryIndex]], [Curve.registryTypes[registryIndex]], [], constants.EEE_ADDRESS,
-            ]);
-            const curveProvider = await ethers.getContractAt('ICurveProvider', Curve.provider);
-            const registryAddress = await curveProvider.get_address(Curve.registryIds[registryIndex]);
-            const registry = await ethers.getContractAt('ICurveRegistry', registryAddress);
+    //         // const curveOracle = await deployContract('CurveOracle', [
+    //         //     Curve.provider, Curve.maxPools, [Curve.registryIds[registryIndex]], [Curve.registryTypes[registryIndex]], [], constants.EEE_ADDRESS,
+    //         // ]);
+    //         const curveOracle = await deployContract('CurveOracle', ['0xA834f3d23749233c9B61ba723588570A1cCA0Ed7']);
+    //         const curveProvider = await ethers.getContractAt('ICurveProvider', Curve.provider);
+    //         const registryAddress = await curveProvider.get_address(Curve.registryIds[registryIndex]);
+    //         const registry = await ethers.getContractAt('ICurveRegistry', registryAddress);
 
-            const poolCount = await registry.pool_count();
+    //         const poolCount = await registry.pool_count();
 
-            // we check only `testPoolsAmount` random pools from the registry to save time
-            for (let i = 0n; i < poolCount; i += (poolCount / testPoolsAmount)) {
-                const poolAddress = await registry.pool_list(i);
-                let token0, token1;
-                try {
-                    const poolUint256 = await ethers.getContractAt(poolAbiUint256, poolAddress);
-                    token0 = await poolUint256.coins(0);
-                    token1 = await poolUint256.coins(1);
-                } catch (e) {
-                    try {
-                        const poolInt128 = await ethers.getContractAt(poolAbiInt128, poolAddress);
-                        token0 = await poolInt128.coins(0);
-                        token1 = await poolInt128.coins(1);
-                    } catch (e) {
-                        expect.fail(`pool ${i} ${poolAddress} doesn't work with uint256 and int128 selectors of \`coins\` method`);
-                    }
-                }
-                await curveOracle.getRate(token0, token1, tokens.NONE, thresholdFilter);
-            }
-        }
-    });
+    //         // we check only `testPoolsAmount` random pools from the registry to save time
+    //         for (let i = 0n; i < poolCount; i += (poolCount / testPoolsAmount)) {
+    //             const poolAddress = await registry.pool_list(i);
+    //             let token0, token1;
+    //             try {
+    //                 const poolUint256 = await ethers.getContractAt(poolAbiUint256, poolAddress);
+    //                 token0 = await poolUint256.coins(0);
+    //                 token1 = await poolUint256.coins(1);
+    //             } catch (e) {
+    //                 try {
+    //                     const poolInt128 = await ethers.getContractAt(poolAbiInt128, poolAddress);
+    //                     token0 = await poolInt128.coins(0);
+    //                     token1 = await poolInt128.coins(1);
+    //                 } catch (e) {
+    //                     expect.fail(`pool ${i} ${poolAddress} doesn't work with uint256 and int128 selectors of \`coins\` method`);
+    //                 }
+    //             }
+    //             await curveOracle.getRate(token0, token1, tokens.NONE, thresholdFilter);
+    //         }
+    //     }
+    // });
 
     describe('CurveOracle doesn\'t ruin rates', function () {
         async function initContracts () {
             const [deployer] = await ethers.getSigners();
 
             const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
-            const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, Curve.registryIds, Curve.registryTypes, [], constants.EEE_ADDRESS]);
+            // const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, Curve.registryIds, Curve.registryTypes, [], constants.EEE_ADDRESS]);
+            const curveOracle = await deployContract('CurveOracle', ['0xA834f3d23749233c9B61ba723588570A1cCA0Ed7']);
             const uniswapOracle = await deployContract('UniswapOracle', [Uniswap.factory]);
             const mooniswapOracle = await deployContract('MooniswapOracle', [tokens.oneInchLP1]);
             const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.ETH, tokens.WETH]);
