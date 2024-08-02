@@ -6,33 +6,9 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/ICurveProvider.sol";
-import "../interfaces/ICurveRegistry.sol";
-import "../interfaces/ICurveSwap.sol";
+import "../interfaces/ICurveMetaregistry.sol";
+import "../interfaces/ICurvePool.sol";
 import "../libraries/OraclePrices.sol";
-import "../helpers/Blacklist.sol";
-
-interface IMetaregistry {
-    function find_pools_for_coins(address srcToken, address dstToken) external view returns (address[] memory);
-    function get_coin_indices(address _pool, address _from, address _to) external view returns (int128, int128, bool);
-    function get_underlying_balances(address _pool) external view returns (uint256[8] memory);
-}
-
-interface ICurvePool {
-    function allowed_extra_profit() external view returns (uint256);
-    function get_rate_mul() external view returns (uint256);
-}
-
-interface IStableSwapMeta {
-    function get_dy_underlying(int128,int128,uint256) external view returns (uint256);
-}
-
-interface IStableSwap {
-    function get_dy(int128,int128,uint256) external view returns (uint256);
-}
-
-interface ICryptoSwap {
-    function get_dy(uint256,uint256,uint256) external view returns (uint256);
-}
 
 contract CurveOracle is IOracle {
     using OraclePrices for OraclePrices.Data;
@@ -40,11 +16,14 @@ contract CurveOracle is IOracle {
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
     IERC20 private constant _ETH = IERC20(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
+    uint256 private constant _METAREGISTRY_ID = 7;
 
-    IMetaregistry public immutable CURVE_METAREGISTRY;
+    ICurveMetaregistry public immutable CURVE_METAREGISTRY;
+    uint256 public immutable MAX_POOLS;
 
-    constructor(IMetaregistry curveMetaregistry) {
-        CURVE_METAREGISTRY = curveMetaregistry;
+    constructor(ICurveProvider curveProvider, uint256 maxPools) {
+        CURVE_METAREGISTRY = ICurveMetaregistry(curveProvider.get_address(_METAREGISTRY_ID));
+        MAX_POOLS = maxPools;
     }
 
     function _getPoolType(address pool) private view returns (uint8) {
@@ -73,8 +52,15 @@ contract CurveOracle is IOracle {
             return (0, 0);
         }
 
+        uint256 amountIn;
+        if (srcToken == _ETH) {
+            amountIn = 10**18;
+        } else {
+            amountIn = 10**IERC20Metadata(address(srcToken)).decimals();
+        }
+
         OraclePrices.Data memory ratesAndWeights = OraclePrices.init(pools.length);
-        for (uint256 k = 0; k < pools.length; k++) {
+        for (uint256 k = 0; k < pools.length && ratesAndWeights.size < MAX_POOLS; k++) {
             // get coin indices
             int128 i;
             int128 j;
@@ -84,9 +70,7 @@ contract CurveOracle is IOracle {
             // get balances
             uint256[8] memory balances = CURVE_METAREGISTRY.get_underlying_balances(pools[k]);
             // skip if pool is too small
-            balances[uint128(i)] = balances[uint128(i)] / 1e4;
-            balances[uint128(j)] = balances[uint128(j)] / 1e4;
-            if (balances[uint128(i)] == 0 || balances[uint128(j)] == 0) {
+            if (balances[uint128(i)] <= amountIn || balances[uint128(j)] == 0) {
                 continue;
             }
 
@@ -100,11 +84,11 @@ contract CurveOracle is IOracle {
             } else {
                 selector = ICryptoSwap.get_dy.selector;
             }
-            (bool success, bytes memory data) = pools[k].staticcall(abi.encodeWithSelector(selector, uint128(i), uint128(j), balances[uint128(i)]));
+            (bool success, bytes memory data) = pools[k].staticcall(abi.encodeWithSelector(selector, uint128(i), uint128(j), amountIn));
             if (success && data.length >= 32) { // vyper could return redundant bytes
                 uint256 amountOut = abi.decode(data, (uint256));
                 if (amountOut > 0) {
-                    rate = amountOut * 1e18 / balances[uint128(i)];
+                    rate = amountOut * 1e18 / amountIn;
                     weight = (balances[uint128(i)] * balances[uint128(j)]).sqrt();
                     ratesAndWeights.append(OraclePrices.OraclePrice(rate, weight));
                 }

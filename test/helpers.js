@@ -82,19 +82,6 @@ const contracts = {
     chaiPot: '0x197E90f9FAD81970bA7976f33CbD77088E5D7cf7',
 };
 
-const CurveRegistryType = {
-    MAIN_REGISTRY: 0,
-    METAPOOL_FACTORY: 1,
-    CRYPTOSWAP_REGISTRY: 2,
-    CRYPTOPOOL_FACTORY: 3,
-    METAREGISTRY: 4,
-    CRVUSD_PLAIN_POOLS: 5,
-    CURVE_TRICRYPTO_FACTORY: 6,
-    STABLESWAP_FACTORY: 7,
-    L2_FACTORY: 8,
-    CRYPTO_FACTORY: 9,
-};
-
 const deployParams = {
     AaveWrapperV2: {
         lendingPool: '0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9',
@@ -129,18 +116,8 @@ const deployParams = {
         initcodeHash: '0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f',
     },
     Curve: {
-        provider: '0x0000000022D53366457F9d5E68Ec105046FC4383',
+        provider: '0x5ffe7FB82894076ECB99A30D6A32e969e6e35E98',
         maxPools: 100,
-        registryIds: [0, 3, 5, 6, 7, 8, 11],
-        registryTypes: [
-            CurveRegistryType.MAIN_REGISTRY,
-            CurveRegistryType.METAPOOL_FACTORY,
-            CurveRegistryType.CRYPTOSWAP_REGISTRY,
-            CurveRegistryType.CRYPTOPOOL_FACTORY,
-            CurveRegistryType.METAREGISTRY,
-            CurveRegistryType.CRVUSD_PLAIN_POOLS,
-            CurveRegistryType.CURVE_TRICRYPTO_FACTORY,
-        ],
     },
     Dodo: {
         dodoZoo: '0x3A97247DF274a17C59A3bd12735ea3FcDFb49950',
