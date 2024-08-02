@@ -6,26 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/ICurveProvider.sol";
-import "../interfaces/ICurveRegistry.sol";
-import "../interfaces/ICurveSwap.sol";
 import "../libraries/OraclePrices.sol";
-import "../helpers/Blacklist.sol";
-
-interface ICurveRateProvider {
-    struct Quote {
-        uint256 source_token_index;
-        uint256 dest_token_index;
-        bool is_underlying;
-        uint256 amount_out;
-        address pool;
-        uint256 source_token_pool_balance;
-        uint256 dest_token_pool_balance;
-        uint8 pool_type; // 0 for stableswap, 1 for cryptoswap, 2 for LLAMMA.
-    }
-
-    function get_quotes (address source_token, address destination_token, uint256 amount_in) external view returns (ICurveRateProvider.Quote[] memory quote);
-}
-
 
 contract CurveOracle is IOracle {
     using OraclePrices for OraclePrices.Data;
@@ -33,11 +14,14 @@ contract CurveOracle is IOracle {
 
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
     IERC20 private constant _ETH = IERC20(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
+    uint256 private constant _RATE_PROVIDER_ID = 18;
 
     ICurveRateProvider public immutable CURVE_RATE_PROVIDER;
+    uint256 public immutable MAX_POOLS;
 
-    constructor(ICurveRateProvider curveRateProvider) {
-        CURVE_RATE_PROVIDER = curveRateProvider;
+    constructor(ICurveProvider curveProvider, uint256 maxPools) {
+        CURVE_RATE_PROVIDER = ICurveRateProvider(curveProvider.get_address(_RATE_PROVIDER_ID));
+        MAX_POOLS = maxPools;
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
@@ -51,7 +35,7 @@ contract CurveOracle is IOracle {
         ICurveRateProvider.Quote[] memory quotes = CURVE_RATE_PROVIDER.get_quotes(address(srcToken), address(dstToken), amountIn);
 
         OraclePrices.Data memory ratesAndWeights = OraclePrices.init(quotes.length);
-        for (uint256 i = 0; i < quotes.length; i++) {
+        for (uint256 i = 0; i < quotes.length && ratesAndWeights.size < MAX_POOLS; i++) {
             if (quotes[i].amount_out > 0) {
                 rate = quotes[i].amount_out * 1e18 / amountIn;
                 weight = (quotes[i].source_token_pool_balance * quotes[i].dest_token_pool_balance).sqrt();
