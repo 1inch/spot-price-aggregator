@@ -3,6 +3,7 @@
 pragma solidity 0.8.23;
 
 // solhint-disable func-name-mixedcase
+// solhint-disable var-name-mixedcase
 
 interface ICurveProvider {
     function get_address (uint256 _id) external view returns (address);

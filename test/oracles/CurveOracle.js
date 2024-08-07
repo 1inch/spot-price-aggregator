@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { ethers } = require('hardhat');
-const { expect, deployContract, constants } = require('@1inch/solidity-utils');
+const { expect, deployContract } = require('@1inch/solidity-utils');
 const {
     tokens,
     deployParams: { AaveWrapperV2, Curve, Uniswap, UniswapV2, UniswapV3 },
