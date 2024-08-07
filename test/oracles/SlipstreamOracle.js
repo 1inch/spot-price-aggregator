@@ -45,14 +45,14 @@ describe('SlipstreamOracle', function () {
         await testRate(tokens.optimistic.WETH, tokens.optimistic.OP, tokens.NONE, uniswapV3Oracle, slipstreamOracle);
     });
 
-    it('WETH -> USDC -> DAI', async function () {
+    it('WETH -> USDC -> OP', async function () {
         const { uniswapV3Oracle, slipstreamOracle } = await loadFixture(initContracts);
-        await testRate(tokens.optimistic.WETH, tokens.optimistic.DAI, tokens.optimistic.USDC, uniswapV3Oracle, slipstreamOracle);
+        await testRate(tokens.optimistic.WETH, tokens.optimistic.OP, tokens.optimistic.USDC, uniswapV3Oracle, slipstreamOracle);
     });
 
-    it('DAI -> USDC -> WETH', async function () {
+    it('OP -> USDC -> WETH', async function () {
         const { uniswapV3Oracle, slipstreamOracle } = await loadFixture(initContracts);
-        await testRate(tokens.optimistic.DAI, tokens.optimistic.WETH, tokens.optimistic.USDC, uniswapV3Oracle, slipstreamOracle);
+        await testRate(tokens.optimistic.OP, tokens.optimistic.WETH, tokens.optimistic.USDC, uniswapV3Oracle, slipstreamOracle);
     });
 
     describe('Measure gas', function () {
