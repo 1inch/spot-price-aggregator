@@ -6,13 +6,18 @@ const { tokens } = require('./helpers.js');
 describe('Blacklist', function () {
     async function initContracts () {
         const [owner, alice] = await ethers.getSigners();
-        const blacklist = await deployContract('Blacklist', [[], owner]);
+        const blacklist = await deployContract('Blacklist', [[tokens.DAI], owner]);
         return { owner, alice, blacklist };
     }
 
     it('should revert by non-owner', async function () {
         const { alice, blacklist } = await loadFixture(initContracts);
         await expect(blacklist.connect(alice).toggleBlacklistAddress(tokens.ETH)).to.be.revertedWithCustomError(blacklist, 'OwnableUnauthorizedAccount');
+    });
+
+    it('should blacklisted in constructor', async function () {
+        const { blacklist } = await loadFixture(initContracts);
+        expect(await blacklist.blacklisted(tokens.DAI)).to.be.true;
     });
 
     it('should toggle record state', async function () {
