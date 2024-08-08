@@ -4,6 +4,10 @@ pragma solidity 0.8.23;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/**
+ * @title Blacklist
+ * @notice Contract is used to blacklist specific pools in the oracle.
+ */
 contract Blacklist is Ownable {
     event BlacklistUpdated(address pool, bool isBlacklisted);
 

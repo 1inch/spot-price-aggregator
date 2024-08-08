@@ -4,6 +4,10 @@ pragma solidity 0.8.23;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
+/**
+ * @title ConnectorManager
+ * @notice Contract is used to support only specific connectors in the oracle.
+ */
 contract ConnectorManager is Ownable {
     event ConnectorUpdated(address connector, bool isSupported);
 
