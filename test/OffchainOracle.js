@@ -1,4 +1,5 @@
 const hre = require('hardhat');
+const fs = require('fs');
 const { ethers } = hre;
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { expect, ether, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
@@ -261,6 +262,38 @@ describe('OffchainOracle', function () {
             const rateForward = await offchainOracle.getRateWithCustomConnectors(tokens.WETH, tokens.wstETH, true, [], thresholdFilter);
             const rateReverse = await offchainOracle.getRateWithCustomConnectors(tokens.wstETH, tokens.WETH, true, [], thresholdFilter);
             assertRoughlyEqualValues(rateForward * rateReverse / BigInt(1e18), BigInt(1e18), 5e-18);
+        });
+
+        it.skip('measure gas of current implementation', async function () {
+            // NOTE: This test is skipped because it is too slow. Change hardhat config `mocha > timeout > 360000` to run it.
+            const gasEstimator = await deployContract('GasEstimator');
+
+            const offchainOracleDeployment = JSON.parse(fs.readFileSync('deployments/mainnet/OffchainOracle.json', 'utf8'));
+            const offchainOracle = await ethers.getContractAt('OffchainOracle', offchainOracleDeployment.address);
+
+            // Uncomment and edit it to test with replaced oracles
+            // const [,account] = await ethers.getSigners();
+            // const ownerAddress = offchainOracleDeployment.args[5];
+            // const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools]);
+            // await account.sendTransaction({ to: ownerAddress, value: ether('100') });
+            // const owner = await ethers.getImpersonatedSigner(ownerAddress);
+            // const curveOracleDeployment = JSON.parse(fs.readFileSync(`deployments/mainnet/CurveOracle.json`, 'utf8'));
+            // await offchainOracle.connect(owner).removeOracle(curveOracleDeployment.address, '0');
+            // await offchainOracle.connect(owner).addOracle(curveOracle, '0');
+
+            const getRateToEthResult = await gasEstimator.gasCost(
+                await offchainOracle.getAddress(),
+                offchainOracle.interface.encodeFunctionData('getRateToEthWithThreshold', [tokens.DAI, true, thresholdFilter]),
+            );
+            console.log(`OffchainOracle getRateToEthWithThreshold(DAI,true,${thresholdFilter}): ${getRateToEthResult.gasUsed}`);
+            expect(getRateToEthResult.success).to.eq(true);
+
+            const getRateResult = await gasEstimator.gasCost(
+                await offchainOracle.getAddress(),
+                offchainOracle.interface.encodeFunctionData('getRateWithThreshold', [tokens.USDC, tokens.USDe, true, thresholdFilter]),
+            );
+            console.log(`OffchainOracle getRateWithThreshold(USDC,USDe,true,${thresholdFilter}): ${getRateResult.gasUsed}`);
+            expect(getRateResult.success).to.eq(true);
         });
     });
 });

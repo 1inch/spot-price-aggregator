@@ -6,165 +6,94 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/utils/math/Math.sol";
 import "../interfaces/IOracle.sol";
 import "../interfaces/ICurveProvider.sol";
-import "../interfaces/ICurveRegistry.sol";
-import "../interfaces/ICurveSwap.sol";
+import "../interfaces/ICurveMetaregistry.sol";
+import "../interfaces/ICurvePool.sol";
 import "../libraries/OraclePrices.sol";
-import "../helpers/Blacklist.sol";
 
-contract CurveOracle is IOracle, Blacklist {
+contract CurveOracle is IOracle {
     using OraclePrices for OraclePrices.Data;
     using Math for uint256;
 
-    enum CurveRegistryType {
-        MAIN_REGISTRY,
-        METAPOOL_FACTORY,
-        CRYPTOSWAP_REGISTRY,
-        CRYPTOPOOL_FACTORY,
-        METAREGISTRY,
-        CRVUSD_PLAIN_POOLS,
-        CURVE_TRICRYPTO_FACTORY,
-        STABLESWAP_FACTORY,
-        L2_FACTORY,
-        CRYPTO_FACTORY
-    }
-
-    struct FunctionSelectorsInfo {
-        bytes4 balanceFunc;
-        bytes4 dyFuncInt128;
-        bytes4 dyFuncUint256;
-    }
-
     IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
+    IERC20 private constant _ETH = IERC20(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
+    uint256 private constant _METAREGISTRY_ID = 7;
 
+    ICurveMetaregistry public immutable CURVE_METAREGISTRY;
     uint256 public immutable MAX_POOLS;
-    uint256 public immutable REGISTRIES_COUNT;
-    ICurveRegistry[11] public registries;
-    CurveRegistryType[11] public registryTypes;
 
-    constructor(
-        ICurveProvider _addressProvider,
-        uint256 _maxPools,
-        uint256[] memory _registryIds,
-        CurveRegistryType[] memory _registryTypes,
-        address[] memory initialBlacklist,
-        address owner
-    ) Blacklist(initialBlacklist, owner) {
-        MAX_POOLS = _maxPools;
-        REGISTRIES_COUNT = _registryIds.length;
-        unchecked {
-            for (uint256 i = 0; i < REGISTRIES_COUNT; i++) {
-                registries[i] = ICurveRegistry(_addressProvider.get_address(_registryIds[i]));
-                registryTypes[i] = _registryTypes[i];
-            }
+    constructor(ICurveProvider curveProvider, uint256 maxPools) {
+        CURVE_METAREGISTRY = ICurveMetaregistry(curveProvider.get_address(_METAREGISTRY_ID));
+        MAX_POOLS = maxPools;
+    }
+
+    function _getPoolType(address pool) private view returns (uint8) {
+        // 0 for stableswap, 1 for cryptoswap, 2 for LLAMMA.
+
+        // check if cryptoswap
+        (bool success, bytes memory data) = pool.staticcall(abi.encodeWithSelector(ICurvePool.allowed_extra_profit.selector));
+        if (success && data.length >= 32) { // vyper could return redundant bytes
+            return 1;
         }
+
+        // check if llamma
+        (success, data) = pool.staticcall(abi.encodeWithSelector(ICurvePool.get_rate_mul.selector));
+        if (success && data.length >= 32) { // vyper could return redundant bytes
+            return 2;
+        }
+
+        return 0;
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
         if(connector != _NONE) revert ConnectorShouldBeNone();
 
-        OraclePrices.Data memory ratesAndWeights = OraclePrices.init(MAX_POOLS);
-        FunctionSelectorsInfo memory info;
-        uint256 index = 0;
-        for (uint256 i = 0; i < REGISTRIES_COUNT && index < MAX_POOLS; i++) {
-            uint256 registryIndex = 0;
-            address pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), registryIndex);
-            while (pool != address(0) && index < MAX_POOLS) {
-                if (blacklisted[pool]) {
-                    pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
-                    continue;
-                }
-                index++;
-                // call `get_coin_indices` and set (srcTokenIndex, dstTokenIndex, isUnderlying) variables
-                bool isUnderlying;
-                int128 srcTokenIndex;
-                int128 dstTokenIndex;
-                (bool success, bytes memory data) = address(registries[i]).staticcall(abi.encodeWithSelector(ICurveRegistry.get_coin_indices.selector, pool, address(srcToken), address(dstToken)));
-                if (success && data.length >= 64) {
-                    if (
-                        registryTypes[i] == CurveRegistryType.CRYPTOSWAP_REGISTRY ||
-                        registryTypes[i] == CurveRegistryType.CRYPTOPOOL_FACTORY ||
-                        registryTypes[i] == CurveRegistryType.CURVE_TRICRYPTO_FACTORY
-                    ) {
-                        (srcTokenIndex, dstTokenIndex) = abi.decode(data, (int128, int128));
-                    } else {
-                        // registryTypes[i] == CurveRegistryType.MAIN_REGISTRY ||
-                        // registryTypes[i] == CurveRegistryType.METAPOOL_FACTORY ||
-                        // registryTypes[i] == CurveRegistryType.METAREGISTRY ||
-                        // registryTypes[i] == CurveRegistryType.CRVUSD_PLAIN_POOLS ||
-                        // registryTypes[i] == CurveRegistryType.STABLESWAP_FACTORY ||
-                        // registryTypes[i] == CurveRegistryType.L2_FACTORY ||
-                        // registryTypes[i] == CurveRegistryType.CRYPTO_FACTORY
-                        (srcTokenIndex, dstTokenIndex, isUnderlying) = abi.decode(data, (int128, int128, bool));
-                    }
-                } else {
-                    pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
-                    continue;
-                }
+        address[] memory pools = CURVE_METAREGISTRY.find_pools_for_coins(address(srcToken), address(dstToken));
+        if (pools.length == 0) {
+            return (0, 0);
+        }
 
-                if (!isUnderlying) {
-                    info = FunctionSelectorsInfo({
-                        balanceFunc: ICurveRegistry.get_balances.selector,
-                        dyFuncInt128: ICurveSwapInt128.get_dy.selector,
-                        dyFuncUint256: ICurveSwapUint256.get_dy.selector
-                    });
-                } else {
-                    info = FunctionSelectorsInfo({
-                        balanceFunc: ICurveRegistry.get_underlying_balances.selector,
-                        dyFuncInt128: ICurveSwapInt128.get_dy_underlying.selector,
-                        dyFuncUint256: ICurveSwapUint256.get_dy_underlying.selector
-                    });
+        uint256 amountIn;
+        if (srcToken == _ETH) {
+            amountIn = 10**18;
+        } else {
+            amountIn = 10**IERC20Metadata(address(srcToken)).decimals();
+        }
+
+        OraclePrices.Data memory ratesAndWeights = OraclePrices.init(pools.length);
+        for (uint256 k = 0; k < pools.length && ratesAndWeights.size < MAX_POOLS; k++) {
+            // get coin indices
+            int128 i;
+            int128 j;
+            bool isUnderlying = false;
+            (i, j, isUnderlying) = CURVE_METAREGISTRY.get_coin_indices(pools[k], address(srcToken), address(dstToken));
+
+            // get balances
+            uint256[8] memory balances = CURVE_METAREGISTRY.get_underlying_balances(pools[k]);
+            // skip if pool is too small
+            if (balances[uint128(i)] <= amountIn || balances[uint128(j)] == 0) {
+                continue;
+            }
+
+            // choose the right abi:
+            uint8 poolType = _getPoolType(pools[k]);
+            bytes4 selector;
+            if (poolType == 0 && isUnderlying) {
+                selector = IStableSwapMeta.get_dy_underlying.selector;
+            } else if (poolType == 0 && !isUnderlying) {
+                selector = IStableSwap.get_dy.selector;
+            } else {
+                selector = ICryptoSwap.get_dy.selector;
+            }
+            (bool success, bytes memory data) = pools[k].staticcall(abi.encodeWithSelector(selector, uint128(i), uint128(j), amountIn));
+            if (success && data.length >= 32) { // vyper could return redundant bytes
+                uint256 amountOut = abi.decode(data, (uint256));
+                if (amountOut > 0) {
+                    rate = amountOut * 1e18 / amountIn;
+                    weight = (balances[uint128(i)] * balances[uint128(j)]).sqrt();
+                    ratesAndWeights.append(OraclePrices.OraclePrice(rate, weight));
                 }
-
-                // call `balanceFunc` (`get_balances` or `get_underlying_balances`) and decode results
-                uint256[] memory balances;
-                (success, data) = address(registries[i]).staticcall(abi.encodeWithSelector(info.balanceFunc, pool));
-                if (success && data.length >= 64) {
-                    // registryTypes[i] == CurveRegistryType.MAIN_REGISTRY ||
-                    // registryTypes[i] == CurveRegistryType.CRYPTOSWAP_REGISTRY ||
-                    // registryTypes[i] == CurveRegistryType.METAREGISTRY
-                    uint256 length = 8;
-                    if (!isUnderlying) {
-                        if (
-                            registryTypes[i] == CurveRegistryType.METAPOOL_FACTORY ||
-                            registryTypes[i] == CurveRegistryType.CRVUSD_PLAIN_POOLS ||
-                            registryTypes[i] == CurveRegistryType.STABLESWAP_FACTORY ||
-                            registryTypes[i] == CurveRegistryType.L2_FACTORY ||
-                            registryTypes[i] == CurveRegistryType.CRYPTO_FACTORY
-                        ) {
-                            length = 4;
-                        } else if (registryTypes[i] == CurveRegistryType.CURVE_TRICRYPTO_FACTORY) {
-                            length = 3;
-                        } else if (registryTypes[i] == CurveRegistryType.CRYPTOPOOL_FACTORY) {
-                            length = 2;
-                        }
-                    }
-
-                    assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
-                        balances := data
-                        mstore(balances, length)
-                    }
-                } else {
-                    pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
-                    continue;
-                }
-
-                uint256 w = (balances[uint128(srcTokenIndex)] * balances[uint128(dstTokenIndex)]).sqrt();
-                uint256 b0 = balances[uint128(srcTokenIndex)] / 10000;
-                uint256 b1 = balances[uint128(dstTokenIndex)] / 10000;
-
-                if (b0 != 0 && b1 != 0) {
-                    (success, data) = pool.staticcall(abi.encodeWithSelector(info.dyFuncInt128, srcTokenIndex, dstTokenIndex, b0));
-                    if (!success || data.length < 32) {
-                        (success, data) = pool.staticcall(abi.encodeWithSelector(info.dyFuncUint256, uint128(srcTokenIndex), uint128(dstTokenIndex), b0));
-                    }
-                    if (success && data.length >= 32) {  // vyper could return redundant bytes
-                        b1 = abi.decode(data, (uint256));
-                        ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1, 1e18, b0), w));
-                    }
-                }
-                pool = registries[i].find_pool_for_coins(address(srcToken), address(dstToken), ++registryIndex);
             }
         }
-        (rate, weight) = ratesAndWeights.getRateAndWeight(thresholdFilter);
+        return ratesAndWeights.getRateAndWeight(thresholdFilter);
     }
 }
