@@ -12,7 +12,7 @@ const {
 
 describe('CurveOracle', function () {
     async function initContracts () {
-        const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools]);
+        const curveOracle = await deployContract('CurveOracleCRP', [Curve.provider, Curve.maxPools]);
         const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3.factory, UniswapV3.initcodeHash, UniswapV3.fees]);
         return { curveOracle, uniswapV3Oracle };
     }
@@ -63,7 +63,7 @@ describe('CurveOracle', function () {
             const [deployer] = await ethers.getSigners();
 
             const uniswapV2LikeOracle = await deployContract('UniswapV2LikeOracle', [UniswapV2.factory, UniswapV2.initcodeHash]);
-            const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools]);
+            const curveOracle = await deployContract('CurveOracleCRP', [Curve.provider, Curve.maxPools]);
             const uniswapOracle = await deployContract('UniswapOracle', [Uniswap.factory]);
             const mooniswapOracle = await deployContract('MooniswapOracle', [tokens.oneInchLP1]);
             const wethWrapper = await deployContract('BaseCoinWrapper', [tokens.ETH, tokens.WETH]);

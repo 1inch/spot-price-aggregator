@@ -8,7 +8,7 @@ import "../interfaces/IOracle.sol";
 import "../interfaces/ICurveProvider.sol";
 import "../libraries/OraclePrices.sol";
 
-contract CurveOracle is IOracle {
+contract CurveOracleCRP is IOracle {
     using OraclePrices for OraclePrices.Data;
     using Math for uint256;
 
