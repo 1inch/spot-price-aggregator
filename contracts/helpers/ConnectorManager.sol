@@ -3,23 +3,27 @@
 pragma solidity 0.8.23;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 /**
  * @title ConnectorManager
  * @notice Contract is used to support only specific connectors in the oracle.
  */
 contract ConnectorManager is Ownable {
-    event ConnectorUpdated(address connector, bool isSupported);
+    event ConnectorUpdated(IERC20 connector, bool isSupported);
 
-    mapping(address => bool) public connectorSupported;
+    IERC20 internal constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
 
-    constructor(address[] memory connectors, address owner) Ownable(owner) {
+    mapping(IERC20 => bool) public connectorSupported;
+
+    constructor(IERC20[] memory connectors, address owner) Ownable(owner) {
+        connectorSupported[_NONE] = true;
         for (uint256 i = 0; i < connectors.length; i++) {
             connectorSupported[connectors[i]] = true;
         }
     }
 
-    function toggleConnectorSupport(address connector) external onlyOwner {
+    function toggleConnectorSupport(IERC20 connector) external onlyOwner {
         connectorSupported[connector] = !connectorSupported[connector];
         emit ConnectorUpdated(connector, connectorSupported[connector]);
     }
