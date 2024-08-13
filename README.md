@@ -27,7 +27,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported DEXes</summary>
 
    * Chainlink - [0x8606321723D9cA7db708A8b12DAd0A8a83f2F3bD](https://etherscan.io/address/0x8606321723D9cA7db708A8b12DAd0A8a83f2F3bD)
-   * KyberDMM - [0xE2d0e58302d03F703BD3c5EC2899F4e1af65E18c](https://etherscan.io/address/0xE2d0e58302d03F703BD3c5EC2899F4e1af65E18c)
+   * KyberDMM - [0xb194735EdC3Ab0F77Ef1E961f7e14E12dC0CF2AF](https://etherscan.io/address/0xb194735EdC3Ab0F77Ef1E961f7e14E12dC0CF2AF)
    * Mooniswap - [0x5F6a6428756CfAF96584286Ef9f7411621196f3A](https://etherscan.io/address/0x5F6a6428756CfAF96584286Ef9f7411621196f3A)
    * Synthetix - [0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4](https://etherscan.io/address/0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4)
    * Uniswap - [0xAdF7CC69626eB6F03F4F613832C84Cf62586A6Bb](https://etherscan.io/address/0xAdF7CC69626eB6F03F4F613832C84Cf62586A6Bb)
@@ -94,7 +94,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * BakerySwap - [0x82b6B75F5fEabbfD370D45daCEFae3D5c06099DA](https://bscscan.com/address/0x82b6B75F5fEabbfD370D45daCEFae3D5c06099DA)
    * BSCswap - [0xD4eFb5998DFBDFB791182fb610D0061136E9DB50](https://bscscan.com/address/0xD4eFb5998DFBDFB791182fb610D0061136E9DB50)
    * Demax - [0x7bdc6954e1c7869B4147A320d589689F628E9921](https://bscscan.com/address/0x7bdc6954e1c7869B4147A320d589689F628E9921)
-   * KyberDMM - [0xE2d0e58302d03F703BD3c5EC2899F4e1af65E18c](https://bscscan.com/address/0xE2d0e58302d03F703BD3c5EC2899F4e1af65E18c)
+   * KyberDMM - [0xb194735EdC3Ab0F77Ef1E961f7e14E12dC0CF2AF](https://bscscan.com/address/0xb194735EdC3Ab0F77Ef1E961f7e14E12dC0CF2AF)
    * Mooniswap - [0x5F6a6428756CfAF96584286Ef9f7411621196f3A](https://bscscan.com/address/0x5F6a6428756CfAF96584286Ef9f7411621196f3A)
    * Pancake 1 - [0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3](https://bscscan.com/address/0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3)
    * Pancake 2 - [0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A](https://bscscan.com/address/0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A)
