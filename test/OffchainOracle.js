@@ -272,9 +272,10 @@ describe('OffchainOracle', function () {
             const offchainOracle = await ethers.getContractAt('OffchainOracle', offchainOracleDeployment.address);
 
             // Uncomment and edit it to test with replaced oracles
+            // const { deployParams: { Curve } } = require('./helpers.js');
             // const [,account] = await ethers.getSigners();
             // const ownerAddress = offchainOracleDeployment.args[5];
-            // const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools]);
+            // const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, [tokens.USDC], account.address]);
             // await account.sendTransaction({ to: ownerAddress, value: ether('100') });
             // const owner = await ethers.getImpersonatedSigner(ownerAddress);
             // const curveOracleDeployment = JSON.parse(fs.readFileSync(`deployments/mainnet/CurveOracle.json`, 'utf8'));
@@ -284,6 +285,7 @@ describe('OffchainOracle', function () {
             const getRateToEthResult = await gasEstimator.gasCost(
                 await offchainOracle.getAddress(),
                 offchainOracle.interface.encodeFunctionData('getRateToEthWithThreshold', [tokens.DAI, true, thresholdFilter]),
+                // { gasLimit: 300e6 }
             );
             console.log(`OffchainOracle getRateToEthWithThreshold(DAI,true,${thresholdFilter}): ${getRateToEthResult.gasUsed}`);
             expect(getRateToEthResult.success).to.eq(true);
