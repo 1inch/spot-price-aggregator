@@ -41,9 +41,15 @@ contract KyberDmmOracle is IOracle {
 
             ratesAndWeights = OraclePrices.init(pools0.length * pools1.length);
             for (uint256 i = 0; i < pools0.length; i++) {
+                (uint256 b0, uint256 bc0) = _getBalances(srcToken, connector, pools0[i]);
+                if (b0 == 0 || bc0 == 0) {
+                    continue;
+                }
                 for (uint256 j = 0; j < pools1.length; j++) {
-                    (uint256 b0, uint256 bc0) = _getBalances(srcToken, connector, pools0[i]);
                     (uint256 bc1, uint256 b1) = _getBalances(connector, dstToken, pools1[j]);
+                    if (bc1 == 0 || b1 == 0) {
+                        continue;
+                    }
                     uint256 w = Math.min(b0 * bc0, b1 * bc1).sqrt();
                     ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(b1 * bc0, 1e18, bc1 * b0), w));
                 }
