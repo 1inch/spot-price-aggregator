@@ -45,13 +45,13 @@ contract UniswapV3LikeOracle is IOracle {
             } else {
                 ratesAndWeights = OraclePrices.init(SUPPORTED_FEES_COUNT**2);
                 for (uint256 i = 0; i < SUPPORTED_FEES_COUNT; i++) {
+                    (uint256 rate0, uint256 w0) = _getRate(srcToken, connector, fees[i]);
+                    if (rate0 == 0 || w0 == 0) {
+                        continue;
+                    }
                     for (uint256 j = 0; j < SUPPORTED_FEES_COUNT; j++) {
-                        (uint256 rate0, uint256 w0) = _getRate(srcToken, connector, fees[i]);
-                        if (w0 == 0) {
-                            continue;
-                        }
                         (uint256 rate1, uint256 w1) = _getRate(connector, dstToken, fees[j]);
-                        if (w1 == 0) {
+                        if (rate1 == 0 || w1 == 0) {
                             continue;
                         }
                         ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(rate0, rate1, 1e18), Math.min(w0, w1)));
