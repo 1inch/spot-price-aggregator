@@ -22,7 +22,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Ethereum Mainnet
 
-#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://etherscan.io/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://etherscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -86,7 +86,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Binance Smart Chain (BSC, BNB)
 
-#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://bscscan.com/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://bscscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -139,7 +139,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Polygon (Matic)
 
-#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://polygonscan.com/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://polygonscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -188,7 +188,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Optimism (Optimistic)
 
-#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://optimistic.etherscan.io/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://optimistic.etherscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -235,7 +235,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Arbitrum
 
-#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://arbiscan.io/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://arbiscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -277,7 +277,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Avalanche (Avax)
 
-#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://snowtrace.io/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://snowtrace.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -324,7 +324,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Gnosis (xDai)
 
-#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://gnosisscan.io/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://gnosisscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -368,7 +368,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Fantom
 
-#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://ftmscan.com/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://ftmscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -409,7 +409,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Aurora
 
-#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://aurorascan.dev/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://aurorascan.dev/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -452,7 +452,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Klaytn
 
-#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://scope.klaytn.com/account/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://scope.klaytn.com/account/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
@@ -488,7 +488,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### zkSync
 
-#### Oracle [0x816932F65b2ab40f974D687290E79543f11C02d5](https://explorer.zksync.io/address/0x816932F65b2ab40f974D687290E79543f11C02d5)
+#### Oracle [0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033](https://explorer.zksync.io/address/0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033)
 
 <details><summary>Supported DEXes</summary>
 
@@ -524,7 +524,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Base
 
-#### Oracle [0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8](https://basescan.org/address/0x0FfC4A1d000F0078d14FD32D73E98227fDca35F8)
+#### Oracle [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://basescan.org/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
 
 <details><summary>Supported DEXes</summary>
 
