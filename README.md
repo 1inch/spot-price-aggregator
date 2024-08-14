@@ -532,7 +532,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * RocketSwap - [0x3EB7BFE1217b97d19e740C3587f2b12D00abc0Bc](https://basescan.org/address/0x3EB7BFE1217b97d19e740C3587f2b12D00abc0Bc)
    * SwapBased - [0xA57eE57aa7af7c43265A8376c3d54543Cc78C089](https://basescan.org/address/0xA57eE57aa7af7c43265A8376c3d54543Cc78C089)
    * DackieSwap - [0x2c53D99f9458CB43b685a6d9Cd7144290b7C6B13](https://basescan.org/address/0x2c53D99f9458CB43b685a6d9Cd7144290b7C6B13)
-   * HorizonDex - [0xcdEee819aEf73511331522552Ca1E54e771D40ed](https://basescan.org/address/0xcdEee819aEf73511331522552Ca1E54e771D40ed)
+   * HorizonDex - [0x1fA155F63335c1FB4b932d5F1BF50b50ffF1bC0f](https://basescan.org/address/0x1fA155F63335c1FB4b932d5F1BF50b50ffF1bC0f)
    * SushiSwapV3 - [0xE4186059f521C715d2977922A6e8704d9C342e5A](https://basescan.org/address/0xE4186059f521C715d2977922A6e8704d9C342e5A)
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://basescan.org/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
    * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://basescan.org/address/0x008D10214049593C6e63564946FFb64A6F706732)
