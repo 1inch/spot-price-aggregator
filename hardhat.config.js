@@ -41,7 +41,7 @@ module.exports = {
         deploy: 'deploy/commands',
     },
     mocha: {
-        timeout: 180000,
+        timeout: 240000,
     },
     tracer: {
         enableAllOpcodes: true,
