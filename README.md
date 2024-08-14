@@ -535,7 +535,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * HorizonDex - [0xcdEee819aEf73511331522552Ca1E54e771D40ed](https://basescan.org/address/0xcdEee819aEf73511331522552Ca1E54e771D40ed)
    * SushiSwapV3 - [0xf71502f807C37A5aD9bB50aA983423907647bF96](https://basescan.org/address/0xf71502f807C37A5aD9bB50aA983423907647bF96)
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://basescan.org/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
-   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://basescan.org/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://basescan.org/address/0x008D10214049593C6e63564946FFb64A6F706732)
    * VelocimeterV2 - [0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F](https://basescan.org/address/0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F)
    * Aerodrome - [0xFd1d18173D2f179a45Bf21F755a261AAe7C2d769](https://basescan.org/address/0xFd1d18173D2f179a45Bf21F755a261AAe7C2d769)
    
