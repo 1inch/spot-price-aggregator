@@ -332,7 +332,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Levinswap - [0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef](https://gnosisscan.io/address/0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef)
    * Swapr - [0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001](https://gnosisscan.io/address/0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001)
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://gnosisscan.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
-   * Curve - [0x587D67870CF6e733F2Ac101eD83675d6C01Ae127](https://gnosisscan.io/address/0x587D67870CF6e733F2Ac101eD83675d6C01Ae127)
+   * Curve - [0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19](https://gnosisscan.io/address/0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19)
    
 </details>
 
