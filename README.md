@@ -35,9 +35,9 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * ShibaSwap - [0x0fE8bD9CB73ADC66561330B648a8fC62b4F58943](https://etherscan.io/address/0x0fE8bD9CB73ADC66561330B648a8fC62b4F58943)
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://etherscan.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
    * UniswapV2 - [0xA21E47477DE9BbcDC962ee18a5E7D339c5a16D28](https://etherscan.io/address/0xA21E47477DE9BbcDC962ee18a5E7D339c5a16D28)
-   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://etherscan.io/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://etherscan.io/address/0x008D10214049593C6e63564946FFb64A6F706732)
    * Curve - [0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19](https://etherscan.io/address/0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19)
-   * Pancake 3 - [0xB4039b37d09772801a51764537c167445f52F48b](https://etherscan.io/address/0xB4039b37d09772801a51764537c167445f52F48b)
+   * Pancake 3 - [0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61](https://etherscan.io/address/0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61)
    * Dodo - [0x0A7c4d89e1629f189Eb12dd716B178d1b90D9f66](https://etherscan.io/address/0x0A7c4d89e1629f189Eb12dd716B178d1b90D9f66)
    * DodoV2 - [0x03aA019F3B78110e030c34e9fA98047A1f62859A](https://etherscan.io/address/0x03aA019F3B78110e030c34e9fA98047A1f62859A)
    
@@ -98,10 +98,10 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Mooniswap - [0x5F6a6428756CfAF96584286Ef9f7411621196f3A](https://bscscan.com/address/0x5F6a6428756CfAF96584286Ef9f7411621196f3A)
    * Pancake 1 - [0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3](https://bscscan.com/address/0x1b947aF8b3dd6aa96F8726cd92c894D0Ba6367a3)
    * Pancake 2 - [0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A](https://bscscan.com/address/0xB9fa95a38D50c5Bad1eA2b4E85e106Fe886cCb3A)
-   * Pancake 3 - [0xB4039b37d09772801a51764537c167445f52F48b](https://bscscan.com/address/0xB4039b37d09772801a51764537c167445f52F48b)
+   * Pancake 3 - [0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61](https://bscscan.com/address/0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61)
    * Thugswap - [0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9](https://bscscan.com/address/0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9)
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://bscscan.com/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
-   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://bscscan.com/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://bscscan.com/address/0x008D10214049593C6e63564946FFb64A6F706732)
    
 </details>
 
@@ -149,7 +149,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * DFYN - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://polygonscan.com/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://polygonscan.com/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://polygonscan.com/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
-   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://polygonscan.com/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://polygonscan.com/address/0x008D10214049593C6e63564946FFb64A6F706732)
    * Curve - [0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19](https://polygonscan.com/address/0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19)
 
 </details>
@@ -193,11 +193,11 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported DEXes</summary>
 
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://optimistic.etherscan.io/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
-   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://optimistic.etherscan.io/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://optimistic.etherscan.io/address/0x008D10214049593C6e63564946FFb64A6F706732)
    * Velodrome Finance - [0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef](https://optimistic.etherscan.io/address/0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef)
    * VelodromeV2 - [0xD4eFb5998DFBDFB791182fb610D0061136E9DB50](https://optimistic.etherscan.io/address/0xD4eFb5998DFBDFB791182fb610D0061136E9DB50)
    * Synthetix - [0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4](https://optimistic.etherscan.io/address/0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4)
-   * Slipstream - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://optimistic.etherscan.io/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
+   * Slipstream - [0x3EB7BFE1217b97d19e740C3587f2b12D00abc0Bc](https://optimistic.etherscan.io/address/0x3EB7BFE1217b97d19e740C3587f2b12D00abc0Bc)
    * Curve - [0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19](https://optimistic.etherscan.io/address/0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19)
 
 </details>
@@ -242,7 +242,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * DXswap - [0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F](https://arbiscan.io/address/0xc197Ab9d47206dAf739a47AC75D0833fD2b0f87F)
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://arbiscan.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://arbiscan.io/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
-   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://arbiscan.io/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://arbiscan.io/address/0x008D10214049593C6e63564946FFb64A6F706732)
    * Curve - [0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19](https://arbiscan.io/address/0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19)
 
 </details>
@@ -285,7 +285,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Pangolin - [0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F](https://snowtrace.io/address/0xE93293A6088d3a8abDDf62e6CA1A085Cec97D06F)
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://snowtrace.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://snowtrace.io/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
-   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://snowtrace.io/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://snowtrace.io/address/0x008D10214049593C6e63564946FFb64A6F706732)
    * Curve - [0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19](https://snowtrace.io/address/0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19)
 
 </details>
@@ -531,11 +531,11 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * BaseSwap - [0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e](https://basescan.org/address/0xb57CdEC62Df2AA93AC4C2449Eb50eB4d2f264f3e)
    * RocketSwap - [0x3EB7BFE1217b97d19e740C3587f2b12D00abc0Bc](https://basescan.org/address/0x3EB7BFE1217b97d19e740C3587f2b12D00abc0Bc)
    * SwapBased - [0xA57eE57aa7af7c43265A8376c3d54543Cc78C089](https://basescan.org/address/0xA57eE57aa7af7c43265A8376c3d54543Cc78C089)
-   * DackieSwap - [0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544](https://basescan.org/address/0x48f0E5C5A5f5E5d49f3EaF8f5E242C7550629544)
-   * HorizonDex - [0xcdEee819aEf73511331522552Ca1E54e771D40ed](https://basescan.org/address/0xcdEee819aEf73511331522552Ca1E54e771D40ed)
-   * SushiSwapV3 - [0xf71502f807C37A5aD9bB50aA983423907647bF96](https://basescan.org/address/0xf71502f807C37A5aD9bB50aA983423907647bF96)
+   * DackieSwap - [0x2c53D99f9458CB43b685a6d9Cd7144290b7C6B13](https://basescan.org/address/0x2c53D99f9458CB43b685a6d9Cd7144290b7C6B13)
+   * HorizonDex - [0x1fA155F63335c1FB4b932d5F1BF50b50ffF1bC0f](https://basescan.org/address/0x1fA155F63335c1FB4b932d5F1BF50b50ffF1bC0f)
+   * SushiSwapV3 - [0xE4186059f521C715d2977922A6e8704d9C342e5A](https://basescan.org/address/0xE4186059f521C715d2977922A6e8704d9C342e5A)
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://basescan.org/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
-   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://basescan.org/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://basescan.org/address/0x008D10214049593C6e63564946FFb64A6F706732)
    * VelocimeterV2 - [0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F](https://basescan.org/address/0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F)
    * Aerodrome - [0xFd1d18173D2f179a45Bf21F755a261AAe7C2d769](https://basescan.org/address/0xFd1d18173D2f179a45Bf21F755a261AAe7C2d769)
    
