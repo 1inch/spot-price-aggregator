@@ -419,7 +419,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * AuroraSwap - [0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c](https://aurorascan.dev/address/0xd8C7661C2bA6E9732613C15780f9fBBD55d8bf9c)
    * Dodo - [0x0A7c4d89e1629f189Eb12dd716B178d1b90D9f66](https://aurorascan.dev/address/0x0A7c4d89e1629f189Eb12dd716B178d1b90D9f66)
    * DodoV2 - [0x03aA019F3B78110e030c34e9fA98047A1f62859A](https://aurorascan.dev/address/0x03aA019F3B78110e030c34e9fA98047A1f62859A)
-   * Curve - [0x0bA0D1B119d8a8E193e2802c2C7Ef1BDfAdddc49](https://aurorascan.dev/address/0x0bA0D1B119d8a8E193e2802c2C7Ef1BDfAdddc49)
+   * Curve - [0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19](https://aurorascan.dev/address/0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19)
 
 </details>
 
