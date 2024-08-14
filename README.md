@@ -101,7 +101,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Pancake 3 - [0xB4039b37d09772801a51764537c167445f52F48b](https://bscscan.com/address/0xB4039b37d09772801a51764537c167445f52F48b)
    * Thugswap - [0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9](https://bscscan.com/address/0x7bBc0156c31A19097eEd6B636AA2F4AB8A31BFD9)
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://bscscan.com/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
-   * UniswapV3 - [0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3](https://bscscan.com/address/0xE85B42805e046D1933EB8e1C543C4da4E5e8fFa3)
+   * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://bscscan.com/address/0x008D10214049593C6e63564946FFb64A6F706732)
    
 </details>
 
