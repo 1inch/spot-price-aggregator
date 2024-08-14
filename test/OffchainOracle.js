@@ -147,6 +147,34 @@ describe('OffchainOracle', function () {
             );
             assertRoughlyEqualValues(result.gasUsed, '382698', 1e-1);
         });
+
+        it('check getRatesAndWeightsWithCustomConnectors method with non-wrapped price', async function () {
+            const { offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
+            const result = await offchainOracle.getRatesAndWeightsWithCustomConnectors(tokens.DAI, tokens.LINK, true, [], thresholdFilter);
+            expect(result.wrappedPrice).to.eq('0');
+            expect(result.ratesAndWeights[0]).to.gt('0');
+            expect(result.ratesAndWeights[1]).to.gt('0');
+        });
+
+        it('check getRatesAndWeightsWithCustomConnectors method with wrapped price', async function () {
+            const { offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
+            const result = await offchainOracle.getRatesAndWeightsWithCustomConnectors(tokens.WETH, tokens.ETH, true, [], thresholdFilter);
+            expect(result.wrappedPrice).to.eq(ether('1'));
+        });
+
+        it('check getRatesAndWeightsToEthWithCustomConnectors method with non-wrapped price', async function () {
+            const { offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
+            const result = await offchainOracle.getRatesAndWeightsToEthWithCustomConnectors(tokens.DAI, true, [], thresholdFilter);
+            expect(result.wrappedPrice).to.eq('0');
+            expect(result.ratesAndWeights[0]).to.gt('0');
+            expect(result.ratesAndWeights[1]).to.gt('0');
+        });
+
+        it('check getRatesAndWeightsToEthWithCustomConnectors method with wrapped price', async function () {
+            const { offchainOracle } = await loadFixture(initContractsAndOffchainOracle);
+            const result = await offchainOracle.getRatesAndWeightsToEthWithCustomConnectors(tokens.WETH, true, [], thresholdFilter);
+            expect(result.wrappedPrice).to.eq(ether('1'));
+        });
     });
 
     describe('customConnectors', function () {
@@ -225,7 +253,7 @@ describe('OffchainOracle', function () {
 
     describe('Some features', function () {
         it('should work when overflow happens in _getRateImpl method', async function () {
-            const { multiWrapper, deployer } = await initContracts();
+            const { multiWrapper, deployer } = await loadFixture(initContracts);
 
             const simpleOracleMock = await deployContract('SimpleOracleMock', ['608424427628800532964876503129856304465282478', '2']);
             const offchainOracle = await deployContract('OffchainOracle', [
@@ -245,7 +273,7 @@ describe('OffchainOracle', function () {
         });
 
         it('should correct work with wrappers when price is not 1:1', async function () {
-            const { multiWrapper, deployer } = await initContracts();
+            const { multiWrapper, deployer } = await loadFixture(initContracts);
 
             const wstETHWrapper = await deployContract('WstETHWrapper', [tokens.ETH, tokens.wstETH]);
             await multiWrapper.addWrapper(wstETHWrapper);
