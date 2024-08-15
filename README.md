@@ -78,10 +78,17 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * May-28-2021 - [0x07D91f5fb9Bf7798734C3f606dB065549F6893bb](https://etherscan.io/address/0x07D91f5fb9Bf7798734C3f606dB065549F6893bb)
    * Apr-07-2023 - [0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56](https://etherscan.io/address/0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56)
+     - add filtering prices by liquidity
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://etherscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+     - fix math in some cases with variable overflow
+     - use create3 for deploying the same address on different networks
    * Sep-01-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://etherscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+     - add calculation optimizations
+     - expand calculations to OraclePrices library
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://etherscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+     - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://etherscan.io/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+     - add methods to return oracles prices and liquidity at the same time
 
 </details>
 
@@ -132,10 +139,17 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * May-28-2021 - [0xfbD61B037C325b959c0F6A7e69D8f37770C2c550](https://bscscan.com/address/0xfbD61B037C325b959c0F6A7e69D8f37770C2c550)
    * Apr-06-2023 - [0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001](https://bscscan.com/address/0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001)
+     - add filtering prices by liquidity
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://bscscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+     - fix math in some cases with variable overflow
+     - use create3 for deploying the same address on different networks
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://bscscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+     - add calculation optimizations
+     - expand calculations to OraclePrices library
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://bscscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+     - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://bscscan.com/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+     - add methods to return oracles prices and liquidity at the same time
 
 </details>
 
@@ -182,10 +196,17 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * May-28-2021 - [0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9](https://polygonscan.com/address/0x7F069df72b7A39bCE9806e3AfaF579E54D8CF2b9)
    * Apr-05-2023 - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://polygonscan.com/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+     - add filtering prices by liquidity
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://polygonscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+     - fix math in some cases with variable overflow
+     - use create3 for deploying the same address on different networks
    * Sep-01-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://polygonscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+     - add calculation optimizations
+     - expand calculations to OraclePrices library
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://polygonscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+     - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://polygonscan.com/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+     - add methods to return oracles prices and liquidity at the same time
 
 </details>
 
@@ -230,10 +251,17 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * May-28-2021 - [0x11DEE30E710B8d4a8630392781Cc3c0046365d4c](https://optimistic.etherscan.io/address/0x11DEE30E710B8d4a8630392781Cc3c0046365d4c)
    * Apr-06-2023 - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://optimistic.etherscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+     - add filtering prices by liquidity
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://optimistic.etherscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+     - fix math in some cases with variable overflow
+     - use create3 for deploying the same address on different networks
    * Sep-01-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://optimistic.etherscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+     - add calculation optimizations
+     - expand calculations to OraclePrices library
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://optimistic.etherscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+     - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://optimistic.etherscan.io/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+     - add methods to return oracles prices and liquidity at the same time   
 
 </details>
 
@@ -273,10 +301,17 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Sep-14-2021 - [0x735247fb0a604c0adC6cab38ACE16D0DbA31295F](https://arbiscan.io/address/0x735247fb0a604c0adC6cab38ACE16D0DbA31295F)
    * Apr-03-2023 - [0x59Bc892E1832aE86C268fC21a91fE940830a52b0](https://arbiscan.io/address/0x59Bc892E1832aE86C268fC21a91fE940830a52b0)
+     - add filtering prices by liquidity
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://arbiscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+     - fix math in some cases with variable overflow
+     - use create3 for deploying the same address on different networks
    * Sep-01-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://arbiscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+     - add calculation optimizations
+     - expand calculations to OraclePrices library
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://arbiscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+     - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://arbiscan.io/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+     - add methods to return oracles prices and liquidity at the same time   
 
 </details>
 
@@ -321,10 +356,17 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Dec-23-2021 - [0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9](https://snowtrace.io/address/0xBd0c7AaF0bF082712EbE919a9dD94b2d978f79A9)
    * Apr-03-2023 - [0xf023D71EfB08339EA28F0C186AE130c74D44C58c](https://snowtrace.io/address/0xf023D71EfB08339EA28F0C186AE130c74D44C58c)
+     - add filtering prices by liquidity
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://snowtrace.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+     - fix math in some cases with variable overflow
+     - use create3 for deploying the same address on different networks
    * Sep-01-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://snowtrace.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+     - add calculation optimizations
+     - expand calculations to OraclePrices library
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://snowtrace.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+     - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://snowtrace.io/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+     - add methods to return oracles prices and liquidity at the same time   
 
 </details>
 
@@ -366,10 +408,17 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Dec-23-2021 - [0x142DB045195CEcaBe415161e1dF1CF0337A4d02E](https://blockscout.com/xdai/mainnet/address/0x142DB045195CEcaBe415161e1dF1CF0337A4d02E)
    * Apr-06-2023 - [0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6](https://gnosisscan.io/address/0x3Ce81621e674Db129033548CbB9FF31AEDCc1BF6)
+     - add filtering prices by liquidity
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://gnosisscan.io/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+     - fix math in some cases with variable overflow
+     - use create3 for deploying the same address on different networks
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://gnosisscan.io/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+     - add calculation optimizations
+     - expand calculations to OraclePrices library
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://gnosisscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+     - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://gnosisscan.io/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+     - add methods to return oracles prices and liquidity at the same time   
 
 </details>
 
@@ -408,10 +457,17 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Mar-21-2022 - [0xE8E598A1041b6fDB13999D275a202847D9b654ca](https://ftmscan.com/address/0xE8E598A1041b6fDB13999D275a202847D9b654ca)
    * Apr-04-2023 - [0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27](https://ftmscan.com/address/0xFdCB8fA524f84081988e6065Fc8EF060f2CF0C27)
+     - add filtering prices by liquidity
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://ftmscan.com/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+     - fix math in some cases with variable overflow
+     - use create3 for deploying the same address on different networks
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://ftmscan.com/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+     - add calculation optimizations
+     - expand calculations to OraclePrices library
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://ftmscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+     - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://ftmscan.com/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+     - add methods to return oracles prices and liquidity at the same time   
 
 </details>
 
@@ -452,10 +508,17 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * May-26-2022 - [0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795](https://aurorascan.dev/address/0xE4E0552452e5cC1306A2bF5B2Fd9b1eA19418795)
    * Mar-31-2023 - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://aurorascan.dev/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
+     - add filtering prices by liquidity
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://aurorascan.dev/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+     - fix math in some cases with variable overflow
+     - use create3 for deploying the same address on different networks
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://aurorascan.dev/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+     - add calculation optimizations
+     - expand calculations to OraclePrices library
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://aurorascan.dev/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+     - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://aurorascan.dev/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+     - add methods to return oracles prices and liquidity at the same time   
 
 </details>
 
@@ -489,10 +552,17 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Aug-02-2022 - [0x138CE40d675F9a23E4D6127A8600308Cf7A93381](https://scope.klaytn.com/account/0x138CE40d675F9a23E4D6127A8600308Cf7A93381)
    * Apr-06-2023 - [0x89314d57A8A4E636A00922ac289BC3a9a69C4361](https://scope.klaytn.com/account/0x89314d57A8A4E636A00922ac289BC3a9a69C4361)
+     - add filtering prices by liquidity
    * Jul-13-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://scope.klaytn.com/account/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
+     - fix math in some cases with variable overflow
+     - use create3 for deploying the same address on different networks
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://scope.klaytn.com/account/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+     - add calculation optimizations
+     - expand calculations to OraclePrices library
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://scope.klaytn.com/account/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+     - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://scope.klaytn.com/account/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+     - add methods to return oracles prices and liquidity at the same time   
 
 </details>
 
@@ -527,9 +597,15 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Mar-28-2023 - [0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C](https://explorer.zksync.io/address/0x1ec0a5F6dc07E93491426d5aAAc3E2BC505Ef41C)
    * Jun-05-2023 - [0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd](https://explorer.zksync.io/address/0xEE053a8333B7F804bE050B3D73289C6dbbEB2BFd)
    * Jul-12-2023 - [0xC762d56614D3411eC6fABD56cb075D904b801613](https://explorer.zksync.io/address/0xC762d56614D3411eC6fABD56cb075D904b801613)
+     - fix math in some cases with variable overflow
+     - use create3 for deploying the same address on different networks
    * Sep-02-2023 - [0xc9bB6e4FF7dEEa48e045CEd9C0ce016c7CFbD500](https://explorer.zksync.io/address/0xc9bB6e4FF7dEEa48e045CEd9C0ce016c7CFbD500)
+     - add calculation optimizations
+     - expand calculations to OraclePrices library
    * Jul-03-2024 - [0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033](https://explorer.zksync.io/address/0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033)
+     - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x739B4e7a3ad8210B6315F75b24cfe0D3226f6945](https://explorer.zksync.io/address/0x739B4e7a3ad8210B6315F75b24cfe0D3226f6945) - <i><b>current implementation</b></i>
+     - add methods to return oracles prices and liquidity at the same time      
 
 </details>
 
@@ -574,8 +650,12 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * Aug-09-2023 - [0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B](https://basescan.org/address/0x52cbE0f49CcdD4Dc6E9C13BAb024EABD2842045B)
    * Sep-02-2023 - [0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8](https://basescan.org/address/0x0AdDd25a91563696D8567Df78D5A01C9a991F9B8)
+     - add calculation optimizations
+     - expand calculations to OraclePrices library
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://basescan.org/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
+     - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://basescan.org/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+     - add methods to return oracles prices and liquidity at the same time         
 
 </details>
 
