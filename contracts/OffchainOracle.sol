@@ -263,7 +263,9 @@ contract OffchainOracle is Ownable {
     * WARNING!
     *    Usage of the dex oracle on chain is highly discouraged!
     *    getRate function can be easily manipulated inside transaction!
-    * @notice Returns the weighted rate between two tokens using custom connectors, with the option to filter out rates below a certain threshold.
+    * @notice Returns the wrapped price and list of rates by oracles between two tokens using custom connectors, with the option to filter out rates below a certain threshold.
+    *         If the wrapped price is not 0, it means that there is a wrapper with a rate that does not depend on liquidity volume,
+    *         so the list of rates from oracles doesn't matter and can be non-full.
     * @param srcToken The source token
     * @param dstToken The destination token
     * @param useWrappers Boolean flag to use or not use token wrappers
