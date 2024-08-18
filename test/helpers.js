@@ -155,8 +155,8 @@ const deployParams = {
         initcodeHash: '0xc0629f1c7daa09624e54d4f711ba99922a844907cce02997176399e4cc7e8fcf',
     },
     Slipstream: { // optimistic network
-        factory: '0x548118C7E0B865C2CfA94D15EC86B666468ac758',
-        initcodeHash: '0x3e17c3f6d9f39d14b65192404b8d70a2f921655d3f7f5e7481ab3fcf0756e8ea',
+        factory: '0xCc0bDDB707055e04e497aB22a59c2aF4391cd12F',
+        initcodeHash: '0x339492e30b7a68609e535da9b0773082bfe60230ca47639ee5566007d525f5a7',
         tickSpacings: [1, 50, 100, 200, 2_000],
     },
     Aerodrome: { // base network
