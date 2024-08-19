@@ -1,6 +1,6 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { ethers } = require('hardhat');
-const { expect, deployContract } = require('@1inch/solidity-utils');
+const { expect, deployContract, getEthPrice } = require('@1inch/solidity-utils');
 const {
     tokens,
     deployParams: { AaveWrapperV2, Curve, Uniswap, UniswapV2, UniswapV3 },
@@ -18,13 +18,15 @@ describe('CurveOracle', function () {
 
     async function deployCurveOracle () {
         const { uniswapV3Oracle } = await deployUniswapV3();
-        const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools]);
+        const [owner] = await ethers.getSigners();
+        const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools, [tokens.USDC], owner.address]);
         return { curveOracle, uniswapV3Oracle };
     }
 
     async function deployCurveOracleCRP () {
         const { uniswapV3Oracle } = await deployUniswapV3();
-        const curveOracle = await deployContract('CurveOracleCRP', [Curve.provider, Curve.maxPools]);
+        const [owner] = await ethers.getSigners();
+        const curveOracle = await deployContract('CurveOracleCRP', [Curve.provider, Curve.maxPools, [tokens.USDC], owner.address]);
         return { curveOracle, uniswapV3Oracle };
     }
 
@@ -113,6 +115,28 @@ describe('CurveOracle', function () {
             const rate = await curveOracle.getRate(tokens.BEAN, tokens['3CRV'], tokens.NONE, thresholdFilter);
             expect(rate.rate).to.gt('0');
         });
+
+        it('should revert for unsupported connector', async function () {
+            const { curveOracle } = await loadFixture(fixture);
+            expect(await curveOracle.connectorSupported(tokens.WBTC)).to.be.false;
+            await expect(curveOracle.getRate(tokens.USDT, tokens.USDC, tokens.WBTC, thresholdFilter))
+                .to.be.revertedWithCustomError(curveOracle, 'ConnectorNotSupported()');
+        });
+
+        it('EURS -> USDC -> USDT', async function () {
+            // This test uses `getEthPrice` method because EURS liquidity exists only in Curve
+            const { curveOracle } = await loadFixture(fixture);
+            const eursDecimals = 2n;
+            const usdtDecimals = 6n;
+            const rate = await getEthPrice('EURS') * 10n ** usdtDecimals / 10n ** eursDecimals;
+            await testRate(tokens.EURS, tokens.USDT, tokens.USDC, curveOracle, { getRate: async () => ({ rate }) });
+        });
+
+        it('USDM -> USDC -> WETH', async function () {
+            const { curveOracle } = await loadFixture(fixture);
+            const rate = await curveOracle.getRate(tokens.USDM, tokens.WETH, tokens.USDC, thresholdFilter);
+            expect(rate.rate).to.gt('0');
+        });
     };
 
     function shouldShowMeasureGas (fixture) {
@@ -132,6 +156,11 @@ describe('CurveOracle', function () {
             const { curveOracle, uniswapV3Oracle } = await loadFixture(fixture);
             await measureGas(await curveOracle.getFunction('getRate').send(tokens.WBTC, tokens.WETH, tokens.NONE, thresholdFilter), 'CurveOracle wbtc -> weth');
             await measureGas(await uniswapV3Oracle.getFunction('getRate').send(tokens.WBTC, tokens.WETH, tokens.NONE, thresholdFilter), 'UniswapV3Oracle wbtc -> weth');
+        });
+
+        it('EURS -> USDC -> WETH', async function () {
+            const { curveOracle } = await loadFixture(fixture);
+            await measureGas(await curveOracle.getFunction('getRate').send(tokens.EURS, tokens.WETH, tokens.USDC, thresholdFilter), 'CurveOracle eurs -> usdc -> weth');
         });
     };
 
