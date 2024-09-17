@@ -625,6 +625,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://basescan.org/address/0x008D10214049593C6e63564946FFb64A6F706732)
    * VelocimeterV2 - [0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F](https://basescan.org/address/0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F)
    * Aerodrome - [0xFd1d18173D2f179a45Bf21F755a261AAe7C2d769](https://basescan.org/address/0xFd1d18173D2f179a45Bf21F755a261AAe7C2d769)
+   * Slipstream - [0xB5d6422B5237228C8A9891F9DD94BCaBB523D247](https://basescan.org/address/0xB5d6422B5237228C8A9891F9DD94BCaBB523D247)
    
 </details>
 
