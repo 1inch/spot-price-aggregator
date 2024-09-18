@@ -41,16 +41,15 @@ contract SolidlyOracle is IOracle {
         OraclePrices.Data memory ratesAndWeights = OraclePrices.init(2);
         (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, true);
         if (b0 > 0) {
-            uint256 _x = (b0 * 1e18) / 10 ** srcDecimals;
-            uint256 _y = (b1 * 1e18) / 10 ** dstDecimals;
+            uint256 _x = (b0 * 1e18) / 10 ** srcDecimals; // b0 converted to 1e18 decimals format
+            uint256 _y = (b1 * 1e18) / 10 ** dstDecimals; // b1 converted to 1e18 decimals format
             uint256 _a = (_x * _y) / 1e18;
             uint256 _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);
             uint256 xy = (_a * _b) / 1e18;
 
-            (uint256 y, bool error) = _getY(2 * b0, xy, b1);
+            (uint256 y, bool error) = _getY(2 * _x, xy, _y);
             if (!error) {
-                uint256 dy = b1 - y;
-                uint256 amountOut = dy / (10 ** (18 - dstDecimals));
+                uint256 amountOut = b1 - y / (10 ** (18 - dstDecimals));
                 ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(amountOut, 1e18, b0), (b0 * b1).sqrt()));
             }
         }
