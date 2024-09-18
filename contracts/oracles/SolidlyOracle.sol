@@ -24,25 +24,25 @@ contract SolidlyOracle is IOracle {
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
+        uint256 srcDecimals = IERC20Metadata(address(srcToken)).decimals();
+        uint256 dstDecimals = IERC20Metadata(address(dstToken)).decimals();
         if (connector == _NONE) {
-            (rate, weight) = _getWeightedRate(srcToken, dstToken, thresholdFilter);
+            (rate, weight) = _getWeightedRate(srcToken, dstToken, srcDecimals, dstDecimals, thresholdFilter);
         } else {
-            (uint256 rateC0, uint256 weightC0) = _getWeightedRate(srcToken, connector, thresholdFilter);
-            (uint256 rateC1, uint256 weightC1) = _getWeightedRate(connector, dstToken, thresholdFilter);
+            uint256 connectorDecimals = IERC20Metadata(address(connector)).decimals();
+            (uint256 rateC0, uint256 weightC0) = _getWeightedRate(srcToken, connector, srcDecimals, connectorDecimals, thresholdFilter);
+            (uint256 rateC1, uint256 weightC1) = _getWeightedRate(connector, dstToken, connectorDecimals, dstDecimals, thresholdFilter);
             rate = rateC0 * rateC1 / 1e18;
             weight = Math.min(weightC0, weightC1);
         }
     }
 
-    function _getWeightedRate(IERC20 srcToken, IERC20 dstToken, uint256 thresholdFilter) internal view returns (uint256 rate, uint256 weight) {
+    function _getWeightedRate(IERC20 srcToken, IERC20 dstToken, uint256 srcDecimals, uint256 dstDecimals, uint256 thresholdFilter) internal view returns (uint256 rate, uint256 weight) {
         OraclePrices.Data memory ratesAndWeights = OraclePrices.init(2);
         (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, true);
         if (b0 > 0) {
-            uint256 decimalsSrc = IERC20Metadata(address(srcToken)).decimals();
-            uint256 decimalsDst = IERC20Metadata(address(dstToken)).decimals();
-
-            uint256 _x = (b0 * 1e18) / 10 ** decimalsSrc;
-            uint256 _y = (b1 * 1e18) / 10 ** decimalsDst;
+            uint256 _x = (b0 * 1e18) / 10 ** srcDecimals;
+            uint256 _y = (b1 * 1e18) / 10 ** dstDecimals;
             uint256 _a = (_x * _y) / 1e18;
             uint256 _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);
             uint256 xy = (_a * _b) / 1e18;
@@ -50,7 +50,7 @@ contract SolidlyOracle is IOracle {
             (uint256 y, bool error) = _getY(2 * b0, xy, b1);
             if (!error) {
                 uint256 dy = b1 - y;
-                uint256 amountOut = dy / (10 ** (18 - decimalsDst));
+                uint256 amountOut = dy / (10 ** (18 - dstDecimals));
                 ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(amountOut, 1e18, b0), (b0 * b1).sqrt()));
             }
         }
