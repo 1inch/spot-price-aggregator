@@ -47,10 +47,10 @@ contract SolidlyOracle is IOracle {
             uint256 _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);
             uint256 xy = (_a * _b) / 1e18;
 
-            (uint256 y, bool error) = _getY(2 * _x, xy, _y);
+            (uint256 y, bool error) = _getY(1e18 + _x , xy, _y); // calculation for 1 src token converted to 1e18 decimals format
             if (!error) {
                 uint256 amountOut = b1 - y / (10 ** (18 - dstDecimals));
-                ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(amountOut, 1e18, b0), (b0 * b1).sqrt()));
+                ratesAndWeights.append(OraclePrices.OraclePrice(amountOut, (b0 * b1).sqrt()));
             }
         }
         (b0, b1) = _getBalances(srcToken, dstToken, false);
