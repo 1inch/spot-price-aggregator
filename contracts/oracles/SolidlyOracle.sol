@@ -103,7 +103,7 @@ contract SolidlyOracle is IOracle {
             )))));
     }
 
-    function _getBalances(IERC20 srcToken, IERC20 dstToken, bool stable) internal view returns (uint256 srcBalance, uint256 dstBalance) {
+    function _getBalances(IERC20 srcToken, IERC20 dstToken, bool stable) internal virtual view returns (uint256 srcBalance, uint256 dstBalance) {
         (IERC20 token0, IERC20 token1) = srcToken < dstToken ? (srcToken, dstToken) : (dstToken, srcToken);
         (bool success, bytes memory data) = _pairFor(token0, token1, stable).staticcall(abi.encodeWithSelector(IUniswapV2Pair.getReserves.selector));
         if (success && data.length == 96) {
