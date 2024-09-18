@@ -56,6 +56,16 @@ describe('SolidlyOracle', function () {
                 const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
                 await testRate(tokens.base.DAI, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
             });
+
+            it('rETH -> WETH', async function () {
+                const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
+                const dexFactory = await oracle.FACTORY();
+                // Special test only for Aerodrome
+                if (dexFactory !== Aerodrome.factory) {
+                    this.skip();
+                }
+                await testRate(tokens.base.rETH, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
+            });
         }
 
         describe('VelocimeterV2', function () {
