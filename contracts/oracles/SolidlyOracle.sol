@@ -38,37 +38,21 @@ contract SolidlyOracle is IOracle {
         OraclePrices.Data memory ratesAndWeights = OraclePrices.init(2);
         (uint256 b0, uint256 b1) = _getBalances(srcToken, dstToken, true);
         if (b0 > 0) {
-            // Get decimals for both tokens
             uint256 decimalsSrc = IERC20Metadata(address(srcToken)).decimals();
             uint256 decimalsDst = IERC20Metadata(address(dstToken)).decimals();
 
-            //uint256 adjustedB0 = b0 * (10 ** (18 - decimalsSrc));
-            //uint256 adjustedB1 = b1 * (10 ** (18 - decimalsDst));
-
-            // Calculate the 'k' value using the stable swap formula
-            uint256 _a = (b0 * b1) / 1e18;
-            uint256 _b = ((b0 * b0) / 1e18 + (b1 * b1) / 1e18);
+            uint256 _x = (b0 * 1e18) / 10 ** decimalsSrc;
+            uint256 _y = (b1 * 1e18) / 10 ** decimalsDst;
+            uint256 _a = (_x * _y) / 1e18;
+            uint256 _b = ((_x * _x) / 1e18 + (_y * _y) / 1e18);
             uint256 xy = (_a * _b) / 1e18;
 
-            // Set 1 amountIn minus stable fee for basic stable pools
-            uint256 amountIn = (10 ** decimalsSrc) * (10000 - 5) / 10000;
-
-
-            // Compute y using the stable swap invariant
-            uint256 y = _getY(amountIn + b0, xy, b1);
-
-            // Calculate amountOut
-            uint256 dy = b1 - y;
-
-            // Adjust dy back to token decimals
-            uint256 amountOut = dy / (10 ** (18 - decimalsDst));
-
-            ratesAndWeights.append(OraclePrices.OraclePrice(
-                (amountOut * 1e18) / amountIn,
-                (b0 * b1).sqrt()
-            ));
-
-
+            (uint256 y, bool error) = _getY(2 * b0, xy, b1);
+            if (!error) {
+                uint256 dy = b1 - y;
+                uint256 amountOut = dy / (10 ** (18 - decimalsDst));
+                ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(amountOut, 1e18, b0), (b0 * b1).sqrt()));
+            }
         }
         (b0, b1) = _getBalances(srcToken, dstToken, false);
         if (b0 > 0) {
@@ -78,25 +62,25 @@ contract SolidlyOracle is IOracle {
     }
 
     // Helper function to compute 'y' based on the stable swap invariant
-    function _getY(uint256 x0, uint256 xy, uint256 y0) internal pure returns (uint256) {
-        uint256 y = y0;
+    function _getY(uint256 x0, uint256 xy, uint256 y0) internal pure returns (uint256 y, bool error) {
+        y = y0;
         for (uint256 i = 0; i < 255; i++) {
             uint256 k = _f(x0, y);
             if (k < xy) {
                 uint256 dy = ((xy - k) * 1e18) / _d(x0, y);
                 if (dy == 0) {
-                    return y;
+                    return (y, false);
                 }
                 y = y + dy;
             } else {
                 uint256 dy = ((k - xy) * 1e18) / _d(x0, y);
                 if (dy == 0) {
-                    return y;
+                    return (y, false);
                 }
                 y = y - dy;
             }
         }
-        revert("!y"); // error comes from the original code
+        return (0, true);
     }
 
     // Internal functions '_f' and '_d' as per the original code
