@@ -126,8 +126,6 @@ contract SolidlyOracle is IOracle {
         if (success && data.length == 96) {
             (srcBalance, dstBalance) = abi.decode(data, (uint256, uint256));
             (srcBalance, dstBalance) = srcToken == token0 ? (srcBalance, dstBalance) : (dstBalance, srcBalance);
-        } else {
-            (srcBalance, dstBalance) = (1, 0);
         }
     }
 }
