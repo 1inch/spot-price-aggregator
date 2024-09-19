@@ -3,7 +3,6 @@
 pragma solidity 0.8.23;
 
 import "./SolidlyOracle.sol";
-import "../interfaces/ISolidlyFactory.sol";
 
 contract SolidlyOracleZksync is SolidlyOracle {
     /// @dev keccak256("zksyncCreate2")
