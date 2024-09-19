@@ -19,9 +19,8 @@ describe('SolidlyOracle', function () {
         });
 
         async function initContracts () {
-            const velocimeterV2Oracle = await deployContract('SolidlyOracle', [VelocimeterV2.factory, VelocimeterV2.initcodeHash]);
             const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3Base.factory, UniswapV3Base.initcodeHash, UniswapV3Base.fees]);
-            return { velocimeterV2Oracle, uniswapV3Oracle };
+            return { uniswapV3Oracle };
         }
 
         async function deployVelocimeterV2 () {
@@ -55,6 +54,24 @@ describe('SolidlyOracle', function () {
             it('DAI -> WETH', async function () {
                 const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
                 await testRate(tokens.base.DAI, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
+            });
+
+            it('rETH -> WETH', async function () {
+                const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
+                // Test only for Aerodrome
+                if (await oracle.FACTORY() !== Aerodrome.factory) {
+                    this.skip();
+                }
+                await testRate(tokens.base.rETH, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
+            });
+
+            it('WETH -> rETH', async function () {
+                const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
+                // Test only for Aerodrome
+                if (await oracle.FACTORY() !== Aerodrome.factory) {
+                    this.skip();
+                }
+                await testRate(tokens.base.WETH, tokens.base.rETH, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
             });
         }
 
