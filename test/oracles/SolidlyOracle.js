@@ -19,9 +19,8 @@ describe('SolidlyOracle', function () {
         });
 
         async function initContracts () {
-            const velocimeterV2Oracle = await deployContract('SolidlyOracle', [VelocimeterV2.factory, VelocimeterV2.initcodeHash]);
             const uniswapV3Oracle = await deployContract('UniswapV3LikeOracle', [UniswapV3Base.factory, UniswapV3Base.initcodeHash, UniswapV3Base.fees]);
-            return { velocimeterV2Oracle, uniswapV3Oracle };
+            return { uniswapV3Oracle };
         }
 
         async function deployVelocimeterV2 () {
