@@ -218,8 +218,8 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://optimistic.etherscan.io/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
    * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://optimistic.etherscan.io/address/0x008D10214049593C6e63564946FFb64A6F706732)
-   * Velodrome Finance - [0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef](https://optimistic.etherscan.io/address/0x52a8193C7f42b75F27e4ce96f8ddBA7e854453Ef)
-   * VelodromeV2 - [0xD4eFb5998DFBDFB791182fb610D0061136E9DB50](https://optimistic.etherscan.io/address/0xD4eFb5998DFBDFB791182fb610D0061136E9DB50)
+   * Velodrome Finance - [0x3Ca884d47b84B147Ca8E70003942c0B614603B39](https://optimistic.etherscan.io/address/0x3Ca884d47b84B147Ca8E70003942c0B614603B39)
+   * VelodromeV2 - [0x8606321723D9cA7db708A8b12DAd0A8a83f2F3bD](https://optimistic.etherscan.io/address/0x8606321723D9cA7db708A8b12DAd0A8a83f2F3bD)
    * Synthetix - [0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4](https://optimistic.etherscan.io/address/0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4)
    * Slipstream - [0xcdEee819aEf73511331522552Ca1E54e771D40ed](https://optimistic.etherscan.io/address/0xcdEee819aEf73511331522552Ca1E54e771D40ed)
    * Curve - [0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19](https://optimistic.etherscan.io/address/0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19)
@@ -572,7 +572,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported DEXes</summary>
 
-   * MuteSwitch - [0xE0C1daF04Ca9f65c45bF67E87F6135fcf51ba5D1](https://explorer.zksync.io/address/0xE0C1daF04Ca9f65c45bF67E87F6135fcf51ba5D1)
+   * MuteSwitch - [0x9b6b2D846Ef69b1eA7D1A865E6E30A4D35AD8776](https://explorer.zksync.io/address/0x9b6b2D846Ef69b1eA7D1A865E6E30A4D35AD8776)
    * Syncswap - [0x226b15358e2DF022ada190fc3Ac4a32ea26C18c8](https://explorer.zksync.io/address/0x226b15358e2DF022ada190fc3Ac4a32ea26C18c8)
 
 </details>
@@ -623,8 +623,8 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * SushiSwapV3 - [0xE4186059f521C715d2977922A6e8704d9C342e5A](https://basescan.org/address/0xE4186059f521C715d2977922A6e8704d9C342e5A)
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://basescan.org/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
    * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://basescan.org/address/0x008D10214049593C6e63564946FFb64A6F706732)
-   * VelocimeterV2 - [0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F](https://basescan.org/address/0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F)
-   * Aerodrome - [0xFd1d18173D2f179a45Bf21F755a261AAe7C2d769](https://basescan.org/address/0xFd1d18173D2f179a45Bf21F755a261AAe7C2d769)
+   * VelocimeterV2 - [0xDc6815ff5B65b1d3bAB4604fF92126EaB0539353](https://basescan.org/address/0xDc6815ff5B65b1d3bAB4604fF92126EaB0539353)
+   * Aerodrome - [0x63c63C5F5B6cdFDb020320A1c392Ef933e37Bd33](https://basescan.org/address/0x63c63C5F5B6cdFDb020320A1c392Ef933e37Bd33)
    * Slipstream - [0xB5d6422B5237228C8A9891F9DD94BCaBB523D247](https://basescan.org/address/0xB5d6422B5237228C8A9891F9DD94BCaBB523D247)
    
 </details>
