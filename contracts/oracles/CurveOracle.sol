@@ -9,19 +9,23 @@ import "../interfaces/ICurveProvider.sol";
 import "../interfaces/ICurveMetaregistry.sol";
 import "../interfaces/ICurvePool.sol";
 import "../libraries/OraclePrices.sol";
+import "../helpers/ConnectorManager.sol";
 
-contract CurveOracle is IOracle {
+contract CurveOracle is IOracle, ConnectorManager {
     using OraclePrices for OraclePrices.Data;
     using Math for uint256;
 
-    IERC20 private constant _NONE = IERC20(0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF);
+    error ConnectorNotSupported();
+
     IERC20 private constant _ETH = IERC20(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
     uint256 private constant _METAREGISTRY_ID = 7;
 
     ICurveMetaregistry public immutable CURVE_METAREGISTRY;
     uint256 public immutable MAX_POOLS;
 
-    constructor(ICurveProvider curveProvider, uint256 maxPools) {
+    constructor(ICurveProvider curveProvider, uint256 maxPools, IERC20[] memory connectors, address owner)
+        ConnectorManager(connectors, owner)
+    {
         CURVE_METAREGISTRY = ICurveMetaregistry(curveProvider.get_address(_METAREGISTRY_ID));
         MAX_POOLS = maxPools;
     }
@@ -45,8 +49,19 @@ contract CurveOracle is IOracle {
     }
 
     function getRate(IERC20 srcToken, IERC20 dstToken, IERC20 connector, uint256 thresholdFilter) external view override returns (uint256 rate, uint256 weight) {
-        if(connector != _NONE) revert ConnectorShouldBeNone();
+        if (!connectorSupported[connector]) revert ConnectorNotSupported();
 
+        if (connector == _NONE) {
+            (rate, weight) = _getRate(srcToken, dstToken, thresholdFilter);
+        } else {
+            (uint256 rate1, uint256 weight1) = _getRate(srcToken, connector, thresholdFilter);
+            (uint256 rate2, uint256 weight2) = _getRate(connector, dstToken, thresholdFilter);
+            rate = Math.mulDiv(rate1, rate2, 1e18);
+            weight = Math.min(weight1, weight2).sqrt();
+        }
+    }
+
+    function _getRate(IERC20 srcToken, IERC20 dstToken, uint256 thresholdFilter) internal view returns (uint256 rate, uint256 weight) {
         address[] memory pools = CURVE_METAREGISTRY.find_pools_for_coins(address(srcToken), address(dstToken));
         if (pools.length == 0) {
             return (0, 0);
