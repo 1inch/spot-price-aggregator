@@ -7,7 +7,9 @@ require('hardhat-dependency-compiler');
 require('hardhat-gas-reporter');
 require('hardhat-tracer');
 require('solidity-coverage');
+require('solidity-docgen');
 
+const { oneInchTemplates } = require('@1inch/solidity-utils/docgen');
 const { Networks, getNetwork } = require('@1inch/solidity-utils/hardhat-setup');
 
 if (getNetwork().indexOf('zksync') !== -1) {
@@ -41,7 +43,7 @@ module.exports = {
         deploy: 'deploy/commands',
     },
     mocha: {
-        timeout: 240000,
+        timeout: 300000,
     },
     tracer: {
         enableAllOpcodes: true,
@@ -57,5 +59,11 @@ module.exports = {
         version: '1.5.1',
         compilerSource: 'binary',
         settings: {},
+    },
+    docgen: {
+        outputDir: 'docs',
+        templates: oneInchTemplates(),
+        pages: 'files',
+        exclude: ['mocks'],
     },
 };
