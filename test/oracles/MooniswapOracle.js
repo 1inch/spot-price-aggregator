@@ -28,12 +28,14 @@ describe('MooniswapOracle', function () {
         await testRate([tokens.ETH, tokens.WETH], tokens.USDC, tokens.NONE, mooniswapOracle, uniswapV3Oracle, 0.2);
     });
 
-    it('USDC -> 1INCH', async function () {
+    it.skip('USDC -> 1INCH', async function () {
+        // Skipped because Mooniswap was deprecated and USDC<->1INCH pool liquidity is not related to price, so no liquidity is provided
         const { mooniswapOracle, uniswapV3Oracle } = await loadFixture(initContracts);
         await testRate(tokens.USDC, tokens['1INCH'], tokens.NONE, mooniswapOracle, uniswapV3Oracle, 0.2);
     });
 
-    it('ETH -> USDC -> 1INCH', async function () {
+    it.skip('ETH -> USDC -> 1INCH', async function () {
+        // Skipped because Mooniswap was deprecated and USDC<->1INCH pool liquidity is not related to price, so no liquidity is provided
         const { mooniswapOracle, uniswapV3Oracle } = await loadFixture(initContracts);
         await testRate([tokens.ETH, tokens.WETH], tokens['1INCH'], tokens.USDC, mooniswapOracle, uniswapV3Oracle, 0.2);
     });
