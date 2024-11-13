@@ -37,27 +37,30 @@ describe('Erc4626Wrapper', function () {
         await expect(erc4626Wrapper.wrap(tokens.WETH)).to.be.revertedWithCustomError(erc4626Wrapper, 'NotSupportedToken');
     });
 
+    function shouldReturnCorrectPricesAndTokens (fixture) {
+        it('base -> wbase', async function () {
+            const { erc4626Wrapper, wbase, base } = await loadFixture(fixture);
+            const response = await erc4626Wrapper.wrap(base);
+            expect(response.rate).to.equal(await wbase.convertToShares(ether('1')));
+            expect(response.wrappedToken).to.equal(wbase.target);
+        });
+
+        it('wbase -> base', async function () {
+            const { erc4626Wrapper, wbase, base } = await loadFixture(fixture);
+            const response = await erc4626Wrapper.wrap(wbase);
+            expect(response.rate).to.equal(await wbase.convertToAssets(ether('1')));
+            expect(response.wrappedToken).to.equal(base);
+        });
+    };
+
     describe('sUSDe Wrapper', function () {
         async function initContractsAndMarket () {
             const { erc4626Wrapper } = await initContracts();
             const sUSDe = await ethers.getContractAt('IERC4626', tokens.sUSDe);
             await erc4626Wrapper.addMarkets([sUSDe]);
-            return { erc4626Wrapper, sUSDe };
+            return { erc4626Wrapper, wbase: sUSDe, base: tokens.USDe };
         }
-
-        it('USDe -> sUSDe', async function () {
-            const { erc4626Wrapper, sUSDe } = await loadFixture(initContractsAndMarket);
-            const response = await erc4626Wrapper.wrap(tokens.USDe);
-            expect(response.rate).to.equal(await sUSDe.convertToShares(ether('1')));
-            expect(response.wrappedToken).to.equal(tokens.sUSDe);
-        });
-
-        it('sUSDe -> USDe', async function () {
-            const { erc4626Wrapper, sUSDe } = await loadFixture(initContractsAndMarket);
-            const response = await erc4626Wrapper.wrap(tokens.sUSDe);
-            expect(response.rate).to.equal(await sUSDe.convertToAssets(ether('1')));
-            expect(response.wrappedToken).to.equal(tokens.USDe);
-        });
+        shouldReturnCorrectPricesAndTokens(initContractsAndMarket);
     });
 
     describe('sDAI Wrapper', function () {
@@ -65,22 +68,35 @@ describe('Erc4626Wrapper', function () {
             const { erc4626Wrapper } = await initContracts();
             const sDai = await ethers.getContractAt('IERC4626', tokens.sDAI);
             await erc4626Wrapper.addMarkets([sDai]);
-            return { erc4626Wrapper, sDai };
+            return { erc4626Wrapper, wbase: sDai, base: tokens.DAI };
+        }
+        shouldReturnCorrectPricesAndTokens(initContractsAndMarket);
+    });
+
+    describe('xrETH Wrapper', function () {
+        async function initContractsAndMarket () {
+            const { erc4626Wrapper } = await initContracts();
+            const xrETH = await ethers.getContractAt('IERC4626', tokens.xrETH);
+            await erc4626Wrapper.addMarkets([xrETH]);
+            return { erc4626Wrapper, wbase: xrETH, base: tokens.WETH };
         }
 
-        it('DAI -> sDai', async function () {
-            const { erc4626Wrapper, sDai } = await loadFixture(initContractsAndMarket);
-            const response = await erc4626Wrapper.wrap(tokens.DAI);
-            expect(response.rate).to.equal(await sDai.convertToShares(ether('1')));
-            expect(response.wrappedToken).to.equal(tokens.sDAI);
-        });
+        // Switch off console.log to avoid spamming the console with the logs from the xrETH contract
+        const originalConsoleLog = console.log;
+        before(async function () { console.log = function () {}; });
+        after(async function () { console.log = originalConsoleLog; });
 
-        it('sDai -> DAI', async function () {
-            const { erc4626Wrapper, sDai } = await loadFixture(initContractsAndMarket);
-            const response = await erc4626Wrapper.wrap(tokens.sDAI);
-            expect(response.rate).to.equal(await sDai.convertToAssets(ether('1')));
-            expect(response.wrappedToken).to.equal(tokens.DAI);
-        });
+        shouldReturnCorrectPricesAndTokens(initContractsAndMarket);
+    });
+
+    describe('scrvUSD Wrapper', function () {
+        async function initContractsAndMarket () {
+            const { erc4626Wrapper } = await initContracts();
+            const scrvUSD = await ethers.getContractAt('IERC4626', tokens.scrvUSD);
+            await erc4626Wrapper.addMarkets([scrvUSD]);
+            return { erc4626Wrapper, wbase: scrvUSD, base: tokens.crvUSD };
+        }
+        shouldReturnCorrectPricesAndTokens(initContractsAndMarket);
     });
 
     describe('wsuperOETHb Wrapper', function () {
@@ -96,21 +112,8 @@ describe('Erc4626Wrapper', function () {
             const { erc4626Wrapper } = await initContracts();
             const wsuperOETHb = await ethers.getContractAt('IERC4626', tokens.base.wsuperOETHb);
             await erc4626Wrapper.addMarkets([wsuperOETHb]);
-            return { erc4626Wrapper, wsuperOETHb };
+            return { erc4626Wrapper, wbase: wsuperOETHb, base: tokens.base.superOETHb };
         }
-
-        it('superOETHb -> wsuperOETHb', async function () {
-            const { erc4626Wrapper, wsuperOETHb } = await loadFixture(initContractsAndMarket);
-            const response = await erc4626Wrapper.wrap(tokens.base.superOETHb);
-            expect(response.rate).to.equal(await wsuperOETHb.convertToShares(ether('1')));
-            expect(response.wrappedToken).to.equal(tokens.base.wsuperOETHb);
-        });
-
-        it('wsuperOETHb -> superOETHb', async function () {
-            const { erc4626Wrapper, wsuperOETHb } = await loadFixture(initContractsAndMarket);
-            const response = await erc4626Wrapper.wrap(tokens.base.wsuperOETHb);
-            expect(response.rate).to.equal(await wsuperOETHb.convertToAssets(ether('1')));
-            expect(response.wrappedToken).to.equal(tokens.base.superOETHb);
-        });
+        shouldReturnCorrectPricesAndTokens(initContractsAndMarket);
     });
 });
