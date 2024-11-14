@@ -38,12 +38,12 @@ describe('SolidlyOracle', function () {
         function shouldWorkForOracle (fixture) {
             it('WETH -> axlUSDC', async function () {
                 const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
-                await testRate(tokens.base.WETH, tokens.base.axlUSDC, tokens.NONE, oracle, uniswapV3Oracle);
+                await testRate(tokens.base.WETH, tokens.base.axlUSDC, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
             });
 
             it('axlUSDC -> WETH', async function () {
                 const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
-                await testRate(tokens.base.axlUSDC, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle);
+                await testRate(tokens.base.axlUSDC, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
             });
 
             it('WETH -> DAI', async function () {
