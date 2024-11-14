@@ -55,9 +55,9 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * YVault - [0x9FF110f132d988bfa9bC6a21851Da1aF3aC6EaF8](https://etherscan.io/address/0x9FF110f132d988bfa9bC6a21851Da1aF3aC6EaF8)
    * stETH - [0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F](https://etherscan.io/address/0x26daCf7E879b18FE658326ddD3ABC0D6910B3E9F)
    * wstETH - [0x37eB78fE793E89353e46AEe73E299985C3B8d334](https://etherscan.io/address/0x37eB78fE793E89353e46AEe73E299985C3B8d334)
-   * sDAI - [0xF07317368A4B061dadB8C8239cbfCfd4808B76ce](https://etherscan.io/address/0xF07317368A4B061dadB8C8239cbfCfd4808B76ce)
    * CHAI - [0x6fE4926a0fCc78ab764b39f2738e1Dea145d7AC0](https://etherscan.io/address/0x6fE4926a0fCc78ab764b39f2738e1Dea145d7AC0)
-   * sUSDe - [0x6b4A160c09E7acCB2Ceb881E52409a01731d112c](https://etherscan.io/address/0x6b4A160c09E7acCB2Ceb881E52409a01731d112c)
+   * Erc4626 - [0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E](https://etherscan.io/address/0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E)
+        * [sUSDe](https://etherscan.io/address/0x9D39A5DE30e57443BfF2A8307A4256c8797A3497), [sDAI](https://etherscan.io/address/0x83F20F44975D03b1b09e64809B757c47f942BEeA), [xrETH](https://etherscan.io/address/0xBB22d59B73D7a6F3A8a83A214BECc67Eb3b511fE), [scrvUSD](https://etherscan.io/address/0x0655977FEb2f289A4aB78af67BAB0d17aAb84367)
    
 </details>
 
@@ -635,7 +635,8 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://basescan.org/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    * StataTokens (AaveV3) - [0x1A75DF59f464a70Cc8f7383983852FF72e5F5167](https://basescan.org/address/0x1A75DF59f464a70Cc8f7383983852FF72e5F5167)
    * CompoundV3 - [0x3afA12cf9Ac1a96845973BD93dBEa183A94DD74F](https://basescan.org/address/0x3afA12cf9Ac1a96845973BD93dBEa183A94DD74F)
-   * wsuperOETHb - [0x82534c42D6F7C347503C6618170A9aA7d382D8Ec](https://basescan.org/address/0x82534c42D6F7C347503C6618170A9aA7d382D8Ec)
+   * Erc4626 - [0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E](https://basescan.org/address/0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E)
+        * [wsuperOETHb](https://basescan.org/address/0x7FcD174E80f264448ebeE8c88a7C4476AAF58Ea6)
 
 </details>
 
