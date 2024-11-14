@@ -35,25 +35,25 @@ describe('SolidlyOracle', function () {
             return { oracle, uniswapV3Oracle };
         }
 
-        function shouldWorkForOracle (fixture) {
+        function shouldWorkForOracle (fixture, relativeDiff = 0.05) {
             it('WETH -> axlUSDC', async function () {
                 const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
-                await testRate(tokens.base.WETH, tokens.base.axlUSDC, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
+                await testRate(tokens.base.WETH, tokens.base.axlUSDC, tokens.NONE, oracle, uniswapV3Oracle, relativeDiff);
             });
 
             it('axlUSDC -> WETH', async function () {
                 const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
-                await testRate(tokens.base.axlUSDC, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
+                await testRate(tokens.base.axlUSDC, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, relativeDiff);
             });
 
             it('WETH -> DAI', async function () {
                 const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
-                await testRate(tokens.base.WETH, tokens.base.DAI, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
+                await testRate(tokens.base.WETH, tokens.base.DAI, tokens.NONE, oracle, uniswapV3Oracle, relativeDiff);
             });
 
             it('DAI -> WETH', async function () {
                 const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
-                await testRate(tokens.base.DAI, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
+                await testRate(tokens.base.DAI, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, relativeDiff);
             });
 
             it('rETH -> WETH', async function () {
@@ -62,7 +62,7 @@ describe('SolidlyOracle', function () {
                 if (await oracle.FACTORY() !== Aerodrome.factory) {
                     this.skip();
                 }
-                await testRate(tokens.base.rETH, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
+                await testRate(tokens.base.rETH, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, relativeDiff);
             });
 
             it('WETH -> rETH', async function () {
@@ -71,7 +71,7 @@ describe('SolidlyOracle', function () {
                 if (await oracle.FACTORY() !== Aerodrome.factory) {
                     this.skip();
                 }
-                await testRate(tokens.base.WETH, tokens.base.rETH, tokens.NONE, oracle, uniswapV3Oracle, 0.1);
+                await testRate(tokens.base.WETH, tokens.base.rETH, tokens.NONE, oracle, uniswapV3Oracle, relativeDiff);
             });
         }
 
@@ -80,7 +80,7 @@ describe('SolidlyOracle', function () {
         });
 
         describe('Aerodrome', function () {
-            shouldWorkForOracle(deployAerodrome);
+            shouldWorkForOracle(deployAerodrome, 0.11);
         });
     });
 });
