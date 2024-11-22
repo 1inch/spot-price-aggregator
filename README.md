@@ -57,7 +57,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * wstETH - [0x37eB78fE793E89353e46AEe73E299985C3B8d334](https://etherscan.io/address/0x37eB78fE793E89353e46AEe73E299985C3B8d334)
    * CHAI - [0x6fE4926a0fCc78ab764b39f2738e1Dea145d7AC0](https://etherscan.io/address/0x6fE4926a0fCc78ab764b39f2738e1Dea145d7AC0)
    * Erc4626 - [0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E](https://etherscan.io/address/0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E)
-        * [sUSDe](https://etherscan.io/address/0x9D39A5DE30e57443BfF2A8307A4256c8797A3497), [sDAI](https://etherscan.io/address/0x83F20F44975D03b1b09e64809B757c47f942BEeA), [xrETH](https://etherscan.io/address/0xBB22d59B73D7a6F3A8a83A214BECc67Eb3b511fE), [scrvUSD](https://etherscan.io/address/0x0655977FEb2f289A4aB78af67BAB0d17aAb84367)
+        * [sUSDe](https://etherscan.io/address/0x9D39A5DE30e57443BfF2A8307A4256c8797A3497), [sDAI](https://etherscan.io/address/0x83F20F44975D03b1b09e64809B757c47f942BEeA), [xrETH](https://etherscan.io/address/0xBB22d59B73D7a6F3A8a83A214BECc67Eb3b511fE), [scrvUSD](https://etherscan.io/address/0x0655977FEb2f289A4aB78af67BAB0d17aAb84367), [sENA](https://etherscan.io/address/0x8bE3460A480c80728a8C4D7a5D5303c85ba7B3b9)
    
 </details>
 
