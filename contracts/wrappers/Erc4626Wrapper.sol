@@ -7,12 +7,10 @@ import "@openzeppelin/contracts/interfaces/IERC4626.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Erc4626Wrapper is IWrapper, Ownable {
-    mapping(IERC20 => IERC20) public assosiatedToken;
-
-    constructor(address _owner) Ownable(_owner) {} // solhint-disable-line no-empty-blocks
-
     mapping(IERC20 => IERC20) public baseToWbase;
     mapping(IERC20 => IERC20) public wbaseToBase;
+
+    constructor(address _owner) Ownable(_owner) {} // solhint-disable-line no-empty-blocks
 
     function addMarkets(address[] memory tokens) external onlyOwner {
         for (uint256 i = 0; i < tokens.length; i++) {
