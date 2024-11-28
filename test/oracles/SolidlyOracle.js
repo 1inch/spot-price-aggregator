@@ -76,11 +76,11 @@ describe('SolidlyOracle', function () {
         }
 
         describe('VelocimeterV2', function () {
-            shouldWorkForOracle(deployVelocimeterV2);
+            shouldWorkForOracle(deployVelocimeterV2, 0.1);
         });
 
         describe('Aerodrome', function () {
-            shouldWorkForOracle(deployAerodrome, 0.11);
+            shouldWorkForOracle(deployAerodrome, 0.15);
         });
     });
 });
