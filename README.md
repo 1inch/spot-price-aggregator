@@ -671,6 +671,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported DEXes</summary>
 
    * DodoV2 - [0x03aA019F3B78110e030c34e9fA98047A1f62859A](https://lineascan.build/address/0x03aA019F3B78110e030c34e9fA98047A1f62859A)
+   * PancakeV3 - [0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61](https://lineascan.build/address/0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61)
    
 </details>
 
