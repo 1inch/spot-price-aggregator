@@ -666,7 +666,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Linea
 
-#### Oracle [STILL_NOT_DEPLOYED](https://lineascan.build/address/STILL_NOT_DEPLOYED)
+#### Oracle [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://lineascan.build/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786)
 
 <details><summary>Supported DEXes</summary>
 
@@ -691,7 +691,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Prev oracle versions (legacy)</summary>
 
-   * ...       
+   * Dec-08-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://lineascan.build/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
 
 </details>
 
