@@ -678,7 +678,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported wrappers</summary>
 
-   * WETH - [...](...)
+   * WETH - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://lineascan.build/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
 
 </details>
 
