@@ -664,6 +664,35 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 </details>
 
+### Linea
+
+#### Oracle [STILL_NOT_DEPLOYED](https://lineascan.build/address/STILL_NOT_DEPLOYED)
+
+<details><summary>Supported DEXes</summary>
+
+   * DodoV2 - [0x03aA019F3B78110e030c34e9fA98047A1f62859A](https://lineascan.build/address/0x03aA019F3B78110e030c34e9fA98047A1f62859A)
+   
+</details>
+
+<details><summary>Supported wrappers</summary>
+
+   * WETH - [...](...)
+
+</details>
+
+<details><summary>Supported connectors</summary>
+
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://lineascan.build/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * WETH - [0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f](https://lineascan.build/address/0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f)
+
+</details>
+
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * ...       
+
+</details>
+
 ## Examples
 
 * [Single token-to-ETH price usage](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/single-price.js)
