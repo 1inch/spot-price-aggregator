@@ -664,6 +664,37 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 </details>
 
+### Linea
+
+#### Oracle [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://lineascan.build/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786)
+
+<details><summary>Supported DEXes</summary>
+
+   * DodoV2 - [0x03aA019F3B78110e030c34e9fA98047A1f62859A](https://lineascan.build/address/0x03aA019F3B78110e030c34e9fA98047A1f62859A)
+   * PancakeV3 - [0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61](https://lineascan.build/address/0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61)
+   * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://lineascan.build/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
+   
+</details>
+
+<details><summary>Supported wrappers</summary>
+
+   * WETH - [0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C](https://lineascan.build/address/0xCC54299Fc291B261B2bF5552E7F0E5d2F8613E8C)
+
+</details>
+
+<details><summary>Supported connectors</summary>
+
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://lineascan.build/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * WETH - [0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f](https://lineascan.build/address/0xe5D7C2a44FfDDf6b295A15c148167daaAf5Cf34f)
+
+</details>
+
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * Dec-08-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://lineascan.build/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+
+</details>
+
 ## Examples
 
 * [Single token-to-ETH price usage](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/single-price.js)
