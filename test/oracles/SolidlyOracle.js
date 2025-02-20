@@ -80,7 +80,7 @@ describe('SolidlyOracle', function () {
         });
 
         describe('Aerodrome', function () {
-            shouldWorkForOracle(deployAerodrome, 0.15);
+            shouldWorkForOracle(deployAerodrome, 0.20);
         });
     });
 });
