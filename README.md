@@ -674,6 +674,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * PancakeV3 - [0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61](https://lineascan.build/address/0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61)
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://lineascan.build/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
    * Algebra - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://lineascan.build/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
+   * Lynex - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://lineascan.build/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
    * NILE - [0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56](https://lineascan.build/address/0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56)
    
 </details>
