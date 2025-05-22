@@ -712,6 +712,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported wrappers</summary>
 
+   * wS - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://sonicscan.org/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://sonicscan.org/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
 
 </details>
