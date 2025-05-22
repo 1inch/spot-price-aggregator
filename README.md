@@ -702,7 +702,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Unichain
 
-#### Oracle [](hhttps://uniscan.xyz/address/)
+#### Oracle [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://uniscan.xyz/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786#code)
 
 <details><summary>Supported DEXes</summary>
 
@@ -719,13 +719,14 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported connectors</summary>
 
-   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://lineascan.build/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://uniscan.xyz/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * WETH - [0x4200000000000000000000000000000000000006](https://uniscan.xyz/address/0x4200000000000000000000000000000000000006#code)
 
 </details>
 
 <details><summary>Prev oracle versions (legacy)</summary>
 
-   * 
+   * May-22-2025 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://uniscan.xyz/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
 
 </details>
 
