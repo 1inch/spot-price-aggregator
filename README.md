@@ -706,7 +706,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported DEXes</summary>
 
-   * 
+   * Shadow - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://sonicscan.org/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790)
    
 </details>
 
