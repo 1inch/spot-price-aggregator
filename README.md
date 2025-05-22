@@ -700,6 +700,34 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 </details>
 
+### Sonic
+
+#### Oracle [](https://sonicscan.org/address/)
+
+<details><summary>Supported DEXes</summary>
+
+   * 
+   
+</details>
+
+<details><summary>Supported wrappers</summary>
+
+   * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://sonicscan.org/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
+
+</details>
+
+<details><summary>Supported connectors</summary>
+
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://sonicscan.org/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+
+</details>
+
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * 
+
+</details>
+
 ## Examples
 
 * [Single token-to-ETH price usage](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/single-price.js)
