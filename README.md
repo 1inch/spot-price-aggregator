@@ -712,6 +712,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Supported wrappers</summary>
 
+   * WETH - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://uniscan.xyz/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908#code)
    * CompoundV3 - [0x7d809B3b23b62D8a455831f38b312C7c8F965D2e](https://uniscan.xyz/address/0x7d809B3b23b62D8a455831f38b312C7c8F965D2e#code)
 
 </details>
