@@ -702,7 +702,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 ### Sonic
 
-#### Oracle [](https://sonicscan.org/address/)
+#### Oracle [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://sonicscan.org/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786#code)
 
 <details><summary>Supported DEXes</summary>
 
@@ -726,7 +726,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 <details><summary>Prev oracle versions (legacy)</summary>
 
-   * 
+   * May-22-2025 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://sonicscan.org/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786#code) - <i><b>current implementation</b></i>
 
 </details>
 
