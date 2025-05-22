@@ -721,6 +721,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported connectors</summary>
 
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://sonicscan.org/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * wS - [0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38](https://sonicscan.org/address/0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38)
 
 </details>
 
