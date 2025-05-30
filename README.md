@@ -731,6 +731,36 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 </details>
 
+### Unichain
+
+#### Oracle [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://uniscan.xyz/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786#code)
+
+<details><summary>Supported DEXes</summary>
+
+   * UniswapV2 - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://uniscan.xyz/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790#code)
+   
+</details>
+
+<details><summary>Supported wrappers</summary>
+
+   * WETH - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://uniscan.xyz/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908#code)
+   * CompoundV3 - [0x7d809B3b23b62D8a455831f38b312C7c8F965D2e](https://uniscan.xyz/address/0x7d809B3b23b62D8a455831f38b312C7c8F965D2e#code)
+
+</details>
+
+<details><summary>Supported connectors</summary>
+
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://uniscan.xyz/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * WETH - [0x4200000000000000000000000000000000000006](https://uniscan.xyz/address/0x4200000000000000000000000000000000000006#code)
+
+</details>
+
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * May-22-2025 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://uniscan.xyz/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
+
+</details>
+
 ## Examples
 
 * [Single token-to-ETH price usage](https://github.com/1inch-exchange/offchain-oracle/blob/master/examples/single-price.js)
