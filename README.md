@@ -700,6 +700,37 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
 </details>
 
+### Sonic
+
+#### Oracle [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://sonicscan.org/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786#code)
+
+<details><summary>Supported DEXes</summary>
+
+   * Shadow - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://sonicscan.org/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790)
+   * SwapX V2 - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://sonicscan.org/address/0x11BFd590f592457b65Eb85327F5938141f61878a#code)
+   
+</details>
+
+<details><summary>Supported wrappers</summary>
+
+   * wS - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://sonicscan.org/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
+   * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://sonicscan.org/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
+
+</details>
+
+<details><summary>Supported connectors</summary>
+
+   * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://sonicscan.org/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
+   * wS - [0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38](https://sonicscan.org/address/0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38)
+
+</details>
+
+<details><summary>Prev oracle versions (legacy)</summary>
+
+   * May-22-2025 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://sonicscan.org/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786#code) - <i><b>current implementation</b></i>
+
+</details>
+
 ### Unichain
 
 #### Oracle [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://uniscan.xyz/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786#code)
