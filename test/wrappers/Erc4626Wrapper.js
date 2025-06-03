@@ -22,6 +22,17 @@ describe('Erc4626Wrapper', function () {
         expect(await erc4626Wrapper.baseToWbase(tokens.USDe)).to.equal(constants.ZERO_ADDRESS);
     });
 
+    it('should add market via addMarketsManually and remove market via removeMarkets', async function () {
+        const { erc4626Wrapper } = await loadFixture(initContracts);
+        await erc4626Wrapper.addMarketsManually([[tokens.USDe, tokens.sUSDe]]);
+        expect(await erc4626Wrapper.wbaseToBase(tokens.sUSDe)).to.equal(tokens.USDe);
+        expect(await erc4626Wrapper.baseToWbase(tokens.USDe)).to.equal(tokens.sUSDe);
+
+        await erc4626Wrapper.removeMarkets([tokens.sUSDe]);
+        expect(await erc4626Wrapper.wbaseToBase(tokens.sUSDe)).to.equal(constants.ZERO_ADDRESS);
+        expect(await erc4626Wrapper.baseToWbase(tokens.USDe)).to.equal(constants.ZERO_ADDRESS);
+    });
+
     it('should not add market by non-owner', async function () {
         const { alice, erc4626Wrapper } = await loadFixture(initContracts);
         await expect(erc4626Wrapper.connect(alice).addMarkets([tokens.sUSDe])).to.be.revertedWithCustomError(erc4626Wrapper, 'OwnableUnauthorizedAccount');
