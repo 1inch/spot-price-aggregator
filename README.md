@@ -715,6 +715,8 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * wS - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://sonicscan.org/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://sonicscan.org/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
+   * Erc4626 - [0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E](https://basescan.org/address/0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E)
+        * [stS](https://basescan.org/address/0xE5DA20F15420aD15DE0fa650600aFc998bbE3955)
 
 </details>
 

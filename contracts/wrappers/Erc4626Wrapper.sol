@@ -12,6 +12,14 @@ contract Erc4626Wrapper is IWrapper, Ownable {
 
     constructor(address _owner) Ownable(_owner) {} // solhint-disable-line no-empty-blocks
 
+    /// @dev tokens[i] = [baseToken, wBaseToken], where wBaseToken is an ERC4626 for baseToken (wBaseToken.asset() == baseToken)
+    function addMarketsManually(IERC20[2][] memory tokens) external onlyOwner {
+        for (uint256 i = 0; i < tokens.length; i++) {
+            wbaseToBase[tokens[i][1]] = tokens[i][0];
+            baseToWbase[tokens[i][0]] = tokens[i][1];
+        }
+    }
+
     function addMarkets(address[] memory tokens) external onlyOwner {
         for (uint256 i = 0; i < tokens.length; i++) {
             IERC20 baseToken = IERC20(IERC4626(tokens[i]).asset());
