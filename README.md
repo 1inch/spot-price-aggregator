@@ -709,6 +709,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Shadow - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://sonicscan.org/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790)
    * SwapX V2 - [0x11BFd590f592457b65Eb85327F5938141f61878a](https://sonicscan.org/address/0x11BFd590f592457b65Eb85327F5938141f61878a#code)
    * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://sonicscan.org/address/0x008D10214049593C6e63564946FFb64A6F706732#code)
+   * Shadow CLMM - [0x6b364059e01E2eC99506028DA8b655220FB98fdd](https://sonicscan.org/address/0x6b364059e01E2eC99506028DA8b655220FB98fdd#code)
    
 </details>
 
