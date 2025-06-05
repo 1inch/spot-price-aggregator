@@ -744,6 +744,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 <details><summary>Supported DEXes</summary>
 
    * UniswapV2 - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://uniscan.xyz/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790#code)
+   * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://uniscan.xyz/address/0x008D10214049593C6e63564946FFb64A6F706732#code)
    
 </details>
 
