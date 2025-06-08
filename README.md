@@ -719,8 +719,8 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * wS - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://sonicscan.org/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://sonicscan.org/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
-   * Erc4626 - [0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E](https://basescan.org/address/0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E)
-        * [stS](https://basescan.org/address/0xE5DA20F15420aD15DE0fa650600aFc998bbE3955)
+   * Erc4626 - [0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E](https://sonicscan.org/address/0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E)
+        * [stS](https://sonicscan.org/address/0xE5DA20F15420aD15DE0fa650600aFc998bbE3955), Silo ([bUSDC.e-8](https://sonicscan.org/address/0x4E216C15697C1392fE59e1014B009505E05810Df), [bwS-20](https://sonicscan.org/address/0xf55902DE87Bd80c6a35614b48d7f8B612a083C12), [bUSDC.e-20](https://sonicscan.org/address/0x322e1d5384aa4ED66AeCa770B95686271de61dc3), [bUSDC.e-23](https://sonicscan.org/address/0x5954ce6671d97D24B782920ddCdBB4b1E63aB2De), [bWETH-35](https://sonicscan.org/address/0x08C320A84a59c6f533e0DcA655cf497594BCa1F9), [bwS-22](https://sonicscan.org/address/0x112380065A2cb73A5A429d9Ba7368cc5e8434595), [bscUSD-46](https://sonicscan.org/address/0xe6605932e4a686534D19005BB9dB0FBA1F101272))
 
 </details>
 
