@@ -57,5 +57,8 @@
         "test:ci": "hardhat test",
         "scripts:check-token": "mkdir -p deployments/hardhat && cp -R deployments/$(dotenv -e .env -- printenv SCRIPT_NETWORK_NAME)/* deployments/hardhat/ && echo 31337 > deployments/hardhat/.chainId && hardhat run scripts/check-token.js && rm -rf deployments/hardhat",
         "scripts:check-tokens-prices": "hardhat run scripts/check-tokens-prices.js"
+    },
+    "resolutions": {
+        "elliptic": "6.5.7"
     }
 }
