@@ -59,6 +59,6 @@
         "scripts:check-tokens-prices": "hardhat run scripts/check-tokens-prices.js"
     },
     "resolutions": {
-        "elliptic": "6.5.7"
+        "elliptic": "6.6.1"
     }
 }
