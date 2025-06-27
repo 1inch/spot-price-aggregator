@@ -712,6 +712,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Shadow CLMM - [0xC290f0b4b322BFD735ADe7E8e0d5edb4B7f88934](https://sonicscan.org/address/0xC290f0b4b322BFD735ADe7E8e0d5edb4B7f88934#code)
    * Wagmi - [0xFd1d18173D2f179a45Bf21F755a261AAe7C2d769](https://sonicscan.org/address/0xFd1d18173D2f179a45Bf21F755a261AAe7C2d769#code)
    * SilverSwap - [0xc9626bA3294B4030B028411E403EC8C16E7ab4CE](https://sonicscan.org/address/0xc9626bA3294B4030B028411E403EC8C16E7ab4CE#code)
+   * Algebra [0x95E18FBa568cb075f24DfFBCb4093D43ee92Fa20](https://sonicscan.org/address/0x95E18FBa568cb075f24DfFBCb4093D43ee92Fa20#code)
    
 </details>
 
@@ -728,6 +729,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * NONE - [0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF](https://sonicscan.org/address/0xFFfFfFffFFfffFFfFFfFFFFFffFFFffffFfFFFfF)
    * wS - [0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38](https://sonicscan.org/address/0x039e2fB66102314Ce7b64Ce5Ce3E5183bc94aD38)
+   * USDC - [0x29219dd400f2Bf60E5a23d13Be72B486D4038894](https://sonicscan.org/address/0x29219dd400f2Bf60E5a23d13Be72B486D4038894)
 
 </details>
 
