@@ -23,43 +23,54 @@ const { ethers } = require('ethers');
 const ORACLE_ADDRESS = '0x00000000000D6FFc74A8feb35aF5827bf57f6786';
 const oracle = await ethers.getContractAt('IOffchainOracle', ORACLE_ADDRESS);
 
-// Get ETH price in USDC
+// Get WETH price in USDC
 const WETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
 const USDC = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
 
-const rate = await oracle.getRate(WETH, USDC, false);
-console.log(`1 ETH = ${ethers.utils.formatUnits(rate, 6)} USDC`);
+// Oracle will automatically route through connectors (ETH, USDC, etc.)
+const rate = await offchainOracle.getRate(WETH, USDC, false);
+const numerator = 1e18; // WETH decimals
+const denominator = 1e6; // USDC decimals
+const price = parseFloat(rate) * numerator / denominator / 1e18;
+
+console.log(`1 WETH = ${ethers.formatUnits(price, 6)} USDC`);
 ```
 
-### Using Connector Tokens
+### Using Custom Connector Tokens
 ```javascript
-// Get price for tokens without direct liquidity pair
+...
+// Get price for tokens without direct liquidity pair with your own connectors
+const CUSTOM_CONNECTORS = ['0x...', '0x...'];
 const RARE_TOKEN = '0x...';
 const USDT = '0xdAC17F958D2ee523a2206206994597C13D831ec7';
 
-// Oracle will automatically route through connectors (ETH, USDC, etc.)
-const rate = await oracle.getRate(RARE_TOKEN, USDT, true);
+// Oracle will automatically route through CUSTOM_CONNECTORS
+const rate = await oracle.getRateWithCustomConnectors(RARE_TOKEN, USDT, false, CUSTOM_CONNECTORS, 10);
+...
+```
+
+### Using liquidity-based price filtering
+```javascript
+...
+const WETH = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
+const USDC = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
+const FILTER = 20;
+
+// Oracle automatically filters out pools whose liquidity weight is less than `FILTER` % of the largest pool
+const rate = await oracle.getRateWithThreshold(WETH, USDC, false, FILTER);
+...
 ```
 
 ### Wrapped Token Handling
 ```javascript
+...
 // Get stETH price in DAI
 const stETH = '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84';
 const DAI = '0x6B175474E89094C44Da98b954EedeAC495271d0F';
 
 // Oracle automatically unwraps stETH to ETH for pricing
-const rate = await oracle.getRate(stETH, DAI, false);
-```
-
-### Multiple Price Queries
-```javascript
-// Get multiple prices efficiently
-const tokens = [WETH, WBTC, LINK, UNI];
-const prices = await oracle.getRateToEthWithCustomConnectors(tokens, 0, []);
-
-tokens.forEach((token, i) => {
-    console.log(`Token ${i}: ${ethers.utils.formatEther(prices[i])} ETH`);
-});
+const rate = await oracle.getRate(stETH, DAI, true);
+...
 ```
 
 ### Full examples
