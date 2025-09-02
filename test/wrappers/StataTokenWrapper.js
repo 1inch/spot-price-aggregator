@@ -33,7 +33,7 @@ describe('StataTokenWrapper', function () {
         return { stataTokens, stataTokenWrapper };
     }
 
-    it('should retrun underlying tokens for all stata tokens', async function () {
+    it('should return underlying tokens for all stata tokens', async function () {
         const tokens = await getAllAaveV3UnderlyingTokensForStataTokens(StataTokenWrapper.staticATokenFactory);
         const factory = await ethers.getContractAt('IStaticATokenFactory', StataTokenWrapper.staticATokenFactory);
         const allStataTokens = await factory.getStaticATokens();

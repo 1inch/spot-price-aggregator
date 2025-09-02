@@ -11,7 +11,7 @@ describe('AaveWrapperV3', function () {
         return { aaveWrapper };
     }
 
-    it('should retrun all reserves tokens', async function () {
+    it('should return all reserves tokens', async function () {
         const tokens = await getAllAave3ReservesTokens(AaveWrapperV3.lendingPool);
         tokens.forEach(token => {
             expect(ethers.isAddress(token)).to.equal(true);
