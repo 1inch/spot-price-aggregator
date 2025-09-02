@@ -6,12 +6,12 @@ The 1inch Offchain Oracle is a decentralized price aggregation protocol that pro
 
 ## Potential Benefits
 
-- **Liquidity-Weighted Pricing**: Aggregates prices from 50+ DEX types with configurable liquidity thresholds
-- **Cross-DEX Coverage**: Supports Uniswap V2/V3, Curve, Balancer, and protocol-specific AMMs
+- **Liquidity-Weighted Pricing**: Aggregates prices from different DEX types with configurable liquidity thresholds
+- **Cross-DEX Coverage**: Supports Uniswap V2/V3, Curve, Chainlink, and other popular protocols
 - **Real-Time Accuracy**: Direct blockchain queries ensure up-to-date pricing without external dependencies
 - **Gas Efficiency**: Optimized calculations using the OraclePrices library
 - **Manipulation Resistance**: Liquidity thresholds filter out low-liquidity pools
-- **Multi-Path Discovery**: Automatic routing through connector tokens when direct pairs don't exist
+- **Multi-Path Discovery**: Automatic routing through connector tokens for cases when direct pairs don't exist
 
 ## Usage Examples
 
@@ -84,14 +84,13 @@ const rate = await oracle.getRate(stETH, DAI, true);
 ```mermaid
 graph TB
     subgraph User Interface
-        A[DApp/Protocol] --> B[OffchainOracle]
+        A[User/Offchain Program] --> B[OffchainOracle]
     end
     
     subgraph Core Components
         B --> C[MultiWrapper]
-        B --> D[ConnectorManager]
-        C --> E[Wrapper Registry]
-        D --> F[Connector Tokens]
+        C --> E[Wrappers]
+        B --> F[Connector Tokens]
     end
     
     subgraph Oracle Sources
@@ -104,19 +103,19 @@ graph TB
         G --> M[...]
     end
     
-    subgraph Liquidity Validation
-        H --> N{Liquidity Check}
+    subgraph Liquidity Aggregation
+        H --> N[OraclePrices Library]
         I --> N
         J --> N
         K --> N
         L --> N
-        N -->|> minLiquidity| O[Weighted Average]
-        N -->|< minLiquidity| P[Filtered Out]
     end
     
     subgraph Price Calculation
-        O --> Q[OraclePrices Library]
-        Q --> R[Final Rate]
+        N --> O{Liquidity Check}
+        O -->|> minLiquidity| P[Weighted Average]
+        O -->|< minLiquidity| Q[Filtered Out]
+        P --> R[Final Rate]
         R --> A
     end
 ```
@@ -131,25 +130,25 @@ sequenceDiagram
     participant DEX
     
     User->>OffchainOracle: getRate(srcToken, dstToken)
-    OffchainOracle->>MultiWrapper: Check if wrapped token
+    OffchainOracle->>MultiWrapper: Get all wrapped tokens for srcToken and dstToken
     
     alt Is Wrapped Token
         MultiWrapper->>MultiWrapper: Get unwrap rate
-        MultiWrapper-->>OffchainOracle: Return base token
+        MultiWrapper-->>OffchainOracle: Return wrapped tokens
     end
     
-    OffchainOracle->>OracleBase: Query each oracle
+    OffchainOracle->>OracleBase: Query each token
     
     loop For Each Oracle
         OracleBase->>DEX: Get pool reserves
         DEX-->>OracleBase: Return liquidity & price
-        OracleBase->>OracleBase: Check minLiquidity
         
         alt Liquidity Sufficient
             OracleBase-->>OffchainOracle: Add to price array
         end
     end
     
+    OffchainOracle->>OffchainOracle: Check minLiquidity
     OffchainOracle->>OffchainOracle: Calculate weighted average
     OffchainOracle-->>User: Return final rate
 ```
@@ -180,27 +179,19 @@ sequenceDiagram
 
 ### Deployment Details
 
-All deployments (except zkSync) use the same address through CREATE3, ensuring consistent integration across chains. Each deployment includes:
+Each deployment includes:
 
 - **OffchainOracle**: Main price aggregation contract
 - **MultiWrapper**: Handles wrapped token conversions
 - **Oracle Implementations**: Chain-specific DEX oracles
 - **Wrapper Contracts**: Protocol-specific wrappers (Aave, Compound, etc.)
+- **Connectors**: Trusted deep-liquidity tokens (with many pairs) used as routing anchors; their markets are prohibitively expensive to manipulate.
 
 For detailed deployment information including wrapper and oracle addresses, see the [deployments directory](./deployments/).
-
-### Version History
-
-- **v1.0** (May 2021): Initial release with basic DEX support
-- **v2.0** (Apr 2023): Added liquidity-based price filtering
-- **v2.1** (Jul 2023): Fixed overflow issues, introduced CREATE3 deployment
-- **v3.0** (Sep 2023): Optimized calculations with OraclePrices library
-- **v3.1** (Jul 2024): Fixed wrapped token pricing edge cases
-- **v3.2** (Aug 2024): Added simultaneous price and liquidity queries
 
 ## Additional Resources
 
 - [GitHub Repository](https://github.com/1inch/spot-price-aggregator)
 - [Technical Documentation](./docs/)
 - [Integration Examples](./examples/)
-- [Deployment Guide](./deploy/README.md)
+- [Deployment Guide](https://github.com/1inch/spot-price-aggregator#oracle-deployment-guide)
