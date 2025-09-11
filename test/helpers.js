@@ -102,6 +102,11 @@ const deployParams = {
         initcodeHash: '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54',
         fees: [100, 500, 3000, 10000],
     },
+    UniswapV4: {
+        stateView: '0x7ffe42c4a5deea5b0fec41c94c136cf115597227',
+        fees: [100, 500, 3000, 10000],
+        tickSpacings: [1, 10, 60, 200],
+    },
     UniswapV3Base: { // base network
         factory: '0x33128a8fC17869897dcE68Ed026d694621f6FDfD',
         initcodeHash: '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54',
