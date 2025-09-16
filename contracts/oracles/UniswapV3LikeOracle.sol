@@ -77,8 +77,11 @@ contract UniswapV3LikeOracle is IOracle {
         tick = tick / tickSpacing * tickSpacing;
         (, int128 liquidityNet) = IUniswapV3Pool(pool).ticks(tick);
         int256 liquidityShiftsLeft = int256(liquidity) - liquidityNet;
+        if (liquidityShiftsLeft == 0) {
+            return (0, 0);
+        }
         int256 liquidityShiftsRight = int256(liquidity) + liquidityNet;
-        if (liquidityShiftsRight == 0 || liquidityShiftsLeft == 0) {
+        if (liquidityShiftsRight == 0) {
             return (0, 0);
         }
         unchecked {
