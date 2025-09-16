@@ -99,7 +99,7 @@ contract UniswapV3LikeOracle is IOracle {
             }
         }
         if (srcToken == token0) {
-            rate = (((1e18 * sqrtPriceX96) >> 96) * sqrtPriceX96) >> 96;
+            rate = sqrtPriceX96.mulDiv(sqrtPriceX96, 1 << 96).mulDiv(1e18, 1 << 96);
         } else {
             rate = (1e18 << 192) / sqrtPriceX96 / sqrtPriceX96;
         }
