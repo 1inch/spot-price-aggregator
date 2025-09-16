@@ -72,18 +72,12 @@ contract UniswapV4LikeOracle is IOracle {
 
         (uint160 sqrtPriceX96, int24 tick,,) = STATE_VIEW.getSlot0(id);
         tick = (tick / tickSpacing) * tickSpacing;
-
-        (, int128 liquidityNet) = STATE_VIEW.getTickLiquidity(id, tick);
-        int256 liquidityShiftsRight = int256(liquidity) + liquidityNet;
-        int256 liquidityShiftsLeft = int256(liquidity) - liquidityNet;
-        if (liquidityShiftsRight == 0 || liquidityShiftsLeft == 0) {
-            return (0, 0);
-        }
-
+        int256 liquidityShiftsRight = int256(liquidity);
+        int256 liquidityShiftsLeft = int256(liquidity);
         unchecked {
-            for (int24 i = 1; i <= _TICK_STEPS; i++) {
+            for (int24 i = 0; i <= _TICK_STEPS; i++) {
                 int256 nextTick = int256(tick) + int256(i) * int256(tickSpacing);
-                (, liquidityNet) = STATE_VIEW.getTickLiquidity(id, tick + i * tickSpacing);
+                (, int128 liquidityNet) = STATE_VIEW.getTickLiquidity(id, tick + i * tickSpacing);
                 liquidityShiftsRight += liquidityNet;
                 liquidity = Math.min(liquidity, uint256(liquidityShiftsRight));
                 if (liquidityShiftsRight == 0) {
