@@ -102,11 +102,9 @@ contract UniswapV4LikeOracle is IOracle {
 
         if (zeroForOne) {
             // rate = (uint256(sqrtPriceX96) * uint256(sqrtPriceX96) * 1e18) >> 192;
-            rate = Math.mulDiv(
-                Math.mulDiv(uint256(sqrtPriceX96), uint256(sqrtPriceX96), 1 << 96),
-                1e18,
-                1 << 96
-            );
+            rate = uint256(sqrtPriceX96)
+                .mulDiv(uint256(sqrtPriceX96), 1 << 96)
+                .mulDiv(1e18, 1 << 96);
         } else {
             uint256 num = (1e18) << 192;
             rate = num / uint256(sqrtPriceX96) / uint256(sqrtPriceX96);
