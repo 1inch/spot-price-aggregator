@@ -75,22 +75,27 @@ contract UniswapV3LikeOracle is IOracle {
         (uint256 sqrtPriceX96, int24 tick) = _currentState(pool);
         int24 tickSpacing = IUniswapV3Pool(pool).tickSpacing();
         tick = tick / tickSpacing * tickSpacing;
-        int256 liquidityShiftsLeft = int256(liquidity);
-        int256 liquidityShiftsRight = int256(liquidity);
+        (, int128 liquidityNet) = IUniswapV3Pool(pool).ticks(tick);
+        int256 liquidityShiftsLeft = int256(liquidity) - liquidityNet;
+        int256 liquidityShiftsRight = int256(liquidity) + liquidityNet;
+        if (liquidityShiftsRight == 0 || liquidityShiftsLeft == 0) {
+            return (0, 0);
+        }
         unchecked {
-            for (int24 i = 0; i <= _TICK_STEPS; i++) {
-                (, int256 liquidityNet) = IUniswapV3Pool(pool).ticks(tick + i * tickSpacing);
+            for (int24 i = 1; i <= _TICK_STEPS; i++) {
+                (, liquidityNet) = IUniswapV3Pool(pool).ticks(tick + i * tickSpacing);
                 liquidityShiftsRight += liquidityNet;
-                liquidity = Math.min(liquidity, uint256(liquidityShiftsRight));
                 if (liquidityShiftsRight == 0) {
                     return (0, 0);
                 }
+                liquidity = Math.min(liquidity, uint256(liquidityShiftsRight));
+
                 (, liquidityNet) = IUniswapV3Pool(pool).ticks(tick - i * tickSpacing);
                 liquidityShiftsLeft -= liquidityNet;
-                liquidity = Math.min(liquidity, uint256(liquidityShiftsLeft));
                 if (liquidityShiftsLeft == 0) {
                     return (0, 0);
                 }
+                liquidity = Math.min(liquidity, uint256(liquidityShiftsLeft));
             }
         }
         if (srcToken == token0) {
