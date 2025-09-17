@@ -76,7 +76,6 @@ contract UniswapV4LikeOracle is IOracle {
         int256 liquidityShiftsLeft = int256(liquidity);
         unchecked {
             for (int24 i = 0; i <= _TICK_STEPS; i++) {
-                int256 nextTick = int256(tick) + int256(i) * int256(tickSpacing);
                 (, int128 liquidityNet) = STATE_VIEW.getTickLiquidity(id, tick + i * tickSpacing);
                 liquidityShiftsRight += liquidityNet;
                 liquidity = Math.min(liquidity, uint256(liquidityShiftsRight));
@@ -84,7 +83,6 @@ contract UniswapV4LikeOracle is IOracle {
                     return (0, 0);
                 }
 
-                nextTick = int256(tick) - int256(i) * int256(tickSpacing);
                 (, liquidityNet) = STATE_VIEW.getTickLiquidity(id, tick - i * tickSpacing);
                 liquidityShiftsLeft -= liquidityNet;
                 liquidity = Math.min(liquidity, uint256(liquidityShiftsLeft));
