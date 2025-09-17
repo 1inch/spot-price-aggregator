@@ -133,6 +133,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * BSC-USD - [0x55d398326f99059fF775485246999027B3197955](https://bscscan.com/address/0x55d398326f99059fF775485246999027B3197955)
    * BUSD - [0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56](https://bscscan.com/address/0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56)
    * 1INCH - [0x111111111117dC0aa78b770fA6A738034120C302](https://bscscan.com/address/0x111111111117dC0aa78b770fA6A738034120C302)
+   * BTCB - [0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c](https://bscscan.com/address/0x7130d2a12b9bcbfae4f2634d864a1ee1ce3ead9c)
 
 </details>
 
