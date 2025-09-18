@@ -800,7 +800,7 @@ This section provides a comprehensive guide on deploying an oracle, including th
      ...
      const { Networks } = require('@1inch/solidity-utils/hardhat-setup');
      const net = new Networks(true, 'mainnet', true);
-     net.register(your_network_name, networkId, process.env.YOURNETWORK_RPC_URL, process.env.YOURNETWORK_PRIVATE_KEY, etherscan_network_name, process.env.YOURNETWORK_ETHERSCAN_KEY);
+     net.register(your_network_name, networkId, process.env.YOURNETWORK_RPC_URL, process.env.YOURNETWORK_PRIVATE_KEY, etherscan_network_name, process.env.ETHERSCAN_API_KEY);
      const networks = net.networks;
      const etherscan = net.etherscan;
      ...
@@ -808,13 +808,13 @@ This section provides a comprehensive guide on deploying an oracle, including th
 
 ### Step 4: Environment Variables
 
-4. **Set Environment Variables:** Define necessary environment variables in the `.env` file located at the project root. Include variables such as `YOURNETWORK_RPC_URL`, `YOURNETWORK_PRIVATE_KEY`, and `YOURNETWORK_ETHERSCAN_KEY` with appropriate values:
+4. **Set Environment Variables:** Define necessary environment variables in the `.env` file located at the project root. Include variables such as `YOURNETWORK_RPC_URL`, `YOURNETWORK_PRIVATE_KEY`, and `ETHERSCAN_API_KEY` with appropriate values:
 
    - `YOURNETWORK_RPC_URL`: The RPC URL for accessing your network's node. This URL can support the HTTP header 'auth-key'. To use this header, append the header value to the URL using the `|` symbol. For example: `http://localhost:8545|HeaderValue`. This format allows you to authenticate requests to your node.
 
    - `YOURNETWORK_PRIVATE_KEY`: Your account's private key, which should be entered without the `0x` prefix. This key is used for deploying contracts and executing transactions on the network.
 
-   - `YOURNETWORK_ETHERSCAN_KEY`: The API key for an Etherscan-like blockchain explorer that supports your network. This key is necessary for verifying and publishing your contract's source code. Ensure you register for an API key with a compatible explorer service for your network.
+   - `ETHERSCAN_API_KEY`: The API v2 key for an Etherscan-like blockchain explorer that supports your network. This key is necessary for verifying and publishing your contract's source code.
 
 ### Step 5: Deploying Oracles
 
