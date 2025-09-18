@@ -59,7 +59,7 @@ To use any of the scripts:
    ```
    <NETWORK_NAME>_RPC_URL=node RPC URL
    <NETWORK_NAME>_PRIVATE_KEY=deployer's private key
-   <NETWORK_NAME>_ETHERSCAN_KEY=explorer key for verifying contract source code
+   ETHERSCAN_API_KEY=explorer key for verifying contract source code
    ```
    You can find network names by default in the `registerAll` [method](https://github.com/1inch/solidity-utils/blob/master/hardhat-setup/networks.ts) in `@1inch/solidity-utils`.
    
