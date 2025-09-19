@@ -223,6 +223,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
 
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://optimistic.etherscan.io/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
    * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://optimistic.etherscan.io/address/0x008D10214049593C6e63564946FFb64A6F706732)
+   * UniswapV4 - [0xFbF54317e4820B461E7fA1B2819B6755e1cc0F62](https://optimistic.etherscan.io/address/0xFbF54317e4820B461E7fA1B2819B6755e1cc0F62)
    * Velodrome Finance - [0x3Ca884d47b84B147Ca8E70003942c0B614603B39](https://optimistic.etherscan.io/address/0x3Ca884d47b84B147Ca8E70003942c0B614603B39)
    * VelodromeV2 - [0x8606321723D9cA7db708A8b12DAd0A8a83f2F3bD](https://optimistic.etherscan.io/address/0x8606321723D9cA7db708A8b12DAd0A8a83f2F3bD)
    * Synthetix - [0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4](https://optimistic.etherscan.io/address/0xb7EF687B322910f3315F91f9F4B9b4B77219ddb4)
