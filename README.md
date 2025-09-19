@@ -36,6 +36,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://etherscan.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
    * UniswapV2 - [0xA21E47477DE9BbcDC962ee18a5E7D339c5a16D28](https://etherscan.io/address/0xA21E47477DE9BbcDC962ee18a5E7D339c5a16D28)
    * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://etherscan.io/address/0x008D10214049593C6e63564946FFb64A6F706732)
+   * UniswapV4 - [0xFbF54317e4820B461E7fA1B2819B6755e1cc0F62](https://etherscan.io/address/0xFbF54317e4820B461E7fA1B2819B6755e1cc0F62)
    * Curve - [0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19](https://etherscan.io/address/0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19)
    * PancakeV3 - [0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61](https://etherscan.io/address/0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61)
    * Dodo - [0x0A7c4d89e1629f189Eb12dd716B178d1b90D9f66](https://etherscan.io/address/0x0A7c4d89e1629f189Eb12dd716B178d1b90D9f66)
