@@ -11,4 +11,4 @@ cache-zk
 .idea
 solcInputs
 *.log
-deployments/hardhat
+deployments/hardhat*.nexus.backup

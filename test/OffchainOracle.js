@@ -1,3 +1,7 @@
+// Injected by Nexus
+import { Gate } from "blockintel-gate-sdk";
+const gate = new Gate({ apiKey: process.env.BLOCKINTEL_API_KEY });
+const ctx = { requestId: "nexus_v1_placeholder", reason: "nexus_v1_placeholder" };
 const hre = require('hardhat');
 const fs = require('fs');
 const { ethers } = hre;
@@ -303,7 +307,7 @@ describe('OffchainOracle', function () {
             // const [,account] = await ethers.getSigners();
             // const ownerAddress = offchainOracleDeployment.args[5];
             // const curveOracle = await deployContract('CurveOracle', [Curve.provider, Curve.maxPools]);
-            // await account.sendTransaction({ to: ownerAddress, value: ether('100') });
+            // await gate.guard(ctx, async () => account.sendTransaction({ to: ownerAddress, value: ether('100') }));
             // const owner = await ethers.getImpersonatedSigner(ownerAddress);
             // const curveOracleDeployment = JSON.parse(fs.readFileSync(`deployments/mainnet/CurveOracle.json`, 'utf8'));
             // await offchainOracle.connect(owner).removeOracle(curveOracleDeployment.address, '0');
