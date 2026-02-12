@@ -121,27 +121,31 @@ describe('BNB price threshold investigation (mainnet fork)', function () {
         }
     });
 
-    it('fix: remove UniswapV1 Oracle and verify BNB price is correct', async function () {
+    it('fix: blacklist BNB on UniswapV1 Oracle only and verify BNB price is correct', async function () {
         const UNISWAP_V1_ORACLE = '0xAdF7CC69626eB6F03F4F613832C84Cf62586A6Bb';
 
         // Check owner
         const owner = await offchainOracle.owner();
         console.log(`        OffchainOracle owner: ${owner}`);
 
-        // Rate BEFORE removal
+        // Rate BEFORE blacklist
         const rateBefore = await offchainOracle.getRateToEthWithThreshold(BNB_ADDRESS, true, 10);
         console.log(`        BNB/ETH BEFORE (threshold=10): ${Number(rateBefore) / 1e18}`);
 
-        // Impersonate owner and remove UniswapV1 Oracle (type ETH = 1)
+        // Impersonate owner and blacklist BNB on UniswapV1 only
         const [signer] = await ethers.getSigners();
         await signer.sendTransaction({ to: owner, value: ethers.parseEther('1') });
         const ownerSigner = await ethers.getImpersonatedSigner(owner);
-        await offchainOracle.connect(ownerSigner).removeOracle(UNISWAP_V1_ORACLE, 1); // 1 = ETH
-        console.log(`        Removed UniswapV1 Oracle (${UNISWAP_V1_ORACLE}) type=ETH`);
+        await offchainOracle.connect(ownerSigner).toggleOracleTokenBlacklist(UNISWAP_V1_ORACLE, BNB_ADDRESS);
+        console.log(`        Blacklisted BNB on UniswapV1 Oracle (${UNISWAP_V1_ORACLE})`);
 
-        // Rate AFTER removal
+        // Verify the blacklist flag is set
+        expect(await offchainOracle.oracleTokenBlacklisted(UNISWAP_V1_ORACLE, BNB_ADDRESS)).to.be.true;
+
+        // Rate AFTER blacklist — should still work (other oracles contribute)
         const rateAfter = await offchainOracle.getRateToEthWithThreshold(BNB_ADDRESS, true, 10);
         console.log(`        BNB/ETH AFTER  (threshold=10): ${Number(rateAfter) / 1e18}`);
+        expect(rateAfter).to.gt(0n);
 
         // Compare with threshold=50 (which was already correct)
         const rate50 = await offchainOracle.getRateToEthWithThreshold(BNB_ADDRESS, true, 50);
@@ -150,7 +154,7 @@ describe('BNB price threshold investigation (mainnet fork)', function () {
         const diffPct = Math.abs(Number(rateAfter) - Number(rate50)) / Number(rate50) * 100;
         console.log(`        Diff threshold=10 vs 50 after fix: ${diffPct.toFixed(2)}%`);
 
-        // After removal, threshold=10 and threshold=50 should be very close
+        // After blacklisting UniV1 for BNB, threshold=10 and threshold=50 should be very close
         expect(diffPct).to.lt(5); // less than 5% difference
     });
 
@@ -194,47 +198,4 @@ describe('BNB price threshold investigation (mainnet fork)', function () {
         }
     });
 
-    it('identify which oracle + connector produces the bad pool[0] rate', async function () {
-        // Get registered oracles
-        const [allOracles, oracleTypes] = await offchainOracle.oracles();
-        console.log(`        Registered oracles (${allOracles.length}):`);
-        const oracleTypeNames = ['WETH', 'ETH', 'WETH_ETH'];
-        for (let i = 0; i < allOracles.length; i++) {
-            console.log(`          [${i}] ${allOracles[i]} (${oracleTypeNames[oracleTypes[i]]})`);
-        }
-
-        // Get registered connectors
-        const allConnectors = await offchainOracle.connectors();
-        console.log(`        Registered connectors (${allConnectors.length}):`);
-        for (let i = 0; i < allConnectors.length; i++) {
-            console.log(`          [${i}] ${allConnectors[i]}`);
-        }
-
-        // For getRateToEth, dstTokens are ETH and WETH
-        // ETH uses _ethOracles, WETH uses _wethOracles
-        const dstTokens = [
-            { addr: ETH_ADDRESS, name: 'ETH' },
-            { addr: WETH_ADDRESS, name: 'WETH' },
-        ];
-
-        console.log('\n        --- Probing each oracle + connector for BNB ---');
-        for (const dst of dstTokens) {
-            for (let i = 0; i < allOracles.length; i++) {
-                const oracle = await ethers.getContractAt('IOracle', allOracles[i]);
-                for (let j = 0; j < allConnectors.length; j++) {
-                    if (allConnectors[j].toLowerCase() === BNB_ADDRESS.toLowerCase()) continue;
-                    if (allConnectors[j].toLowerCase() === dst.addr.toLowerCase()) continue;
-                    try {
-                        const { rate, weight } = await oracle.getRate(BNB_ADDRESS, dst.addr, allConnectors[j], 0);
-                        if (weight === 0n) continue;
-                        const rateFormatted = Number(rate) / 1e18;
-                        const isBad = rateFormatted < 0.1; // obviously wrong if BNB/ETH < 0.1
-                        console.log(`        ${isBad ? '>>> BAD' : '    OK '} oracle[${i}]=${allOracles[i]} connector[${j}]=${allConnectors[j]} dst=${dst.name}: rate=${rateFormatted}, weight=${weight}${isBad ? ' <<<' : ''}`);
-                    } catch (e) {
-                        // oracle doesn't support this pair, skip
-                    }
-                }
-            }
-        }
-    });
 });

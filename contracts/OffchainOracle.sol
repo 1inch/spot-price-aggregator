@@ -31,6 +31,7 @@ contract OffchainOracle is Ownable {
     event ConnectorAdded(IERC20 connector);
     event ConnectorRemoved(IERC20 connector);
     event MultiWrapperUpdated(MultiWrapper multiWrapper);
+    event OracleTokenBlacklistUpdated(address oracle, IERC20 token, bool isBlacklisted);
 
     struct GetRateImplParams {
         IOracle oracle;
@@ -46,6 +47,10 @@ contract OffchainOracle is Ownable {
     EnumerableSet.AddressSet private _ethOracles;
     EnumerableSet.AddressSet private _connectors;
     MultiWrapper public multiWrapper;
+    // New storage variables MUST go after existing ones to preserve proxy storage layout
+    /// @notice oracle => token => blacklisted. Skips a token on a specific oracle only.
+    /// @dev e.g. allows to disable BNB or USDT token for UniswapV1Oracle only(All pairs)
+    mapping(address => mapping(IERC20 => bool)) public oracleTokenBlacklisted;
 
     IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private immutable _WBASE;
@@ -198,6 +203,17 @@ contract OffchainOracle is Ownable {
     }
 
     /**
+    * @notice Toggles the blacklist status of a token on a specific oracle.
+    *         When blacklisted, the oracle is skipped for any rate calculation involving that token.
+    * @param oracle The oracle address (e.g. UniswapV1Oracle)
+    * @param token The token to blacklist on that oracle (e.g. BNB)
+    */
+    function toggleOracleTokenBlacklist(address oracle, IERC20 token) external onlyOwner {
+        oracleTokenBlacklisted[oracle][token] = !oracleTokenBlacklisted[oracle][token];
+        emit OracleTokenBlacklistUpdated(oracle, token, oracleTokenBlacklisted[oracle][token]);
+    }
+
+    /**
     * WARNING!
     *    Usage of the dex oracle on chain is highly discouraged!
     *    getRate function can be easily manipulated inside transaction!
@@ -296,13 +312,15 @@ contract OffchainOracle is Ownable {
                     if (wrappedSrcTokens[k1] == wrappedDstTokens[k2]) {
                         return (1e18 * srcRates[k1] / dstRates[k2], ratesAndWeights);
                     }
-                    for (uint256 k3 = 0; k3 < 2; k3++) {
-                        for (uint256 j = 0; j < allConnectors[k3].length; j++) {
-                            IERC20 connector = allConnectors[k3][j];
-                            if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
-                                continue;
-                            }
-                            for (uint256 i = 0; i < allOracles.length; i++) {
+                    for (uint256 i = 0; i < allOracles.length; i++) {
+                        if (oracleTokenBlacklisted[address(allOracles[i])][wrappedSrcTokens[k1]]
+                            || oracleTokenBlacklisted[address(allOracles[i])][wrappedDstTokens[k2]]) continue;
+                        for (uint256 k3 = 0; k3 < 2; k3++) {
+                            for (uint256 j = 0; j < allConnectors[k3].length; j++) {
+                                IERC20 connector = allConnectors[k3][j];
+                                if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
+                                    continue;
+                                }
                                 GetRateImplParams memory params = GetRateImplParams({
                                     oracle: allOracles[i],
                                     srcToken: wrappedSrcTokens[k1],
@@ -374,15 +392,18 @@ contract OffchainOracle is Ownable {
                     if (wrappedSrcTokens[k1] == wrappedDstTokens[k2]) {
                         return (srcRates[k1], ratesAndWeights);
                     }
-                    for (uint256 k3 = 0; k3 < 2; k3++) {
-                        for (uint256 j = 0; j < allConnectors[k3].length; j++) {
-                            IERC20 connector = allConnectors[k3][j];
-                            if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
-                                continue;
-                            }
-                            for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
+                    for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
+                        IOracle oracle = IOracle(address(uint160(uint256(wrappedOracles[k2][i]))));
+                        if (oracleTokenBlacklisted[address(oracle)][wrappedSrcTokens[k1]]
+                            || oracleTokenBlacklisted[address(oracle)][wrappedDstTokens[k2]]) continue;
+                        for (uint256 k3 = 0; k3 < 2; k3++) {
+                            for (uint256 j = 0; j < allConnectors[k3].length; j++) {
+                                IERC20 connector = allConnectors[k3][j];
+                                if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
+                                    continue;
+                                }
                                 GetRateImplParams memory params = GetRateImplParams({
-                                    oracle: IOracle(address(uint160(uint256(wrappedOracles[k2][i])))),
+                                    oracle: oracle,
                                     srcToken: wrappedSrcTokens[k1],
                                     srcTokenRate: srcRates[k1],
                                     dstToken: wrappedDstTokens[k2],
@@ -396,6 +417,74 @@ contract OffchainOracle is Ownable {
                     }
                 }
             }
+        }
+    }
+
+    /**
+    * @notice Debug method to identify which oracle/connector pair produces each rate for a given token.
+    *         Returns detailed per-pool breakdown so you can easily spot which pool returns a bad price.
+    * @param srcToken The source token to get rates for
+    * @param useSrcWrappers Boolean flag to use or not use token wrappers
+    * @return results Array of DebugOracleRate structs with oracle, connector, rate, and weight for each non-zero pool
+    */
+    struct DebugOracleRate {
+        IOracle oracle;
+        IERC20 srcWrapped;
+        IERC20 dstToken;
+        IERC20 connector;
+        uint256 rate;
+        uint256 weight;
+    }
+
+    function debugRateToEth(IERC20 srcToken, bool useSrcWrappers) external view returns (DebugOracleRate[] memory results) {
+        (IERC20[] memory wrappedSrcTokens, uint256[] memory srcRates) = _getWrappedTokens(srcToken, useSrcWrappers);
+        IERC20[2] memory wrappedDstTokens = [_BASE, _WBASE];
+        bytes32[][2] memory wrappedOracles = [_ethOracles._inner._values, _wethOracles._inner._values];
+        IERC20[][2] memory allConnectors = _getAllConnectors(new IERC20[](0));
+
+        uint256 maxLen = wrappedSrcTokens.length * wrappedDstTokens.length * (allConnectors[0].length + allConnectors[1].length) * (wrappedOracles[0].length + wrappedOracles[1].length);
+        results = new DebugOracleRate[](maxLen);
+        uint256 count;
+        unchecked {
+            for (uint256 k1 = 0; k1 < wrappedSrcTokens.length; k1++) {
+                for (uint256 k2 = 0; k2 < wrappedDstTokens.length; k2++) {
+                    if (wrappedSrcTokens[k1] == wrappedDstTokens[k2]) continue;
+                    for (uint256 k3 = 0; k3 < 2; k3++) {
+                        for (uint256 j = 0; j < allConnectors[k3].length; j++) {
+                            IERC20 connector = allConnectors[k3][j];
+                            if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) continue;
+                            for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
+                                IOracle oracle = IOracle(address(uint160(uint256(wrappedOracles[k2][i]))));
+                                GetRateImplParams memory params = GetRateImplParams({
+                                    oracle: oracle,
+                                    srcToken: wrappedSrcTokens[k1],
+                                    srcTokenRate: srcRates[k1],
+                                    dstToken: wrappedDstTokens[k2],
+                                    dstTokenRate: 1e18,
+                                    connector: connector,
+                                    thresholdFilter: 0
+                                });
+                                OraclePrices.OraclePrice memory p = _getRateImpl(params);
+                                if (p.weight > 0) {
+                                    results[count] = DebugOracleRate({
+                                        oracle: oracle,
+                                        srcWrapped: wrappedSrcTokens[k1],
+                                        dstToken: wrappedDstTokens[k2],
+                                        connector: connector,
+                                        rate: p.rate,
+                                        weight: p.weight
+                                    });
+                                    count++;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Trim array to actual size
+        assembly ("memory-safe") { // solhint-disable-line no-inline-assembly
+            mstore(results, count)
         }
     }
 
