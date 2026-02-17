@@ -1,9 +1,10 @@
 const hre = require('hardhat');
 const { ethers } = hre;
-const { expect } = require('@1inch/solidity-utils');
+const { expect, deployContract } = require('@1inch/solidity-utils');
 
 const OFFCHAIN_ORACLE_ADDRESS = '0x00000000000D6FFc74A8feb35aF5827bf57f6786';
 const BNB_ADDRESS = '0xB8c77482e45F1F44dE1745F52C74426C631bDD52';
+const WETH_ADDRESS = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
 const ETH_ADDRESS = '0x0000000000000000000000000000000000000000';
 const UNISWAP_V1_FACTORY = '0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95';
 
@@ -123,31 +124,44 @@ describe('BNB price threshold investigation (mainnet fork)', function () {
     it('fix: blacklist BNB on UniswapV1 Oracle only and verify BNB price is correct', async function () {
         const UNISWAP_V1_ORACLE = '0xAdF7CC69626eB6F03F4F613832C84Cf62586A6Bb';
 
-        // Check owner
-        const owner = await offchainOracle.owner();
-        console.log(`        OffchainOracle owner: ${owner}`);
+        // Deploy a fresh local OffchainOracle with the new blacklist feature
+        const deployed = await ethers.getContractAt('OffchainOracle', OFFCHAIN_ORACLE_ADDRESS);
+        const [allOracles, oracleTypes] = await deployed.oracles();
+        const allConnectors = await deployed.connectors();
+        const multiWrapperAddr = await deployed.multiWrapper();
+        const owner = await deployed.owner();
+
+        const localOracle = await deployContract('OffchainOracle', [
+            multiWrapperAddr,
+            Array.from(allOracles),
+            Array.from(oracleTypes).map(t => Number(t)),
+            Array.from(allConnectors),
+            WETH_ADDRESS,
+            owner,
+        ]);
+        console.log(`        Deployed local OffchainOracle at ${await localOracle.getAddress()}`);
 
         // Rate BEFORE blacklist
-        const rateBefore = await offchainOracle.getRateToEthWithThreshold(BNB_ADDRESS, true, 10);
+        const rateBefore = await localOracle.getRateToEthWithThreshold(BNB_ADDRESS, true, 10);
         console.log(`        BNB/ETH BEFORE (threshold=10): ${Number(rateBefore) / 1e18}`);
 
         // Impersonate owner and blacklist BNB on UniswapV1 only
         const [signer] = await ethers.getSigners();
         await signer.sendTransaction({ to: owner, value: ethers.parseEther('1') });
         const ownerSigner = await ethers.getImpersonatedSigner(owner);
-        await offchainOracle.connect(ownerSigner).toggleOracleTokenBlacklist(UNISWAP_V1_ORACLE, BNB_ADDRESS);
+        await localOracle.connect(ownerSigner).toggleOracleTokenBlacklist(UNISWAP_V1_ORACLE, BNB_ADDRESS);
         console.log(`        Blacklisted BNB on UniswapV1 Oracle (${UNISWAP_V1_ORACLE})`);
 
         // Verify the blacklist flag is set
-        expect(await offchainOracle.oracleTokenBlacklisted(UNISWAP_V1_ORACLE, BNB_ADDRESS)).to.be.true;
+        expect(await localOracle.oracleTokenBlacklisted(UNISWAP_V1_ORACLE, BNB_ADDRESS)).to.be.true;
 
         // Rate AFTER blacklist — should still work (other oracles contribute)
-        const rateAfter = await offchainOracle.getRateToEthWithThreshold(BNB_ADDRESS, true, 10);
+        const rateAfter = await localOracle.getRateToEthWithThreshold(BNB_ADDRESS, true, 10);
         console.log(`        BNB/ETH AFTER  (threshold=10): ${Number(rateAfter) / 1e18}`);
         expect(rateAfter).to.gt(0n);
 
         // Compare with threshold=50 (which was already correct)
-        const rate50 = await offchainOracle.getRateToEthWithThreshold(BNB_ADDRESS, true, 50);
+        const rate50 = await localOracle.getRateToEthWithThreshold(BNB_ADDRESS, true, 50);
         console.log(`        BNB/ETH AFTER  (threshold=50): ${Number(rate50) / 1e18}`);
 
         const diffPct = Math.abs(Number(rateAfter) - Number(rate50)) / Number(rate50) * 100;
