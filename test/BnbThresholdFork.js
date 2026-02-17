@@ -5,7 +5,6 @@ const { expect } = require('@1inch/solidity-utils');
 const OFFCHAIN_ORACLE_ADDRESS = '0x00000000000D6FFc74A8feb35aF5827bf57f6786';
 const BNB_ADDRESS = '0xB8c77482e45F1F44dE1745F52C74426C631bDD52';
 const ETH_ADDRESS = '0x0000000000000000000000000000000000000000';
-const WETH_ADDRESS = '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2';
 const UNISWAP_V1_FACTORY = '0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95';
 
 describe('BNB price threshold investigation (mainnet fork)', function () {
@@ -197,5 +196,4 @@ describe('BNB price threshold investigation (mainnet fork)', function () {
             }
         }
     });
-
 });
