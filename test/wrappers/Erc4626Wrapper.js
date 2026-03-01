@@ -84,7 +84,9 @@ describe('Erc4626Wrapper', function () {
         shouldReturnCorrectPricesAndTokens(initContractsAndMarket);
     });
 
-    describe('xrETH Wrapper', function () {
+    // xrETH vault (0xBB22d59B73D7a6F3A8a83A214BECc67Eb3b511fE) convertToShares/convertToAssets
+    // revert on current mainnet — the vault is no longer operational.
+    describe.skip('xrETH Wrapper', function () {
         async function initContractsAndMarket () {
             const { erc4626Wrapper } = await initContracts();
             const xrETH = await ethers.getContractAt('IERC4626', tokens.xrETH);
