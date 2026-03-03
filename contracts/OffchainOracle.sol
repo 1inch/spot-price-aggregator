@@ -25,13 +25,15 @@ contract OffchainOracle is Ownable {
     error TooBigThreshold();
 
     enum OracleType { WETH, ETH, WETH_ETH }
+    enum BlackListType { NONE, ENTIRE_ORACLE, PAIR }
 
     event OracleAdded(IOracle oracle, OracleType oracleType);
     event OracleRemoved(IOracle oracle, OracleType oracleType);
     event ConnectorAdded(IERC20 connector);
     event ConnectorRemoved(IERC20 connector);
     event MultiWrapperUpdated(MultiWrapper multiWrapper);
-    event OracleTokenBlacklistUpdated(address oracle, IERC20 token, bool isBlacklisted);
+    event OracleTokenBlacklistUpdated(address oracle, IERC20 token, BlackListType blacklistType);
+    event OracleTokenPairBlacklistUpdated(address oracle, IERC20 token1, IERC20 token2, bool isBlacklisted);
 
     struct GetRateImplParams {
         IOracle oracle;
@@ -43,14 +45,20 @@ contract OffchainOracle is Ownable {
         uint256 thresholdFilter;
     }
 
+    struct OracleTokenBlacklist {
+        mapping(IERC20 => bool) isBlacklistedTokens;
+        BlackListType blacklistType;
+    }
+
     EnumerableSet.AddressSet private _wethOracles;
     EnumerableSet.AddressSet private _ethOracles;
     EnumerableSet.AddressSet private _connectors;
     MultiWrapper public multiWrapper;
     // New storage variables MUST go after existing ones to preserve proxy storage layout
-    /// @notice oracle => token => blacklisted. Skips a token on a specific oracle only.
-    /// @dev e.g. allows to disable BNB or USDT token for UniswapV1Oracle only(All pairs)
-    mapping(address => mapping(IERC20 => bool)) public oracleTokenBlacklisted;
+    /// @notice oracle => token => blacklist config. Controls per-oracle token/pair restrictions.
+    /// @dev ENTIRE_ORACLE: skip all pairs for this token on this oracle (e.g. BNB on UniswapV1)
+    /// @dev PAIR + isBlacklistedTokens: skip specific counterpart tokens only
+    mapping(address => mapping(IERC20 => OracleTokenBlacklist)) public oracleTokenBlacklisted;
 
     IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private immutable _WBASE;
@@ -203,14 +211,35 @@ contract OffchainOracle is Ownable {
     }
 
     /**
-    * @notice Toggles the blacklist status of a token on a specific oracle.
-    *         When blacklisted, the oracle is skipped for any rate calculation involving that token.
+    * @notice Sets the blacklist mode for a token on a specific oracle.
+    *         ENTIRE_ORACLE skips ALL pairs involving this token. PAIR enables per-pair filtering.
+    *         NONE clears the mode (individual pair entries become inert until mode is set again).
     * @param oracle The oracle address (e.g. UniswapV1Oracle)
-    * @param token The token to blacklist on that oracle (e.g. BNB)
+    * @param token The token to configure (e.g. BNB)
+    * @param blacklistType The blacklist mode to set
     */
-    function toggleOracleTokenBlacklist(address oracle, IERC20 token) external onlyOwner {
-        oracleTokenBlacklisted[oracle][token] = !oracleTokenBlacklisted[oracle][token];
-        emit OracleTokenBlacklistUpdated(oracle, token, oracleTokenBlacklisted[oracle][token]);
+    function setOracleTokenBlacklistType(address oracle, IERC20 token, BlackListType blacklistType) external onlyOwner {
+        oracleTokenBlacklisted[oracle][token].blacklistType = blacklistType;
+        emit OracleTokenBlacklistUpdated(oracle, token, blacklistType);
+    }
+
+    /**
+    * @notice Blacklists or unblacklists a specific token pair on an oracle (one call, one direction).
+    *         The filter checks both (token1,token2) and (token2,token1) automatically.
+    *         Automatically upgrades blacklistType from NONE to PAIR when adding.
+    *         Does NOT downgrade ENTIRE_ORACLE — that token is already fully blocked.
+    *         Does NOT reset blacklistType when removing — other pairs may still be active.
+    * @param oracle The oracle address
+    * @param token1 First token of the pair
+    * @param token2 Second token of the pair
+    * @param isBlacklistedPair true to blacklist, false to unblacklist
+    */
+    function setOracleTokenBlacklistPair(address oracle, IERC20 token1, IERC20 token2, bool isBlacklistedPair) external onlyOwner {
+        if (isBlacklistedPair && oracleTokenBlacklisted[oracle][token1].blacklistType == BlackListType.NONE) {
+            oracleTokenBlacklisted[oracle][token1].blacklistType = BlackListType.PAIR;
+        }
+        oracleTokenBlacklisted[oracle][token1].isBlacklistedTokens[token2] = isBlacklistedPair;
+        emit OracleTokenPairBlacklistUpdated(oracle, token1, token2, isBlacklistedPair);
     }
 
     /**
@@ -313,8 +342,13 @@ contract OffchainOracle is Ownable {
                         return (1e18 * srcRates[k1] / dstRates[k2], ratesAndWeights);
                     }
                     for (uint256 i = 0; i < allOracles.length; i++) {
-                        if (oracleTokenBlacklisted[address(allOracles[i])][wrappedSrcTokens[k1]]
-                            || oracleTokenBlacklisted[address(allOracles[i])][wrappedDstTokens[k2]]) continue;
+                        address oracle = address(allOracles[i]);
+                        if (oracleTokenBlacklisted[oracle][wrappedSrcTokens[k1]].blacklistType == BlackListType.ENTIRE_ORACLE
+                            || oracleTokenBlacklisted[oracle][wrappedDstTokens[k2]].blacklistType == BlackListType.ENTIRE_ORACLE) continue;
+
+                        if ((oracleTokenBlacklisted[oracle][wrappedSrcTokens[k1]].blacklistType == BlackListType.PAIR || oracleTokenBlacklisted[oracle][wrappedDstTokens[k2]].blacklistType == BlackListType.PAIR) &&
+                        (oracleTokenBlacklisted[oracle][wrappedSrcTokens[k1]].isBlacklistedTokens[wrappedDstTokens[k2]] || oracleTokenBlacklisted[oracle][wrappedDstTokens[k2]].isBlacklistedTokens[wrappedSrcTokens[k1]])) continue;
+
                         for (uint256 k3 = 0; k3 < 2; k3++) {
                             for (uint256 j = 0; j < allConnectors[k3].length; j++) {
                                 IERC20 connector = allConnectors[k3][j];
@@ -394,8 +428,12 @@ contract OffchainOracle is Ownable {
                     }
                     for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
                         IOracle oracle = IOracle(address(uint160(uint256(wrappedOracles[k2][i]))));
-                        if (oracleTokenBlacklisted[address(oracle)][wrappedSrcTokens[k1]]
-                            || oracleTokenBlacklisted[address(oracle)][wrappedDstTokens[k2]]) continue;
+                        if (oracleTokenBlacklisted[address(oracle)][wrappedSrcTokens[k1]].blacklistType == BlackListType.ENTIRE_ORACLE
+                            || oracleTokenBlacklisted[address(oracle)][wrappedDstTokens[k2]].blacklistType == BlackListType.ENTIRE_ORACLE) continue;
+
+                        if ((oracleTokenBlacklisted[address(oracle)][wrappedSrcTokens[k1]].blacklistType == BlackListType.PAIR || oracleTokenBlacklisted[address(oracle)][wrappedDstTokens[k2]].blacklistType == BlackListType.PAIR )&&
+                        (oracleTokenBlacklisted[address(oracle)][wrappedSrcTokens[k1]].isBlacklistedTokens[wrappedDstTokens[k2]] || oracleTokenBlacklisted[address(oracle)][wrappedDstTokens[k2]].isBlacklistedTokens[wrappedSrcTokens[k1]])) continue;
+
                         for (uint256 k3 = 0; k3 < 2; k3++) {
                             for (uint256 j = 0; j < allConnectors[k3].length; j++) {
                                 IERC20 connector = allConnectors[k3][j];

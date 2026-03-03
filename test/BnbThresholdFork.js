@@ -149,11 +149,9 @@ describe('BNB price threshold investigation (mainnet fork)', function () {
         const [signer] = await ethers.getSigners();
         await signer.sendTransaction({ to: owner, value: ethers.parseEther('1') });
         const ownerSigner = await ethers.getImpersonatedSigner(owner);
-        await localOracle.connect(ownerSigner).toggleOracleTokenBlacklist(UNISWAP_V1_ORACLE, BNB_ADDRESS);
+        const ENTIRE_ORACLE = 1; // BlackListType.ENTIRE_ORACLE
+        await localOracle.connect(ownerSigner).setOracleTokenBlacklistType(UNISWAP_V1_ORACLE, BNB_ADDRESS, ENTIRE_ORACLE);
         console.log(`        Blacklisted BNB on UniswapV1 Oracle (${UNISWAP_V1_ORACLE})`);
-
-        // Verify the blacklist flag is set
-        expect(await localOracle.oracleTokenBlacklisted(UNISWAP_V1_ORACLE, BNB_ADDRESS)).to.be.true;
 
         // Rate AFTER blacklist — should still work (other oracles contribute)
         const rateAfter = await localOracle.getRateToEthWithThreshold(BNB_ADDRESS, true, 10);

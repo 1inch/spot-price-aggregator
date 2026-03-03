@@ -43,15 +43,16 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     });
 
     // Apply oracle+token blacklist entries for this chain (skip if already set)
+    const ENTIRE_ORACLE = 1; // BlackListType.ENTIRE_ORACLE
     const blacklistEntries = OracleTokenBlacklist[chainId] || [];
     for (const entry of blacklistEntries) {
-        const alreadyBlacklisted = await offchainOracle.oracleTokenBlacklisted(entry.oracle, entry.token);
-        if (alreadyBlacklisted) {
-            console.log(`Already blacklisted, skipping: ${entry.description}`);
+        const currentType = await offchainOracle.oracleTokenBlacklisted(entry.oracle, entry.token);
+        if (Number(currentType) !== 0) {
+            console.log(`Already blacklisted (type=${currentType}), skipping: ${entry.description}`);
             continue;
         }
         console.log(`Blacklisting token ${entry.token} on oracle ${entry.oracle}: ${entry.description}`);
-        await (await offchainOracle.toggleOracleTokenBlacklist(entry.oracle, entry.token)).wait();
+        await (await offchainOracle.setOracleTokenBlacklistType(entry.oracle, entry.token, ENTIRE_ORACLE)).wait();
     }
 };
 
