@@ -54,7 +54,8 @@ describe('OffchainOracle debugRateToEth (mainnet fork)', function () {
         const ENTIRE_ORACLE = 1; // BlackListType.ENTIRE_ORACLE
         await oracle.connect(ownerSigner).setOracleTokenBlacklistType(UNISWAP_V1_ORACLE, BNB_ADDRESS, ENTIRE_ORACLE);
 
-        expect(await oracle.oracleTokenBlacklisted(UNISWAP_V1_ORACLE, BNB_ADDRESS)).to.equal(ENTIRE_ORACLE);
+        const bl = await oracle.oracleTokenBlacklisted(UNISWAP_V1_ORACLE, BNB_ADDRESS);
+        expect(bl.blacklistType).to.equal(ENTIRE_ORACLE);
 
         // Rate after blacklist should still be positive (other oracles contribute)
         const rateAfter = await oracle.getRateToEthWithThreshold(BNB_ADDRESS, true, 10);
