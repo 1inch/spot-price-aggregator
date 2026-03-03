@@ -47,7 +47,8 @@ contract OffchainOracle is Ownable {
 
     struct OracleTokenBlacklist {
         mapping(IERC20 => bool) isBlacklistedTokens;
-        BlackListType blacklistType;
+        BlackListType blacklistType; // uint8
+        uint248 pairCount; // packed with blacklistType into 1 slot
     }
 
     EnumerableSet.AddressSet private _wethOracles;
@@ -234,20 +235,32 @@ contract OffchainOracle is Ownable {
     /**
     * @notice Blacklists or unblacklists a specific token pair on an oracle (one call, one direction).
     *         The filter checks both (token1,token2) and (token2,token1) automatically.
-    *         Automatically upgrades blacklistType from NONE to PAIR when adding.
-    *         Does NOT downgrade ENTIRE_ORACLE — that token is already fully blocked.
-    *         Does NOT reset blacklistType when removing — other pairs may still be active.
+    *         Automatically upgrades blacklistType NONE -> PAIR when adding first pair.
+    *         Automatically resets blacklistType PAIR -> NONE when removing last pair.
+    *         Does NOT touch ENTIRE_ORACLE — that token is already fully blocked.
+    *         Idempotent: adding an already-added pair or removing an already-removed pair is a no-op.
     * @param oracle The oracle address
     * @param token1 First token of the pair
     * @param token2 Second token of the pair
     * @param isBlacklistedPair true to blacklist, false to unblacklist
     */
     function setOracleTokenBlacklistPair(address oracle, IERC20 token1, IERC20 token2, bool isBlacklistedPair) external onlyOwner {
-        if (isBlacklistedPair && oracleTokenBlacklisted[oracle][token1].blacklistType == BlackListType.NONE) {
-            oracleTokenBlacklisted[oracle][token1].blacklistType = BlackListType.PAIR;
-            oracleBlacklistCount[oracle]++;
+        OracleTokenBlacklist storage entry = oracleTokenBlacklisted[oracle][token1];
+        bool wasBlacklisted = entry.isBlacklistedTokens[token2];
+        if (isBlacklistedPair && !wasBlacklisted) {
+            entry.pairCount++;
+            if (entry.blacklistType == BlackListType.NONE) {
+                entry.blacklistType = BlackListType.PAIR;
+                oracleBlacklistCount[oracle]++;
+            }
+        } else if (!isBlacklistedPair && wasBlacklisted) {
+            entry.pairCount--;
+            if (entry.pairCount == 0 && entry.blacklistType == BlackListType.PAIR) {
+                entry.blacklistType = BlackListType.NONE;
+                oracleBlacklistCount[oracle]--;
+            }
         }
-        oracleTokenBlacklisted[oracle][token1].isBlacklistedTokens[token2] = isBlacklistedPair;
+        entry.isBlacklistedTokens[token2] = isBlacklistedPair;
         emit OracleTokenPairBlacklistUpdated(oracle, token1, token2, isBlacklistedPair);
     }
 
@@ -356,7 +369,7 @@ contract OffchainOracle is Ownable {
                             if (oracleTokenBlacklisted[oracle][wrappedSrcTokens[k1]].blacklistType == BlackListType.ENTIRE_ORACLE
                                 || oracleTokenBlacklisted[oracle][wrappedDstTokens[k2]].blacklistType == BlackListType.ENTIRE_ORACLE) continue;
 
-                            if ((oracleTokenBlacklisted[oracle][wrappedSrcTokens[k1]].blacklistType == BlackListType.PAIR || oracleTokenBlacklisted[oracle][wrappedDstTokens[k2]].blacklistType == BlackListType.PAIR) &&
+                            if ((oracleTokenBlacklisted[oracle][wrappedSrcTokens[k1]].pairCount > 0 || oracleTokenBlacklisted[oracle][wrappedDstTokens[k2]].pairCount > 0) &&
                                 (oracleTokenBlacklisted[oracle][wrappedSrcTokens[k1]].isBlacklistedTokens[wrappedDstTokens[k2]] || oracleTokenBlacklisted[oracle][wrappedDstTokens[k2]].isBlacklistedTokens[wrappedSrcTokens[k1]])) continue;
                         }
 
@@ -443,7 +456,7 @@ contract OffchainOracle is Ownable {
                             if (oracleTokenBlacklisted[address(oracle)][wrappedSrcTokens[k1]].blacklistType == BlackListType.ENTIRE_ORACLE
                                 || oracleTokenBlacklisted[address(oracle)][wrappedDstTokens[k2]].blacklistType == BlackListType.ENTIRE_ORACLE) continue;
 
-                            if ((oracleTokenBlacklisted[address(oracle)][wrappedSrcTokens[k1]].blacklistType == BlackListType.PAIR || oracleTokenBlacklisted[address(oracle)][wrappedDstTokens[k2]].blacklistType == BlackListType.PAIR) &&
+                            if ((oracleTokenBlacklisted[address(oracle)][wrappedSrcTokens[k1]].pairCount > 0 || oracleTokenBlacklisted[address(oracle)][wrappedDstTokens[k2]].pairCount > 0) &&
                                 (oracleTokenBlacklisted[address(oracle)][wrappedSrcTokens[k1]].isBlacklistedTokens[wrappedDstTokens[k2]] || oracleTokenBlacklisted[address(oracle)][wrappedDstTokens[k2]].isBlacklistedTokens[wrappedSrcTokens[k1]])) continue;
                         }
 
