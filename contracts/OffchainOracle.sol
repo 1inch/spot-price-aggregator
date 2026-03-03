@@ -59,8 +59,8 @@ contract OffchainOracle is Ownable {
     mapping(address => mapping(IERC20 => OracleTokenBlacklist)) public oracleTokenBlacklisted;
     /// @notice Number of blacklist entries per oracle. When 0, blacklist checks are skipped entirely.
     mapping(address => uint256) public oracleBlacklistCount;
-    /// @notice Pair blacklist: keccak256(oracle, min(token1,token2), max(token1,token2)) => blacklisted.
-    mapping(bytes32 => bool) public oraclePairBlacklisted;
+    /// @notice Pair blacklist stored in both directions for O(1) reads: oracle => tokenA => tokenB => blacklisted.
+    mapping(address => mapping(IERC20 => mapping(IERC20 => bool))) public oraclePairBlacklisted;
 
     IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private immutable _WBASE;
@@ -244,11 +244,11 @@ contract OffchainOracle is Ownable {
     * @param isBlacklistedPair true to blacklist, false to unblacklist
     */
     function setOracleTokenBlacklistPair(address oracle, IERC20 token1, IERC20 token2, bool isBlacklistedPair) external onlyOwner {
-        bytes32 key = _pairKey(oracle, token1, token2);
-        bool wasBlacklisted = oraclePairBlacklisted[key];
+        bool wasBlacklisted = oraclePairBlacklisted[oracle][token1][token2];
         if (isBlacklistedPair == wasBlacklisted) return;
 
-        oraclePairBlacklisted[key] = isBlacklistedPair;
+        oraclePairBlacklisted[oracle][token1][token2] = isBlacklistedPair;
+        oraclePairBlacklisted[oracle][token2][token1] = isBlacklistedPair;
         _updatePairCount(oracle, token1, isBlacklistedPair);
         _updatePairCount(oracle, token2, isBlacklistedPair);
         emit OracleTokenPairBlacklistUpdated(oracle, token1, token2, isBlacklistedPair);
@@ -359,8 +359,7 @@ contract OffchainOracle is Ownable {
                             if (oracleTokenBlacklisted[oracle][wrappedSrcTokens[k1]].blacklistType == BlackListType.ENTIRE_ORACLE
                                 || oracleTokenBlacklisted[oracle][wrappedDstTokens[k2]].blacklistType == BlackListType.ENTIRE_ORACLE) continue;
 
-                            if ((oracleTokenBlacklisted[oracle][wrappedSrcTokens[k1]].pairCount > 0 || oracleTokenBlacklisted[oracle][wrappedDstTokens[k2]].pairCount > 0) &&
-                                oraclePairBlacklisted[_pairKey(oracle, wrappedSrcTokens[k1], wrappedDstTokens[k2])]) continue;
+                            if (oraclePairBlacklisted[oracle][wrappedSrcTokens[k1]][wrappedDstTokens[k2]]) continue;
                         }
 
                         for (uint256 k3 = 0; k3 < 2; k3++) {
@@ -446,8 +445,7 @@ contract OffchainOracle is Ownable {
                             if (oracleTokenBlacklisted[address(oracle)][wrappedSrcTokens[k1]].blacklistType == BlackListType.ENTIRE_ORACLE
                                 || oracleTokenBlacklisted[address(oracle)][wrappedDstTokens[k2]].blacklistType == BlackListType.ENTIRE_ORACLE) continue;
 
-                            if ((oracleTokenBlacklisted[address(oracle)][wrappedSrcTokens[k1]].pairCount > 0 || oracleTokenBlacklisted[address(oracle)][wrappedDstTokens[k2]].pairCount > 0) &&
-                                oraclePairBlacklisted[_pairKey(address(oracle), wrappedSrcTokens[k1], wrappedDstTokens[k2])]) continue;
+                            if (oraclePairBlacklisted[address(oracle)][wrappedSrcTokens[k1]][wrappedDstTokens[k2]]) continue;
                         }
 
                         for (uint256 k3 = 0; k3 < 2; k3++) {
@@ -636,20 +634,4 @@ contract OffchainOracle is Ownable {
         }
     }
 
-    function _pairKey(address oracle, IERC20 a, IERC20 b) private pure returns (bytes32 result) {
-        assembly ("memory-safe") {
-            let ptr := mload(0x40)
-            mstore(ptr, oracle)
-            switch gt(a, b)
-            case 1 {
-                mstore(add(ptr, 0x20), b)
-                mstore(add(ptr, 0x40), a)
-            }
-            default {
-                mstore(add(ptr, 0x20), a)
-                mstore(add(ptr, 0x40), b)
-            }
-            result := keccak256(ptr, 0x60)
-        }
-    }
 }

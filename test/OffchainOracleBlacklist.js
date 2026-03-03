@@ -127,8 +127,8 @@ describe('OffchainOracle Blacklist', function () {
 
             await offchainOracle.setOracleTokenBlacklistPair(oracleAddr, tokens.DAI, tokens.USDC, true);
 
-            const key = pairKey(oracleAddr, tokens.DAI, tokens.USDC);
-            expect(await offchainOracle.oraclePairBlacklisted(key)).to.be.true;
+            expect(await offchainOracle.oraclePairBlacklisted(oracleAddr, tokens.DAI, tokens.USDC)).to.be.true;
+            expect(await offchainOracle.oraclePairBlacklisted(oracleAddr, tokens.USDC, tokens.DAI)).to.be.true;
         });
 
         it('increments pairCount on both tokens', async function () {
@@ -195,8 +195,8 @@ describe('OffchainOracle Blacklist', function () {
             await offchainOracle.setOracleTokenBlacklistPair(oracleAddr, tokens.DAI, tokens.USDC, true);
             await offchainOracle.setOracleTokenBlacklistPair(oracleAddr, tokens.DAI, tokens.USDC, false);
 
-            const key = pairKey(oracleAddr, tokens.DAI, tokens.USDC);
-            expect(await offchainOracle.oraclePairBlacklisted(key)).to.be.false;
+            expect(await offchainOracle.oraclePairBlacklisted(oracleAddr, tokens.DAI, tokens.USDC)).to.be.false;
+            expect(await offchainOracle.oraclePairBlacklisted(oracleAddr, tokens.USDC, tokens.DAI)).to.be.false;
 
             const entry1 = await offchainOracle.oracleTokenBlacklisted(oracleAddr, tokens.DAI);
             const entry2 = await offchainOracle.oracleTokenBlacklisted(oracleAddr, tokens.USDC);
@@ -250,17 +250,14 @@ describe('OffchainOracle Blacklist', function () {
             expect(entry.pairCount).to.equal(1);
         });
 
-        it('order-independent: (A,B) and (B,A) resolve to same key', async function () {
+        it('order-independent: blacklisting (A,B) sets both (A,B) and (B,A)', async function () {
             const { offchainOracle, oracle1 } = await loadFixture(deployFixture);
             const oracleAddr = await oracle1.getAddress();
 
-            const keyAB = pairKey(oracleAddr, tokens.DAI, tokens.USDC);
-            const keyBA = pairKey(oracleAddr, tokens.USDC, tokens.DAI);
-            expect(keyAB).to.equal(keyBA);
-
-            // Blacklist (DAI, USDC), check that (USDC, DAI) lookup returns true
             await offchainOracle.setOracleTokenBlacklistPair(oracleAddr, tokens.DAI, tokens.USDC, true);
-            expect(await offchainOracle.oraclePairBlacklisted(keyBA)).to.be.true;
+
+            expect(await offchainOracle.oraclePairBlacklisted(oracleAddr, tokens.DAI, tokens.USDC)).to.be.true;
+            expect(await offchainOracle.oraclePairBlacklisted(oracleAddr, tokens.USDC, tokens.DAI)).to.be.true;
         });
 
         it('emits OracleTokenPairBlacklistUpdated event', async function () {
@@ -455,12 +452,10 @@ describe('OffchainOracle Blacklist', function () {
             await offchainOracle.setOracleTokenBlacklistPair(oracleAddr, tokens.DAI, tokens.USDC, false);
 
             // DAI<>WETH should still be blacklisted
-            const keyDaiWeth = pairKey(oracleAddr, tokens.DAI, tokens.WETH);
-            expect(await offchainOracle.oraclePairBlacklisted(keyDaiWeth)).to.be.true;
+            expect(await offchainOracle.oraclePairBlacklisted(oracleAddr, tokens.DAI, tokens.WETH)).to.be.true;
 
             // DAI<>USDC should be cleared
-            const keyDaiUsdc = pairKey(oracleAddr, tokens.DAI, tokens.USDC);
-            expect(await offchainOracle.oraclePairBlacklisted(keyDaiUsdc)).to.be.false;
+            expect(await offchainOracle.oraclePairBlacklisted(oracleAddr, tokens.DAI, tokens.USDC)).to.be.false;
         });
 
         it('oracleBlacklistCount tracks correctly across multiple tokens and oracles', async function () {
@@ -517,14 +512,3 @@ describe('OffchainOracle Blacklist', function () {
     });
 });
 
-function pairKey (oracle, tokenA, tokenB) {
-    const a = BigInt(tokenA);
-    const b = BigInt(tokenB);
-    const [t0, t1] = a < b ? [tokenA, tokenB] : [tokenB, tokenA];
-    return ethers.keccak256(
-        ethers.AbiCoder.defaultAbiCoder().encode(
-            ['address', 'address', 'address'],
-            [oracle, t0, t1],
-        ),
-    );
-}
