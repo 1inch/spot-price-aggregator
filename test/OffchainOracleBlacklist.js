@@ -511,4 +511,3 @@ describe('OffchainOracle Blacklist', function () {
         });
     });
 });
-
