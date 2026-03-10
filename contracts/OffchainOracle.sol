@@ -31,6 +31,7 @@ contract OffchainOracle is Ownable {
     event ConnectorAdded(IERC20 connector);
     event ConnectorRemoved(IERC20 connector);
     event MultiWrapperUpdated(MultiWrapper multiWrapper);
+    event OracleTokenBlacklistUpdated(IOracle oracle, address token0, address token1, bool isBlacklisted);
 
     struct GetRateImplParams {
         IOracle oracle;
@@ -46,7 +47,9 @@ contract OffchainOracle is Ownable {
     EnumerableSet.AddressSet private _ethOracles;
     EnumerableSet.AddressSet private _connectors;
     MultiWrapper public multiWrapper;
+    mapping (IOracle => mapping (address => mapping (address => bool))) public _blacklistedTokens;
 
+    address private constant _BLACKLISTED_FULL_TOKEN_ADDRESS = address(type(uint160).max);
     IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private immutable _WBASE;
 
@@ -198,6 +201,24 @@ contract OffchainOracle is Ownable {
     }
 
     /**
+     * @notice Sets the blacklisted status for a specific oracle and token pair.
+     * @param oracle The address of the oracle for which to set the blacklisted status
+     * @param token0 The address of the first token
+     * @param token1 The address of the second token.
+     * If the blacklisting is for all pairs with this token, this should be set to the 0xff..ff address.
+     * @param isBlacklisted The blacklisted status to set
+     */
+    function setBlacklistedStatus(IOracle oracle, address token0, address token1, bool isBlacklisted) external onlyOwner {
+        if (token0 < token1) {
+            _blacklistedTokens[oracle][token0][token1] = isBlacklisted;
+            emit OracleTokenBlacklistUpdated(oracle, token0, token1, isBlacklisted);
+        } else {
+            _blacklistedTokens[oracle][token1][token0] = isBlacklisted;
+            emit OracleTokenBlacklistUpdated(oracle, token1, token0, isBlacklisted);
+        }
+    }
+
+    /**
     * WARNING!
     *    Usage of the dex oracle on chain is highly discouraged!
     *    getRate function can be easily manipulated inside transaction!
@@ -303,6 +324,23 @@ contract OffchainOracle is Ownable {
                                 continue;
                             }
                             for (uint256 i = 0; i < allOracles.length; i++) {
+                                if (address(wrappedSrcTokens[k1]) < address(wrappedDstTokens[k2])) {
+                                    if (_blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k1])][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        _blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k2])][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        _blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k1])][address(wrappedDstTokens[k2])] ||
+                                        _blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k1])][address(connector)] ||
+                                        _blacklistedTokens[allOracles[i]][address(wrappedDstTokens[k2])][address(connector)]) {
+                                        continue;
+                                    }
+                                } else {
+                                    if (_blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k1])][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        _blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k2])][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        _blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k2])][address(wrappedDstTokens[k1])] ||
+                                        _blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k1])][address(connector)] ||
+                                        _blacklistedTokens[allOracles[i]][address(wrappedDstTokens[k2])][address(connector)]) {
+                                        continue;
+                                    }
+                                }
                                 GetRateImplParams memory params = GetRateImplParams({
                                     oracle: allOracles[i],
                                     srcToken: wrappedSrcTokens[k1],
