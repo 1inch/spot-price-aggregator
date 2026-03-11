@@ -47,7 +47,7 @@ contract OffchainOracle is Ownable {
     EnumerableSet.AddressSet private _ethOracles;
     EnumerableSet.AddressSet private _connectors;
     MultiWrapper public multiWrapper;
-    mapping (IOracle => mapping (address => mapping (address => bool))) public _blacklistedTokens;
+    mapping (IOracle => mapping (address => mapping (address => bool))) public blacklistedTokens;
 
     address private constant _BLACKLISTED_FULL_TOKEN_ADDRESS = address(type(uint160).max);
     IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);
@@ -210,10 +210,10 @@ contract OffchainOracle is Ownable {
      */
     function setBlacklistedStatus(IOracle oracle, address token0, address token1, bool isBlacklisted) external onlyOwner {
         if (token0 < token1) {
-            _blacklistedTokens[oracle][token0][token1] = isBlacklisted;
+            blacklistedTokens[oracle][token0][token1] = isBlacklisted;
             emit OracleTokenBlacklistUpdated(oracle, token0, token1, isBlacklisted);
         } else {
-            _blacklistedTokens[oracle][token1][token0] = isBlacklisted;
+            blacklistedTokens[oracle][token1][token0] = isBlacklisted;
             emit OracleTokenBlacklistUpdated(oracle, token1, token0, isBlacklisted);
         }
     }
@@ -331,11 +331,11 @@ contract OffchainOracle is Ownable {
                                     address token2;
                                     (token0, token1, token2) = _sort(address(wrappedSrcTokens[k1]), address(wrappedDstTokens[k2]), address(connector));
                                     if (
-                                        _blacklistedTokens[oracle][token0][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
-                                        _blacklistedTokens[oracle][token1][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
-                                        _blacklistedTokens[oracle][token2][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
-                                        _blacklistedTokens[oracle][token0][token1] ||
-                                        _blacklistedTokens[oracle][token0][token2]) {
+                                        blacklistedTokens[oracle][token0][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        blacklistedTokens[oracle][token1][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        blacklistedTokens[oracle][token2][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        blacklistedTokens[oracle][token0][token1] ||
+                                        blacklistedTokens[oracle][token0][token2]) {
                                         continue;
                                     }
                                 }
@@ -424,11 +424,11 @@ contract OffchainOracle is Ownable {
                                     address token2;
                                     (token0, token1, token2) = _sort(address(wrappedSrcTokens[k1]), address(wrappedDstTokens[k2]), address(connector));
                                     if (
-                                        _blacklistedTokens[oracle][token0][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
-                                        _blacklistedTokens[oracle][token1][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
-                                        _blacklistedTokens[oracle][token2][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
-                                        _blacklistedTokens[oracle][token0][token1] ||
-                                        _blacklistedTokens[oracle][token0][token2]) {
+                                        blacklistedTokens[oracle][token0][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        blacklistedTokens[oracle][token1][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        blacklistedTokens[oracle][token2][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        blacklistedTokens[oracle][token0][token1] ||
+                                        blacklistedTokens[oracle][token0][token2]) {
                                         continue;
                                     }
                                 }
@@ -528,7 +528,7 @@ contract OffchainOracle is Ownable {
     }
 
 
-    function _sort(address tokenA, address tokenB, address tokenC) public pure returns (address, address, address) {
+    function _sort(address tokenA, address tokenB, address tokenC) private pure returns (address, address, address) {
         if (tokenA > tokenB) (tokenA, tokenB) = (tokenB, tokenA);
         if (tokenA > tokenC) (tokenA, tokenC) = (tokenC, tokenA);
         if (tokenB > tokenC) (tokenB, tokenC) = (tokenC, tokenB);
