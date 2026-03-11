@@ -324,20 +324,18 @@ contract OffchainOracle is Ownable {
                                 continue;
                             }
                             for (uint256 i = 0; i < allOracles.length; i++) {
-                                if (address(wrappedSrcTokens[k1]) < address(wrappedDstTokens[k2])) {
-                                    if (_blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k1])][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
-                                        _blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k2])][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
-                                        _blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k1])][address(wrappedDstTokens[k2])] ||
-                                        _blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k1])][address(connector)] ||
-                                        _blacklistedTokens[allOracles[i]][address(wrappedDstTokens[k2])][address(connector)]) {
-                                        continue;
-                                    }
-                                } else {
-                                    if (_blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k1])][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
-                                        _blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k2])][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
-                                        _blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k2])][address(wrappedDstTokens[k1])] ||
-                                        _blacklistedTokens[allOracles[i]][address(wrappedSrcTokens[k1])][address(connector)] ||
-                                        _blacklistedTokens[allOracles[i]][address(wrappedDstTokens[k2])][address(connector)]) {
+                                {
+                                    IOracle oracle = allOracles[i];
+                                    address token0;
+                                    address token1;
+                                    address token2;
+                                    (token0, token1, token2) = _sort(address(wrappedSrcTokens[k1]), address(wrappedDstTokens[k2]), address(connector));
+                                    if (
+                                        _blacklistedTokens[oracle][token0][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        _blacklistedTokens[oracle][token1][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        _blacklistedTokens[oracle][token2][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        _blacklistedTokens[oracle][token0][token1] ||
+                                        _blacklistedTokens[oracle][token0][token2]) {
                                         continue;
                                     }
                                 }
@@ -419,6 +417,21 @@ contract OffchainOracle is Ownable {
                                 continue;
                             }
                             for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
+                                {
+                                    IOracle oracle = IOracle(address(uint160(uint256(wrappedOracles[k2][i]))));
+                                    address token0;
+                                    address token1;
+                                    address token2;
+                                    (token0, token1, token2) = _sort(address(wrappedSrcTokens[k1]), address(wrappedDstTokens[k2]), address(connector));
+                                    if (
+                                        _blacklistedTokens[oracle][token0][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        _blacklistedTokens[oracle][token1][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        _blacklistedTokens[oracle][token2][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
+                                        _blacklistedTokens[oracle][token0][token1] ||
+                                        _blacklistedTokens[oracle][token0][token2]) {
+                                        continue;
+                                    }
+                                }
                                 GetRateImplParams memory params = GetRateImplParams({
                                     oracle: IOracle(address(uint160(uint256(wrappedOracles[k2][i])))),
                                     srcToken: wrappedSrcTokens[k1],
@@ -512,5 +525,13 @@ contract OffchainOracle is Ownable {
 
         // Make sure the result is less than 2^256
         return denominator > prod1;
+    }
+
+
+    function _sort(address tokenA, address tokenB, address tokenC) public pure returns (address, address, address) {
+        if (tokenA > tokenB) (tokenA, tokenB) = (tokenB, tokenA);
+        if (tokenA > tokenC) (tokenA, tokenC) = (tokenC, tokenA);
+        if (tokenB > tokenC) (tokenB, tokenC) = (tokenC, tokenB);
+        return (tokenA, tokenB, tokenC);
     }
 }
