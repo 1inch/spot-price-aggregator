@@ -335,7 +335,8 @@ contract OffchainOracle is Ownable {
                                         blacklistedTokens[oracle][token1][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
                                         blacklistedTokens[oracle][token2][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
                                         blacklistedTokens[oracle][token0][token1] ||
-                                        blacklistedTokens[oracle][token0][token2]) {
+                                        blacklistedTokens[oracle][token0][token2] ||
+                                        blacklistedTokens[oracle][token1][token2]) {
                                         continue;
                                     }
                                 }
@@ -428,7 +429,8 @@ contract OffchainOracle is Ownable {
                                         blacklistedTokens[oracle][token1][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
                                         blacklistedTokens[oracle][token2][_BLACKLISTED_FULL_TOKEN_ADDRESS] ||
                                         blacklistedTokens[oracle][token0][token1] ||
-                                        blacklistedTokens[oracle][token0][token2]) {
+                                        blacklistedTokens[oracle][token0][token2] ||
+                                        blacklistedTokens[oracle][token1][token2]) {
                                         continue;
                                     }
                                 }
