@@ -2,7 +2,7 @@ const hre = require('hardhat');
 const fs = require('fs');
 const { ethers } = hre;
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
-const { expect, ether, assertRoughlyEqualValues, deployContract } = require('@1inch/solidity-utils');
+const { expect, ether, assertRoughlyEqualValues, deployContract, constants } = require('@1inch/solidity-utils');
 const {
     tokens,
     deployParams: { AaveWrapperV2, Uniswap, UniswapV2 },
@@ -334,7 +334,7 @@ describe('OffchainOracle', function () {
                 multiWrapper,
                 [simpleOracleMock],
                 ['0'],
-                [tokens.NONE],
+                [tokens.WETH],
                 tokens.WETH,
                 deployer.address,
             ]);
@@ -345,24 +345,28 @@ describe('OffchainOracle', function () {
         it('should correctly set blacklisted status with proper event and storage', async function () {
             const { offchainOracle, simpleOracleMock } = await loadFixture(initContractsForBlacklist);
             const oracleAddr = await simpleOracleMock.getAddress();
-            // DAI < USDC in address comparison
+            // Blacklist specific pair (token0 ^ token1 XOR key)
+            const xorKey = BigInt(tokens.USDC) ^ BigInt(tokens.DAI);
             await expect(offchainOracle.setBlacklistedStatus(oracleAddr, tokens.USDC, tokens.DAI, true))
                 .to.emit(offchainOracle, 'OracleTokenBlacklistUpdated')
-                .withArgs(oracleAddr, tokens.DAI, tokens.USDC, true);
-            // DAI < USDC, so stored as [oracle][DAI][USDC]
-            expect(await offchainOracle._blacklistedTokens(oracleAddr, tokens.DAI, tokens.USDC)).to.be.true;
-            // Reverse should not be set
-            expect(await offchainOracle._blacklistedTokens(oracleAddr, tokens.USDC, tokens.DAI)).to.be.false;
+                .withArgs(oracleAddr, xorKey, true);
+            expect(await offchainOracle.blacklisted(oracleAddr, tokens.USDC, tokens.DAI)).to.be.true;
+
+            // Blacklist token for all pairs (token1 = address(0))
+            const tokenKey = BigInt(tokens.DAI);
+            await expect(offchainOracle.setBlacklistedStatus(oracleAddr, tokens.DAI, tokens.ETH, true))
+                .to.emit(offchainOracle, 'OracleTokenBlacklistUpdated')
+                .withArgs(oracleAddr, tokenKey, true);
         });
 
-        it('should return zero rate when specific pair is blacklisted', async function () {
+        it('should return zero rate when specific token-connector pair is blacklisted', async function () {
             const { offchainOracle, simpleOracleMock } = await loadFixture(initContractsForBlacklist);
             const oracleAddr = await simpleOracleMock.getAddress();
 
             const rateBefore = await offchainOracle.getRate(tokens.DAI, tokens.USDC, false);
             expect(rateBefore).to.gt(0);
 
-            await offchainOracle.setBlacklistedStatus(oracleAddr, tokens.DAI, tokens.USDC, true);
+            await offchainOracle.setBlacklistedStatus(oracleAddr, tokens.DAI, tokens.WETH, true);
 
             const rateAfter = await offchainOracle.getRate(tokens.DAI, tokens.USDC, false);
             expect(rateAfter).to.eq(0);
@@ -375,8 +379,8 @@ describe('OffchainOracle', function () {
             const rateBefore = await offchainOracle.getRate(tokens.DAI, tokens.USDC, false);
             expect(rateBefore).to.gt(0);
 
-            // Blacklist DAI for all pairs (token1 = 0xff..ff)
-            await offchainOracle.setBlacklistedStatus(oracleAddr, tokens.DAI, tokens.NONE, true);
+            // Blacklist DAI for all pairs (token1 = address(0))
+            await offchainOracle.setBlacklistedStatus(oracleAddr, tokens.DAI, constants.ZERO_ADDRESS, true);
 
             const rateAfter = await offchainOracle.getRate(tokens.DAI, tokens.USDC, false);
             expect(rateAfter).to.eq(0);
@@ -389,10 +393,11 @@ describe('OffchainOracle', function () {
             const rateBefore = await offchainOracle.getRate(tokens.DAI, tokens.USDC, false);
             expect(rateBefore).to.gt(0);
 
-            await offchainOracle.setBlacklistedStatus(oracleAddr, tokens.DAI, tokens.USDC, true);
+            // Blacklist pair (DAI, WETH connector)
+            await offchainOracle.setBlacklistedStatus(oracleAddr, tokens.DAI, tokens.WETH, true);
             expect(await offchainOracle.getRate(tokens.DAI, tokens.USDC, false)).to.eq(0);
 
-            await offchainOracle.setBlacklistedStatus(oracleAddr, tokens.DAI, tokens.USDC, false);
+            await offchainOracle.setBlacklistedStatus(oracleAddr, tokens.DAI, tokens.WETH, false);
 
             const rateAfter = await offchainOracle.getRate(tokens.DAI, tokens.USDC, false);
             expect(rateAfter).to.eq(rateBefore);
