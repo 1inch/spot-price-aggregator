@@ -355,7 +355,8 @@ contract OffchainOracle is Ownable {
                     }
                     for (uint256 i = 0; i < allOracles.length; i++) {
                         address oracle = address(allOracles[i]);
-                        if (oracleBlacklistCount[oracle] > 0) {
+                        bool hasBlacklist = oracleBlacklistCount[oracle] > 0;
+                        if (hasBlacklist) {
                             if (oracleTokenBlacklisted[oracle][wrappedSrcTokens[k1]].blacklistType == BlackListType.ENTIRE_ORACLE
                                 || oracleTokenBlacklisted[oracle][wrappedDstTokens[k2]].blacklistType == BlackListType.ENTIRE_ORACLE) continue;
 
@@ -367,6 +368,11 @@ contract OffchainOracle is Ownable {
                                 IERC20 connector = allConnectors[k3][j];
                                 if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
                                     continue;
+                                }
+                                if (hasBlacklist) {
+                                    if (oracleTokenBlacklisted[oracle][connector].blacklistType == BlackListType.ENTIRE_ORACLE) continue;
+                                    if (oraclePairBlacklisted[oracle][wrappedSrcTokens[k1]][connector]
+                                        || oraclePairBlacklisted[oracle][wrappedDstTokens[k2]][connector]) continue;
                                 }
                                 GetRateImplParams memory params = GetRateImplParams({
                                     oracle: allOracles[i],
@@ -441,11 +447,13 @@ contract OffchainOracle is Ownable {
                     }
                     for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
                         IOracle oracle = IOracle(address(uint160(uint256(wrappedOracles[k2][i]))));
-                        if (oracleBlacklistCount[address(oracle)] > 0) {
-                            if (oracleTokenBlacklisted[address(oracle)][wrappedSrcTokens[k1]].blacklistType == BlackListType.ENTIRE_ORACLE
-                                || oracleTokenBlacklisted[address(oracle)][wrappedDstTokens[k2]].blacklistType == BlackListType.ENTIRE_ORACLE) continue;
+                        address oracleAddr = address(oracle);
+                        bool hasBlacklist = oracleBlacklistCount[oracleAddr] > 0;
+                        if (hasBlacklist) {
+                            if (oracleTokenBlacklisted[oracleAddr][wrappedSrcTokens[k1]].blacklistType == BlackListType.ENTIRE_ORACLE
+                                || oracleTokenBlacklisted[oracleAddr][wrappedDstTokens[k2]].blacklistType == BlackListType.ENTIRE_ORACLE) continue;
 
-                            if (oraclePairBlacklisted[address(oracle)][wrappedSrcTokens[k1]][wrappedDstTokens[k2]]) continue;
+                            if (oraclePairBlacklisted[oracleAddr][wrappedSrcTokens[k1]][wrappedDstTokens[k2]]) continue;
                         }
 
                         for (uint256 k3 = 0; k3 < 2; k3++) {
@@ -453,6 +461,11 @@ contract OffchainOracle is Ownable {
                                 IERC20 connector = allConnectors[k3][j];
                                 if (connector == wrappedSrcTokens[k1] || connector == wrappedDstTokens[k2]) {
                                     continue;
+                                }
+                                if (hasBlacklist) {
+                                    if (oracleTokenBlacklisted[oracleAddr][connector].blacklistType == BlackListType.ENTIRE_ORACLE) continue;
+                                    if (oraclePairBlacklisted[oracleAddr][wrappedSrcTokens[k1]][connector]
+                                        || oraclePairBlacklisted[oracleAddr][wrappedDstTokens[k2]][connector]) continue;
                                 }
                                 GetRateImplParams memory params = GetRateImplParams({
                                     oracle: oracle,
