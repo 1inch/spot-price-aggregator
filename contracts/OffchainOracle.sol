@@ -23,7 +23,7 @@ contract OffchainOracle is Ownable {
     error UnknownConnector();
     error SameTokens();
     error TooBigThreshold();
-    error AlreadyBlacklisted();
+    error BlacklistStatusAlreadySet();
 
     enum OracleType { WETH, ETH, WETH_ETH }
 
@@ -232,7 +232,7 @@ contract OffchainOracle is Ownable {
             if (token0 == token1) revert SameTokens();
             key = uint256(uint160(token0)) ^ uint256(uint160(token1));
         }
-        if (_blacklisted[oracle][key] == isBlacklisted) revert AlreadyBlacklisted();
+        if (_blacklisted[oracle][key] == isBlacklisted) revert BlacklistStatusAlreadySet();
         _blacklisted[oracle][key] = isBlacklisted;
         if (isBlacklisted) {
             _blacklistCount[oracle]++;
@@ -363,7 +363,7 @@ contract OffchainOracle is Ownable {
                                     }
                                 }
                                 GetRateImplParams memory params = GetRateImplParams({
-                                    oracle: allOracles[i],
+                                    oracle: oracle,
                                     srcToken: wrappedSrcTokens[k1],
                                     srcTokenRate: srcRates[k1],
                                     dstToken: wrappedDstTokens[k2],
