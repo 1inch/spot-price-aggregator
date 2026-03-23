@@ -23,6 +23,7 @@ contract OffchainOracle is Ownable {
     error UnknownConnector();
     error SameTokens();
     error TooBigThreshold();
+    error AlreadyBlacklisted();
 
     enum OracleType { WETH, ETH, WETH_ETH }
 
@@ -231,7 +232,7 @@ contract OffchainOracle is Ownable {
             if (token0 == token1) revert SameTokens();
             key = uint256(uint160(token0)) ^ uint256(uint160(token1));
         }
-        if (_blacklisted[oracle][key] == isBlacklisted) return;
+        if (_blacklisted[oracle][key] == isBlacklisted) revert AlreadyBlacklisted();
         _blacklisted[oracle][key] = isBlacklisted;
         if (isBlacklisted) {
             _blacklistCount[oracle]++;
