@@ -35,6 +35,16 @@ describe('UniswapV4LikeOracle', function () {
             const { uniswapV2LikeOracle, uniswapV4Oracle } = await loadFixture(initContracts);
             await testRate(tokens.WETH, tokens.USDC, tokens.NONE, uniswapV2LikeOracle, uniswapV4Oracle);
         });
+
+        it('WETH -> USDC -> USDT', async function () {
+            const { uniswapV2LikeOracle, uniswapV4Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.WETH, tokens.USDT, tokens.USDC, uniswapV2LikeOracle, uniswapV4Oracle);
+        });
+
+        it('USDT -> USDC -> WETH', async function () {
+            const { uniswapV2LikeOracle, uniswapV4Oracle } = await loadFixture(initContracts);
+            await testRate(tokens.USDT, tokens.WETH, tokens.USDC, uniswapV2LikeOracle, uniswapV4Oracle);
+        });
     });
 });
 
