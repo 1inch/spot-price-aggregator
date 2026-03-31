@@ -103,9 +103,9 @@ describe('CurveOracle', function () {
             await testRate(tokens.WBTC, tokens.WETH, tokens.NONE, curveOracle, uniswapV3Oracle);
         });
 
-        it('USDT -> USDC', async function () {
+        it('DAI -> USDC', async function () {
             const { curveOracle, uniswapV3Oracle } = await loadFixture(fixture);
-            await testRate(tokens.USDT, tokens.USDC, tokens.NONE, curveOracle, uniswapV3Oracle);
+            await testRate(tokens.DAI, tokens.USDC, tokens.NONE, curveOracle, uniswapV3Oracle);
         });
 
         it('should use correct `get_dy` selector when vyper return redundant bytes', async function () {
