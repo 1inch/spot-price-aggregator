@@ -140,8 +140,8 @@ contract OffchainOracle is Ownable {
      * @notice Checks if a specific oracle and token pair is blacklisted.
      * @param oracle The address of the oracle to check
      * @param token0 The address of the first token
-     * @param token1 The address of the second token
-     * @return True if the pair is blacklisted, false otherwise
+     * @param token1 The address of the second token. Pass `address(0)` to check if `token0` is blacklisted for all pairs.
+     * @return True if the pair (or token) is blacklisted, false otherwise
      */
     function blacklisted(IOracle oracle, address token0, address token1) external view returns (bool) {
         if (token0 == token1) revert SameTokens();
@@ -549,11 +549,4 @@ contract OffchainOracle is Ownable {
         return denominator > prod1;
     }
 
-
-    function _sort(address tokenA, address tokenB, address tokenC) private pure returns (address, address, address) {
-        if (tokenA > tokenB) (tokenA, tokenB) = (tokenB, tokenA);
-        if (tokenA > tokenC) (tokenA, tokenC) = (tokenC, tokenA);
-        if (tokenB > tokenC) (tokenB, tokenC) = (tokenC, tokenB);
-        return (tokenA, tokenB, tokenC);
-    }
 }
