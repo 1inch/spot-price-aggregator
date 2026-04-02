@@ -225,13 +225,9 @@ contract OffchainOracle is Ownable {
      * @param isBlacklisted The blacklisted status to set
      */
     function setBlacklistedStatus(IOracle oracle, address token0, address token1, bool isBlacklisted) external onlyOwner {
-        uint256 key;
-        if (token1 == address(0)) {
-            key = uint256(uint160(token0));
-        } else {
-            if (token0 == token1) revert SameTokens();
-            key = uint256(uint160(token0)) ^ uint256(uint160(token1));
-        }
+        if (token0 == token1 && token1 != address(0)) revert SameTokens();
+        uint256 key = uint256(uint160(token0)) ^ uint256(uint160(token1));
+
         if (_blacklisted[oracle][key] == isBlacklisted) revert BlacklistStatusAlreadySet();
         _blacklisted[oracle][key] = isBlacklisted;
         if (isBlacklisted) {
