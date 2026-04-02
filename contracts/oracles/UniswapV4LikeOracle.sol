@@ -36,14 +36,37 @@ contract UniswapV4LikeOracle is IOracle {
         IERC20 connector,
         uint256 thresholdFilter
     ) external view override returns (uint256 rate, uint256 weight) {
-        if (connector != _NONE) revert ConnectorShouldBeNone();
+        OraclePrices.Data memory ratesAndWeights;
+        uint256 feesLength = fees.length;
+        uint256 spacingsLength = spacings.length;
+        uint256 poolVariants = feesLength * spacingsLength;
 
-        OraclePrices.Data memory ratesAndWeights = OraclePrices.init(fees.length * spacings.length);
-
-        for (uint256 i = 0; i < fees.length; i++) {
-            for (uint256 k = 0; k < spacings.length; k++) {
-                (uint256 r, uint256 w) = _getRateDirect(srcToken, dstToken, fees[i], spacings[k]);
-                ratesAndWeights.append(OraclePrices.OraclePrice(r, w));
+        if (connector == _NONE) {
+            ratesAndWeights = OraclePrices.init(poolVariants);
+            for (uint256 i = 0; i < feesLength; i++) {
+                for (uint256 k = 0; k < spacingsLength; k++) {
+                    (uint256 r, uint256 w) = _getRateDirect(srcToken, dstToken, fees[i], spacings[k]);
+                    ratesAndWeights.append(OraclePrices.OraclePrice(r, w));
+                }
+            }
+        } else {
+            ratesAndWeights = OraclePrices.init(poolVariants * poolVariants);
+            for (uint256 i = 0; i < feesLength; i++) {
+                for (uint256 k = 0; k < spacingsLength; k++) {
+                    (uint256 rate0, uint256 w0) = _getRateDirect(srcToken, connector, fees[i], spacings[k]);
+                    if (rate0 == 0 || w0 == 0) {
+                        continue;
+                    }
+                    for (uint256 j = 0; j < feesLength; j++) {
+                        for (uint256 m = 0; m < spacingsLength; m++) {
+                            (uint256 rate1, uint256 w1) = _getRateDirect(connector, dstToken, fees[j], spacings[m]);
+                            if (rate1 == 0 || w1 == 0) {
+                                continue;
+                            }
+                            ratesAndWeights.append(OraclePrices.OraclePrice(Math.mulDiv(rate0, rate1, 1e18), Math.min(w0, w1)));
+                        }
+                    }
+                }
             }
         }
 

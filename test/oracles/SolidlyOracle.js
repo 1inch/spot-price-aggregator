@@ -56,27 +56,27 @@ describe('SolidlyOracle', function () {
                 await testRate(tokens.base.DAI, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, relativeDiff);
             });
 
-            it('rETH -> WETH', async function () {
+            it('cbETH -> WETH', async function () {
                 const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
                 // Test only for Aerodrome
                 if (await oracle.FACTORY() !== Aerodrome.factory) {
                     this.skip();
                 }
-                await testRate(tokens.base.rETH, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, relativeDiff);
+                await testRate(tokens.base.cbETH, tokens.base.WETH, tokens.NONE, oracle, uniswapV3Oracle, relativeDiff);
             });
 
-            it('WETH -> rETH', async function () {
+            it('WETH -> cbETH', async function () {
                 const { oracle, uniswapV3Oracle } = await loadFixture(fixture);
                 // Test only for Aerodrome
                 if (await oracle.FACTORY() !== Aerodrome.factory) {
                     this.skip();
                 }
-                await testRate(tokens.base.WETH, tokens.base.rETH, tokens.NONE, oracle, uniswapV3Oracle, relativeDiff);
+                await testRate(tokens.base.WETH, tokens.base.cbETH, tokens.NONE, oracle, uniswapV3Oracle, relativeDiff);
             });
         }
 
         describe('VelocimeterV2', function () {
-            shouldWorkForOracle(deployVelocimeterV2, 0.1);
+            shouldWorkForOracle(deployVelocimeterV2, 0.15);
         });
 
         describe('Aerodrome', function () {

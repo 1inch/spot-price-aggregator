@@ -84,18 +84,13 @@ describe('Erc4626Wrapper', function () {
         shouldReturnCorrectPricesAndTokens(initContractsAndMarket);
     });
 
-    describe('xrETH Wrapper', function () {
+    describe('sfrxETH Wrapper', function () {
         async function initContractsAndMarket () {
             const { erc4626Wrapper } = await initContracts();
-            const xrETH = await ethers.getContractAt('IERC4626', tokens.xrETH);
-            await erc4626Wrapper.addMarkets([xrETH]);
-            return { erc4626Wrapper, wbase: xrETH, base: tokens.WETH };
+            const sfrxETH = await ethers.getContractAt('IERC4626', tokens.sfrxETH);
+            await erc4626Wrapper.addMarkets([sfrxETH]);
+            return { erc4626Wrapper, wbase: sfrxETH, base: tokens.frxETH };
         }
-
-        // Switch off console.log to avoid spamming the console with the logs from the xrETH contract
-        const originalConsoleLog = console.log;
-        before(async function () { console.log = function () {}; });
-        after(async function () { console.log = originalConsoleLog; });
 
         shouldReturnCorrectPricesAndTokens(initContractsAndMarket);
     });

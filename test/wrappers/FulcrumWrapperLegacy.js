@@ -5,8 +5,8 @@ const { ethers } = require('hardhat');
 
 const tests = [
     {
-        token: tokens.USDC,
-        itoken: tokens.iUSDC,
+        token: tokens.DAI,
+        itoken: tokens.iDAI,
     },
 ];
 
@@ -14,7 +14,7 @@ describe('FulcrumWrapperLegacy', function () {
     async function initContracts () {
         const [owner] = await ethers.getSigners();
         const fulcrumWrapperLegacy = await deployContract('FulcrumWrapperLegacy', [owner]);
-        await fulcrumWrapperLegacy.addMarkets([tokens.iUSDC]);
+        await fulcrumWrapperLegacy.addMarkets([tokens.iDAI]);
         return { fulcrumWrapperLegacy };
     }
 
