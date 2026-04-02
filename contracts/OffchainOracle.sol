@@ -144,7 +144,7 @@ contract OffchainOracle is Ownable {
      * @return True if the pair (or token) is blacklisted, false otherwise
      */
     function blacklisted(IOracle oracle, address token0, address token1) external view returns (bool) {
-        if (token0 == token1) revert SameTokens();
+        if (token0 == token1 && token1 != address(0)) revert SameTokens();
         uint256 token0Int = uint256(uint160(token0));
         uint256 token1Int = uint256(uint160(token1));
         return _blacklisted[oracle][token0Int ^ token1Int];
@@ -544,5 +544,4 @@ contract OffchainOracle is Ownable {
         // Make sure the result is less than 2^256
         return denominator > prod1;
     }
-
 }
