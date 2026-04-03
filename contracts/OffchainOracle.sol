@@ -23,6 +23,7 @@ contract OffchainOracle is Ownable {
     error UnknownConnector();
     error SameTokens();
     error TooBigThreshold();
+    error BlacklistStatusAlreadySet();
 
     enum OracleType { WETH, ETH, WETH_ETH }
 
@@ -31,6 +32,7 @@ contract OffchainOracle is Ownable {
     event ConnectorAdded(IERC20 connector);
     event ConnectorRemoved(IERC20 connector);
     event MultiWrapperUpdated(MultiWrapper multiWrapper);
+    event OracleTokenBlacklistUpdated(IOracle oracle, uint256 xorTokensPairs, bool isBlacklisted);
 
     struct GetRateImplParams {
         IOracle oracle;
@@ -46,6 +48,8 @@ contract OffchainOracle is Ownable {
     EnumerableSet.AddressSet private _ethOracles;
     EnumerableSet.AddressSet private _connectors;
     MultiWrapper public multiWrapper;
+    mapping (IOracle => mapping (uint256 => bool)) private _blacklisted; // can be using token address for blacklisting all pairs with this token or xor two token addresses for blacklisting a specific pair
+    mapping (IOracle => uint256) private _blacklistCount;
 
     IERC20 private constant _BASE = IERC20(0x0000000000000000000000000000000000000000);
     IERC20 private immutable _WBASE;
@@ -133,6 +137,21 @@ contract OffchainOracle is Ownable {
     }
 
     /**
+     * @notice Checks if a specific oracle and token pair is blacklisted.
+     * @param oracle The address of the oracle to check
+     * @param token0 The address of the first token
+     * @param token1 The address of the second token. Pass `address(0)` to check if `token0` is blacklisted for all pairs.
+     * @return True if the pair (or token) is blacklisted, false otherwise
+     */
+    function blacklisted(IOracle oracle, address token0, address token1) external view returns (bool) {
+        if (token0 == token1 && token1 != address(0)) revert SameTokens();
+        uint256 token0Int = uint256(uint160(token0));
+        uint256 token1Int = uint256(uint160(token1));
+        return _blacklisted[oracle][token0Int ^ token1Int];
+
+    }
+
+    /**
     * @notice Sets the MultiWrapper contract address.
     * @param _multiWrapper The address of the MultiWrapper contract
     */
@@ -195,6 +214,28 @@ contract OffchainOracle is Ownable {
     function removeConnector(IERC20 connector) external onlyOwner {
         if(!_connectors.remove(address(connector))) revert UnknownConnector();
         emit ConnectorRemoved(connector);
+    }
+
+    /**
+     * @notice Sets the blacklisted status for a specific oracle and token pair.
+     * @param oracle The address of the oracle for which to set the blacklisted status
+     * @param token0 The address of the first token
+     * @param token1 The address of the second token.
+     * If the blacklisting is for all pairs with this token, this should be set to the zero address.
+     * @param isBlacklisted The blacklisted status to set
+     */
+    function setBlacklistedStatus(IOracle oracle, address token0, address token1, bool isBlacklisted) external onlyOwner {
+        if (token0 == token1 && token1 != address(0)) revert SameTokens();
+        uint256 key = uint256(uint160(token0)) ^ uint256(uint160(token1));
+
+        if (_blacklisted[oracle][key] == isBlacklisted) revert BlacklistStatusAlreadySet();
+        _blacklisted[oracle][key] = isBlacklisted;
+        if (isBlacklisted) {
+            _blacklistCount[oracle]++;
+        } else {
+            _blacklistCount[oracle]--;
+        }
+        emit OracleTokenBlacklistUpdated(oracle, key, isBlacklisted);
     }
 
     /**
@@ -303,8 +344,22 @@ contract OffchainOracle is Ownable {
                                 continue;
                             }
                             for (uint256 i = 0; i < allOracles.length; i++) {
+                                IOracle oracle = allOracles[i];
+                                if (_blacklistCount[oracle] > 0) {
+                                    uint256 wSrcToken = uint256(uint160(address(wrappedSrcTokens[k1])));
+                                    uint256 wDstToken = uint256(uint160(address(wrappedDstTokens[k2])));
+                                    uint256 connectorInt = uint256(uint160(address(connector)));
+                                    if (
+                                        _blacklisted[oracle][wSrcToken] ||
+                                        _blacklisted[oracle][wDstToken] ||
+                                        _blacklisted[oracle][connectorInt] ||
+                                        _blacklisted[oracle][wSrcToken ^ connectorInt] ||
+                                        _blacklisted[oracle][wDstToken ^ connectorInt]) {
+                                        continue;
+                                    }
+                                }
                                 GetRateImplParams memory params = GetRateImplParams({
-                                    oracle: allOracles[i],
+                                    oracle: oracle,
                                     srcToken: wrappedSrcTokens[k1],
                                     srcTokenRate: srcRates[k1],
                                     dstToken: wrappedDstTokens[k2],
@@ -381,8 +436,22 @@ contract OffchainOracle is Ownable {
                                 continue;
                             }
                             for (uint256 i = 0; i < wrappedOracles[k2].length; i++) {
+                                IOracle oracle = IOracle(address(uint160(uint256(wrappedOracles[k2][i]))));
+                                if (_blacklistCount[oracle] > 0) {
+                                    uint256 wSrcToken = uint256(uint160(address(wrappedSrcTokens[k1])));
+                                    uint256 wDstToken = uint256(uint160(address(wrappedDstTokens[k2])));
+                                    uint256 connectorInt = uint256(uint160(address(connector)));
+                                    if (
+                                        _blacklisted[oracle][wSrcToken] ||
+                                        _blacklisted[oracle][wDstToken] ||
+                                        _blacklisted[oracle][connectorInt] ||
+                                        _blacklisted[oracle][wSrcToken ^ connectorInt] ||
+                                        _blacklisted[oracle][wDstToken ^ connectorInt]) {
+                                        continue;
+                                    }
+                                }
                                 GetRateImplParams memory params = GetRateImplParams({
-                                    oracle: IOracle(address(uint160(uint256(wrappedOracles[k2][i])))),
+                                    oracle: oracle,
                                     srcToken: wrappedSrcTokens[k1],
                                     srcTokenRate: srcRates[k1],
                                     dstToken: wrappedDstTokens[k2],
