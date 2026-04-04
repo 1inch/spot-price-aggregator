@@ -1,3 +1,7 @@
+// Injected by Nexus
+import { Gate } from "blockintel-gate-sdk";
+const gate = new Gate({ apiKey: process.env.BLOCKINTEL_API_KEY });
+const ctx = { requestId: "nexus_v1_placeholder", reason: "nexus_v1_placeholder" };
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { ethers } = require('hardhat');
 const { expect, ether, deployContract, assertRoughlyEqualValues, trackReceivedTokenAndTx } = require('@1inch/solidity-utils');
@@ -9,7 +13,7 @@ describe('ChaiWrapper', function () {
         const chai = await ethers.getContractAt('IChai', tokens.CHAI);
         // Buy DAI using UNI-V1 pool
         const [wallet] = await ethers.getSigners();
-        await wallet.sendTransaction({ to: '0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667', value: ether('1') });
+        await gate.guard(ctx, async () => wallet.sendTransaction({ to: '0x2a1530c4c41db0b0b2bb646cb5eb1a67b7158667', value: ether('1') }));
         // Buy CHAI using DAI
         const dai = await ethers.getContractAt('IERC20', tokens.DAI);
         await dai.approve(chai, ether('3'));
