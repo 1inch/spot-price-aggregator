@@ -12,7 +12,7 @@ The 1inch spot price aggregator is a set of smart contracts that extract price d
 
 ## Wrappers
 
-To handle wrapped tokens, such as wETH, cDAI, aDAI etc., the 1inch spot price aggregator uses custom wrapper smart contracts that wrap/unwrap tokens at the current wrapping exchange rate. 
+To handle wrapped tokens, such as wETH, cDAI, aDAI etc., the 1inch spot price aggregator uses custom wrapper smart contracts that wrap/unwrap tokens at the current wrapping exchange rate.
 
 ## Connectors
 
@@ -41,7 +41,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * PancakeV3 - [0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61](https://etherscan.io/address/0x7e72b1e0e6DD6F71e3b98f768E814613C2097e61)
    * Dodo - [0x0A7c4d89e1629f189Eb12dd716B178d1b90D9f66](https://etherscan.io/address/0x0A7c4d89e1629f189Eb12dd716B178d1b90D9f66)
    * DodoV2 - [0x03aA019F3B78110e030c34e9fA98047A1f62859A](https://etherscan.io/address/0x03aA019F3B78110e030c34e9fA98047A1f62859A)
-   
+
 </details>
 
 <details><summary>Supported wrappers</summary>
@@ -60,7 +60,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Erc4626 - [0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E](https://etherscan.io/address/0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E)
         * [sUSDe](https://etherscan.io/address/0x9D39A5DE30e57443BfF2A8307A4256c8797A3497), [sDAI](https://etherscan.io/address/0x83F20F44975D03b1b09e64809B757c47f942BEeA), [xrETH](https://etherscan.io/address/0xBB22d59B73D7a6F3A8a83A214BECc67Eb3b511fE), [scrvUSD](https://etherscan.io/address/0x0655977FEb2f289A4aB78af67BAB0d17aAb84367), [sENA](https://etherscan.io/address/0x8bE3460A480c80728a8C4D7a5D5303c85ba7B3b9), [sUSDS](https://etherscan.io/address/0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD)
    * USDS - [0x18645943628cf0FdCD1A9FF3a5b56d71203CFc22](https://etherscan.io/address/0x18645943628cf0FdCD1A9FF3a5b56d71203CFc22)
-   
+
 </details>
 
 <details><summary>Supported connectors</summary>
@@ -113,7 +113,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * UniswapV2 - [0x4C5B9573dE7660c097F1a21050038378CD691066](https://bscscan.com/address/0x4C5B9573dE7660c097F1a21050038378CD691066)
    * UniswapV3 - [0xe920521dcC084efc1BB830b2cd795029a58d6eF0](https://bscscan.com/address/0xe920521dcC084efc1BB830b2cd795029a58d6eF0)
    * UniswapV4 - [0xFbF54317e4820B461E7fA1B2819B6755e1cc0F62](https://bscscan.com/address/0xFbF54317e4820B461E7fA1B2819B6755e1cc0F62)
-   
+
 </details>
 
 <details><summary>Supported wrappers</summary>
@@ -122,7 +122,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * StataTokens (AaveV3) - [0x1A75DF59f464a70Cc8f7383983852FF72e5F5167](https://bscscan.com/address/0x1A75DF59f464a70Cc8f7383983852FF72e5F5167)
    * Venus - [0x11DEE30E710B8d4a8630392781Cc3c0046365d4c](https://bscscan.com/address/0x11DEE30E710B8d4a8630392781Cc3c0046365d4c)
    * WBNB - [0x54431918cec22932fcf97e54769f4e00f646690f](https://bscscan.com/address/0x54431918cec22932fcf97e54769f4e00f646690f)
-   
+
 </details>
 
 <details><summary>Supported connectors</summary>
@@ -182,7 +182,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://polygonscan.com/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    * StataTokens (AaveV3) - [0x1A75DF59f464a70Cc8f7383983852FF72e5F5167](https://polygonscan.com/address/0x1A75DF59f464a70Cc8f7383983852FF72e5F5167)
    * CompoundV3 - [0xAc63D130525c251EbB24E010c2959a98c80B993a](https://polygonscan.com/address/0xAc63D130525c251EbB24E010c2959a98c80B993a)
-   
+
 </details>
 
 <details><summary>Supported connectors</summary>
@@ -237,7 +237,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://optimistic.etherscan.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    * StataTokens (AaveV3) - [0x1A75DF59f464a70Cc8f7383983852FF72e5F5167](https://optimistic.etherscan.io/address/0x1A75DF59f464a70Cc8f7383983852FF72e5F5167)
    * // todo: add BaseCoinWrapper
-   
+
 </details>
 
 <details><summary>Supported connectors</summary>
@@ -267,7 +267,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://optimistic.etherscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
      - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://optimistic.etherscan.io/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
-     - add methods to return oracles prices and liquidity at the same time   
+     - add methods to return oracles prices and liquidity at the same time
 
 </details>
 
@@ -293,7 +293,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://arbiscan.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    * StataTokens (AaveV3) - [0x1A75DF59f464a70Cc8f7383983852FF72e5F5167](https://arbiscan.io/address/0x1A75DF59f464a70Cc8f7383983852FF72e5F5167)
    * CompoundV3 - [0x04098C93b15E5Cbb5A49651f20218C85F202Cd27](https://arbiscan.io/address/0x04098C93b15E5Cbb5A49651f20218C85F202Cd27)
-   
+
 </details>
 
 <details><summary>Supported connectors</summary>
@@ -319,7 +319,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://arbiscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
      - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://arbiscan.io/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
-     - add methods to return oracles prices and liquidity at the same time   
+     - add methods to return oracles prices and liquidity at the same time
 
 </details>
 
@@ -345,7 +345,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * AaveV2 - [0x8Aa57827C3D147E39F1058517939461538D9C56A](https://snowtrace.io/address/0x8Aa57827C3D147E39F1058517939461538D9C56A)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://snowtrace.io/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    * StataTokens (AaveV3) - [0x1A75DF59f464a70Cc8f7383983852FF72e5F5167](https://snowtrace.io/address/0x1A75DF59f464a70Cc8f7383983852FF72e5F5167)
-   
+
 </details>
 
 <details><summary>Supported connectors</summary>
@@ -375,7 +375,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://snowtrace.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
      - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://snowtrace.io/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
-     - add methods to return oracles prices and liquidity at the same time   
+     - add methods to return oracles prices and liquidity at the same time
 
 </details>
 
@@ -390,7 +390,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Swapr - [0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001](https://gnosisscan.io/address/0x27950ecAeBB4462e18e8041AAF6Ea13cA47Af001)
    * SushiSwap - [0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa](https://gnosisscan.io/address/0x2A45d538f460DDBEeA3a899b0674dA3DFE318faa)
    * Curve - [0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19](https://gnosisscan.io/address/0x4e5Cee3B8Af0CB46EFAA94Cba5E0f25f8770BB19)
-   
+
 </details>
 
 <details><summary>Supported wrappers</summary>
@@ -400,7 +400,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * StataTokens (AaveV3) - [0x1A75DF59f464a70Cc8f7383983852FF72e5F5167](https://gnosisscan.io/address/0x1A75DF59f464a70Cc8f7383983852FF72e5F5167)
    * Erc4626 - [0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E](https://gnosisscan.io/address/0xE2B06CDBB6128347B11DE676DA8b51e1e1f7F76E#code)
         * [waGnoWETH](https://etherscan.io/address/0x57f664882F762FA37903FC864e2B633D384B411A)
-   
+
 </details>
 
 <details><summary>Supported connectors</summary>
@@ -429,7 +429,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://gnosisscan.io/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
      - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://gnosisscan.io/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
-     - add methods to return oracles prices and liquidity at the same time   
+     - add methods to return oracles prices and liquidity at the same time
 
 </details>
 
@@ -453,7 +453,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * AaveV2 - [0xa0c978c28AB8aEfc95bF58e68A05ce6B9dEAc5A9](https://ftmscan.com/address/0xa0c978c28AB8aEfc95bF58e68A05ce6B9dEAc5A9)
    * AaveV3 - [0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573](https://ftmscan.com/address/0x0c8fc7a71C28c768FDC1f7d75835229beBEB1573)
    * Scream - [0x7d18d5Ba1FA30Da1AD757c57eb643564CA02922D](https://ftmscan.com/address/0x7d18d5Ba1FA30Da1AD757c57eb643564CA02922D)
-   
+
 </details>
 
 <details><summary>Supported connectors</summary>
@@ -478,7 +478,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://ftmscan.com/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
      - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://ftmscan.com/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
-     - add methods to return oracles prices and liquidity at the same time   
+     - add methods to return oracles prices and liquidity at the same time
 
 </details>
 
@@ -529,7 +529,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://aurorascan.dev/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
      - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://aurorascan.dev/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
-     - add methods to return oracles prices and liquidity at the same time   
+     - add methods to return oracles prices and liquidity at the same time
 
 </details>
 
@@ -573,7 +573,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://scope.klaytn.com/account/0xf224a25453D76A41c4427DD1C05369BC9f498444)
      - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://scope.klaytn.com/account/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
-     - add methods to return oracles prices and liquidity at the same time   
+     - add methods to return oracles prices and liquidity at the same time
 
 </details>
 
@@ -616,7 +616,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Jul-03-2024 - [0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033](https://explorer.zksync.io/address/0xdCa3e52Af86F8244fd0EDA8064Dc30E154d93033)
      - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x739B4e7a3ad8210B6315F75b24cfe0D3226f6945](https://explorer.zksync.io/address/0x739B4e7a3ad8210B6315F75b24cfe0D3226f6945) - <i><b>current implementation</b></i>
-     - add methods to return oracles prices and liquidity at the same time      
+     - add methods to return oracles prices and liquidity at the same time
 
 </details>
 
@@ -638,7 +638,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * VelocimeterV2 - [0xDc6815ff5B65b1d3bAB4604fF92126EaB0539353](https://basescan.org/address/0xDc6815ff5B65b1d3bAB4604fF92126EaB0539353)
    * Aerodrome - [0x63c63C5F5B6cdFDb020320A1c392Ef933e37Bd33](https://basescan.org/address/0x63c63C5F5B6cdFDb020320A1c392Ef933e37Bd33)
    * Slipstream - [0x5E7F87697dA35E243B4bae742e80e151f0D51f70](https://basescan.org/address/0x5E7F87697dA35E243B4bae742e80e151f0D51f70)
-   
+
 </details>
 
 <details><summary>Supported wrappers</summary>
@@ -658,6 +658,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * WETH - [0x4200000000000000000000000000000000000006](https://basescan.org/address/0x4200000000000000000000000000000000000006)
    * axlUSDC - [0xEB466342C4d449BC9f53A865D5Cb90586f405215](https://basescan.org/address/0xEB466342C4d449BC9f53A865D5Cb90586f405215)
    * USDC - [0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913](https://basescan.org/address/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+   * VIRTUAL - [0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b](https://basescan.org/address/0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b)
 
 </details>
 
@@ -670,7 +671,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Jul-03-2024 - [0xf224a25453D76A41c4427DD1C05369BC9f498444](https://basescan.org/address/0xf224a25453D76A41c4427DD1C05369BC9f498444)
      - fix wrappedDstTokens price usage
    * Aug-15-2024 - [0x00000000000D6FFc74A8feb35aF5827bf57f6786](https://basescan.org/address/0x00000000000D6FFc74A8feb35aF5827bf57f6786) - <i><b>current implementation</b></i>
-     - add methods to return oracles prices and liquidity at the same time         
+     - add methods to return oracles prices and liquidity at the same time
 
 </details>
 
@@ -686,7 +687,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Algebra - [0xfAf8d8b49D9e121816268CabE24ceF1B9B635908](https://lineascan.build/address/0xfAf8d8b49D9e121816268CabE24ceF1B9B635908)
    * Lynex - [0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0](https://lineascan.build/address/0xeD55d76Bb48E042a177d1E21AffBe1B72d0c7dB0)
    * NILE - [0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56](https://lineascan.build/address/0x3E1Fe1Bd5a5560972bFa2D393b9aC18aF279fF56)
-   
+
 </details>
 
 <details><summary>Supported wrappers</summary>
@@ -721,7 +722,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * Wagmi - [0xFd1d18173D2f179a45Bf21F755a261AAe7C2d769](https://sonicscan.org/address/0xFd1d18173D2f179a45Bf21F755a261AAe7C2d769#code)
    * SilverSwap - [0xc9626bA3294B4030B028411E403EC8C16E7ab4CE](https://sonicscan.org/address/0xc9626bA3294B4030B028411E403EC8C16E7ab4CE#code)
    * Algebra [0x95E18FBa568cb075f24DfFBCb4093D43ee92Fa20](https://sonicscan.org/address/0x95E18FBa568cb075f24DfFBCb4093D43ee92Fa20#code)
-   
+
 </details>
 
 <details><summary>Supported wrappers</summary>
@@ -756,7 +757,7 @@ If no direct liquidity pair exists between two tokens, the spot price aggregator
    * UniswapV2 - [0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790](https://uniscan.xyz/address/0xeec05e0D8F7D3f56CECE2026Feaf41b09B423790#code)
    * UniswapV3 - [0x008D10214049593C6e63564946FFb64A6F706732](https://uniscan.xyz/address/0x008D10214049593C6e63564946FFb64A6F706732#code)
    * UniswapV4 - [0xFbF54317e4820B461E7fA1B2819B6755e1cc0F62](https://uniscan.xyz/address/0xFbF54317e4820B461E7fA1B2819B6755e1cc0F62)
-   
+
 </details>
 
 <details><summary>Supported wrappers</summary>
