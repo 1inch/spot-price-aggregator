@@ -54,6 +54,8 @@
         "lint": "yarn lint:js && yarn lint:sol",
         "lint:fix": "yarn lint:js:fix && yarn lint:sol:fix",
         "test": "hardhat test --parallel",
+        "test:unit": "NO_FORK=true hardhat test --parallel test/unit/*.js",
+        "test:fork": "hardhat test --parallel test/*.js test/oracles/*.js test/wrappers/*.js",
         "test:ci": "hardhat test",
         "scripts:check-token": "mkdir -p deployments/hardhat && cp -R deployments/$(dotenv -e .env -- printenv SCRIPT_NETWORK_NAME)/* deployments/hardhat/ && echo 31337 > deployments/hardhat/.chainId && hardhat run scripts/check-token.js && rm -rf deployments/hardhat",
         "scripts:check-tokens-prices": "hardhat run scripts/check-tokens-prices.js"

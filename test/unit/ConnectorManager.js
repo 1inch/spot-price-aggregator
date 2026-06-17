@@ -1,7 +1,7 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { ethers } = require('hardhat');
 const { expect, deployContract } = require('@1inch/solidity-utils');
-const { tokens } = require('./helpers.js');
+const { tokens } = require('../helpers.js');
 
 describe('ConnectorManager', function () {
     async function initContracts () {
@@ -18,6 +18,11 @@ describe('ConnectorManager', function () {
     it('should set supported in constructor', async function () {
         const { connectorManager } = await loadFixture(initContracts);
         expect(await connectorManager.connectorSupported(tokens.DAI)).to.be.true;
+    });
+
+    it('should not list unsupported in constructor', async function () {
+        const { connectorManager } = await loadFixture(initContracts);
+        expect(await connectorManager.connectorSupported(tokens['1INCH'])).to.be.false;
     });
 
     it('should toggle record state', async function () {

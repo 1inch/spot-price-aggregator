@@ -18,7 +18,9 @@ if (getNetwork().indexOf('zksync') !== -1) {
     require('@nomicfoundation/hardhat-verify');
 }
 
-const { networks, etherscan } = (new Networks(true, 'mainnet', true)).registerAll();
+// Forking is gated by the NO_FORK env var so unit tests can run offline (e.g. `yarn test:unit`).
+const forkingNetwork = process.env.NO_FORK === 'true' ? undefined : 'mainnet';
+const { networks, etherscan } = (new Networks(true, forkingNetwork, true)).registerAll();
 
 module.exports = {
     solidity: {
@@ -52,6 +54,7 @@ module.exports = {
         paths: [
             '@1inch/solidity-utils/contracts/interfaces/ICreate3Deployer.sol',
             '@1inch/solidity-utils/contracts/interfaces/IWETH.sol',
+            '@1inch/solidity-utils/contracts/mocks/TokenCustomDecimalsMock.sol',
             '@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol',
         ],
     },
