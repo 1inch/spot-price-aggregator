@@ -82,6 +82,8 @@ contract OffchainOracle is Ownable {
 
     /**
     * @notice Returns all registered oracles along with their corresponding oracle types.
+    * @dev Merges the `WETH` and `ETH` oracle sets into a single de-duplicated list.
+    *      Oracles present in both sets are emitted with type `WETH_ETH` instead of being duplicated.
     * @return allOracles An array of all registered oracles
     * @return oracleTypes An array of the corresponding types for each oracle
     */
@@ -329,6 +331,7 @@ contract OffchainOracle is Ownable {
         (IERC20[] memory wrappedDstTokens, uint256[] memory dstRates) = _getWrappedTokens(dstToken, useWrappers);
         IERC20[][2] memory allConnectors = _getAllConnectors(customConnectors);
 
+        // Upper bound of price entries: srcTokens * dstTokens * connectors * oracles
         uint256 maxArrLength = wrappedSrcTokens.length * wrappedDstTokens.length * (allConnectors[0].length + allConnectors[1].length) * allOracles.length;
         ratesAndWeights = OraclePrices.init(maxArrLength);
         unchecked {
@@ -421,6 +424,7 @@ contract OffchainOracle is Ownable {
         bytes32[][2] memory wrappedOracles = [_ethOracles._inner._values, _wethOracles._inner._values];
         IERC20[][2] memory allConnectors = _getAllConnectors(customConnectors);
 
+        // Upper bound of price entries: srcTokens * dstTokens * connectors * oracles
         uint256 maxArrLength = wrappedSrcTokens.length * wrappedDstTokens.length * (allConnectors[0].length + allConnectors[1].length) * (wrappedOracles[0].length + wrappedOracles[1].length);
         ratesAndWeights = OraclePrices.init(maxArrLength);
         unchecked {
@@ -479,6 +483,13 @@ contract OffchainOracle is Ownable {
         rates[0] = uint256(1e18);
     }
 
+    /**
+    * @notice Combines the contract's registered connectors with caller-provided custom connectors.
+    * @dev Returns a fixed 2-slot array: index 0 holds the registered `_connectors`, index 1 holds
+    *      `customConnectors`. The cast is memory-safe as it only aliases an existing memory pointer. 
+    * @param customConnectors Caller-supplied connectors to consider in addition to the registered ones.
+    * @return allConnectors Two connector groups: [0] = registered, [1] = custom.
+    */
     function _getAllConnectors(IERC20[] memory customConnectors) internal view returns (IERC20[][2] memory allConnectors) {
         IERC20[] memory connectorsZero;
         bytes32[] memory rawConnectors = _connectors._inner._values;
