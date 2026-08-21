@@ -9,14 +9,14 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - run: yarn lint
 
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - run: yarn test:ci
         env:
@@ -28,7 +28,7 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - run: yarn coverage
         env:
@@ -36,12 +36,12 @@ jobs:
           OPTIMISTIC_RPC_URL: ${{ secrets.OPTIMISTIC_RPC_URL }}
           BASE_RPC_URL: ${{ secrets.BASE_RPC_URL }}
           MATIC_RPC_URL: ${{ secrets.MATIC_RPC_URL }}
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v7
 
   single-price-example:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - run: node ./examples/single-price.js | grep "Error" && exit 1 || exit 0
         env:
@@ -50,7 +50,7 @@ jobs:
   multiple-prices-example:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - run: node ./examples/multiple-prices.js | grep "Error" && exit 1 || exit 0
         env:
