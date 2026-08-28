@@ -72,6 +72,20 @@ contract MultiWrapper is Ownable {
     /**
      * @notice Retrieves the wrapped tokens and their conversion rates for a given token.
      * @dev Iterates over the wrappers to determine the wrapped tokens and their conversion rates.
+     *      For each wrapper a direct `wrap(token)` is attempted (1 hop), then `wrap(wrapped)` via
+     *      every other wrapper (2 hops). Unsupported paths are skipped and duplicate tokens are omitted.
+     *      Rates are 1e18-scaled ratios; chained rates combine as `mulDiv(rate, rate2, 1e18)`.
+     *      The input `token` itself is always appended last with rate 1e18.
+     *
+     *      Example, given wrappers W0: ETH<->WETH, W2: WETH<->aWETH, W4: WETH<->iWETH and input ETH:
+     *
+     *      | token  | path                                | hops | rate               |
+     *      |--------|-------------------------------------|------|--------------------|
+     *      | WETH   | ETH -> WETH (via W0)                | 1    | 1e18               |
+     *      | aWETH  | ETH -> WETH (via W0) -> aWETH (W2)  | 2    | rate0*rate2/1e18   |
+     *      | iWETH  | ETH -> WETH (via W0) -> iWETH (W4)  | 2    | rate0*rate4/1e18   |
+     *      | ETH    | self                                | 0    | 1e18               |
+     *
      * @param token The token for which to retrieve the wrapped tokens and conversion rates.
      * @return wrappedTokens Tokens obtainable by wrapping the input token, including the input token and a rate of 1e18 for it.
      * @return rates Conversion rates for the wrapped tokens.

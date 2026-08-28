@@ -1,7 +1,7 @@
 const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 const { ethers } = require('hardhat');
 const { expect, deployContract } = require('@1inch/solidity-utils');
-const { tokens } = require('./helpers.js');
+const { tokens } = require('../helpers.js');
 
 describe('Blacklist', function () {
     async function initContracts () {
